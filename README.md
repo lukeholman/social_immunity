@@ -1,4 +1,4 @@
-# social_immunity
+# LPS_honeybees
 
 A [workflowr][] project.
 

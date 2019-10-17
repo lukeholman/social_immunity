@@ -1,0 +1,79 @@
+date,hive,treatment,colour,bees_introduced,emergence_time,end_of_emergence,mode_of_exit,Treatment
+03.05.19,Garden,Heat-treated LPS,Green,41,722,NA,Unknown,HT_LPS
+03.05.19,Garden,Heat-treated LPS,Green,41,805,NA,Unknown,HT_LPS
+03.05.19,Garden,Heat-treated LPS,Green,41,805,NA,Unknown,HT_LPS
+03.05.19,Garden,Heat-treated LPS,Green,41,979,NA,Unknown,HT_LPS
+03.05.19,Garden,Heat-treated LPS,Green,41,1404,NA,Left but re-entered,HT_LPS
+03.05.19,Garden,Heat-treated LPS,Green,41,3121,NA,Left but re-entered,HT_LPS
+03.05.19,Garden,Heat-treated LPS,Green,41,685,NA,Unknown,HT_LPS
+03.05.19,Garden,Intact control,Blue,86,870,NA,Forced removal,Unstabbed
+03.05.19,Garden,Intact control,Blue,86,1050,NA,Unknown,Unstabbed
+03.05.19,Garden,Intact control,Blue,86,1050,NA,Unknown,Unstabbed
+03.05.19,Garden,Intact control,Blue,86,1366,NA,Unknown,Unstabbed
+03.05.19,Garden,Intact control,Blue,86,2252,NA,Unknown,Unstabbed
+03.05.19,Garden,Intact control,Blue,86,2597,NA,Forced removal,Unstabbed
+03.05.19,Garden,Intact control,Blue,86,2838,NA,Unknown,Unstabbed
+03.05.19,Garden,Intact control,Blue,86,2580,NA,Unknown,Unstabbed
+03.05.19,Garden,Intact control,Blue,86,2936,NA,Unknown,Unstabbed
+03.05.19,Garden,Intact control,Blue,86,3350,NA,Unknown,Unstabbed
+03.05.19,Garden,Intact control,Blue,86,986,NA,Unknown,Unstabbed
+03.05.19,Garden,LPS,Red,40,894,NA,Unknown,LPS
+03.05.19,Garden,LPS,Red,40,1320,NA,Unknown,LPS
+03.05.19,Garden,LPS,Red,40,2652,NA,Unknown,LPS
+03.05.19,Garden,Ringers,White,45,522,NA,Unknown,Ringers
+03.05.19,Garden,Ringers,White,45,555,NA,Left but re-entered,Ringers
+03.05.19,Garden,Ringers,White,45,1202,NA,Unknown,Ringers
+03.05.19,Garden,Ringers,White,45,2580,NA,Unknown,Ringers
+30.04.19,SkyLab,Heat-treated LPS,Blue,63,378,645,Self-removal,HT_LPS
+30.04.19,SkyLab,Heat-treated LPS,Blue,63,415,702,Self-removal,HT_LPS
+30.04.19,SkyLab,Heat-treated LPS,Blue,63,416,420,Forced removal,HT_LPS
+30.04.19,SkyLab,Heat-treated LPS,Blue,63,540,994,Unknown,HT_LPS
+30.04.19,SkyLab,Heat-treated LPS,Blue,63,542,995,Unknown,HT_LPS
+30.04.19,SkyLab,Heat-treated LPS,Blue,63,685,692,Assisted self-removal,HT_LPS
+30.04.19,SkyLab,Heat-treated LPS,Blue,63,746,763,Assisted self-removal,HT_LPS
+30.04.19,SkyLab,Heat-treated LPS,Blue,63,783,811,Assisted self-removal,HT_LPS
+30.04.19,SkyLab,Heat-treated LPS,Blue,63,835,NA,Unknown,HT_LPS
+30.04.19,SkyLab,Heat-treated LPS,Blue,63,1338,2013,Self-removal,HT_LPS
+30.04.19,SkyLab,Heat-treated LPS,Blue,63,1352,1369,Assisted self-removal,HT_LPS
+30.04.19,SkyLab,Heat-treated LPS,Blue,63,1762,1762,Flew,HT_LPS
+30.04.19,SkyLab,Heat-treated LPS,Blue,63,1795,NA,Unknown,HT_LPS
+30.04.19,SkyLab,Heat-treated LPS,Blue,63,44.28,NA,Unknown,HT_LPS
+30.04.19,SkyLab,Heat-treated LPS,Blue,63,2668,3108,Self-removal,HT_LPS
+30.04.19,SkyLab,Heat-treated LPS,Blue,63,NA,918,Self-removal,HT_LPS
+30.04.19,SkyLab,Intact control,Red,107,518,521,Unknown,Unstabbed
+30.04.19,SkyLab,Intact control,Red,107,741,806,Unknown,Unstabbed
+30.04.19,SkyLab,Intact control,Red,107,NA,520,Self-removal,Unstabbed
+30.04.19,SkyLab,Intact control,Red,107,NA,537,Self-removal,Unstabbed
+30.04.19,SkyLab,Intact control,Red,107,372,387,Self-removal,Unstabbed
+30.04.19,SkyLab,LPS,Green,45,414,439,Unknown,LPS
+30.04.19,SkyLab,LPS,Green,45,416,425,Self-removal,LPS
+30.04.19,SkyLab,LPS,Green,45,517,526,Self-removal,LPS
+30.04.19,SkyLab,LPS,Green,45,518,825,Self-removal,LPS
+30.04.19,SkyLab,LPS,Green,45,590,688,Assisted self-removal,LPS
+30.04.19,SkyLab,LPS,Green,45,619,632,Forced removal,LPS
+30.04.19,SkyLab,LPS,Green,45,17,1031,Self-removal,LPS
+30.04.19,SkyLab,LPS,Green,45,1113,NA,Unknown,LPS
+30.04.19,SkyLab,LPS,Green,45,1128,1144,Self-removal,LPS
+30.04.19,SkyLab,LPS,Green,45,1587,1590,Flew,LPS
+09.05.19,Zoology,Heat-treated LPS,White,67,717,NA,Assisted self-removal,HT_LPS
+09.05.19,Zoology,Heat-treated LPS,White,67,800,NA,Forced removal,HT_LPS
+09.05.19,Zoology,Heat-treated LPS,White,67,803,NA,Forced removal,HT_LPS
+09.05.19,Zoology,Heat-treated LPS,White,67,879,NA,Forced removal,HT_LPS
+09.05.19,Zoology,Heat-treated LPS,White,67,1525,NA,Forced removal,HT_LPS
+09.05.19,Zoology,Heat-treated LPS,White,67,1957,NA,Forced removal,HT_LPS
+09.05.19,Zoology,Heat-treated LPS,White,67,2547,NA,Forced removal,HT_LPS
+09.05.19,Zoology,Heat-treated LPS,White,67,2976,NA,Self-removal,HT_LPS
+09.05.19,Zoology,Intact control,Green,106,2724,NA,Forced removal,Unstabbed
+09.05.19,Zoology,LPS,Blue,67,665,NA,Forced removal,LPS
+09.05.19,Zoology,LPS,Blue,67,667,NA,Self-removal,LPS
+09.05.19,Zoology,LPS,Blue,67,943,NA,Self-removal,LPS
+09.05.19,Zoology,LPS,Blue,67,1138,NA,Forced removal,LPS
+09.05.19,Zoology,LPS,Blue,67,1150,NA,Forced removal,LPS
+09.05.19,Zoology,LPS,Blue,67,1288,NA,Forced removal,LPS
+09.05.19,Zoology,LPS,Blue,67,1444,NA,Assisted self-removal,LPS
+09.05.19,Zoology,Ringers,Red,80,494,NA,Assisted self-removal,Ringers
+09.05.19,Zoology,Ringers,Red,80,910,NA,Forced removal,Ringers
+09.05.19,Zoology,Ringers,Red,80,855,NA,Forced removal,Ringers
+09.05.19,Zoology,Ringers,Red,80,1256,NA,Self-removal,Ringers
+09.05.19,Zoology,Ringers,Red,80,1978,NA,Forced removal,Ringers
+09.05.19,Zoology,Ringers,Red,80,2260,NA,Forced removal,Ringers

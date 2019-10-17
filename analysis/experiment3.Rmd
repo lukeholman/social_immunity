@@ -1,0 +1,299 @@
+---
+title: "Analysis of Experiment 1"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+## Load data and R packages
+
+```{r results='hide', message=F, warning=F}
+library(brms)
+library(bayesplot)
+library(tidyverse)
+library(gridExtra)
+library(kableExtra)
+library(bayestestR)
+# library(ggbeeswarm)
+library(tidybayes)
+source("code/helper_functions.R")
+
+files <- c("data/data_collection_sheets/hiveA_touching.csv",
+           "data/data_collection_sheets/hiveB_touching.csv",
+           "data/data_collection_sheets/hiveC_touching.csv",
+           "data/data_collection_sheets/hiveD_touching.csv")
+
+experiment3 <- map(
+  files, 
+  ~ read_csv(.x) %>%
+    gather(minute, touching, -tube) %>%
+    mutate(treatment = ifelse(substr(tube, 1, 1) %in% c("A", "B"), "AB", "CD"),
+           minute = as.numeric(minute),
+           touching = as.integer(touching),
+           hive = gsub("hive", "", str_extract(.x, "hive[ABCD]")), 
+           tube = paste(hive, tube, sep = "_"))
+  ) %>% bind_rows() %>%
+  mutate(treatment = replace(treatment, treatment == "AB" & hive %in% c("A", "B"), "Control"),
+         treatment = replace(treatment, treatment == "AB" & hive %in% c("C", "D"), "LPS"),
+         treatment = replace(treatment, treatment == "CD" & hive %in% c("A", "B"), "LPS"),
+         treatment = replace(treatment, treatment == "CD" & hive %in% c("C", "D"), "Control")) %>%
+  mutate(hive = replace(hive, hive == "A", "Garden"),
+         hive = replace(hive, hive == "B", "Skylab"),
+         hive = replace(hive, hive == "C", "Arts"),
+         hive = replace(hive, hive == "D", "Zoology"))
+
+
+expt3_counts <- experiment3 %>%
+  group_by(treatment, tube, hive) %>%
+  summarise(n_touching = sum(touching),
+            n_not_touching = sum(touching== 0),
+            percent = n_touching / (n_touching + n_not_touching)) %>% 
+  ungroup() %>%
+  filter(!is.na(n_touching))
+
+```
+
+## Inspect the raw data
+
+### Table format
+
+```{r}
+expt3_counts %>%
+  group_by(hive, treatment) %>%
+  summarise(pc = mean(100 * percent),
+            SE = sd(percent) /sqrt(n()),
+            n = n()) %>%
+  rename(`Mean % observations in which bees were in contact` = pc,
+         Hive = hive, Treatment = treatment) %>% 
+  kable(digits = 3) %>% kable_styling() %>%
+  scroll_box(height = "380px")
+```
+
+### Plotted as a histogram
+
+```{r}
+ggplot(expt3_counts, aes(100 * percent, fill = treatment)) + 
+  geom_histogram(colour = "grey10", bins = 16) + 
+  scale_fill_brewer(palette = "Pastel2", direction = -1) + 
+  facet_wrap(~treatment, scales = "free_y") + 
+  xlab("% Time spent in contact") + ylab("Count") + 
+  theme(legend.position = "none")
+```
+
+
+
+## Binomial model of time spent in contact
+
+### Run the models
+
+Fit a binomial model, where the response is either a 0 (if bees were not in contact) or 1 (if they were). To assess the effects of our predictor variables, we compare 5 models with different fixed factors, ranking them by posterior model probability.
+
+```{r}
+if(!file.exists("output/model_probabilities_expt3.rds")){
+  
+  run_brms_expt3 <- function(i){
+    brm(as.formula(formula_list[[i]]), 
+        data = expt3_counts %>% mutate(n = n_touching + n_not_touching), 
+        control = list(adapt_delta = 0.9, max_treedepth = 15),
+        save_all_pars = TRUE,
+        prior = prior_list[[i]],
+        iter = 40000, chains = 4, cores = 4,
+        family = "binomial")
+  }
+  
+  formula_list <- c(
+    "n_touching | trials(n) ~ treatment * hive + (1 | tube)",
+    "n_touching | trials(n) ~ treatment + hive + (1 | tube)",
+    "n_touching | trials(n) ~ treatment + (1 | tube)",
+    "n_touching | trials(n) ~ hive + (1 | tube)",
+    "n_touching | trials(n) ~ (1 | tube)")
+  
+  prior_list <- list(
+    prior(normal(0, 2), class = 'b'),
+    prior(normal(0, 2), class = 'b'),
+    prior(normal(0, 2), class = 'b'),
+    prior(normal(0, 2), class = 'b'),
+    NULL
+  )
+  
+  # run all 5 models, sequentially
+  model_list_expt3 <- lapply(1:length(formula_list), run_brms_expt3)
+  
+  # Estimate the log marginal likelihood by bridge sampling, and use to determine the posterior model probabilities
+  # See: vignette("bridgesampling_example_stan")
+  model_probabilities <- post_prob(model_list_expt3[[1]], 
+                                   model_list_expt3[[2]], 
+                                   model_list_expt3[[3]], 
+                                   model_list_expt3[[4]], 
+                                   model_list_expt3[[5]])
+  top_index <- which.max(unname(model_probabilities))
+  
+  model_probabilities <- tibble(
+    `Fixed effects` = formula_list, 
+    `Posterior model probability` = unname(model_probabilities)) %>%
+    arrange(-`Posterior model probability`)
+  
+  model_probabilities <- model_probabilities %>%
+    mutate(`% of top model probability` = round(100 * `Posterior model probability` / `Posterior model probability`[1], 1),
+           `% of top model probability` = c("-", `% of top model probability`[2:length(`% of top model probability`)]))
+  
+  saveRDS(model_list_expt3[[1]], "output/full_model_expt3.rds")
+  saveRDS(model_list_expt3[[3]], "output/treatment_model_expt3.rds")
+  saveRDS(model_probabilities, "output/model_probabilities_expt3.rds")
+}
+
+treatment_model <- readRDS("output/treatment_model_expt3.rds")
+model_probabilities <- readRDS("output/model_probabilities_expt3.rds")
+```
+
+### Posterior model probabilites
+
+```{r}
+model_probabilities %>% 
+  kable(digits = 3) %>% kable_styling()
+```
+
+### Fixed effects from the top non-null model
+
+```{r}
+get_fixed_effects_with_p_values(treatment_model) %>% 
+  kable(digits = 3) %>% kable_styling()
+```
+
+
+
+<!-- ```{r} -->
+<!-- movement_files <- c("data/data_collection_sheets/hiveA_movement.csv", -->
+<!--                     "data/data_collection_sheets/hiveB_movement.csv", -->
+<!--                     "data/data_collection_sheets/hiveC_movement.csv", -->
+<!--                     "data/data_collection_sheets/hiveD_movement.csv") -->
+<!-- movement <- map(1:4, ~ read_csv(movement_files[.x]) %>%  -->
+<!--                   mutate(hive = c("A", "B", "C", "D")[.x]) %>% -->
+<!--                   gather(video, movement, -hive, -tube)) %>% -->
+<!--   bind_rows() %>% -->
+<!--   mutate(treatment = ifelse(substr(tube, 1, 1) %in% c("A", "B"), "AB", "CD")) %>%  -->
+<!--   mutate(treatment = replace(treatment, treatment == "AB" & hive %in% c("A", "B"), "Ringers"), -->
+<!--          treatment = replace(treatment, treatment == "AB" & hive %in% c("C", "D"), "LPS"), -->
+<!--          treatment = replace(treatment, treatment == "CD" & hive %in% c("A", "B"), "LPS"), -->
+<!--          treatment = replace(treatment, treatment == "CD" & hive %in% c("C", "D"), "Ringers")) %>% -->
+<!--   split(.$hive) %>% -->
+<!--   map(~ .x %>% arrange(video) %>% mutate(video = as.numeric(factor(video, unique(video))))) %>%  -->
+<!--   bind_rows() %>% -->
+<!--   mutate(hive = replace(hive, hive == "A", "Garden"), -->
+<!--          hive = replace(hive, hive == "B", "Skylab"), -->
+<!--          hive = replace(hive, hive == "C", "Arts"), -->
+<!--          hive = replace(hive, hive == "D", "Zoology")) -->
+
+<!-- movement %>% -->
+<!--   mutate(movement = factor(movement)) %>% -->
+<!--   group_by(movement, treatment) %>% -->
+<!--   summarise(n=n()) %>% -->
+<!--   ggplot(aes(movement, n, fill = treatment)) +  -->
+<!--   geom_bar(stat = "identity", colour = "grey20", position = "dodge") +  -->
+<!--   scale_fill_brewer(palette="Pastel2", direction = 1)  -->
+
+<!-- library(brms) -->
+<!-- mod <- brm(movement | cat(3) ~ treatment + (1 | tube),  -->
+<!--            data = movement %>% mutate(movement = movement + 1), family = cumulative()) -->
+<!-- marginal_effects(mod, categorical = T) -->
+
+<!-- new <- expand.grid(hive = c("Arts", "Garden", "Skylab", "Zoology"), -->
+<!--                    treatment = c("Ringers", "LPS")) -->
+
+<!-- data.frame(new, rbind(fitted(mod, newdata = new, re_formula = NA)[,,1], -->
+<!--                       fitted(mod, newdata = new, re_formula = NA)[,,2], -->
+<!--                       fitted(mod, newdata = new, re_formula = NA)[,,3])) %>% -->
+<!--   mutate(movement = factor(rep(0:2, each = nrow(new)))) %>% -->
+<!--   ggplot(aes(movement, Estimate, ymin = Q2.5, ymax=Q97.5, colour = treatment)) +  -->
+<!--   geom_errorbar(position = position_dodge(0.2), width = 0) +  -->
+<!--   geom_point(position = position_dodge(0.2)) +  -->
+<!--   facet_wrap(~ hive) -->
+<!-- ``` -->
+
+
+## Plotting estimates from the model
+
+### Derive prediction from the posterior
+
+```{r}
+new <- expt3_counts %>% 
+  select(treatment) %>% distinct() %>% 
+  mutate(n = 100, key = paste("V", 1:2, sep = ""))
+preds <- fitted(treatment_model, newdata=new, re_formula = NA, summary = FALSE)
+
+plotting_data <- 
+  as.data.frame(preds) %>% 
+  gather() %>% 
+  mutate(posterior_sample = rep(1:nrow(preds), nrow(new))) %>%
+  left_join(new, by = "key") %>% 
+  select(treatment, value) %>%
+  as_tibble() 
+
+plotting_data %>%
+  ggplot(aes(treatment, value)) + 
+  geom_eye(aes(fill = treatment)) + 
+  scale_fill_brewer(palette = "Pastel2", direction = -1) + 
+  ylab("% time in which the bees were in close contact") + 
+  xlab("Treatment") + 
+  theme_bw() + 
+  theme(legend.position = "none") 
+```
+
+```{r}
+my_summary <- function(df) {
+  
+  diff <- (df %>% pull(LPS)) - (df %>% pull(Control))
+  LOR <- log10((df %>% pull(LPS)) / (df %>% pull(Control)))
+  p <- diff %>% bayestestR::p_direction() %>% as.numeric()
+  p <- (100 - p) / 100
+  diff <- diff %>% posterior_summary() %>% as_tibble()
+  LOR <- LOR %>% posterior_summary() %>% as_tibble()
+  output <- rbind(diff, LOR) %>% 
+    mutate(p=p, Metric = c("% time in which the bees were in close contact", "LOR")) %>% 
+      select(Metric, everything()) %>%
+    mutate(p = format(round(p, 4), nsmall = 4))
+  output$p[1] <- " "
+  output
+}
+
+plotting_data %>%
+  mutate(sample = rep(1:(n() / 2), 2)) %>%
+  spread(treatment, value) %>%
+  mutate(difference = LPS - Control) %>%
+  my_summary() %>%
+  mutate(` ` = ifelse(p < 0.05, "\\*", ""),
+         ` ` = replace(` `, p < 0.01, "**"),
+         ` ` = replace(` `, p < 0.001, "***"),
+         ` ` = replace(` `, p == " ", "")) %>%
+  kable(digits = 3) %>% kable_styling() 
+```
+**Table XX:** Pairs in which one bee had received LPS were observed in close contact less frequently than pairs in which one bee had received Ringers solution. 
+
+<!--  Same figure split by hive: -->
+<!-- ```{r} -->
+<!-- new <- expt3_counts %>% select(treatment, hive) %>%  -->
+<!--   distinct() %>% mutate(n=100, key=paste("V", 1:8, sep = "")) -->
+<!-- preds <- fitted(readRDS("output/full_model_expt3.rds"), newdata=new, re_formula = NA, summary = FALSE) -->
+
+<!-- plotting_data <-  -->
+<!--   as.data.frame(preds) %>%  -->
+<!--   gather() %>%  -->
+<!--   mutate(posterior_sample = rep(1:nrow(preds), nrow(new))) %>% -->
+<!--   left_join(new) %>% select(treatment, hive, value) %>% -->
+<!--   as_tibble() %>% -->
+<!--   mutate(hive = replace(hive, hive == "A", "Garden"), -->
+<!--          hive = replace(hive, hive == "B", "Skylab"), -->
+<!--          hive = replace(hive, hive == "C", "Arts"), -->
+<!--          hive = replace(hive, hive == "D", "Zoology")) -->
+
+<!-- plotting_data %>% -->
+<!--   ggplot(aes(treatment, value)) +  -->
+<!--   geom_eye(aes(fill = treatment)) +  -->
+<!--   scale_fill_brewer(palette = "Pastel2", direction = -1) +  -->
+<!--   facet_wrap( ~ hive, scales = "free_y", nrow = 1) +  -->
+<!--   ylab("% time in which the bees were in close contact") +  -->
+<!--   xlab("Treatment") +  -->
+<!--   theme_bw() +  -->
+<!--   theme(legend.position = "none") -->
+<!-- ``` -->
+

@@ -1,0 +1,25 @@
+hive,treatment,colour,outcome,n
+Arts,LPS CHC,Dark Blue,Stayed inside the hive,56
+Arts,LPS CHC,Dark Blue,Left of own volition,5
+Arts,LPS CHC,Dark Blue,Forced out,7
+Arts,Ringer CHC,Pink,Stayed inside the hive,64
+Arts,Ringer CHC,Pink,Left of own volition,5
+Arts,Ringer CHC,Pink,Forced out,1
+Garden,LPS CHC,Dark Blue,Stayed inside the hive,70
+Garden,LPS CHC,Dark Blue,Left of own volition,2
+Garden,LPS CHC,Dark Blue,Forced out,3
+Garden,Ringer CHC,Pink,Stayed inside the hive,73
+Garden,Ringer CHC,Pink,Left of own volition,2
+Garden,Ringer CHC,Pink,Forced out,0
+Skylab,LPS CHC,Pink,Stayed inside the hive,93
+Skylab,LPS CHC,Pink,Left of own volition,2
+Skylab,LPS CHC,Pink,Forced out,5
+Skylab,Ringer CHC,Dark Blue,Stayed inside the hive,97
+Skylab,Ringer CHC,Dark Blue,Left of own volition,1
+Skylab,Ringer CHC,Dark Blue,Forced out,1
+Zoology,LPS CHC,Pink,Stayed inside the hive,38
+Zoology,LPS CHC,Pink,Left of own volition,4
+Zoology,LPS CHC,Pink,Forced out,6
+Zoology,Ringer CHC,Dark Blue,Stayed inside the hive,42
+Zoology,Ringer CHC,Dark Blue,Left of own volition,2
+Zoology,Ringer CHC,Dark Blue,Forced out,6

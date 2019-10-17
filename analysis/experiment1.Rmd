@@ -1,0 +1,363 @@
+---
+title: "Analysis of Experiment 1"
+output: 
+  workflowr::wflow_html:
+    code_folding: hide 
+---
+
+## Load data and R packages
+
+```{r results='hide', message=F, warning=F}
+library(brms)
+library(bayesplot)
+library(tidyverse)
+library(gridExtra)
+library(kableExtra)
+library(bayestestR)
+library(tidybayes)
+source("code/helper_functions.R")
+
+exp1_treatments <- c("Intact control", "Ringers", "Heat-treated LPS", "LPS")
+
+durations <- read_csv("data/data_collection_sheets/experiment_durations.csv") %>%
+  filter(experiment == 1) %>% select(-experiment)
+
+outcome_tally <- read_csv(file = "data/clean_data/experiment_1_outcome_tally.csv") %>%
+  mutate(outcome = replace(outcome, outcome == "Left of own volition", "Left voluntarily")) %>%
+  mutate(outcome   = factor(outcome, levels = c("Stayed inside the hive", "Left voluntarily", "Forced out")),
+         treatment = factor(treatment, levels = exp1_treatments))
+
+# Re-formatted version of the same data, where each row is an individual bee. We need this format to run the brms model.
+data_for_categorical_model <- outcome_tally %>%
+  mutate(id = 1:n()) %>%
+  split(.$id) %>%
+  map(function(x){
+    if(x$n[1] == 0) return(NULL)
+    data.frame(
+      treatment = x$treatment[1],
+      hive = x$hive[1],
+      colour = x$colour[1],
+      outcome = rep(x$outcome[1], x$n))
+  }) %>% do.call("rbind", .) %>% as_tibble() %>%
+  arrange(hive, treatment) %>%
+  mutate(outcome_numeric = as.numeric(outcome),
+         hive = as.character(hive),
+         treatment = factor(treatment, levels = exp1_treatments)) %>%
+  left_join(durations, by = "hive")
+```
+
+
+## Inspect the raw data
+
+### Table format
+
+```{r}
+outcome_tally %>% 
+  kable(digits = 3) %>% kable_styling() %>%
+  scroll_box(height = "380px")
+```
+
+### Plotted as a bar chart
+
+```{r fig.width=11, fig.height=5}
+all_hives <- outcome_tally %>%
+  group_by(treatment, outcome) %>%
+  summarise(n = sum(n)) %>%
+  ungroup() %>% mutate(hive = "All hives")
+
+outcome_tally %>%
+  group_by(treatment, hive, outcome) %>%
+  summarise(n = sum(n)) %>%
+  ungroup() %>%
+  mutate(hive = paste(hive, "hive")) %>%
+  full_join(all_hives, by = c("treatment", "hive", "outcome", "n")) %>%
+  mutate(prop = n / sum(n)) %>%
+  ggplot(aes(outcome, n , fill = treatment)) + 
+  geom_bar(stat = "identity", position = "dodge", colour = "grey15") + 
+  facet_wrap( ~ hive, nrow = 1, scales = "free_y") + 
+  scale_fill_brewer(palette = "Set3", name = "Treatment") + 
+  xlab("Outcome") + ylab("Number of bees") + 
+  theme(axis.text.x = element_text(angle = 45, hjust=1),
+        legend.position = "top")
+```
+
+## Multinomial model of outcome
+
+### Run the models
+
+Fit a multinomial logisitic model, with 3 possible outcomes describing what happened to each bee introduced to the hive: stayed inside, left of its own volition, or forced out by the other workers. To assess the effects of our predictor variables, we compare 5 models with different fixed factors, ranking them by posterior model probability.
+
+```{r}
+if(!file.exists("output/model_probabilities_expt1.rds")){
+  my_prior <- c(set_prior("normal(0, 2)", class = "b"))
+  
+  run_brms_categorical <- function(formula){
+    formula <- gsub(" ", "", paste("outcome_numeric ~", formula))
+    brm(formula, 
+        data = data_for_categorical_model, 
+        prior = my_prior,
+        family = "categorical", 
+        save_all_pars = TRUE,
+        control = list(adapt_delta = 0.999, max_treedepth = 15),
+        chains = 4, cores = 4, iter = 40000, seed = 1)
+  }
+  
+  formula_list <- c(
+    "treatment:hive + treatment + hive + observation_time_minutes",
+    "treatment + hive + observation_time_minutes",
+    "treatment + observation_time_minutes",
+    "hive + observation_time_minutes",
+    "observation_time_minutes")
+  
+  # run all 5 models, sequentially
+  model_list_expt1 <- lapply(formula_list, run_brms_categorical)
+  
+  # Estimate the log marginal likelihood by bridge sampling, and use to determine the posterior model probabilities
+  # See: vignette("bridgesampling_example_stan")
+  model_probabilities <- post_prob(model_list_expt1[[1]], 
+                                   model_list_expt1[[2]], 
+                                   model_list_expt1[[3]], 
+                                   model_list_expt1[[4]], 
+                                   model_list_expt1[[5]])
+  top_index <- which.max(unname(model_probabilities))
+  
+  model_probabilities <- tibble(
+    `Fixed effects` = formula_list, 
+    `Posterior model probability` = unname(model_probabilities)) %>%
+    arrange(-`Posterior model probability`)
+  
+  model_probabilities <- model_probabilities %>%
+    mutate(`% of top model probability` = round(100 * `Posterior model probability` / `Posterior model probability`[1], 1),
+           `% of top model probability` = c("-", `% of top model probability`[2:length(`% of top model probability`)]))
+  
+  saveRDS(model_list_expt1[[1]], "output/full_model_expt1.rds")
+  saveRDS(model_list_expt1[[3]], "output/trt_model_expt1.rds")
+  saveRDS(model_list_expt1[[top_index]], "output/top_model_expt1.rds")
+  saveRDS(model_probabilities, "output/model_probabilities_expt1.rds")
+}
+
+top_model <- readRDS("output/top_model_expt1.rds")
+full_model <- readRDS("output/full_model_expt1.rds")
+model_probabilities <- readRDS("output/model_probabilities_expt1.rds")
+```
+
+### Posterior model probabilites
+
+This table shows the estimated probability that each of the 5 models we compared is the top model within this set of models. Note that the predictor variable `treatment` is not present in either of the top 2 models, but that the top models are not much more likely than the remaining models. 
+
+```{r}
+model_probabilities %>% 
+  kable(digits =3 ) %>% kable_styling()
+```
+
+### Fixed effects from the full model
+
+The model output is not especially informative on its own, but is included here for completeness. See _Hypothesis testing and effect sizes_ below for more useful statistical results.
+
+```{r}
+get_fixed_effects_with_p_values(full_model) %>% 
+  kable(digits = 3) %>% kable_styling()
+```
+
+
+## Plotting estimates from the model
+
+### Derive prediction from the posterior
+
+```{r}
+new <- expand.grid(treatment = levels(data_for_categorical_model$treatment), 
+                   hive = "Zoology",
+                   observation_time_minutes = 120)
+
+preds <- fitted(full_model, newdata = new, summary = FALSE)
+dimnames(preds) <- list(NULL, new[,1], NULL)
+
+plotting_data <- rbind(
+  as.data.frame(preds[,, 1]) %>% mutate(outcome = "Stayed inside the hive", posterior_sample = 1:n()),
+  as.data.frame(preds[,, 2]) %>% mutate(outcome = "Left voluntarily", posterior_sample = 1:n()),
+  as.data.frame(preds[,, 3]) %>% mutate(outcome = "Forced out", posterior_sample = 1:n())) %>%
+  gather(treatment, prop, `Intact control`, Ringers, `Heat-treated LPS`, LPS) %>% 
+  mutate(outcome = factor(outcome, c("Stayed inside the hive", "Left voluntarily", "Forced out"))) %>%
+  as_tibble() %>% arrange(treatment, outcome) 
+
+stats_data <- plotting_data
+plotting_data$treatment[plotting_data$treatment == "Intact control"] <- "Intact\ncontrol"
+plotting_data$treatment[plotting_data$treatment == "Heat-treated LPS"] <- "Heat-treated\nLPS"
+plotting_data$treatment <- factor(plotting_data$treatment, c("Intact\ncontrol", "Ringers", "Heat-treated\nLPS", "LPS"))
+```
+
+### Make Figure 1
+
+```{r fig.height=5, fig.width=11}
+make_plot <- function(dat, lim){
+  dat %>%
+    ggplot(aes(treatment, 100 * prop)) + 
+    geom_eye(aes(fill = treatment), size_range = c(0.5, 1.1), .width = c(0.5, 0.95)) + 
+    scale_fill_brewer(palette = "Pastel2", direction = -1) + 
+    facet_wrap( ~ outcome, scales = "free_y") + 
+    coord_cartesian(ylim = lim) +
+    ylab(NULL) + xlab(NULL) + 
+    theme_bw() + 
+    theme(legend.position = "none") 
+}
+
+grid.arrange(
+  plotting_data %>% filter(outcome == "Stayed inside the hive") %>% make_plot(c(75, 100)),
+  plotting_data %>% filter(outcome == "Left voluntarily") %>% make_plot(c(0, 10)),
+  plotting_data %>% filter(outcome == "Forced out") %>% make_plot(c(0, 25)),
+  left = "% bees leaving the hive this way", bottom = "Treatment", nrow = 1)
+
+```
+<br></br>
+**Figure 1**: This figure shows the estimated % bees from each treatment group that either stayed inside the hive (left), left the hive voluntarily (middle), or were forced out by their nestmates (right). The points show the median of the posterior distribution of estimates from the model, while the thick and thin error bars show the 50% and 95% credible intervals of this posterior distribution, respectively. The coloured area shows the whole posterior. Bees in the 'intact control' group were more likely to stay inside the hive, and were less likely to be forced out, than bees in either heat-treated LPS or LPS treatments (see Table XX).
+
+
+## Hypothesis testing and effect sizes
+
+This section calculates the posterior difference in treatment group means, in order to perform some null hypothesis testing, calculate effect size, and calculate the 95% credible intervals on the effect size. 
+
+We regard both the "Intact control" treatment, and the "Ringers injection" treatment as control groups. The heat-treated LPS group was intended as a control, but post-hoc inspection of the results suggests that the heat-treated LPS had a similar effect on behaviour as did regular LPS (this might explain why heat-treated LPS is very seldom used as a control in insect studies). Therefore, we computed the effect sizes and "Bayesian p-values" (i.e. the fraction of the posterior difference in means that lies on the opposite side of zero from the median) for comparisons between each control and each LPS treatment. We do this three times, once for each of the 3 possible outcomes. 
+
+### % bees exiting the hive
+
+```{r}
+my_summary <- function(df, columns) {
+  lapply(columns, function(x){
+    
+    p <- df %>% pull(!! x) %>% bayestestR::p_direction() %>% as.numeric()
+    p <- (100 - p) / 100
+    
+    df %>% pull(!! x) %>% posterior_summary() %>% as_tibble() %>% 
+      mutate(p=p) %>% mutate(Metric = x) %>% select(Metric, everything())
+  }) %>% do.call("rbind", .)
+}
+
+
+make_stats_table <- function(dat, groupA, groupB, 
+                             comparison, 
+                             metric = "Absolute difference in % bees exiting the hive"){
+  output <- dat %>%
+    spread(treatment, prop) %>%
+    mutate(
+       metric_here = 100 * (!! enquo(groupA) - !! enquo(groupB)), 
+      `Log10 odds ratio` = log10(!! enquo(groupA) / !! enquo(groupB))) %>%
+    my_summary(c("metric_here", "Log10 odds ratio")) %>%
+    mutate(p = c(" ", format(round(p[2], 4), nsmall = 4)),
+           Comparison = comparison) %>%
+    select(Comparison, everything()) %>%
+    mutate(Metric = replace(Metric, Metric == "metric_here", metric))
+  
+  names(output)[names(output) == "metric_here"] <- metric
+  output 
+}
+
+stats_table <- rbind(
+  stats_data %>%
+    filter(outcome == "Stayed inside the hive") %>%
+    make_stats_table(`Intact control`, `Heat-treated LPS`, "Intact control vs Heat-treated LPS"),
+  
+  stats_data %>%
+    filter(outcome == "Stayed inside the hive") %>%
+    make_stats_table(`Ringers`, `Heat-treated LPS`, "Ringers control vs Heat-treated LPS"),
+  
+  stats_data %>%
+    filter(outcome == "Stayed inside the hive") %>%
+    make_stats_table(`Intact control`, `LPS`, "Intact control vs LPS"),
+  
+  stats_data %>%
+    filter(outcome == "Stayed inside the hive") %>%
+    make_stats_table(`Ringers`, `LPS`, "Ringers control vs LPS")
+) %>% as_tibble()
+
+stats_table[c(2,4,6,8), 1] <- " "
+
+stats_table %>%
+  mutate(` ` = ifelse(p < 0.05, "\\*", ""),
+         ` ` = replace(` `, p < 0.01, "**"),
+         ` ` = replace(` `, p < 0.001, "***"),
+         ` ` = replace(` `, p == " ", "")) %>%
+  kable(digits = 3) %>% kable_styling() %>% 
+  row_spec(c(0,2,4,6,8), extra_css = "border-bottom: solid;")
+```
+
+### % bees that were forced out 
+
+```{r}
+stats_table2 <- rbind(
+  stats_data %>%
+    filter(outcome == "Forced out") %>%
+    make_stats_table(`Intact control`, `Heat-treated LPS`, 
+                     "Intact control vs Heat-treated LPS", 
+                     metric = "Absolute difference in % bees that were forced out"),
+  
+  stats_data %>%
+    filter(outcome == "Forced out") %>%
+    make_stats_table(`Ringers`, `Heat-treated LPS`, 
+                     "Ringers control vs Heat-treated LPS", 
+                     metric = "Absolute difference in % bees that were forced out"),
+  
+  stats_data %>%
+    filter(outcome == "Forced out") %>%
+    make_stats_table(`Intact control`, `LPS`, 
+                     "Intact control vs LPS", 
+                     metric = "Absolute difference in % bees that were forced out"),
+  
+  stats_data %>%
+    filter(outcome == "Forced out") %>%
+    make_stats_table(`Ringers`, `LPS`, 
+                     "Ringers control vs LPS", 
+                     metric = "Absolute difference in % bees that were forced out")
+) %>% as_tibble()
+
+stats_table2[c(2,4,6,8), 1] <- " "
+
+stats_table2 %>%
+  mutate(` ` = ifelse(p < 0.05, "\\*", ""),
+         ` ` = replace(` `, p < 0.01, "**"),
+         ` ` = replace(` `, p < 0.001, "***"),
+         ` ` = replace(` `, p == " ", "")) %>%
+  kable(digits = 3) %>% kable_styling() %>% 
+  row_spec(c(0,2,4,6,8), extra_css = "border-bottom: solid;")
+```
+
+
+### % bees that left voluntarily
+
+```{r}
+stats_table3 <- rbind(
+  stats_data %>%
+    filter(outcome == "Left voluntarily") %>%
+    make_stats_table(`Intact control`, `Heat-treated LPS`, 
+                     "Intact control vs Heat-treated LPS", 
+                     metric = "Absolute difference in % bees that left voluntarily"),
+  
+  stats_data %>%
+    filter(outcome == "Left voluntarily") %>%
+    make_stats_table(`Ringers`, `Heat-treated LPS`, 
+                     "Ringers control vs Heat-treated LPS", 
+                     metric = "Absolute difference in % bees that left voluntarily"),
+  
+  stats_data %>%
+    filter(outcome == "Left voluntarily") %>%
+    make_stats_table(`Intact control`, `LPS`, 
+                     "Intact control vs LPS", 
+                     metric = "Absolute difference in % bees that left voluntarily"),
+  
+  stats_data %>%
+    filter(outcome == "Left voluntarily") %>%
+    make_stats_table(`Ringers`, `LPS`, 
+                     "Ringers control vs LPS", 
+                     metric = "Absolute difference in % bees that left voluntarily")
+) %>% as_tibble()
+
+stats_table3[c(2,4,6,8), 1] <- " "
+
+stats_table3 %>%
+  mutate(` ` = ifelse(p < 0.05, "\\*", ""),
+         ` ` = replace(` `, p < 0.01, "**"),
+         ` ` = replace(` `, p < 0.001, "***"),
+         ` ` = replace(` `, p == " ", "")) %>%
+  kable(digits = 3) %>% kable_styling() %>% 
+  row_spec(c(0,2,4,6,8), extra_css = "border-bottom: solid;")
+```
+

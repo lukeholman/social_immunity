@@ -1,0 +1,34 @@
+hive,treatment,colour,outcome,n
+Garden,Heat-treated LPS,Green,Stayed inside the hive,34
+Garden,Heat-treated LPS,Green,Left of own volition,0
+Garden,Heat-treated LPS,Green,Forced out,0
+Garden,Intact control,Blue,Stayed inside the hive,75
+Garden,Intact control,Blue,Left of own volition,0
+Garden,Intact control,Blue,Forced out,2
+Garden,LPS,Red,Stayed inside the hive,37
+Garden,LPS,Red,Left of own volition,0
+Garden,LPS,Red,Forced out,0
+Garden,Ringers,White,Stayed inside the hive,41
+Garden,Ringers,White,Left of own volition,0
+Garden,Ringers,White,Forced out,0
+SkyLab,Heat-treated LPS,Blue,Stayed inside the hive,47
+SkyLab,Heat-treated LPS,Blue,Left of own volition,6
+SkyLab,Heat-treated LPS,Blue,Forced out,5
+SkyLab,Intact control,Red,Stayed inside the hive,102
+SkyLab,Intact control,Red,Left of own volition,3
+SkyLab,Intact control,Red,Forced out,0
+SkyLab,LPS,Green,Stayed inside the hive,35
+SkyLab,LPS,Green,Left of own volition,6
+SkyLab,LPS,Green,Forced out,2
+Zoology,Heat-treated LPS,White,Stayed inside the hive,59
+Zoology,Heat-treated LPS,White,Left of own volition,1
+Zoology,Heat-treated LPS,White,Forced out,7
+Zoology,Intact control,Green,Stayed inside the hive,105
+Zoology,Intact control,Green,Left of own volition,0
+Zoology,Intact control,Green,Forced out,1
+Zoology,LPS,Blue,Stayed inside the hive,60
+Zoology,LPS,Blue,Left of own volition,2
+Zoology,LPS,Blue,Forced out,5
+Zoology,Ringers,Red,Stayed inside the hive,74
+Zoology,Ringers,Red,Left of own volition,1
+Zoology,Ringers,Red,Forced out,5
