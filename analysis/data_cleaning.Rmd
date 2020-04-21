@@ -7,7 +7,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-```{r}
+```{r results='hide', warning=FALSE, message=FALSE}
 library(tidyverse)
 ```
 
@@ -15,8 +15,18 @@ library(tidyverse)
 ## Experiment 1
 
 ```{r}
-experiment1 <- read_csv("data/data_collection_sheets/experiment_1.csv") %>%
-    mutate(Treatment = factor(treatment, levels = c("Unstabbed", "Ringers", "HT_LPS", "LPS"))) 
+experiment1 <- read_csv(
+  "data/data_collection_sheets/experiment_1.csv",
+  col_types = cols(
+    date = col_character(),
+    hive = col_character(),
+    treatment = col_character(),
+    colour = col_character(),
+    total = col_double(),
+    emergence_time = col_character(),
+    end_of_emergence = col_character(),
+    mode_of_exit = col_character())) %>%
+  mutate(Treatment = factor(treatment, levels = c("Unstabbed", "Ringers", "HT_LPS", "LPS"))) 
 
 experiment1 <- experiment1 %>%
   mutate(
@@ -93,7 +103,7 @@ outcome_tally_simplified_exp1 %>% write_csv(path = "data/clean_data/experiment_1
 
 ## Experiment 2
 
-```{r}
+```{r warning=FALSE}
 # remember date and emergence time as well!!
 experiment2 <- read_csv("data/data_collection_sheets/experiment2_chc_transfer.csv") %>%
   mutate(mode_of_exit = replace(mode_of_exit, mode_of_exit == "assisted", "Assisted self-removal"),

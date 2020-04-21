@@ -2,6 +2,7 @@ experiment,hive,observation_time_minutes
 1,Garden,60
 1,Skylab,90
 1,Zoology,120
+1,Zoology_2,120
 2,Garden,90
 2,Skylab,60
 2,Zoology,120

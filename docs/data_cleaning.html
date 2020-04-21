@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 <meta name="author" content="lukeholman" />
@@ -88,7 +88,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -237,6 +236,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -249,48 +249,9 @@ $(document).ready(function () {
 }
 </style>
 
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
-
 <!-- code folding -->
 
 
-
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <style type="text/css">
 
@@ -304,6 +265,12 @@ $(document).ready(function ()  {
 }
 }
 
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
 
 .toc-content {
   padding-left: 30px;
@@ -419,7 +386,7 @@ div.section {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -428,7 +395,7 @@ div.section {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -437,17 +404,17 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-10-17
+<strong>Last updated:</strong> 2020-04-21
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
-<strong>Knit directory:</strong> <code>LPS_honeybees/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+<strong>Knit directory:</strong> <code>social_immunity/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
 </p>
 <p>
 This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
-  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.4.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
 </p>
 <hr>
 </div>
@@ -456,12 +423,12 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
@@ -480,12 +447,12 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20190701code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20190701)</code> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20191017code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20191017)</code> </a>
 </p>
 </div>
-<div id="strongSeedstrongcodesetseed20190701code" class="panel-collapse collapse">
+<div id="strongSeedstrongcodesetseed20191017code" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The command <code>set.seed(20190701)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+<p>The command <code>set.seed(20191017)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
 </div>
 </div>
 </div>
@@ -528,10 +495,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanLPShoneybeestree8c02129a4b51023561562fc9a73e8e6776755fc2targetblank8c02129a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/LPS_honeybees/tree/8c02129a4b51023561562fc9a73e8e6776755fc2" target="_blank">8c02129</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree111e912df317ba149ba3d6ee231e775c0328aa63targetblank111e912a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/111e912df317ba149ba3d6ee231e775c0328aa63" target="_blank">111e912</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanLPShoneybeestree8c02129a4b51023561562fc9a73e8e6776755fc2targetblank8c02129a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree111e912df317ba149ba3d6ee231e775c0328aa63targetblank111e912a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -542,6 +509,28 @@ Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
     Ignored:    data/.DS_Store
+    Ignored:    output/exp1_model.rds
+    Ignored:    output/exp1_post_prob.rds
+    Ignored:    output/exp2_model.rds
+    Ignored:    output/exp2_post_prob.rds
+    Ignored:    output/exp3_model.rds
+    Ignored:    output/exp3_post_prob.rds
+
+Untracked files:
+    Untracked:  data/Zoology 2.csv
+    Untracked:  figures/
+
+Unstaged changes:
+    Modified:   .gitignore
+    Modified:   analysis/data_cleaning.Rmd
+    Modified:   analysis/experiment1.Rmd
+    Modified:   analysis/experiment2.Rmd
+    Modified:   analysis/experiment3.Rmd
+    Modified:   code/helper_functions.R
+    Modified:   data/clean_data/experiment_1.csv
+    Modified:   data/clean_data/experiment_1_outcome_tally.csv
+    Modified:   data/data_collection_sheets/experiment_1.csv
+    Modified:   data/data_collection_sheets/experiment_durations.csv
 
 </code></pre>
 <p>
@@ -585,7 +574,7 @@ Message
 Rmd
 </td>
 <td>
-<a href="https://github.com/lukeholman/LPS_honeybees/blob/8c02129a4b51023561562fc9a73e8e6776755fc2/analysis/data_cleaning.Rmd" target="_blank">8c02129</a>
+<a href="https://github.com/lukeholman/social_immunity/blob/aae65cfb1436802ba2a4d3ed194b2888e7e659f7/analysis/data_cleaning.Rmd" target="_blank">aae65cf</a>
 </td>
 <td>
 lukeholman
@@ -594,7 +583,7 @@ lukeholman
 2019-10-17
 </td>
 <td>
-Commit for thesis
+First commit
 </td>
 </tr>
 <tr>
@@ -602,7 +591,7 @@ Commit for thesis
 html
 </td>
 <td>
-<a href="https://rawcdn.githack.com/lukeholman/LPS_honeybees/8c02129a4b51023561562fc9a73e8e6776755fc2/docs/data_cleaning.html" target="_blank">8c02129</a>
+<a href="https://rawcdn.githack.com/lukeholman/social_immunity/aae65cfb1436802ba2a4d3ed194b2888e7e659f7/docs/data_cleaning.html" target="_blank">aae65cf</a>
 </td>
 <td>
 lukeholman
@@ -611,24 +600,7 @@ lukeholman
 2019-10-17
 </td>
 <td>
-Commit for thesis
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/lukeholman/LPS_honeybees/blob/367c1bd49eccdb1fc4bbda6415bf57e364399772/analysis/data_cleaning.Rmd" target="_blank">367c1bd</a>
-</td>
-<td>
-lukeholman
-</td>
-<td>
-2019-09-30
-</td>
-<td>
-First big commit
+First commit
 </td>
 </tr>
 </tbody>
@@ -639,34 +611,22 @@ First big commit
 </div>
 </div>
 <pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>── Attaching packages ─────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
-<pre><code>✔ ggplot2 3.1.0     ✔ purrr   0.3.2
-✔ tibble  2.1.3     ✔ dplyr   0.8.3
-✔ tidyr   0.8.2     ✔ stringr 1.4.0
-✔ readr   1.1.1     ✔ forcats 0.4.0</code></pre>
-<pre><code>Warning: package &#39;tibble&#39; was built under R version 3.5.2</code></pre>
-<pre><code>Warning: package &#39;dplyr&#39; was built under R version 3.5.2</code></pre>
-<pre><code>Warning: package &#39;stringr&#39; was built under R version 3.5.2</code></pre>
-<pre><code>Warning: package &#39;forcats&#39; was built under R version 3.5.2</code></pre>
-<pre><code>── Conflicts ────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()</code></pre>
 <div id="experiment-1" class="section level2">
 <h2>Experiment 1</h2>
-<pre class="r"><code>experiment1 &lt;- read_csv(&quot;data/data_collection_sheets/experiment_1.csv&quot;) %&gt;%
-    mutate(Treatment = factor(treatment, levels = c(&quot;Unstabbed&quot;, &quot;Ringers&quot;, &quot;HT_LPS&quot;, &quot;LPS&quot;))) </code></pre>
-<pre><code>Parsed with column specification:
-cols(
-  date = col_character(),
-  hive = col_character(),
-  treatment = col_character(),
-  colour = col_character(),
-  total = col_integer(),
-  emergence_time = col_character(),
-  end_of_emergence = col_character(),
-  mode_of_exit = col_character()
-)</code></pre>
-<pre class="r"><code>experiment1 &lt;- experiment1 %&gt;%
+<pre class="r"><code>experiment1 &lt;- read_csv(
+  &quot;data/data_collection_sheets/experiment_1.csv&quot;,
+  col_types = cols(
+    date = col_character(),
+    hive = col_character(),
+    treatment = col_character(),
+    colour = col_character(),
+    total = col_double(),
+    emergence_time = col_character(),
+    end_of_emergence = col_character(),
+    mode_of_exit = col_character())) %&gt;%
+  mutate(Treatment = factor(treatment, levels = c(&quot;Unstabbed&quot;, &quot;Ringers&quot;, &quot;HT_LPS&quot;, &quot;LPS&quot;))) 
+
+experiment1 &lt;- experiment1 %&gt;%
   mutate(
     treatment = replace(treatment, treatment == &quot;HT_LPS&quot;, &quot;Heat-treated LPS&quot;),
     treatment = replace(treatment, treatment == &quot;Unstabbed&quot;, &quot;Intact control&quot;),
@@ -749,19 +709,18 @@ experiment2 &lt;- read_csv(&quot;data/data_collection_sheets/experiment2_chc_tra
   select(-X9, -`Test start 5.04`) %&gt;% 
   mutate(hive = replace(hive, hive == &quot;SkyLab&quot;, &quot;Skylab&quot;)) %&gt;%
   arrange(hive, treatment)</code></pre>
-<pre><code>Warning: Missing column names filled in: &#39;X9&#39; [9]</code></pre>
 <pre><code>Parsed with column specification:
 cols(
   date = col_character(),
   hive = col_character(),
   treatment = col_character(),
   colour = col_character(),
-  bees_introduced = col_integer(),
-  emergence_time = col_integer(),
+  bees_introduced = col_double(),
+  emergence_time = col_double(),
   time_finished_emerged = col_character(),
   mode_of_exit = col_character(),
-  X9 = col_character(),
-  `Test start 5.04` = col_character()
+  X9 = col_logical(),
+  `Test start 5.04` = col_logical()
 )</code></pre>
 <pre class="r"><code>outcome_tally_full_exp2        &lt;- make_outcome_tally_full(experiment2) 
 outcome_tally_simplified_exp2  &lt;- outcome_tally_full_exp2 %&gt;% make_outcome_tally_simplified() 
@@ -776,13 +735,13 @@ outcome_tally_simplified_exp2 %&gt;% write_csv(path = &quot;data/clean_data/expe
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
 <pre class="r"><code>sessionInfo()</code></pre>
-<pre><code>R version 3.5.1 (2018-07-02)
+<pre><code>R version 3.6.3 (2020-02-29)
 Platform: x86_64-apple-darwin15.6.0 (64-bit)
-Running under: macOS High Sierra 10.13.6
+Running under: macOS Catalina 10.15.4
 
 Matrix products: default
-BLAS: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRblas.0.dylib
-LAPACK: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRlapack.dylib
+BLAS:   /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRlapack.dylib
 
 locale:
 [1] en_AU.UTF-8/en_AU.UTF-8/en_AU.UTF-8/C/en_AU.UTF-8/en_AU.UTF-8
@@ -791,28 +750,26 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] forcats_0.4.0   stringr_1.4.0   dplyr_0.8.3     purrr_0.3.2    
-[5] readr_1.1.1     tidyr_0.8.2     tibble_2.1.3    ggplot2_3.1.0  
-[9] tidyverse_1.2.1
+ [1] forcats_0.5.0   stringr_1.4.0   dplyr_0.8.5     purrr_0.3.3    
+ [5] readr_1.3.1     tidyr_1.0.2     tibble_3.0.0    ggplot2_3.3.0  
+ [9] tidyverse_1.3.0 workflowr_1.6.0
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.2        cellranger_1.1.0  pillar_1.3.1.9000
- [4] compiler_3.5.1    git2r_0.23.0      plyr_1.8.4       
- [7] workflowr_1.4.0   tools_3.5.1       digest_0.6.20    
-[10] lubridate_1.7.4   jsonlite_1.6      evaluate_0.14    
-[13] nlme_3.1-137      gtable_0.2.0      lattice_0.20-35  
-[16] pkgconfig_2.0.2   rlang_0.4.0       cli_1.1.0        
-[19] rstudioapi_0.10   yaml_2.2.0        haven_1.1.2      
-[22] xfun_0.8          withr_2.1.2       xml2_1.2.0       
-[25] httr_1.4.0        knitr_1.23        hms_0.4.2        
-[28] fs_1.3.1          rprojroot_1.3-2   grid_3.5.1       
-[31] tidyselect_0.2.5  glue_1.3.1.9000   R6_2.4.0         
-[34] readxl_1.1.0      rmarkdown_1.13    modelr_0.1.2     
-[37] magrittr_1.5      whisker_0.3-2     backports_1.1.2  
-[40] scales_1.0.0      htmltools_0.3.6   rvest_0.3.2      
-[43] assertthat_0.2.1  colorspace_1.3-2  stringi_1.4.3    
-[46] lazyeval_0.2.2    munsell_0.5.0     broom_0.5.0      
-[49] crayon_1.3.4     </code></pre>
+ [1] tidyselect_1.0.0 xfun_0.13        haven_2.2.0      lattice_0.20-41 
+ [5] colorspace_1.4-1 vctrs_0.2.4      generics_0.0.2   htmltools_0.4.0 
+ [9] yaml_2.2.1       rlang_0.4.5      later_1.0.0      pillar_1.4.3    
+[13] withr_2.1.2      glue_1.4.0       DBI_1.1.0        dbplyr_1.4.2    
+[17] readxl_1.3.1     modelr_0.1.5     lifecycle_0.2.0  cellranger_1.1.0
+[21] munsell_0.5.0    gtable_0.3.0     rvest_0.3.5      evaluate_0.14   
+[25] knitr_1.28       httpuv_1.5.2     fansi_0.4.1      broom_0.5.4     
+[29] Rcpp_1.0.3       promises_1.1.0   backports_1.1.6  scales_1.1.0    
+[33] jsonlite_1.6.1   fs_1.3.1         hms_0.5.3        digest_0.6.25   
+[37] stringi_1.4.6    rprojroot_1.3-2  grid_3.6.3       cli_2.0.2       
+[41] tools_3.6.3      magrittr_1.5     crayon_1.3.4     whisker_0.4     
+[45] pkgconfig_2.0.3  ellipsis_0.3.0   xml2_1.3.1       reprex_0.3.0    
+[49] lubridate_1.7.8  rstudioapi_0.11  assertthat_0.2.1 rmarkdown_2.1   
+[53] httr_1.4.1       R6_2.4.1         nlme_3.1-147     git2r_0.26.1    
+[57] compiler_3.6.3  </code></pre>
 </div>
 </div>
 
@@ -846,6 +803,49 @@ $(document).ready(function () {
 });
 
 
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
 </script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

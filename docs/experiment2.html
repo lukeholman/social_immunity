@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
@@ -87,7 +87,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -236,6 +235,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -248,48 +248,9 @@ $(document).ready(function () {
 }
 </style>
 
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
-
 <!-- code folding -->
 
 
-
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <style type="text/css">
 
@@ -303,6 +264,12 @@ $(document).ready(function ()  {
 }
 }
 
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
 
 .toc-content {
   padding-left: 30px;
@@ -416,7 +383,7 @@ div.section {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -425,7 +392,7 @@ div.section {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -434,17 +401,17 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-10-17
+<strong>Last updated:</strong> 2020-04-21
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
-<strong>Knit directory:</strong> <code>LPS_honeybees/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+<strong>Knit directory:</strong> <code>social_immunity/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
 </p>
 <p>
 This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
-  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.4.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
 </p>
 <hr>
 </div>
@@ -453,12 +420,12 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
@@ -477,12 +444,12 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20190701code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20190701)</code> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20191017code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20191017)</code> </a>
 </p>
 </div>
-<div id="strongSeedstrongcodesetseed20190701code" class="panel-collapse collapse">
+<div id="strongSeedstrongcodesetseed20191017code" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The command <code>set.seed(20190701)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+<p>The command <code>set.seed(20191017)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
 </div>
 </div>
 </div>
@@ -525,10 +492,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanLPShoneybeestree8c02129a4b51023561562fc9a73e8e6776755fc2targetblank8c02129a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/LPS_honeybees/tree/8c02129a4b51023561562fc9a73e8e6776755fc2" target="_blank">8c02129</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree111e912df317ba149ba3d6ee231e775c0328aa63targetblank111e912a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/111e912df317ba149ba3d6ee231e775c0328aa63" target="_blank">111e912</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanLPShoneybeestree8c02129a4b51023561562fc9a73e8e6776755fc2targetblank8c02129a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree111e912df317ba149ba3d6ee231e775c0328aa63targetblank111e912a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -539,6 +506,28 @@ Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
     Ignored:    data/.DS_Store
+    Ignored:    output/exp1_model.rds
+    Ignored:    output/exp1_post_prob.rds
+    Ignored:    output/exp2_model.rds
+    Ignored:    output/exp2_post_prob.rds
+    Ignored:    output/exp3_model.rds
+    Ignored:    output/exp3_post_prob.rds
+
+Untracked files:
+    Untracked:  data/Zoology 2.csv
+    Untracked:  figures/
+
+Unstaged changes:
+    Modified:   .gitignore
+    Modified:   analysis/data_cleaning.Rmd
+    Modified:   analysis/experiment1.Rmd
+    Modified:   analysis/experiment2.Rmd
+    Modified:   analysis/experiment3.Rmd
+    Modified:   code/helper_functions.R
+    Modified:   data/clean_data/experiment_1.csv
+    Modified:   data/clean_data/experiment_1_outcome_tally.csv
+    Modified:   data/data_collection_sheets/experiment_1.csv
+    Modified:   data/data_collection_sheets/experiment_durations.csv
 
 </code></pre>
 <p>
@@ -582,16 +571,33 @@ Message
 Rmd
 </td>
 <td>
-<a href="https://github.com/lukeholman/LPS_honeybees/blob/367c1bd49eccdb1fc4bbda6415bf57e364399772/analysis/experiment2.Rmd" target="_blank">367c1bd</a>
+<a href="https://github.com/lukeholman/social_immunity/blob/aae65cfb1436802ba2a4d3ed194b2888e7e659f7/analysis/experiment2.Rmd" target="_blank">aae65cf</a>
 </td>
 <td>
 lukeholman
 </td>
 <td>
-2019-09-30
+2019-10-17
 </td>
 <td>
-First big commit
+First commit
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/social_immunity/aae65cfb1436802ba2a4d3ed194b2888e7e659f7/docs/experiment2.html" target="_blank">aae65cf</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2019-10-17
+</td>
+<td>
+First commit
 </td>
 </tr>
 </tbody>
@@ -603,22 +609,40 @@ First big commit
 </div>
 <div id="load-data-and-r-packages" class="section level2">
 <h2>Load data and R packages</h2>
-<pre class="r"><code>library(brms)
+<pre class="r"><code># All but 1 of these packages can be easily installed from CRAN.
+# However it was harder to install the showtext package. On Mac, I did this:
+# installed &#39;homebrew&#39; using Terminal: ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot; 
+# installed &#39;libpng&#39; using Terminal: brew install libpng
+# installed &#39;showtext&#39; in R using: devtools::install_github(&quot;yixuan/showtext&quot;)  
+library(showtext)
+
+library(brms)
 library(bayesplot)
 library(tidyverse)
 library(gridExtra)
 library(kableExtra)
 library(bayestestR)
 library(tidybayes)
+library(cowplot)
 source(&quot;code/helper_functions.R&quot;)
 
-exp2_treatments &lt;- c(&quot;Ringer CHC&quot;, &quot;LPS CHC&quot;)
+# set up nice font for figure
+nice_font &lt;- &quot;PT Serif&quot;
+font_add_google(name = nice_font, family = nice_font, regular.wt = 400, bold.wt = 700)
+showtext_auto()
+
+exp2_treatments &lt;- c(&quot;Ringers&quot;, &quot;LPS&quot;)
 
 durations &lt;- read_csv(&quot;data/data_collection_sheets/experiment_durations.csv&quot;) %&gt;%
   filter(experiment == 2) %&gt;% select(-experiment)
 
 outcome_tally &lt;- read_csv(file = &quot;data/clean_data/experiment_2_outcome_tally.csv&quot;) %&gt;%
-  mutate(outcome = factor(outcome, levels = c(&quot;Stayed inside the hive&quot;, &quot;Left of own volition&quot;, &quot;Forced out&quot;)),
+  mutate(
+    outcome = str_replace_all(outcome, &quot;Stayed inside the hive&quot;, &quot;Stayed inside&quot;),
+    outcome = str_replace_all(outcome, &quot;Left of own volition&quot;, &quot;Left voluntarily&quot;),
+    outcome = factor(outcome, levels = c(&quot;Stayed inside&quot;, &quot;Left voluntarily&quot;, &quot;Forced out&quot;)),
+         treatment = str_replace_all(treatment, &quot;Ringer CHC&quot;, &quot;Ringers&quot;),
+         treatment = str_replace_all(treatment, &quot;LPS CHC&quot;, &quot;LPS&quot;),
          treatment = factor(treatment, levels = exp2_treatments))
 
 # Re-formatted version of the same data, where each row is an individual bee. We need this format to run the brms model.
@@ -637,17 +661,55 @@ data_for_categorical_model &lt;- outcome_tally %&gt;%
   mutate(outcome_numeric = as.numeric(outcome),
          hive = as.character(hive),
          treatment = factor(treatment, levels = exp2_treatments)) %&gt;%
-  left_join(durations, by = &quot;hive&quot;)</code></pre>
+  left_join(durations, by = &quot;hive&quot;) %&gt;%
+  mutate(hive = C(factor(hive), sum))  # use &quot;sum coding&quot; for hive, since there is no obvious reference level</code></pre>
 </div>
 <div id="inspect-the-raw-data" class="section level2">
 <h2>Inspect the raw data</h2>
-<div id="table-format" class="section level3">
-<h3>Table format</h3>
-<pre class="r"><code>outcome_tally %&gt;% 
-  kable(digits = 3) %&gt;% kable_styling() %&gt;%
-  scroll_box(height = &quot;380px&quot;)</code></pre>
-<div style="border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:380px; ">
-<table class="table" style="margin-left: auto; margin-right: auto;">
+<div id="sample-sizes-by-treatment" class="section level3">
+<h3>Sample sizes by treatment</h3>
+<pre class="r"><code>data_for_categorical_model %&gt;%
+  group_by(treatment) %&gt;%
+  summarise(n = n()) %&gt;%
+  kable() %&gt;% kable_styling(full_width = FALSE)</code></pre>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+treatment
+</th>
+<th style="text-align:right;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Ringers
+</td>
+<td style="text-align:right;">
+294
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+LPS
+</td>
+<td style="text-align:right;">
+291
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="sample-sizes-by-treatment-and-hive" class="section level3">
+<h3>Sample sizes by treatment and hive</h3>
+<pre class="r"><code>data_for_categorical_model %&gt;%
+  group_by(hive, treatment) %&gt;%
+  summarise(n = n()) %&gt;%
+  kable() %&gt;% kable_styling(full_width = FALSE)</code></pre>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -655,12 +717,6 @@ hive
 </th>
 <th style="text-align:left;">
 treatment
-</th>
-<th style="text-align:left;">
-colour
-</th>
-<th style="text-align:left;">
-outcome
 </th>
 <th style="text-align:right;">
 n
@@ -673,13 +729,126 @@ n
 Arts
 </td>
 <td style="text-align:left;">
-LPS CHC
+Ringers
+</td>
+<td style="text-align:right;">
+70
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Arts
 </td>
 <td style="text-align:left;">
-Dark Blue
+LPS
+</td>
+<td style="text-align:right;">
+68
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Garden
 </td>
 <td style="text-align:left;">
-Stayed inside the hive
+Ringers
+</td>
+<td style="text-align:right;">
+75
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Garden
+</td>
+<td style="text-align:left;">
+LPS
+</td>
+<td style="text-align:right;">
+75
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Skylab
+</td>
+<td style="text-align:left;">
+Ringers
+</td>
+<td style="text-align:right;">
+99
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Skylab
+</td>
+<td style="text-align:left;">
+LPS
+</td>
+<td style="text-align:right;">
+100
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Zoology
+</td>
+<td style="text-align:left;">
+Ringers
+</td>
+<td style="text-align:right;">
+50
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Zoology
+</td>
+<td style="text-align:left;">
+LPS
+</td>
+<td style="text-align:right;">
+48
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="inspect-the-results" class="section level3">
+<h3>Inspect the results</h3>
+<pre class="r"><code>outcome_tally %&gt;%
+  select(-colour) %&gt;% 
+  kable(digits = 3) %&gt;% kable_styling(full_width = FALSE) %&gt;%
+  scroll_box(height = &quot;380px&quot;)</code></pre>
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:380px; ">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+hive
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+treatment
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+outcome
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Arts
+</td>
+<td style="text-align:left;">
+LPS
+</td>
+<td style="text-align:left;">
+Stayed inside
 </td>
 <td style="text-align:right;">
 56
@@ -690,13 +859,10 @@ Stayed inside the hive
 Arts
 </td>
 <td style="text-align:left;">
-LPS CHC
+LPS
 </td>
 <td style="text-align:left;">
-Dark Blue
-</td>
-<td style="text-align:left;">
-Left of own volition
+Left voluntarily
 </td>
 <td style="text-align:right;">
 5
@@ -707,10 +873,7 @@ Left of own volition
 Arts
 </td>
 <td style="text-align:left;">
-LPS CHC
-</td>
-<td style="text-align:left;">
-Dark Blue
+LPS
 </td>
 <td style="text-align:left;">
 Forced out
@@ -724,13 +887,10 @@ Forced out
 Arts
 </td>
 <td style="text-align:left;">
-Ringer CHC
+Ringers
 </td>
 <td style="text-align:left;">
-Pink
-</td>
-<td style="text-align:left;">
-Stayed inside the hive
+Stayed inside
 </td>
 <td style="text-align:right;">
 64
@@ -741,13 +901,10 @@ Stayed inside the hive
 Arts
 </td>
 <td style="text-align:left;">
-Ringer CHC
+Ringers
 </td>
 <td style="text-align:left;">
-Pink
-</td>
-<td style="text-align:left;">
-Left of own volition
+Left voluntarily
 </td>
 <td style="text-align:right;">
 5
@@ -758,10 +915,7 @@ Left of own volition
 Arts
 </td>
 <td style="text-align:left;">
-Ringer CHC
-</td>
-<td style="text-align:left;">
-Pink
+Ringers
 </td>
 <td style="text-align:left;">
 Forced out
@@ -775,13 +929,10 @@ Forced out
 Garden
 </td>
 <td style="text-align:left;">
-LPS CHC
+LPS
 </td>
 <td style="text-align:left;">
-Dark Blue
-</td>
-<td style="text-align:left;">
-Stayed inside the hive
+Stayed inside
 </td>
 <td style="text-align:right;">
 70
@@ -792,13 +943,10 @@ Stayed inside the hive
 Garden
 </td>
 <td style="text-align:left;">
-LPS CHC
+LPS
 </td>
 <td style="text-align:left;">
-Dark Blue
-</td>
-<td style="text-align:left;">
-Left of own volition
+Left voluntarily
 </td>
 <td style="text-align:right;">
 2
@@ -809,10 +957,7 @@ Left of own volition
 Garden
 </td>
 <td style="text-align:left;">
-LPS CHC
-</td>
-<td style="text-align:left;">
-Dark Blue
+LPS
 </td>
 <td style="text-align:left;">
 Forced out
@@ -826,13 +971,10 @@ Forced out
 Garden
 </td>
 <td style="text-align:left;">
-Ringer CHC
+Ringers
 </td>
 <td style="text-align:left;">
-Pink
-</td>
-<td style="text-align:left;">
-Stayed inside the hive
+Stayed inside
 </td>
 <td style="text-align:right;">
 73
@@ -843,13 +985,10 @@ Stayed inside the hive
 Garden
 </td>
 <td style="text-align:left;">
-Ringer CHC
+Ringers
 </td>
 <td style="text-align:left;">
-Pink
-</td>
-<td style="text-align:left;">
-Left of own volition
+Left voluntarily
 </td>
 <td style="text-align:right;">
 2
@@ -860,10 +999,7 @@ Left of own volition
 Garden
 </td>
 <td style="text-align:left;">
-Ringer CHC
-</td>
-<td style="text-align:left;">
-Pink
+Ringers
 </td>
 <td style="text-align:left;">
 Forced out
@@ -877,13 +1013,10 @@ Forced out
 Skylab
 </td>
 <td style="text-align:left;">
-LPS CHC
+LPS
 </td>
 <td style="text-align:left;">
-Pink
-</td>
-<td style="text-align:left;">
-Stayed inside the hive
+Stayed inside
 </td>
 <td style="text-align:right;">
 93
@@ -894,13 +1027,10 @@ Stayed inside the hive
 Skylab
 </td>
 <td style="text-align:left;">
-LPS CHC
+LPS
 </td>
 <td style="text-align:left;">
-Pink
-</td>
-<td style="text-align:left;">
-Left of own volition
+Left voluntarily
 </td>
 <td style="text-align:right;">
 2
@@ -911,10 +1041,7 @@ Left of own volition
 Skylab
 </td>
 <td style="text-align:left;">
-LPS CHC
-</td>
-<td style="text-align:left;">
-Pink
+LPS
 </td>
 <td style="text-align:left;">
 Forced out
@@ -928,13 +1055,10 @@ Forced out
 Skylab
 </td>
 <td style="text-align:left;">
-Ringer CHC
+Ringers
 </td>
 <td style="text-align:left;">
-Dark Blue
-</td>
-<td style="text-align:left;">
-Stayed inside the hive
+Stayed inside
 </td>
 <td style="text-align:right;">
 97
@@ -945,13 +1069,10 @@ Stayed inside the hive
 Skylab
 </td>
 <td style="text-align:left;">
-Ringer CHC
+Ringers
 </td>
 <td style="text-align:left;">
-Dark Blue
-</td>
-<td style="text-align:left;">
-Left of own volition
+Left voluntarily
 </td>
 <td style="text-align:right;">
 1
@@ -962,10 +1083,7 @@ Left of own volition
 Skylab
 </td>
 <td style="text-align:left;">
-Ringer CHC
-</td>
-<td style="text-align:left;">
-Dark Blue
+Ringers
 </td>
 <td style="text-align:left;">
 Forced out
@@ -979,13 +1097,10 @@ Forced out
 Zoology
 </td>
 <td style="text-align:left;">
-LPS CHC
+LPS
 </td>
 <td style="text-align:left;">
-Pink
-</td>
-<td style="text-align:left;">
-Stayed inside the hive
+Stayed inside
 </td>
 <td style="text-align:right;">
 38
@@ -996,13 +1111,10 @@ Stayed inside the hive
 Zoology
 </td>
 <td style="text-align:left;">
-LPS CHC
+LPS
 </td>
 <td style="text-align:left;">
-Pink
-</td>
-<td style="text-align:left;">
-Left of own volition
+Left voluntarily
 </td>
 <td style="text-align:right;">
 4
@@ -1013,10 +1125,7 @@ Left of own volition
 Zoology
 </td>
 <td style="text-align:left;">
-LPS CHC
-</td>
-<td style="text-align:left;">
-Pink
+LPS
 </td>
 <td style="text-align:left;">
 Forced out
@@ -1030,13 +1139,10 @@ Forced out
 Zoology
 </td>
 <td style="text-align:left;">
-Ringer CHC
+Ringers
 </td>
 <td style="text-align:left;">
-Dark Blue
-</td>
-<td style="text-align:left;">
-Stayed inside the hive
+Stayed inside
 </td>
 <td style="text-align:right;">
 42
@@ -1047,13 +1153,10 @@ Stayed inside the hive
 Zoology
 </td>
 <td style="text-align:left;">
-Ringer CHC
+Ringers
 </td>
 <td style="text-align:left;">
-Dark Blue
-</td>
-<td style="text-align:left;">
-Left of own volition
+Left voluntarily
 </td>
 <td style="text-align:right;">
 2
@@ -1064,10 +1167,7 @@ Left of own volition
 Zoology
 </td>
 <td style="text-align:left;">
-Ringer CHC
-</td>
-<td style="text-align:left;">
-Dark Blue
+Ringers
 </td>
 <td style="text-align:left;">
 Forced out
@@ -1080,27 +1180,28 @@ Forced out
 </table>
 </div>
 </div>
-<div id="plotted-as-a-bar-chart" class="section level3">
-<h3>Plotted as a bar chart</h3>
-<pre class="r"><code>all_hives &lt;- outcome_tally %&gt;%
-  group_by(treatment, outcome) %&gt;%
-  summarise(n = sum(n)) %&gt;%
-  ungroup() %&gt;% mutate(hive = &quot;All hives&quot;)
-
+<div id="raw-results-as-a-bar-chart" class="section level3">
+<h3>Raw results as a bar chart</h3>
+<pre class="r"><code>pd &lt;- position_dodge(.3)
 outcome_tally %&gt;%
-  group_by(treatment, hive, outcome) %&gt;%
-  summarise(n = sum(n)) %&gt;%
+  group_by(treatment, outcome) %&gt;%
+  summarise(n = sum(n)) %&gt;% mutate() %&gt;%
+  group_by(treatment) %&gt;%
+  mutate(total_n = sum(n),
+         percent = 100 * n / sum(n),
+         SE = sqrt(total_n * (percent/100) * (1-(percent/100)))) %&gt;% 
   ungroup() %&gt;%
-  mutate(hive = paste(hive, &quot;hive&quot;)) %&gt;%
-  full_join(all_hives, by = c(&quot;treatment&quot;, &quot;hive&quot;, &quot;outcome&quot;, &quot;n&quot;)) %&gt;%
-  mutate(prop = n / sum(n)) %&gt;%
-  ggplot(aes(outcome, n , fill = treatment)) + 
-  geom_bar(stat = &quot;identity&quot;, position = &quot;dodge&quot;) + 
-  facet_wrap( ~ hive, nrow = 1, scales = &quot;free_y&quot;) + 
-  scale_fill_brewer(palette = &quot;Set2&quot;, name = &quot;Treatment&quot;) + 
-  xlab(&quot;Outcome&quot;) + ylab(&quot;Number of bees&quot;) + 
-  theme(axis.text.x = element_text(angle = 45, hjust=1))</code></pre>
-<p><img src="figure/experiment2.Rmd/unnamed-chunk-3-1.png" width="1056" style="display: block; margin: auto;" /></p>
+  mutate(lowerCI = map_dbl(1:n(), ~ 100 * binom.test(n[.x], total_n[.x])$conf.int[1]),
+         upperCI = map_dbl(1:n(), ~ 100 * binom.test(n[.x], total_n[.x])$conf.int[2])) %&gt;%
+  filter(outcome != &quot;Stayed inside&quot;) %&gt;%
+  ggplot(aes(treatment, percent, fill = outcome)) + 
+  geom_errorbar(aes(ymin=lowerCI, ymax=upperCI), position = pd, width = 0) + 
+  geom_point(stat = &quot;identity&quot;, position = pd, colour = &quot;grey15&quot;, pch = 21, size = 4) + 
+  scale_fill_brewer(palette = &quot;Pastel1&quot;, name = &quot;Outcome&quot;, direction = -1) + 
+  xlab(&quot;Treatment&quot;) + ylab(&quot;% bees (+95% CIs)&quot;) + 
+  theme(legend.position = &quot;top&quot;) + 
+  coord_flip()</code></pre>
+<p><img src="figure/experiment2.Rmd/unnamed-chunk-5-1.png" width="1056" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="multinomial-model-of-outcome" class="section level2">
@@ -1108,95 +1209,83 @@ outcome_tally %&gt;%
 <div id="run-the-models" class="section level3">
 <h3>Run the models</h3>
 <p>Fit a multinomial logisitic model, with 3 possible outcomes describing what happened to each bee introduced to the hive: stayed inside, left of its own volition, or forced out by the other workers. To assess the effects of our predictor variables, we compare 5 models with different fixed factors, ranking them by posterior model probability.</p>
-<pre class="r"><code>if(!file.exists(&quot;output/model_probabilities_expt2.rds&quot;)){
-  my_prior &lt;- c(set_prior(&quot;normal(0, 2)&quot;, class = &quot;b&quot;))
+<pre class="r"><code>if(!file.exists(&quot;output/exp2_model.rds&quot;)){
+  exp2_model_v1 &lt;- brm(
+    outcome_numeric ~ treatment * hive + observation_time_minutes, 
+    data = data_for_categorical_model, 
+    prior = c(set_prior(&quot;normal(0, 3)&quot;, class = &quot;b&quot;, dpar = &quot;mu2&quot;),
+              set_prior(&quot;normal(0, 3)&quot;, class = &quot;b&quot;, dpar = &quot;mu3&quot;)),
+    family = &quot;categorical&quot;, save_all_pars = TRUE, sample_prior = TRUE,
+    chains = 4, cores = 1, iter = 5000, seed = 1)
   
-  run_brms_categorical &lt;- function(formula){
-    formula &lt;- gsub(&quot; &quot;, &quot;&quot;, paste(&quot;outcome_numeric ~&quot;, formula))
-    brm(formula, 
-        data = data_for_categorical_model, 
-        prior = my_prior,
-        family = &quot;categorical&quot;, 
-        save_all_pars = TRUE,
-        control = list(adapt_delta = 0.999, max_treedepth = 15),
-        chains = 4, cores = 4, iter = 40000, seed = 1)
-  }
+  exp2_model_v2 &lt;- brm(
+    outcome_numeric ~ treatment + hive + observation_time_minutes, 
+    data = data_for_categorical_model, 
+    prior = c(set_prior(&quot;normal(0, 3)&quot;, class = &quot;b&quot;, dpar = &quot;mu2&quot;),
+              set_prior(&quot;normal(0, 3)&quot;, class = &quot;b&quot;, dpar = &quot;mu3&quot;)),
+    family = &quot;categorical&quot;, save_all_pars = TRUE, sample_prior = TRUE,
+    chains = 4, cores = 1, iter = 5000, seed = 1)
   
-  formula_list &lt;- c(
-    &quot;treatment:hive + treatment + hive + observation_time_minutes&quot;,
-    &quot;treatment + hive + observation_time_minutes&quot;,
-    &quot;treatment + observation_time_minutes&quot;,
-    &quot;hive + observation_time_minutes&quot;,
-    &quot;observation_time_minutes&quot;)
+  exp2_model_v3 &lt;- brm(
+    outcome_numeric ~ hive + observation_time_minutes, 
+    data = data_for_categorical_model, 
+    prior = c(set_prior(&quot;normal(0, 3)&quot;, class = &quot;b&quot;, dpar = &quot;mu2&quot;),
+              set_prior(&quot;normal(0, 3)&quot;, class = &quot;b&quot;, dpar = &quot;mu3&quot;)),
+    family = &quot;categorical&quot;,  save_all_pars = TRUE, sample_prior = TRUE,
+    chains = 4, cores = 1, iter = 5000, seed = 1)
   
-  # run all 5 models, sequentially
-  model_list_expt2 &lt;- lapply(formula_list, run_brms_categorical)
+  posterior_model_probabilities &lt;- tibble(
+    Model = c(&quot;treatment * hive + observation_time_minutes&quot;,
+              &quot;treatment + hive + observation_time_minutes&quot;,
+              &quot;hive + observation_time_minutes&quot;),
+    post_prob = as.numeric(post_prob(exp2_model_v1,
+                                     exp2_model_v2,
+                                     exp2_model_v3))) %&gt;%
+    arrange(-post_prob)
   
-  # Estimate the log marginal likelihood by bridge sampling, and use to determine the posterior model probabilities
-  # See: vignette(&quot;bridgesampling_example_stan&quot;)
-  model_probabilities &lt;- post_prob(model_list_expt2[[1]], 
-                                   model_list_expt2[[2]], 
-                                   model_list_expt2[[3]], 
-                                   model_list_expt2[[4]], 
-                                   model_list_expt2[[5]])
-  top_index &lt;- which.max(unname(model_probabilities))
-  
-  model_probabilities &lt;- tibble(
-    `Fixed effects` = formula_list, 
-    `Posterior model probability` = unname(model_probabilities)) %&gt;%
-    arrange(-`Posterior model probability`)
-  
-  model_probabilities &lt;- model_probabilities %&gt;%
-    mutate(`% of top model probability` = round(100 * `Posterior model probability` / `Posterior model probability`[1], 1),
-           `% of top model probability` = c(&quot;\\-&quot;, `% of top model probability`[2:length(`% of top model probability`)]))
-  
- # saveRDS(model_list_expt2[[1]], &quot;output/full_model_expt2.rds&quot;)
-  saveRDS(model_list_expt2[[top_index]], &quot;output/top_model_expt2.rds&quot;)
-  saveRDS(model_probabilities, &quot;output/model_probabilities_expt2.rds&quot;)
+  saveRDS(exp2_model_v2, &quot;output/exp2_model.rds&quot;) # save the top model, treatment + hive
+  saveRDS(posterior_model_probabilities, &quot;output/exp2_post_prob.rds&quot;)
 }
 
-top_model &lt;- readRDS(&quot;output/top_model_expt2.rds&quot;)
-model_probabilities &lt;- readRDS(&quot;output/model_probabilities_expt2.rds&quot;)</code></pre>
+
+exp2_model &lt;- readRDS(&quot;output/exp2_model.rds&quot;)
+posterior_model_probabilities &lt;- readRDS(&quot;output/exp2_post_prob.rds&quot;)</code></pre>
+<!-- ```{r} -->
+<!-- grid.arrange( -->
+<!--   (plot(hypothesis(exp2_model, "mu2_treatmentLPS = 0"), plot =F)[[1]]) +  -->
+<!--     geom_vline(xintercept = 0, linetype = 2) + coord_cartesian(xlim = c(-6, 6)), -->
+<!--   (plot(hypothesis(exp2_model, "mu3_treatmentLPS = 0"), plot =F)[[1]]) +  -->
+<!--     geom_vline(xintercept = 0, linetype = 2)+ coord_cartesian(xlim = c(-6, 6)) -->
+<!-- ) -->
+<!-- hypothesis(exp2_model, c("mu2_treatmentLPS > 0",  -->
+<!--                          "mu3_treatmentLPS > 0"), -->
+<!--            alpha = 0.05)$hypothesis %>% -->
+<!--   select(-Star) %>% -->
+<!--   kable(digits = 3) %>% kable_styling(full_width = FALSE) -->
+<!-- ``` -->
 </div>
 <div id="posterior-model-probabilites" class="section level3">
 <h3>Posterior model probabilites</h3>
-<pre class="r"><code>model_probabilities %&gt;% 
+<pre class="r"><code>posterior_model_probabilities %&gt;% 
   kable(digits = 3) %&gt;% kable_styling()</code></pre>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
-Fixed effects
+Model
 </th>
 <th style="text-align:right;">
-Posterior model probability
-</th>
-<th style="text-align:left;">
-% of top model probability
+post_prob
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
-treatment + observation_time_minutes
+hive + observation_time_minutes
 </td>
 <td style="text-align:right;">
-0.566
-</td>
-<td style="text-align:left;">
-<ul>
-<li></td>
-</tr>
-<tr>
-<td style="text-align:left;">
-observation_time_minutes
-</td>
-<td style="text-align:right;">
-0.354
-</td>
-<td style="text-align:left;">
-62.6
+0.530
 </td>
 </tr>
 <tr>
@@ -1204,44 +1293,41 @@ observation_time_minutes
 treatment + hive + observation_time_minutes
 </td>
 <td style="text-align:right;">
-0.048
-</td>
-<td style="text-align:left;">
-8.4
+0.466
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-hive + observation_time_minutes
+treatment * hive + observation_time_minutes
 </td>
 <td style="text-align:right;">
-0.027
-</td>
-<td style="text-align:left;">
-4.8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-treatment:hive + treatment + hive + observation_time_minutes
-</td>
-<td style="text-align:right;">
-0.006
-</td>
-<td style="text-align:left;">
-1
+0.003
 </td>
 </tr>
 </tbody>
-</table></li>
-</ul>
+</table>
 </div>
 <div id="fixed-effects-from-the-top-model" class="section level3">
 <h3>Fixed effects from the top model</h3>
-<p>The model output suggests that the third possible outcome (i.e. being forced out of the hive; denoted as mu3 in the table) was more common in the ‘LPS CHCs’ treatment group. See <em>Hypothesis testing and effect sizes</em> below for more useful statistical results.</p>
-<pre class="r"><code>get_fixed_effects_with_p_values(top_model) %&gt;% 
-  kable(digits = 3) %&gt;% kable_styling()</code></pre>
-<table class="table" style="margin-left: auto; margin-right: auto;">
+<p>The code chunk below wrangles the raw output of the <code>summary()</code> functions for <code>brms</code> models into a more readable table of results, and also adds ‘Bayesian p-values’ (i.e. the posterior probability that the true effect size has the same sign as the reported effect).</p>
+<pre class="r"><code>tableS2 &lt;- get_fixed_effects_with_p_values(exp2_model) %&gt;% 
+  mutate(mu = map_chr(str_extract_all(Parameter, &quot;mu[:digit:]&quot;), ~ .x[1]),
+         Parameter = str_remove_all(Parameter, &quot;mu[:digit:]_&quot;),
+         Parameter = str_replace_all(Parameter, &quot;treatment&quot;, &quot;Treatment: &quot;),
+         Parameter = str_replace_all(Parameter, &quot;observation_time_minutes&quot;, &quot;Observation duration (minutes)&quot;)) %&gt;%
+  arrange(mu) %&gt;%
+  select(-mu, -Rhat, -Bulk_ESS, -Tail_ESS) 
+
+names(tableS2)[3:5] &lt;- c(&quot;Est. Error&quot;, &quot;Lower 95% CI&quot;, &quot;Upper 95% CI&quot;)
+
+saveRDS(tableS2, file = &quot;figures/tableS2.rds&quot;)
+
+tableS2 %&gt;%
+  kable(digits = 3) %&gt;% 
+  kable_styling(full_width = FALSE) %&gt;%
+  pack_rows(&quot;% bees leaving voluntarily&quot;, 1, 6) %&gt;%
+  pack_rows(&quot;% bees forced out&quot;, 7, 12)</code></pre>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -1251,22 +1337,13 @@ Parameter
 Estimate
 </th>
 <th style="text-align:right;">
-Est.Error
+Est. Error
 </th>
 <th style="text-align:right;">
-lower_95_CI
+Lower 95% CI
 </th>
 <th style="text-align:right;">
-upper_95_CI
-</th>
-<th style="text-align:right;">
-Rhat
-</th>
-<th style="text-align:right;">
-Bulk_ESS
-</th>
-<th style="text-align:right;">
-Tail_ESS
+Upper 95% CI
 </th>
 <th style="text-align:right;">
 p
@@ -1276,199 +1353,284 @@ p
 </tr>
 </thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-mu2_Intercept
-</td>
-<td style="text-align:right;">
--6.396
-</td>
-<td style="text-align:right;">
-1.191
-</td>
-<td style="text-align:right;">
--8.931
-</td>
-<td style="text-align:right;">
--4.262
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-44785
-</td>
-<td style="text-align:right;">
-41916
-</td>
-<td style="text-align:right;">
-0.000
-</td>
-<td style="text-align:left;">
-*
+<tr grouplength="6">
+<td colspan="7" style="border-bottom: 1px solid;">
+<strong>% bees leaving voluntarily</strong>
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-mu3_Intercept
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Intercept
 </td>
 <td style="text-align:right;">
--6.002
+-6.368
 </td>
 <td style="text-align:right;">
-0.993
+6.669
 </td>
 <td style="text-align:right;">
--8.059
+-19.689
 </td>
 <td style="text-align:right;">
--4.176
+6.679
 </td>
 <td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-46424
-</td>
-<td style="text-align:right;">
-44048
-</td>
-<td style="text-align:right;">
-0.000
-</td>
-<td style="text-align:left;">
-*
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-mu2_treatmentLPSCHC
-</td>
-<td style="text-align:right;">
-0.362
-</td>
-<td style="text-align:right;">
-0.431
-</td>
-<td style="text-align:right;">
--0.474
-</td>
-<td style="text-align:right;">
-1.223
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-60598
-</td>
-<td style="text-align:right;">
-50515
-</td>
-<td style="text-align:right;">
-0.199
+0.168
 </td>
 <td style="text-align:left;">
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-mu2_observation_time_minutes
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Treatment: LPS
 </td>
 <td style="text-align:right;">
-0.030
+0.377
 </td>
 <td style="text-align:right;">
-0.011
+0.439
 </td>
 <td style="text-align:right;">
-0.011
+-0.480
 </td>
 <td style="text-align:right;">
-0.052
+1.245
 </td>
 <td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-49351
-</td>
-<td style="text-align:right;">
-45506
-</td>
-<td style="text-align:right;">
-0.001
+0.197
 </td>
 <td style="text-align:left;">
-*
 </td>
 </tr>
 <tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+hive1
+</td>
+<td style="text-align:right;">
+0.111
+</td>
+<td style="text-align:right;">
+1.522
+</td>
+<td style="text-align:right;">
+-2.868
+</td>
+<td style="text-align:right;">
+3.075
+</td>
+<td style="text-align:right;">
+0.466
+</td>
 <td style="text-align:left;">
-mu3_treatmentLPSCHC
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+hive2
 </td>
 <td style="text-align:right;">
-1.054
+-0.183
 </td>
 <td style="text-align:right;">
-0.422
+0.679
 </td>
 <td style="text-align:right;">
-0.261
+-1.513
 </td>
 <td style="text-align:right;">
-1.914
+1.160
 </td>
 <td style="text-align:right;">
-1
+0.390
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+hive3
 </td>
 <td style="text-align:right;">
-52801
+0.082
 </td>
 <td style="text-align:right;">
-48727
+2.531
+</td>
+<td style="text-align:right;">
+-4.835
+</td>
+<td style="text-align:right;">
+5.113
+</td>
+<td style="text-align:right;">
+0.491
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Observation duration (minutes)
+</td>
+<td style="text-align:right;">
+0.029
+</td>
+<td style="text-align:right;">
+0.068
+</td>
+<td style="text-align:right;">
+-0.103
+</td>
+<td style="text-align:right;">
+0.165
+</td>
+<td style="text-align:right;">
+0.337
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr grouplength="6">
+<td colspan="7" style="border-bottom: 1px solid;">
+<strong>% bees forced out</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Intercept
+</td>
+<td style="text-align:right;">
+-5.179
+</td>
+<td style="text-align:right;">
+6.708
+</td>
+<td style="text-align:right;">
+-18.321
+</td>
+<td style="text-align:right;">
+7.894
+</td>
+<td style="text-align:right;">
+0.222
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Treatment: LPS
+</td>
+<td style="text-align:right;">
+1.105
+</td>
+<td style="text-align:right;">
+0.433
+</td>
+<td style="text-align:right;">
+0.291
+</td>
+<td style="text-align:right;">
+1.989
 </td>
 <td style="text-align:right;">
 0.004
 </td>
 <td style="text-align:left;">
-*
+**
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-mu3_observation_time_minutes
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+hive1
 </td>
 <td style="text-align:right;">
-0.025
+-0.030
 </td>
 <td style="text-align:right;">
-0.009
+1.544
 </td>
 <td style="text-align:right;">
-0.008
+-3.059
 </td>
 <td style="text-align:right;">
-0.043
+2.971
 </td>
 <td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-53563
-</td>
-<td style="text-align:right;">
-48343
-</td>
-<td style="text-align:right;">
-0.001
+0.490
 </td>
 <td style="text-align:left;">
-*
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+hive2
+</td>
+<td style="text-align:right;">
+-0.847
+</td>
+<td style="text-align:right;">
+0.705
+</td>
+<td style="text-align:right;">
+-2.266
+</td>
+<td style="text-align:right;">
+0.490
+</td>
+<td style="text-align:right;">
+0.112
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+hive3
+</td>
+<td style="text-align:right;">
+0.049
+</td>
+<td style="text-align:right;">
+2.554
+</td>
+<td style="text-align:right;">
+-4.892
+</td>
+<td style="text-align:right;">
+5.089
+</td>
+<td style="text-align:right;">
+0.493
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Observation duration (minutes)
+</td>
+<td style="text-align:right;">
+0.015
+</td>
+<td style="text-align:right;">
+0.069
+</td>
+<td style="text-align:right;">
+-0.118
+</td>
+<td style="text-align:right;">
+0.149
+</td>
+<td style="text-align:right;">
+0.414
+</td>
+<td style="text-align:left;">
 </td>
 </tr>
 </tbody>
 </table>
+<p><strong>Table S2:</strong> Table summarising the posterior estimates of each fixed effect in the best-fitting model of Experiment 2. This was a multinomial model with three possible outcomes (stay inside, leave voluntarily, be forced out), and so there are two parameter estimates for the intercept and for each predictor in the model. ‘Treatment’ is a fixed factor with two levels, and the effect of LPS shown here is expressed relative to the ‘Ringers’ treatment. ‘Hive’ was a fixed factor with four levels; unlike for treatment, we modelled hive using deviation coding, such that the intercept term represents the mean across all hives (in the intact control treatment), and the three hive terms represent the deviation from this mean for three of the four hives. Lastly, observation duration was a continuous variable expressed to the nearest minute. The <span class="math inline">\(p\)</span> column gives the posterior probability that the true effect size is opposite in sign to what is reported in the Estimate column, similarly to a p-value.</p>
 </div>
 </div>
 <div id="plotting-estimates-from-the-model" class="section level2">
@@ -1476,31 +1638,104 @@ mu3_observation_time_minutes
 <div id="derive-prediction-from-the-posterior" class="section level3">
 <h3>Derive prediction from the posterior</h3>
 <pre class="r"><code>new &lt;- expand.grid(treatment = levels(data_for_categorical_model$treatment), 
-                   observation_time_minutes = 120)
+                   hive = NA,
+                   observation_time_minutes = 120) 
 
-preds &lt;- fitted(top_model, newdata = new, summary = FALSE)
-dimnames(preds) &lt;- list(NULL, new[,1], NULL)
+preds &lt;- fitted(exp2_model, newdata = new, summary = FALSE)
+dimnames(preds) &lt;- list(NULL, paste(new$treatment, new$hive, sep = &quot;~&quot;), NULL)
 
 plotting_data &lt;- rbind(
-  as.data.frame(preds[,, 1]) %&gt;% mutate(outcome = &quot;Stayed inside the hive&quot;, posterior_sample = 1:n()),
+  as.data.frame(preds[,, 1]) %&gt;% mutate(outcome = &quot;Stayed inside&quot;, posterior_sample = 1:n()),
   as.data.frame(preds[,, 2]) %&gt;% mutate(outcome = &quot;Left voluntarily&quot;, posterior_sample = 1:n()),
   as.data.frame(preds[,, 3]) %&gt;% mutate(outcome = &quot;Forced out&quot;, posterior_sample = 1:n())) %&gt;%
-  gather(treatment, prop, `Ringer CHC`, `LPS CHC`) %&gt;%
-  mutate(treatment = factor(treatment, c(&quot;Ringer CHC&quot;, &quot;LPS CHC&quot;)),
-         outcome = factor(outcome, c(&quot;Stayed inside the hive&quot;, &quot;Left voluntarily&quot;, &quot;Forced out&quot;))) %&gt;%
-  as_tibble() %&gt;% arrange(treatment, outcome) </code></pre>
+  gather(treatment, prop, contains(&quot;~&quot;)) %&gt;%
+  mutate(treatment = strsplit(treatment, split = &quot;~&quot;),
+         hive = map_chr(treatment, ~ .x[2]),
+         treatment = map_chr(treatment, ~ .x[1]),
+         treatment = factor(treatment, c(&quot;Ringers&quot;, &quot;LPS&quot;)),
+         outcome = factor(outcome, c(&quot;Stayed inside&quot;, &quot;Left voluntarily&quot;, &quot;Forced out&quot;))) %&gt;%
+  arrange(treatment, outcome) %&gt;% as_tibble() %&gt;% select(-hive)</code></pre>
 </div>
 <div id="make-figure-2" class="section level3">
 <h3>Make Figure 2</h3>
-<pre class="r"><code>ggplot(plotting_data, aes(treatment, 100 * prop)) + 
-  geom_eye(aes(fill = treatment)) + 
-  scale_fill_brewer(palette = &quot;Pastel1&quot;, direction = -1) + 
-  facet_wrap( ~ outcome, scales = &quot;free_y&quot;) + 
-  ylab(&quot;% bees leaving the hive this way&quot;) + 
-  xlab(&quot;Mode of exit&quot;) + 
+<pre class="r"><code>cols &lt;- c(&quot;#34558b&quot;, &quot;#4ec5a5&quot;, &quot;#ffaf12&quot;)
+
+dot_plot &lt;- plotting_data %&gt;%
+  ggplot(aes(100 * prop, treatment)) + 
+  stat_dotsh(quantiles = 100, fill = &quot;grey40&quot;, colour = &quot;grey40&quot;) + 
+  stat_pointintervalh(aes(colour = outcome, fill = outcome), 
+                      .width = c(0.5, 0.95),
+                      position = position_nudge(y = -0.07), point_colour = &quot;grey26&quot;, pch = 21, stroke = 0.4) + 
+  scale_colour_manual(values = cols) + 
+  scale_fill_manual(values = cols) + 
+  facet_wrap( ~ outcome, scales = &quot;free_x&quot;) + 
+  xlab(&quot;% bees (posterior estimate)&quot;) + ylab(&quot;Treatment&quot;) + 
   theme_bw() + 
-  theme(legend.position = &quot;none&quot;) </code></pre>
-<p><img src="figure/experiment2.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+  coord_cartesian(ylim=c(1.4, 2.2)) + 
+  theme(
+    text = element_text(family = nice_font),
+    strip.background = element_rect(fill = &quot;#eff0f1&quot;),
+    panel.grid.major.y = element_blank(),
+    legend.position = &quot;none&quot;
+  ) 
+  
+
+get_log_odds &lt;- function(trt1, trt2){ # positive effect = odds of this outcome are higher for trt2 than trt1 (put control as trt1)
+  log((trt2 / (1 - trt2) / (trt1 / (1 - trt1))))
+}
+
+LOR &lt;- plotting_data %&gt;%
+  spread(treatment, prop) %&gt;%
+  mutate(LOR = get_log_odds(Ringers, LPS)) %&gt;%
+  select(posterior_sample, outcome, LOR)
+
+
+
+LOR_plot &lt;- LOR %&gt;%
+  ggplot(aes(LOR, outcome, colour = outcome)) + 
+  geom_vline(xintercept = 0, linetype = 2) + 
+  geom_vline(xintercept = 0.9068997, linetype = 2, colour = &quot;grey&quot;) +
+  stat_pointintervalh(aes(colour = outcome, fill = outcome), 
+                      position = position_dodge(0.4), 
+                      .width = c(0.5, 0.95),
+                      point_colour = &quot;grey26&quot;, pch = 21, stroke = 0.4) + 
+  scale_colour_manual(values = cols) + 
+  scale_fill_manual(values = cols) + 
+  xlab(&quot;Effect size of LPS\n(log odds ratio)&quot;) + ylab(&quot;Mode of exit&quot;) + 
+  theme_bw() +
+  theme(
+    text = element_text(family = nice_font),
+    panel.grid.major.y = element_blank(),
+    legend.position = &quot;none&quot;
+  ) 
+
+diff_in_forced_out_plot &lt;- plotting_data %&gt;%
+  spread(outcome, prop) %&gt;%
+  mutate(prop_leavers_that_were_forced_out = `Forced out` / (`Forced out` + `Left voluntarily`)) %&gt;%
+  select(posterior_sample, treatment, prop_leavers_that_were_forced_out)  %&gt;%
+  spread(treatment, prop_leavers_that_were_forced_out) %&gt;% 
+  mutate(difference_prop_forced_out_LOR = get_log_odds(Ringers, LPS)) %&gt;%
+  ggplot(aes(difference_prop_forced_out_LOR, y =1)) + 
+  geom_vline(xintercept = 0, linetype = 2) +
+  stat_dotsh(quantiles = 100, fill = &quot;grey40&quot;, colour = &quot;grey40&quot;) + 
+  xlab(&quot;Effect of LPS on proportion\nbees leaving by force\n(log odds ratio)&quot;) + 
+  ylab(&quot;Posterior density&quot;) + 
+  theme_bw() +
+  theme(
+    text = element_text(family = nice_font),
+    panel.grid.major.y = element_blank(),
+    legend.position = &quot;none&quot;
+  ) 
+
+bottom_row &lt;- cowplot::plot_grid(LOR_plot, diff_in_forced_out_plot, 
+                                 labels = c(&quot;B&quot;, &quot;C&quot;),
+                                 nrow = 1, align = &#39;hv&#39;, axis = &#39;l&#39;, rel_heights = c(1.6, 1))
+top_row &lt;- cowplot::plot_grid(dot_plot, labels = &quot;A&quot;)
+p &lt;- cowplot::plot_grid(top_row, bottom_row, 
+                        nrow = 2, align = &#39;v&#39;, axis = &#39;l&#39;, rel_heights = c(1.4, 1))
+ggsave(plot = p, filename = &quot;figures/fig2.pdf&quot;, height = 6, width = 6)
+p</code></pre>
+<p><img src="figure/experiment2.Rmd/unnamed-chunk-10-1.png" width="576" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="hypothesis-testing-and-effect-sizes" class="section level2">
@@ -1511,46 +1746,48 @@ plotting_data &lt;- rbind(
 <pre class="r"><code>my_summary &lt;- function(df, columns, outcome) {
   lapply(columns, function(x){
     
-    p &lt;- df %&gt;% pull(!! x) %&gt;% bayestestR::p_direction() %&gt;% as.numeric()
-    p &lt;- (100 - p) / 100
+    p &lt;- 1 - (df %&gt;% pull(!! x) %&gt;%
+                bayestestR::p_direction() %&gt;% as.numeric())
     
     df %&gt;% pull(!! x) %&gt;% posterior_summary() %&gt;% as_tibble() %&gt;% 
-      mutate(p=p, Outcome = outcome, Metric = x) %&gt;% select(Outcome, Metric, everything())
+      mutate(p=p, Outcome = outcome, Metric = x) %&gt;% 
+      select(Outcome, Metric, everything())
   }) %&gt;% do.call(&quot;rbind&quot;, .)
 }
 
 stats_table &lt;- rbind(
   plotting_data %&gt;%
-    filter(outcome == &quot;Stayed inside the hive&quot;) %&gt;%
-    mutate(prop = 1 - prop) %&gt;%
+    filter(outcome == &quot;Stayed inside&quot;) %&gt;%
     spread(treatment, prop) %&gt;%
-    mutate(`Absolute difference in % bees exiting the hive` = 100 * (`LPS CHC` - `Ringer CHC`),
-           `Log10 odds ratio` = log10(`LPS CHC` / `Ringer CHC`)) %&gt;%
+    mutate(`Absolute difference in % bees exiting the hive` = 100 * (LPS - Ringers),
+           `Log odds ratio` = get_log_odds(Ringers, LPS)) %&gt;%
     my_summary(c(&quot;Absolute difference in % bees exiting the hive&quot;, 
-                 &quot;Log10 odds ratio&quot;),
+                 &quot;Log odds ratio&quot;),
                outcome = &quot;Stayed inside the hive&quot;) %&gt;%
     mutate(p = c(&quot; &quot;, format(round(p[2], 4), nsmall = 4))),
   
   plotting_data %&gt;%
     filter(outcome == &quot;Left voluntarily&quot;) %&gt;%
     spread(treatment, prop) %&gt;%
-    mutate(`Absolute difference in % bees leaving voluntarily` = 100 * (`LPS CHC` - `Ringer CHC`),
-           `Log10 odds ratio` = log10(`LPS CHC` / `Ringer CHC`)) %&gt;%
+    mutate(`Absolute difference in % bees leaving voluntarily` = 100 * (LPS - Ringers),
+           `Log odds ratio` = get_log_odds(Ringers, LPS)) %&gt;%
     my_summary(c(&quot;Absolute difference in % bees leaving voluntarily&quot;, 
-                 &quot;Log10 odds ratio&quot;),
+                 &quot;Log odds ratio&quot;),
                outcome = &quot;Left voluntarily&quot;) %&gt;%
     mutate(p = c(&quot; &quot;, format(round(p[2], 4), nsmall = 4))),
   
   plotting_data %&gt;%
     filter(outcome == &quot;Forced out&quot;) %&gt;%
     spread(treatment, prop) %&gt;%
-    mutate(`Absolute difference in % bees leaving voluntarily` = 100 * (`LPS CHC` - `Ringer CHC`),
-           `Log10 odds ratio` = log10(`LPS CHC` / `Ringer CHC`)) %&gt;%
-    my_summary(c(&quot;Absolute difference in % bees leaving voluntarily&quot;, 
-                 &quot;Log10 odds ratio&quot;),
+    mutate(`Absolute difference in % bees forced out` = 100 * (LPS - Ringers),
+           `Log odds ratio` = get_log_odds(Ringers, LPS)) %&gt;%
+    my_summary(c(&quot;Absolute difference in % bees forced out&quot;, 
+                 &quot;Log odds ratio&quot;),
                outcome = &quot;Forced out&quot;) %&gt;%
     mutate(p = c(&quot; &quot;, format(round(p[2], 4), nsmall = 4))) 
 ) 
+
+
 
 stats_table[c(2,4,6), 1] &lt;- &quot; &quot;
 
@@ -1559,9 +1796,9 @@ stats_table %&gt;%
          ` ` = replace(` `, p &lt; 0.01, &quot;**&quot;),
          ` ` = replace(` `, p &lt; 0.001, &quot;***&quot;),
          ` ` = replace(` `, p == &quot; &quot;, &quot;&quot;)) %&gt;%
-  kable(digits = 3) %&gt;% kable_styling() %&gt;% 
+  kable(digits = 3) %&gt;% kable_styling(full_width = FALSE) %&gt;% 
   row_spec(c(0,2,4,6), extra_css = &quot;border-bottom: solid;&quot;)</code></pre>
-<table class="table" style="margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;border-bottom: solid;">
@@ -1598,16 +1835,16 @@ Stayed inside the hive
 Absolute difference in % bees exiting the hive
 </td>
 <td style="text-align:right;">
-8.437
+-9.637
 </td>
 <td style="text-align:right;">
-3.649
+8.459
 </td>
 <td style="text-align:right;">
-1.456
+-29.973
 </td>
 <td style="text-align:right;">
-15.812
+1.916
 </td>
 <td style="text-align:left;">
 </td>
@@ -1618,25 +1855,25 @@ Absolute difference in % bees exiting the hive
 <td style="text-align:left;border-bottom: solid;">
 </td>
 <td style="text-align:left;border-bottom: solid;">
-Log10 odds ratio
+Log odds ratio
 </td>
 <td style="text-align:right;border-bottom: solid;">
-0.265
+-0.712
 </td>
 <td style="text-align:right;border-bottom: solid;">
-0.115
+0.435
 </td>
 <td style="text-align:right;border-bottom: solid;">
-0.045
+-1.570
 </td>
 <td style="text-align:right;border-bottom: solid;">
-0.496
+0.144
 </td>
 <td style="text-align:left;border-bottom: solid;">
-0.0092
+0.0496
 </td>
 <td style="text-align:left;border-bottom: solid;">
-**
+*
 </td>
 </tr>
 <tr>
@@ -1647,16 +1884,16 @@ Left voluntarily
 Absolute difference in % bees leaving voluntarily
 </td>
 <td style="text-align:right;">
-1.685
+2.075
 </td>
 <td style="text-align:right;">
-2.639
+5.263
 </td>
 <td style="text-align:right;">
--3.397
+-6.336
 </td>
 <td style="text-align:right;">
-7.087
+15.972
 </td>
 <td style="text-align:left;">
 </td>
@@ -1667,22 +1904,22 @@ Absolute difference in % bees leaving voluntarily
 <td style="text-align:left;border-bottom: solid;">
 </td>
 <td style="text-align:left;border-bottom: solid;">
-Log10 odds ratio
+Log odds ratio
 </td>
 <td style="text-align:right;border-bottom: solid;">
-0.114
+0.254
 </td>
 <td style="text-align:right;border-bottom: solid;">
-0.175
+0.466
 </td>
 <td style="text-align:right;border-bottom: solid;">
--0.226
+-0.696
 </td>
 <td style="text-align:right;border-bottom: solid;">
-0.465
+1.162
 </td>
 <td style="text-align:left;border-bottom: solid;">
-0.2559
+0.2888
 </td>
 <td style="text-align:left;border-bottom: solid;">
 </td>
@@ -1692,19 +1929,19 @@ Log10 odds ratio
 Forced out
 </td>
 <td style="text-align:left;">
-Absolute difference in % bees leaving voluntarily
+Absolute difference in % bees forced out
 </td>
 <td style="text-align:right;">
-6.751
+7.562
 </td>
 <td style="text-align:right;">
-2.831
+8.258
 </td>
 <td style="text-align:right;">
-1.574
+0.133
 </td>
 <td style="text-align:right;">
-12.657
+30.195
 </td>
 <td style="text-align:left;">
 </td>
@@ -1715,22 +1952,22 @@ Absolute difference in % bees leaving voluntarily
 <td style="text-align:left;border-bottom: solid;">
 </td>
 <td style="text-align:left;border-bottom: solid;">
-Log10 odds ratio
+Log odds ratio
 </td>
 <td style="text-align:right;border-bottom: solid;">
-0.415
+1.059
 </td>
 <td style="text-align:right;border-bottom: solid;">
-0.172
+0.442
 </td>
 <td style="text-align:right;border-bottom: solid;">
-0.094
+0.230
 </td>
 <td style="text-align:right;border-bottom: solid;">
-0.768
+1.950
 </td>
 <td style="text-align:left;border-bottom: solid;">
-0.0054
+0.0074
 </td>
 <td style="text-align:left;border-bottom: solid;">
 **
@@ -1746,13 +1983,13 @@ Log10 odds ratio
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
 <pre class="r"><code>sessionInfo()</code></pre>
-<pre><code>R version 3.5.1 (2018-07-02)
+<pre><code>R version 3.6.3 (2020-02-29)
 Platform: x86_64-apple-darwin15.6.0 (64-bit)
-Running under: macOS High Sierra 10.13.6
+Running under: macOS Catalina 10.15.4
 
 Matrix products: default
-BLAS: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRblas.0.dylib
-LAPACK: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRlapack.dylib
+BLAS:   /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRlapack.dylib
 
 locale:
 [1] en_AU.UTF-8/en_AU.UTF-8/en_AU.UTF-8/C/en_AU.UTF-8/en_AU.UTF-8
@@ -1761,62 +1998,51 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] tidybayes_1.1.0  bayestestR_0.2.2 kableExtra_0.9.0 gridExtra_2.3   
- [5] forcats_0.4.0    stringr_1.4.0    dplyr_0.8.3      purrr_0.3.2     
- [9] readr_1.1.1      tidyr_0.8.2      tibble_2.1.3     ggplot2_3.1.0   
-[13] tidyverse_1.2.1  bayesplot_1.6.0  brms_2.10.0      Rcpp_1.0.2      
+ [1] cowplot_1.0.0    tidybayes_2.0.1  bayestestR_0.5.1 kableExtra_1.1.0
+ [5] gridExtra_2.3    forcats_0.5.0    stringr_1.4.0    dplyr_0.8.5     
+ [9] purrr_0.3.3      readr_1.3.1      tidyr_1.0.2      tibble_3.0.0    
+[13] ggplot2_3.3.0    tidyverse_1.3.0  bayesplot_1.7.1  brms_2.12.0     
+[17] Rcpp_1.0.3       showtext_0.7-1   showtextdb_2.0   sysfonts_0.8    
+[21] workflowr_1.6.0 
 
 loaded via a namespace (and not attached):
-  [1] colorspace_1.3-2          ggridges_0.5.0           
-  [3] rsconnect_0.8.8           rprojroot_1.3-2          
-  [5] ggstance_0.3.1            markdown_1.0             
-  [7] base64enc_0.1-3           fs_1.3.1                 
-  [9] rstudioapi_0.10           rstan_2.19.2             
- [11] svUnit_0.7-12             DT_0.4                   
- [13] mvtnorm_1.0-11            lubridate_1.7.4          
- [15] xml2_1.2.0                bridgesampling_0.4-0     
- [17] knitr_1.23                shinythemes_1.1.1        
- [19] jsonlite_1.6              workflowr_1.4.0          
- [21] broom_0.5.0               shiny_1.3.2              
- [23] compiler_3.5.1            httr_1.4.0               
- [25] backports_1.1.2           assertthat_0.2.1         
- [27] Matrix_1.2-14             lazyeval_0.2.2           
- [29] cli_1.1.0                 later_0.8.0              
- [31] htmltools_0.3.6           prettyunits_1.0.2        
- [33] tools_3.5.1               igraph_1.2.1             
- [35] coda_0.19-2               gtable_0.2.0             
- [37] glue_1.3.1.9000           reshape2_1.4.3           
- [39] cellranger_1.1.0          nlme_3.1-137             
- [41] crosstalk_1.0.0           insight_0.3.0            
- [43] xfun_0.8                  ps_1.3.0                 
- [45] rvest_0.3.2               mime_0.7                 
- [47] miniUI_0.1.1.1            gtools_3.8.1             
- [49] zoo_1.8-3                 scales_1.0.0             
- [51] colourpicker_1.0          hms_0.4.2                
- [53] promises_1.0.1            Brobdingnag_1.2-5        
- [55] parallel_3.5.1            inline_0.3.15            
- [57] shinystan_2.5.0           RColorBrewer_1.1-2       
- [59] yaml_2.2.0                loo_2.1.0                
- [61] StanHeaders_2.19.0        stringi_1.4.3            
- [63] highr_0.8                 dygraphs_1.1.1.6         
- [65] pkgbuild_1.0.2            rlang_0.4.0              
- [67] pkgconfig_2.0.2           matrixStats_0.54.0       
- [69] evaluate_0.14             lattice_0.20-35          
- [71] rstantools_2.0.0          htmlwidgets_1.3          
- [73] labeling_0.3              processx_3.2.1           
- [75] tidyselect_0.2.5          plyr_1.8.4               
- [77] magrittr_1.5              R6_2.4.0                 
- [79] pillar_1.3.1.9000         haven_1.1.2              
- [81] whisker_0.3-2             withr_2.1.2              
- [83] xts_0.11-0                abind_1.4-5              
- [85] modelr_0.1.2              crayon_1.3.4             
- [87] arrayhelpers_1.0-20160527 rmarkdown_1.13           
- [89] grid_3.5.1                readxl_1.1.0             
- [91] callr_2.0.4               git2r_0.23.0             
- [93] threejs_0.3.1             digest_0.6.20            
- [95] xtable_1.8-4              httpuv_1.5.1             
- [97] stats4_3.5.1              munsell_0.5.0            
- [99] viridisLite_0.3.0         shinyjs_1.0              </code></pre>
+  [1] colorspace_1.4-1     ellipsis_0.3.0       ggridges_0.5.2      
+  [4] rsconnect_0.8.16     rprojroot_1.3-2      markdown_1.1        
+  [7] base64enc_0.1-3      fs_1.3.1             rstudioapi_0.11     
+ [10] farver_2.0.3         rstan_2.19.3         svUnit_0.7-12       
+ [13] DT_0.13              fansi_0.4.1          mvtnorm_1.1-0       
+ [16] lubridate_1.7.8      xml2_1.3.1           bridgesampling_1.0-0
+ [19] knitr_1.28           shinythemes_1.1.2    jsonlite_1.6.1      
+ [22] broom_0.5.4          dbplyr_1.4.2         shiny_1.4.0         
+ [25] compiler_3.6.3       httr_1.4.1           backports_1.1.6     
+ [28] assertthat_0.2.1     Matrix_1.2-18        fastmap_1.0.1       
+ [31] cli_2.0.2            later_1.0.0          htmltools_0.4.0     
+ [34] prettyunits_1.1.1    tools_3.6.3          igraph_1.2.5        
+ [37] coda_0.19-3          gtable_0.3.0         glue_1.4.0          
+ [40] reshape2_1.4.4       cellranger_1.1.0     vctrs_0.2.4         
+ [43] nlme_3.1-147         crosstalk_1.1.0.1    insight_0.8.1       
+ [46] xfun_0.13            ps_1.3.0             rvest_0.3.5         
+ [49] mime_0.9             miniUI_0.1.1.1       lifecycle_0.2.0     
+ [52] gtools_3.8.2         zoo_1.8-7            scales_1.1.0        
+ [55] colourpicker_1.0     hms_0.5.3            promises_1.1.0      
+ [58] Brobdingnag_1.2-6    parallel_3.6.3       inline_0.3.15       
+ [61] RColorBrewer_1.1-2   shinystan_2.5.0      curl_4.3            
+ [64] yaml_2.2.1           loo_2.2.0            StanHeaders_2.19.2  
+ [67] stringi_1.4.6        highr_0.8            dygraphs_1.1.1.6    
+ [70] pkgbuild_1.0.6       rlang_0.4.5          pkgconfig_2.0.3     
+ [73] matrixStats_0.56.0   evaluate_0.14        lattice_0.20-41     
+ [76] labeling_0.3         rstantools_2.0.0     htmlwidgets_1.5.1   
+ [79] processx_3.4.2       tidyselect_1.0.0     plyr_1.8.6          
+ [82] magrittr_1.5         R6_2.4.1             generics_0.0.2      
+ [85] DBI_1.1.0            pillar_1.4.3         haven_2.2.0         
+ [88] whisker_0.4          withr_2.1.2          xts_0.12-0          
+ [91] abind_1.4-5          modelr_0.1.5         crayon_1.3.4        
+ [94] arrayhelpers_1.1-0   rmarkdown_2.1        grid_3.6.3          
+ [97] readxl_1.3.1         callr_3.4.3          git2r_0.26.1        
+[100] threejs_0.3.3        reprex_0.3.0         digest_0.6.25       
+[103] webshot_0.5.2        xtable_1.8-4         httpuv_1.5.2        
+[106] stats4_3.6.3         munsell_0.5.0        viridisLite_0.3.0   
+[109] shinyjs_1.1         </code></pre>
 </div>
 </div>
 </div>
@@ -1851,6 +2077,49 @@ $(document).ready(function () {
 });
 
 
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
 </script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
