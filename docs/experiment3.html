@@ -383,7 +383,7 @@ div.section {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -392,7 +392,7 @@ div.section {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -404,7 +404,7 @@ div.section {
 <strong>Last updated:</strong> 2020-04-21
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>social_immunity/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -420,12 +420,12 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
 </div>
 </div>
 </div>
@@ -492,10 +492,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree111e912df317ba149ba3d6ee231e775c0328aa63targetblank111e912a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/111e912df317ba149ba3d6ee231e775c0328aa63" target="_blank">111e912</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree1ce9e19446a3c5559528bd2605aef694c373efa0targetblank1ce9e19a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/1ce9e19446a3c5559528bd2605aef694c373efa0" target="_blank">1ce9e19</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree111e912df317ba149ba3d6ee231e775c0328aa63targetblank111e912a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree1ce9e19446a3c5559528bd2605aef694c373efa0targetblank1ce9e19a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -513,21 +513,10 @@ Ignored files:
     Ignored:    output/exp3_model.rds
     Ignored:    output/exp3_post_prob.rds
 
-Untracked files:
-    Untracked:  data/Zoology 2.csv
-    Untracked:  figures/
-
 Unstaged changes:
     Modified:   .gitignore
-    Modified:   analysis/data_cleaning.Rmd
-    Modified:   analysis/experiment1.Rmd
-    Modified:   analysis/experiment2.Rmd
-    Modified:   analysis/experiment3.Rmd
-    Modified:   code/helper_functions.R
-    Modified:   data/clean_data/experiment_1.csv
-    Modified:   data/clean_data/experiment_1_outcome_tally.csv
-    Modified:   data/data_collection_sheets/experiment_1.csv
-    Modified:   data/data_collection_sheets/experiment_durations.csv
+    Modified:   figures/fig1.pdf
+    Modified:   figures/fig2.pdf
 
 </code></pre>
 <p>
@@ -566,6 +555,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/1ce9e19446a3c5559528bd2605aef694c373efa0/analysis/experiment3.Rmd" target="_blank">1ce9e19</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-04-21
+</td>
+<td>
+First commit 2020
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/social_immunity/1ce9e19446a3c5559528bd2605aef694c373efa0/docs/experiment3.html" target="_blank">1ce9e19</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-04-21
+</td>
+<td>
+First commit 2020
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1018,6 +1041,43 @@ Ringers
 
 raw_histogram</code></pre>
 <p><img src="figure/experiment3.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-1">
+Past versions of unnamed-chunk-5-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/1ce9e19446a3c5559528bd2605aef694c373efa0/docs/figure/experiment3.Rmd/unnamed-chunk-5-1.png" target="_blank">1ce9e19</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-04-21
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="binomial-model-of-time-spent-in-contact" class="section level2">
@@ -1427,7 +1487,45 @@ p &lt;- cowplot::plot_grid(raw_histogram,
                         nrow = 1, align = &#39;h&#39;, axis = &#39;l&#39;)
 ggsave(plot = p, filename = &quot;figures/fig3.pdf&quot;, height = 3.2, width = 8.6)
 p</code></pre>
-<p><img src="figure/experiment3.Rmd/unnamed-chunk-10-1.png" width="825.6" style="display: block; margin: auto;" /> <strong>Figure 3:</strong> Panel A shows the frequency distribution of the % time in close contact, for pairs of bees from the LPS treatment and the Ringers control. Panel B shows the posterior estimates of the mean % time spent in close contact; the details of the quantile dot plot and error bars are the same as described for Figure 1. Panel C shows the effect size (LOR; log odds ratio) associated with the difference in means in Panel B.</p>
+<p><img src="figure/experiment3.Rmd/unnamed-chunk-10-1.png" width="825.6" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-1">
+Past versions of unnamed-chunk-10-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-10-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/1ce9e19446a3c5559528bd2605aef694c373efa0/docs/figure/experiment3.Rmd/unnamed-chunk-10-1.png" target="_blank">1ce9e19</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-04-21
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><strong>Figure 3:</strong> Panel A shows the frequency distribution of the % time in close contact, for pairs of bees from the LPS treatment and the Ringers control. Panel B shows the posterior estimates of the mean % time spent in close contact; the details of the quantile dot plot and error bars are the same as described for Figure 1. Panel C shows the effect size (LOR; log odds ratio) associated with the difference in means in Panel B.</p>
 </div>
 <div id="hypothesis-testing-and-effect-sizes" class="section level2">
 <h2>Hypothesis testing and effect sizes</h2>
