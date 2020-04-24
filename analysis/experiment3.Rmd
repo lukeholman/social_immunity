@@ -70,6 +70,7 @@ expt3_counts <- experiment3 %>%
             percent = n_touching / (n_touching + n_not_touching)) %>% 
   ungroup() %>%
   filter(!is.na(n_touching)) %>%
+  mutate(treatment = factor(treatment, c("Ringers", "LPS"))) %>%
   mutate(hive = C(factor(hive), sum)) # sum coding for hive
 ```
 
@@ -147,21 +148,21 @@ if(!file.exists("output/exp3_model.rds")){
     data = expt3_counts %>% mutate(n = n_touching + n_not_touching), 
     prior = c(set_prior("normal(0, 3)", class = "b")),
     family = "binomial", save_all_pars = TRUE, sample_prior = TRUE,
-    chains = 4, cores = 1, iter = 10000, seed = 1)
+    chains = 4, cores = 1, iter = 20000, seed = 1)
   
   exp3_model_v2 <- brm(
     n_touching | trials(n) ~ treatment + hive + (1 | tube), 
     data = expt3_counts %>% mutate(n = n_touching + n_not_touching), 
     prior = c(set_prior("normal(0, 3)", class = "b")),
     family = "binomial", save_all_pars = TRUE, sample_prior = TRUE,
-    chains = 4, cores = 1, iter = 10000, seed = 1)
+    chains = 4, cores = 1, iter = 20000, seed = 1)
   
   exp3_model_v3 <- brm(
     n_touching | trials(n) ~ hive + (1 | tube), 
     data = expt3_counts %>% mutate(n = n_touching + n_not_touching), 
     prior = c(set_prior("normal(0, 3)", class = "b")),
     family = "binomial",  save_all_pars = TRUE, sample_prior = TRUE,
-    chains = 4, cores = 1, iter = 10000, seed = 1)
+    chains = 4, cores = 1, iter = 20000, seed = 1)
   
   posterior_model_probabilities <- tibble(
     Model = c("treatment * hive + observation_time_minutes",
@@ -190,10 +191,23 @@ model_probabilities %>%
 ### Fixed effects from the top non-null model
 
 ```{r}
-get_fixed_effects_with_p_values(exp3_model) %>% 
-  kable(digits = 3) %>% kable_styling()
-```
+tableS5 <- get_fixed_effects_with_p_values(exp3_model) %>% 
+  mutate(mu = map_chr(str_extract_all(Parameter, "mu[:digit:]"), ~ .x[1]),
+         Parameter = str_remove_all(Parameter, "mu[:digit:]_"),
+         Parameter = str_replace_all(Parameter, "treatment", "Treatment: "),
+         Parameter = str_replace_all(Parameter, "observation_time_minutes", "Observation duration (minutes)")) %>%
+  arrange(mu) %>%
+  select(-mu, -Rhat, -Bulk_ESS, -Tail_ESS) 
 
+names(tableS5)[3:5] <- c("Est. Error", "Lower 95% CI", "Upper 95% CI")
+
+saveRDS(tableS5, file = "figures/tableS5.rds")
+
+tableS5 %>%
+  kable(digits = 3) %>% 
+  kable_styling(full_width = FALSE) 
+```
+**Table S5:** Table summarising the posterior estimates of each fixed effect in the best-fitting model of Experiment 3 that contained the treatment effect. This was a binomial model where the response variable was 0 for observations in which bees were not in close contact, and 1 when they were. 'Treatment' is a fixed factor with two levels, and the effect of LPS shown here is expressed relative to the 'Ringers' treatment. 'Hive' was a fixed factor with four levels; unlike for treatment, we modelled hive using deviation coding, such that the intercept term represents the mean across all hives (in the Ringers treatment), and the three hive terms represent the deviation from this mean for three of the four hives. The model also included a random effect 'pair ID' (XXXXX), which grouped repeated observations made on each pair of bees, preventing pseudoreplication. The $p$ column gives the posterior probability that the true effect size is opposite in sign to what is reported in the Estimate column, similarly to a p-value.
 
 
 ```{r eval=F}
@@ -305,7 +319,7 @@ LOR_plot <- LOR %>%
     position = position_nudge(y = -0.1),
     point_colour = "grey26", pch = 21, stroke = 0.4) + 
   coord_cartesian(ylim=c(0.86, 2)) + 
-  xlab("Effect of LPS on % time\nin close contact (LOR)") + 
+  xlab("Effect of LPS on mean\n% time in close contact (LOR)") + 
   ylab("Posterior density") + 
   theme_bw() +
   theme(
@@ -363,4 +377,4 @@ plotting_data %>%
          ` ` = replace(` `, p == " ", "")) %>%
   kable(digits = 3) %>% kable_styling() 
 ```
-**Table XX:** Pairs in which one bee had received LPS were observed in close contact less frequently than pairs in which one bee had received Ringers solution. 
+**Table S6:** Pairs in which one bee had received LPS were observed in close contact less frequently than pairs in which one bee had received Ringers solution. 

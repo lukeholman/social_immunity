@@ -165,25 +165,10 @@ if(!file.exists("output/exp2_model.rds")){
   saveRDS(posterior_model_probabilities, "output/exp2_post_prob.rds")
 }
 
-
 exp2_model <- readRDS("output/exp2_model.rds")
 posterior_model_probabilities <- readRDS("output/exp2_post_prob.rds")
 ```
 
-<!-- ```{r} -->
-<!-- grid.arrange( -->
-<!--   (plot(hypothesis(exp2_model, "mu2_treatmentLPS = 0"), plot =F)[[1]]) +  -->
-<!--     geom_vline(xintercept = 0, linetype = 2) + coord_cartesian(xlim = c(-6, 6)), -->
-<!--   (plot(hypothesis(exp2_model, "mu3_treatmentLPS = 0"), plot =F)[[1]]) +  -->
-<!--     geom_vline(xintercept = 0, linetype = 2)+ coord_cartesian(xlim = c(-6, 6)) -->
-<!-- ) -->
-
-<!-- hypothesis(exp2_model, c("mu2_treatmentLPS > 0",  -->
-<!--                          "mu3_treatmentLPS > 0"), -->
-<!--            alpha = 0.05)$hypothesis %>% -->
-<!--   select(-Star) %>% -->
-<!--   kable(digits = 3) %>% kable_styling(full_width = FALSE) -->
-<!-- ``` -->
 
 
 ### Posterior model probabilites
@@ -198,7 +183,7 @@ posterior_model_probabilities %>%
 The code chunk below wrangles the raw output of the `summary()` functions for `brms` models into a more readable table of results, and also adds 'Bayesian p-values' (i.e. the posterior probability that the true effect size has the same sign as the reported effect). 
 
 ```{r}
-tableS2 <- get_fixed_effects_with_p_values(exp2_model) %>% 
+tableS3 <- get_fixed_effects_with_p_values(exp2_model) %>% 
   mutate(mu = map_chr(str_extract_all(Parameter, "mu[:digit:]"), ~ .x[1]),
          Parameter = str_remove_all(Parameter, "mu[:digit:]_"),
          Parameter = str_replace_all(Parameter, "treatment", "Treatment: "),
@@ -206,17 +191,18 @@ tableS2 <- get_fixed_effects_with_p_values(exp2_model) %>%
   arrange(mu) %>%
   select(-mu, -Rhat, -Bulk_ESS, -Tail_ESS) 
 
-names(tableS2)[3:5] <- c("Est. Error", "Lower 95% CI", "Upper 95% CI")
+names(tableS3)[3:5] <- c("Est. Error", "Lower 95% CI", "Upper 95% CI")
 
-saveRDS(tableS2, file = "figures/tableS2.rds")
+saveRDS(tableS3, file = "figures/tableS3.rds")
 
-tableS2 %>%
+tableS3 %>%
   kable(digits = 3) %>% 
   kable_styling(full_width = FALSE) %>%
   pack_rows("% bees leaving voluntarily", 1, 6) %>%
   pack_rows("% bees forced out", 7, 12)
 ```
-**Table S2:** Table summarising the posterior estimates of each fixed effect in the best-fitting model of Experiment 2. This was a multinomial model with three possible outcomes (stay inside, leave voluntarily, be forced out), and so there are two parameter estimates for the intercept and for each predictor in the model. 'Treatment' is a fixed factor with two levels, and the effect of LPS shown here is expressed relative to the 'Ringers' treatment. 'Hive' was a fixed factor with four levels; unlike for treatment, we modelled hive using deviation coding, such that the intercept term represents the mean across all hives (in the intact control treatment), and the three hive terms represent the deviation from this mean for three of the four hives. Lastly, observation duration was a continuous variable expressed to the nearest minute. The $p$ column gives the posterior probability that the true effect size is opposite in sign to what is reported in the Estimate column, similarly to a p-value.
+**Table S3:** Table summarising the posterior estimates of each fixed effect in the best-fitting model of Experiment 2. This was a multinomial model with three possible outcomes (stay inside, leave voluntarily, be forced out), and so there are two parameter estimates for the intercept and for each predictor in the model. 'Treatment' is a fixed factor with two levels, and the effect of LPS shown here is expressed relative to the 'Ringers' treatment. 'Hive' was a fixed factor with four levels; unlike for treatment, we modelled hive using deviation coding, such that the intercept term represents the mean across all hives (in the Ringers treatment), and the three hive terms represent the deviation from this mean for three of the four hives. Lastly, observation duration was a continuous variable expressed to the nearest minute. The $p$ column gives the posterior probability that the true effect size is opposite in sign to what is reported in the Estimate column, similarly to a $p$-value.
+
 
 ## Plotting estimates from the model
 
@@ -350,11 +336,11 @@ stats_table <- rbind(
   plotting_data %>%
     filter(outcome == "Stayed inside") %>%
     spread(treatment, prop) %>%
-    mutate(`Absolute difference in % bees exiting the hive` = 100 * (LPS - Ringers),
+    mutate(`Absolute difference in % bees staying inside` = 100 * (LPS - Ringers),
            `Log odds ratio` = get_log_odds(Ringers, LPS)) %>%
-    my_summary(c("Absolute difference in % bees exiting the hive", 
+    my_summary(c("Absolute difference in % bees staying inside", 
                  "Log odds ratio"),
-               outcome = "Stayed inside the hive") %>%
+               outcome = "Stayed inside") %>%
     mutate(p = c(" ", format(round(p[2], 4), nsmall = 4))),
   
   plotting_data %>%
@@ -376,17 +362,21 @@ stats_table <- rbind(
                  "Log odds ratio"),
                outcome = "Forced out") %>%
     mutate(p = c(" ", format(round(p[2], 4), nsmall = 4))) 
-) 
-
-
+) %>%
+  mutate(` ` = ifelse(p < 0.05, "\\*", ""),
+         ` ` = replace(` `, p < 0.01, "**"),
+         ` ` = replace(` `, p < 0.001, "***"),
+         ` ` = replace(` `, p == " ", ""))
 
 stats_table[c(2,4,6), 1] <- " "
 
 stats_table %>%
-  mutate(` ` = ifelse(p < 0.05, "\\*", ""),
-         ` ` = replace(` `, p < 0.01, "**"),
-         ` ` = replace(` `, p < 0.001, "***"),
-         ` ` = replace(` `, p == " ", "")) %>%
+  select(-Outcome) %>%
   kable(digits = 3) %>% kable_styling(full_width = FALSE) %>% 
-  row_spec(c(0,2,4,6), extra_css = "border-bottom: solid;")
+  row_spec(c(0,2,4,6), extra_css = "border-bottom: solid;") %>%
+  pack_rows("% bees staying inside", 1, 2) %>%
+  pack_rows("% bees leaving voluntarily", 3, 4) %>%
+  pack_rows("% bees forced out", 5, 6)
 ```
+
+**Table S4**: This table gives statistics associated with each of the contrasts plotted in Figure 2B. Each pair of rows gives the absolute and standardised effect size (as log odds ratio; LOR) for the LPS treatment, relative to the Ringers treatment, for one of the three possible outcomes (stayed inside, left voluntarily, or forced out). A LOR of $|log(x)|$ indicates that the outcome is $x$ times more frequent in one treatment compared to the other, e.g. $|log(2) = 0.69|$ indicates a two-fold difference in frequency. The $p$ column gives the posterior probability that the true effect size has the same sign as is shown in the Estimate column; this metric has a similar interpretation to a one-tailed $p$ value in frequentist statistics. 

@@ -383,7 +383,7 @@ div.section {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -392,7 +392,7 @@ div.section {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -401,10 +401,10 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-04-21
+<strong>Last updated:</strong> 2020-04-24
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>social_immunity/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -420,12 +420,12 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
@@ -492,10 +492,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree1ce9e19446a3c5559528bd2605aef694c373efa0targetblank1ce9e19a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/1ce9e19446a3c5559528bd2605aef694c373efa0" target="_blank">1ce9e19</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree8c3b471bcdb8a8ee8911bb2a1ea753bcf306279ftargetblank8c3b471a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/8c3b471bcdb8a8ee8911bb2a1ea753bcf306279f" target="_blank">8c3b471</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree1ce9e19446a3c5559528bd2605aef694c373efa0targetblank1ce9e19a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree8c3b471bcdb8a8ee8911bb2a1ea753bcf306279ftargetblank8c3b471a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -513,10 +513,19 @@ Ignored files:
     Ignored:    output/exp3_model.rds
     Ignored:    output/exp3_post_prob.rds
 
+Untracked files:
+    Untracked:  figures/tableS3.rds
+    Untracked:  figures/tableS5.rds
+
 Unstaged changes:
     Modified:   .gitignore
+    Modified:   analysis/experiment1.Rmd
+    Modified:   analysis/experiment2.Rmd
+    Modified:   analysis/experiment3.Rmd
     Modified:   figures/fig1.pdf
     Modified:   figures/fig2.pdf
+    Modified:   figures/fig3.pdf
+    Deleted:    figures/tableS2.rds
 
 </code></pre>
 <p>
@@ -555,6 +564,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/social_immunity/8c3b471bcdb8a8ee8911bb2a1ea753bcf306279f/docs/experiment3.html" target="_blank">8c3b471</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-04-21
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -694,6 +720,7 @@ expt3_counts &lt;- experiment3 %&gt;%
             percent = n_touching / (n_touching + n_not_touching)) %&gt;% 
   ungroup() %&gt;%
   filter(!is.na(n_touching)) %&gt;%
+  mutate(treatment = factor(treatment, c(&quot;Ringers&quot;, &quot;LPS&quot;))) %&gt;%
   mutate(hive = C(factor(hive), sum)) # sum coding for hive</code></pre>
 </div>
 <div id="inspect-the-raw-data" class="section level2">
@@ -718,18 +745,18 @@ n
 <tbody>
 <tr>
 <td style="text-align:left;">
-LPS
-</td>
-<td style="text-align:right;">
-219
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
 Ringers
 </td>
 <td style="text-align:right;">
 220
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+LPS
+</td>
+<td style="text-align:right;">
+219
 </td>
 </tr>
 </tbody>
@@ -761,7 +788,7 @@ n
 Arts
 </td>
 <td style="text-align:left;">
-LPS
+Ringers
 </td>
 <td style="text-align:right;">
 50
@@ -772,10 +799,21 @@ LPS
 Arts
 </td>
 <td style="text-align:left;">
-Ringers
+LPS
 </td>
 <td style="text-align:right;">
 50
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Garden
+</td>
+<td style="text-align:left;">
+Ringers
+</td>
+<td style="text-align:right;">
+70
 </td>
 </tr>
 <tr>
@@ -791,13 +829,13 @@ LPS
 </tr>
 <tr>
 <td style="text-align:left;">
-Garden
+Skylab
 </td>
 <td style="text-align:left;">
 Ringers
 </td>
 <td style="text-align:right;">
-70
+50
 </td>
 </tr>
 <tr>
@@ -813,7 +851,7 @@ LPS
 </tr>
 <tr>
 <td style="text-align:left;">
-Skylab
+Zoology
 </td>
 <td style="text-align:left;">
 Ringers
@@ -828,17 +866,6 @@ Zoology
 </td>
 <td style="text-align:left;">
 LPS
-</td>
-<td style="text-align:right;">
-50
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Zoology
-</td>
-<td style="text-align:left;">
-Ringers
 </td>
 <td style="text-align:right;">
 50
@@ -884,23 +911,6 @@ n
 Arts
 </td>
 <td style="text-align:left;">
-LPS
-</td>
-<td style="text-align:right;width: 2in; ">
-72.547
-</td>
-<td style="text-align:right;">
-0.033
-</td>
-<td style="text-align:right;">
-50
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Arts
-</td>
-<td style="text-align:left;">
 Ringers
 </td>
 <td style="text-align:right;width: 2in; ">
@@ -915,19 +925,19 @@ Ringers
 </tr>
 <tr>
 <td style="text-align:left;">
-Garden
+Arts
 </td>
 <td style="text-align:left;">
 LPS
 </td>
 <td style="text-align:right;width: 2in; ">
-68.895
+72.547
 </td>
 <td style="text-align:right;">
-0.037
+0.033
 </td>
 <td style="text-align:right;">
-70
+50
 </td>
 </tr>
 <tr>
@@ -949,19 +959,19 @@ Ringers
 </tr>
 <tr>
 <td style="text-align:left;">
-Skylab
+Garden
 </td>
 <td style="text-align:left;">
 LPS
 </td>
 <td style="text-align:right;width: 2in; ">
-65.653
+68.895
 </td>
 <td style="text-align:right;">
-0.034
+0.037
 </td>
 <td style="text-align:right;">
-49
+70
 </td>
 </tr>
 <tr>
@@ -983,19 +993,19 @@ Ringers
 </tr>
 <tr>
 <td style="text-align:left;">
-Zoology
+Skylab
 </td>
 <td style="text-align:left;">
 LPS
 </td>
 <td style="text-align:right;width: 2in; ">
-73.019
+65.653
 </td>
 <td style="text-align:right;">
-0.037
+0.034
 </td>
 <td style="text-align:right;">
-50
+49
 </td>
 </tr>
 <tr>
@@ -1010,6 +1020,23 @@ Ringers
 </td>
 <td style="text-align:right;">
 0.021
+</td>
+<td style="text-align:right;">
+50
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Zoology
+</td>
+<td style="text-align:left;">
+LPS
+</td>
+<td style="text-align:right;width: 2in; ">
+73.019
+</td>
+<td style="text-align:right;">
+0.037
 </td>
 <td style="text-align:right;">
 50
@@ -1092,21 +1119,21 @@ if(!file.exists(&quot;output/exp3_model.rds&quot;)){
     data = expt3_counts %&gt;% mutate(n = n_touching + n_not_touching), 
     prior = c(set_prior(&quot;normal(0, 3)&quot;, class = &quot;b&quot;)),
     family = &quot;binomial&quot;, save_all_pars = TRUE, sample_prior = TRUE,
-    chains = 4, cores = 1, iter = 10000, seed = 1)
+    chains = 4, cores = 1, iter = 20000, seed = 1)
   
   exp3_model_v2 &lt;- brm(
     n_touching | trials(n) ~ treatment + hive + (1 | tube), 
     data = expt3_counts %&gt;% mutate(n = n_touching + n_not_touching), 
     prior = c(set_prior(&quot;normal(0, 3)&quot;, class = &quot;b&quot;)),
     family = &quot;binomial&quot;, save_all_pars = TRUE, sample_prior = TRUE,
-    chains = 4, cores = 1, iter = 10000, seed = 1)
+    chains = 4, cores = 1, iter = 20000, seed = 1)
   
   exp3_model_v3 &lt;- brm(
     n_touching | trials(n) ~ hive + (1 | tube), 
     data = expt3_counts %&gt;% mutate(n = n_touching + n_not_touching), 
     prior = c(set_prior(&quot;normal(0, 3)&quot;, class = &quot;b&quot;)),
     family = &quot;binomial&quot;,  save_all_pars = TRUE, sample_prior = TRUE,
-    chains = 4, cores = 1, iter = 10000, seed = 1)
+    chains = 4, cores = 1, iter = 20000, seed = 1)
   
   posterior_model_probabilities &lt;- tibble(
     Model = c(&quot;treatment * hive + observation_time_minutes&quot;,
@@ -1144,7 +1171,7 @@ post_prob
 hive + observation_time_minutes
 </td>
 <td style="text-align:right;">
-0.794
+0.720
 </td>
 </tr>
 <tr>
@@ -1152,7 +1179,7 @@ hive + observation_time_minutes
 treatment + hive + observation_time_minutes
 </td>
 <td style="text-align:right;">
-0.205
+0.278
 </td>
 </tr>
 <tr>
@@ -1168,9 +1195,22 @@ treatment * hive + observation_time_minutes
 </div>
 <div id="fixed-effects-from-the-top-non-null-model" class="section level3">
 <h3>Fixed effects from the top non-null model</h3>
-<pre class="r"><code>get_fixed_effects_with_p_values(exp3_model) %&gt;% 
-  kable(digits = 3) %&gt;% kable_styling()</code></pre>
-<table class="table" style="margin-left: auto; margin-right: auto;">
+<pre class="r"><code>tableS5 &lt;- get_fixed_effects_with_p_values(exp3_model) %&gt;% 
+  mutate(mu = map_chr(str_extract_all(Parameter, &quot;mu[:digit:]&quot;), ~ .x[1]),
+         Parameter = str_remove_all(Parameter, &quot;mu[:digit:]_&quot;),
+         Parameter = str_replace_all(Parameter, &quot;treatment&quot;, &quot;Treatment: &quot;),
+         Parameter = str_replace_all(Parameter, &quot;observation_time_minutes&quot;, &quot;Observation duration (minutes)&quot;)) %&gt;%
+  arrange(mu) %&gt;%
+  select(-mu, -Rhat, -Bulk_ESS, -Tail_ESS) 
+
+names(tableS5)[3:5] &lt;- c(&quot;Est. Error&quot;, &quot;Lower 95% CI&quot;, &quot;Upper 95% CI&quot;)
+
+saveRDS(tableS5, file = &quot;figures/tableS5.rds&quot;)
+
+tableS5 %&gt;%
+  kable(digits = 3) %&gt;% 
+  kable_styling(full_width = FALSE) </code></pre>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -1180,22 +1220,13 @@ Parameter
 Estimate
 </th>
 <th style="text-align:right;">
-Est.Error
+Est. Error
 </th>
 <th style="text-align:right;">
-lower_95_CI
+Lower 95% CI
 </th>
 <th style="text-align:right;">
-upper_95_CI
-</th>
-<th style="text-align:right;">
-Rhat
-</th>
-<th style="text-align:right;">
-Bulk_ESS
-</th>
-<th style="text-align:right;">
-Tail_ESS
+Upper 95% CI
 </th>
 <th style="text-align:right;">
 p
@@ -1210,25 +1241,16 @@ p
 Intercept
 </td>
 <td style="text-align:right;">
-1.304
+1.678
 </td>
 <td style="text-align:right;">
-0.139
+0.141
 </td>
 <td style="text-align:right;">
-1.030
+1.401
 </td>
 <td style="text-align:right;">
-1.579
-</td>
-<td style="text-align:right;">
-1.009
-</td>
-<td style="text-align:right;">
-644
-</td>
-<td style="text-align:right;">
-1105
+1.960
 </td>
 <td style="text-align:right;">
 0.000
@@ -1239,31 +1261,22 @@ Intercept
 </tr>
 <tr>
 <td style="text-align:left;">
-treatmentRingers
+Treatment: LPS
 </td>
 <td style="text-align:right;">
-0.371
+-0.369
 </td>
 <td style="text-align:right;">
-0.194
+0.199
 </td>
 <td style="text-align:right;">
--0.023
+-0.763
 </td>
 <td style="text-align:right;">
-0.750
+0.022
 </td>
 <td style="text-align:right;">
-1.009
-</td>
-<td style="text-align:right;">
-644
-</td>
-<td style="text-align:right;">
-1245
-</td>
-<td style="text-align:right;">
-0.031
+0.033
 </td>
 <td style="text-align:left;">
 *
@@ -1274,28 +1287,19 @@ treatmentRingers
 hive1
 </td>
 <td style="text-align:right;">
--0.194
+-0.198
 </td>
 <td style="text-align:right;">
-0.177
+0.175
 </td>
 <td style="text-align:right;">
--0.537
+-0.539
 </td>
 <td style="text-align:right;">
-0.156
+0.137
 </td>
 <td style="text-align:right;">
-1.005
-</td>
-<td style="text-align:right;">
-457
-</td>
-<td style="text-align:right;">
-706
-</td>
-<td style="text-align:right;">
-0.131
+0.130
 </td>
 <td style="text-align:left;">
 </td>
@@ -1305,28 +1309,19 @@ hive1
 hive2
 </td>
 <td style="text-align:right;">
-0.146
+0.145
 </td>
 <td style="text-align:right;">
-0.164
+0.158
 </td>
 <td style="text-align:right;">
--0.176
+-0.157
 </td>
 <td style="text-align:right;">
-0.477
+0.462
 </td>
 <td style="text-align:right;">
-1.016
-</td>
-<td style="text-align:right;">
-563
-</td>
-<td style="text-align:right;">
-1057
-</td>
-<td style="text-align:right;">
-0.188
+0.180
 </td>
 <td style="text-align:left;">
 </td>
@@ -1336,34 +1331,26 @@ hive2
 hive3
 </td>
 <td style="text-align:right;">
--0.223
+-0.227
 </td>
 <td style="text-align:right;">
-0.177
+0.179
 </td>
 <td style="text-align:right;">
--0.567
+-0.582
 </td>
 <td style="text-align:right;">
-0.131
+0.121
 </td>
 <td style="text-align:right;">
-1.012
-</td>
-<td style="text-align:right;">
-432
-</td>
-<td style="text-align:right;">
-981
-</td>
-<td style="text-align:right;">
-0.106
+0.102
 </td>
 <td style="text-align:left;">
 </td>
 </tr>
 </tbody>
 </table>
+<p><strong>Table S5:</strong> Table summarising the posterior estimates of each fixed effect in the best-fitting model of Experiment 3 that contained the treatment effect. This was a binomial model where the response variable was 0 for observations in which bees were not in close contact, and 1 when they were. ‘Treatment’ is a fixed factor with two levels, and the effect of LPS shown here is expressed relative to the ‘Ringers’ treatment. ‘Hive’ was a fixed factor with four levels; unlike for treatment, we modelled hive using deviation coding, such that the intercept term represents the mean across all hives (in the Ringers treatment), and the three hive terms represent the deviation from this mean for three of the four hives. The model also included a random effect ‘pair ID’ (XXXXX), which grouped repeated observations made on each pair of bees, preventing pseudoreplication. The <span class="math inline">\(p\)</span> column gives the posterior probability that the true effect size is opposite in sign to what is reported in the Estimate column, similarly to a p-value.</p>
 <pre class="r"><code>movement_files &lt;- c(&quot;data/data_collection_sheets/hiveA_movement.csv&quot;,
                     &quot;data/data_collection_sheets/hiveB_movement.csv&quot;,
                     &quot;data/data_collection_sheets/hiveC_movement.csv&quot;,
@@ -1593,16 +1580,16 @@ p
 Absolute difference in % time in close contact
 </td>
 <td style="text-align:right;">
-5.567
+5.538
 </td>
 <td style="text-align:right;">
-2.937
+3.006
 </td>
 <td style="text-align:right;">
--0.336
+-0.330
 </td>
 <td style="text-align:right;">
-11.403
+11.495
 </td>
 <td style="text-align:left;">
 </td>
@@ -1614,19 +1601,19 @@ Absolute difference in % time in close contact
 Log odds ratio
 </td>
 <td style="text-align:right;">
--0.371
+-0.369
 </td>
 <td style="text-align:right;">
-0.194
+0.199
 </td>
 <td style="text-align:right;">
--0.750
+-0.763
 </td>
 <td style="text-align:right;">
-0.023
+0.022
 </td>
 <td style="text-align:left;">
-0.0306
+0.0328
 </td>
 <td style="text-align:left;">
 *
@@ -1634,7 +1621,7 @@ Log odds ratio
 </tr>
 </tbody>
 </table>
-<p><strong>Table XX:</strong> Pairs in which one bee had received LPS were observed in close contact less frequently than pairs in which one bee had received Ringers solution.</p>
+<p><strong>Table S6:</strong> Pairs in which one bee had received LPS were observed in close contact less frequently than pairs in which one bee had received Ringers solution.</p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1663,7 +1650,6 @@ other attached packages:
  [9] purrr_0.3.3      readr_1.3.1      tidyr_1.0.2      tibble_3.0.0    
 [13] ggplot2_3.3.0    tidyverse_1.3.0  bayesplot_1.7.1  brms_2.12.0     
 [17] Rcpp_1.0.3       showtext_0.7-1   showtextdb_2.0   sysfonts_0.8    
-[21] workflowr_1.6.0 
 
 loaded via a namespace (and not attached):
   [1] colorspace_1.4-1     ellipsis_0.3.0       ggridges_0.5.2      
@@ -1673,36 +1659,36 @@ loaded via a namespace (and not attached):
  [13] DT_0.13              fansi_0.4.1          mvtnorm_1.1-0       
  [16] lubridate_1.7.8      xml2_1.3.1           bridgesampling_1.0-0
  [19] knitr_1.28           shinythemes_1.1.2    jsonlite_1.6.1      
- [22] broom_0.5.4          dbplyr_1.4.2         shiny_1.4.0         
- [25] compiler_3.6.3       httr_1.4.1           backports_1.1.6     
- [28] assertthat_0.2.1     Matrix_1.2-18        fastmap_1.0.1       
- [31] cli_2.0.2            later_1.0.0          htmltools_0.4.0     
- [34] prettyunits_1.1.1    tools_3.6.3          igraph_1.2.5        
- [37] coda_0.19-3          gtable_0.3.0         glue_1.4.0          
- [40] reshape2_1.4.4       cellranger_1.1.0     vctrs_0.2.4         
- [43] nlme_3.1-147         crosstalk_1.1.0.1    insight_0.8.1       
- [46] xfun_0.13            ps_1.3.0             rvest_0.3.5         
- [49] mime_0.9             miniUI_0.1.1.1       lifecycle_0.2.0     
- [52] gtools_3.8.2         zoo_1.8-7            scales_1.1.0        
- [55] colourpicker_1.0     hms_0.5.3            promises_1.1.0      
- [58] Brobdingnag_1.2-6    parallel_3.6.3       inline_0.3.15       
- [61] RColorBrewer_1.1-2   shinystan_2.5.0      curl_4.3            
- [64] yaml_2.2.1           loo_2.2.0            StanHeaders_2.19.2  
- [67] stringi_1.4.6        highr_0.8            dygraphs_1.1.1.6    
- [70] pkgbuild_1.0.6       rlang_0.4.5          pkgconfig_2.0.3     
- [73] matrixStats_0.56.0   evaluate_0.14        lattice_0.20-41     
- [76] labeling_0.3         rstantools_2.0.0     htmlwidgets_1.5.1   
- [79] processx_3.4.2       tidyselect_1.0.0     plyr_1.8.6          
- [82] magrittr_1.5         R6_2.4.1             generics_0.0.2      
- [85] DBI_1.1.0            pillar_1.4.3         haven_2.2.0         
- [88] whisker_0.4          withr_2.1.2          xts_0.12-0          
- [91] abind_1.4-5          modelr_0.1.5         crayon_1.3.4        
- [94] arrayhelpers_1.1-0   rmarkdown_2.1        grid_3.6.3          
- [97] readxl_1.3.1         callr_3.4.3          git2r_0.26.1        
-[100] threejs_0.3.3        reprex_0.3.0         digest_0.6.25       
-[103] webshot_0.5.2        xtable_1.8-4         httpuv_1.5.2        
-[106] stats4_3.6.3         munsell_0.5.0        viridisLite_0.3.0   
-[109] shinyjs_1.1         </code></pre>
+ [22] workflowr_1.6.0      broom_0.5.4          dbplyr_1.4.2        
+ [25] shiny_1.4.0          compiler_3.6.3       httr_1.4.1          
+ [28] backports_1.1.6      assertthat_0.2.1     Matrix_1.2-18       
+ [31] fastmap_1.0.1        cli_2.0.2            later_1.0.0         
+ [34] htmltools_0.4.0      prettyunits_1.1.1    tools_3.6.3         
+ [37] igraph_1.2.5         coda_0.19-3          gtable_0.3.0        
+ [40] glue_1.4.0           reshape2_1.4.4       cellranger_1.1.0    
+ [43] vctrs_0.2.4          nlme_3.1-147         crosstalk_1.1.0.1   
+ [46] insight_0.8.1        xfun_0.13            ps_1.3.0            
+ [49] rvest_0.3.5          mime_0.9             miniUI_0.1.1.1      
+ [52] lifecycle_0.2.0      gtools_3.8.2         zoo_1.8-7           
+ [55] scales_1.1.0         colourpicker_1.0     hms_0.5.3           
+ [58] promises_1.1.0       Brobdingnag_1.2-6    parallel_3.6.3      
+ [61] inline_0.3.15        RColorBrewer_1.1-2   shinystan_2.5.0     
+ [64] curl_4.3             yaml_2.2.1           loo_2.2.0           
+ [67] StanHeaders_2.19.2   stringi_1.4.6        highr_0.8           
+ [70] dygraphs_1.1.1.6     pkgbuild_1.0.6       rlang_0.4.5         
+ [73] pkgconfig_2.0.3      matrixStats_0.56.0   evaluate_0.14       
+ [76] lattice_0.20-41      labeling_0.3         rstantools_2.0.0    
+ [79] htmlwidgets_1.5.1    processx_3.4.2       tidyselect_1.0.0    
+ [82] plyr_1.8.6           magrittr_1.5         R6_2.4.1            
+ [85] generics_0.0.2       DBI_1.1.0            pillar_1.4.3        
+ [88] haven_2.2.0          whisker_0.4          withr_2.1.2         
+ [91] xts_0.12-0           abind_1.4-5          modelr_0.1.5        
+ [94] crayon_1.3.4         arrayhelpers_1.1-0   rmarkdown_2.1       
+ [97] grid_3.6.3           readxl_1.3.1         callr_3.4.3         
+[100] git2r_0.26.1         threejs_0.3.3        reprex_0.3.0        
+[103] digest_0.6.25        webshot_0.5.2        xtable_1.8-4        
+[106] httpuv_1.5.2         stats4_3.6.3         munsell_0.5.0       
+[109] viridisLite_0.3.0    shinyjs_1.1         </code></pre>
 </div>
 </div>
 
