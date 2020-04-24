@@ -342,8 +342,8 @@ make_stats_table <- function(
   output <- dat %>%
     spread(treatment, prop) %>%
     mutate(
-      metric_here = 100 * (!! enquo(groupA) - !! enquo(groupB)), 
-      `Log odds ratio` = get_log_odds(!! enquo(groupB), !! enquo(groupA))) %>%   
+      metric_here = 100 * (!! enquo(groupB) - !! enquo(groupA)), 
+      `Log odds ratio` = get_log_odds(!! enquo(groupA), !! enquo(groupB))) %>%   
     my_summary(c("metric_here", "Log odds ratio")) %>%
     mutate(p = c(" ", format(round(p[2], 4), nsmall = 4)),
            ` ` = c(" ", ` `[2]),
