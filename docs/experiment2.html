@@ -401,7 +401,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-04-21
+<strong>Last updated:</strong> 2020-04-24
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -492,10 +492,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree1ce9e19446a3c5559528bd2605aef694c373efa0targetblank1ce9e19a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/1ce9e19446a3c5559528bd2605aef694c373efa0" target="_blank">1ce9e19</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytreea1f8dc23d961740443b360d082aea9f0e23226fatargetblanka1f8dc2a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/a1f8dc23d961740443b360d082aea9f0e23226fa" target="_blank">a1f8dc2</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree1ce9e19446a3c5559528bd2605aef694c373efa0targetblank1ce9e19a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytreea1f8dc23d961740443b360d082aea9f0e23226fatargetblanka1f8dc2a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -554,6 +554,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/a1f8dc23d961740443b360d082aea9f0e23226fa/analysis/experiment2.Rmd" target="_blank">a1f8dc2</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-04-24
+</td>
+<td>
+tweaks
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/social_immunity/8c3b471bcdb8a8ee8911bb2a1ea753bcf306279f/docs/experiment2.html" target="_blank">8c3b471</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-04-21
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1306,22 +1340,8 @@ lukeholman
   saveRDS(posterior_model_probabilities, &quot;output/exp2_post_prob.rds&quot;)
 }
 
-
 exp2_model &lt;- readRDS(&quot;output/exp2_model.rds&quot;)
 posterior_model_probabilities &lt;- readRDS(&quot;output/exp2_post_prob.rds&quot;)</code></pre>
-<!-- ```{r} -->
-<!-- grid.arrange( -->
-<!--   (plot(hypothesis(exp2_model, "mu2_treatmentLPS = 0"), plot =F)[[1]]) +  -->
-<!--     geom_vline(xintercept = 0, linetype = 2) + coord_cartesian(xlim = c(-6, 6)), -->
-<!--   (plot(hypothesis(exp2_model, "mu3_treatmentLPS = 0"), plot =F)[[1]]) +  -->
-<!--     geom_vline(xintercept = 0, linetype = 2)+ coord_cartesian(xlim = c(-6, 6)) -->
-<!-- ) -->
-<!-- hypothesis(exp2_model, c("mu2_treatmentLPS > 0",  -->
-<!--                          "mu3_treatmentLPS > 0"), -->
-<!--            alpha = 0.05)$hypothesis %>% -->
-<!--   select(-Star) %>% -->
-<!--   kable(digits = 3) %>% kable_styling(full_width = FALSE) -->
-<!-- ``` -->
 </div>
 <div id="posterior-model-probabilites" class="section level3">
 <h3>Posterior model probabilites</h3>
@@ -1369,7 +1389,7 @@ treatment * hive + observation_time_minutes
 <div id="fixed-effects-from-the-top-model" class="section level3">
 <h3>Fixed effects from the top model</h3>
 <p>The code chunk below wrangles the raw output of the <code>summary()</code> functions for <code>brms</code> models into a more readable table of results, and also adds ‘Bayesian p-values’ (i.e. the posterior probability that the true effect size has the same sign as the reported effect).</p>
-<pre class="r"><code>tableS2 &lt;- get_fixed_effects_with_p_values(exp2_model) %&gt;% 
+<pre class="r"><code>tableS3 &lt;- get_fixed_effects_with_p_values(exp2_model) %&gt;% 
   mutate(mu = map_chr(str_extract_all(Parameter, &quot;mu[:digit:]&quot;), ~ .x[1]),
          Parameter = str_remove_all(Parameter, &quot;mu[:digit:]_&quot;),
          Parameter = str_replace_all(Parameter, &quot;treatment&quot;, &quot;Treatment: &quot;),
@@ -1377,11 +1397,11 @@ treatment * hive + observation_time_minutes
   arrange(mu) %&gt;%
   select(-mu, -Rhat, -Bulk_ESS, -Tail_ESS) 
 
-names(tableS2)[3:5] &lt;- c(&quot;Est. Error&quot;, &quot;Lower 95% CI&quot;, &quot;Upper 95% CI&quot;)
+names(tableS3)[3:5] &lt;- c(&quot;Est. Error&quot;, &quot;Lower 95% CI&quot;, &quot;Upper 95% CI&quot;)
 
-saveRDS(tableS2, file = &quot;figures/tableS2.rds&quot;)
+saveRDS(tableS3, file = &quot;figures/tableS3.rds&quot;)
 
-tableS2 %&gt;%
+tableS3 %&gt;%
   kable(digits = 3) %&gt;% 
   kable_styling(full_width = FALSE) %&gt;%
   pack_rows(&quot;% bees leaving voluntarily&quot;, 1, 6) %&gt;%
@@ -1689,7 +1709,7 @@ Observation duration (minutes)
 </tr>
 </tbody>
 </table>
-<p><strong>Table S2:</strong> Table summarising the posterior estimates of each fixed effect in the best-fitting model of Experiment 2. This was a multinomial model with three possible outcomes (stay inside, leave voluntarily, be forced out), and so there are two parameter estimates for the intercept and for each predictor in the model. ‘Treatment’ is a fixed factor with two levels, and the effect of LPS shown here is expressed relative to the ‘Ringers’ treatment. ‘Hive’ was a fixed factor with four levels; unlike for treatment, we modelled hive using deviation coding, such that the intercept term represents the mean across all hives (in the intact control treatment), and the three hive terms represent the deviation from this mean for three of the four hives. Lastly, observation duration was a continuous variable expressed to the nearest minute. The <span class="math inline">\(p\)</span> column gives the posterior probability that the true effect size is opposite in sign to what is reported in the Estimate column, similarly to a p-value.</p>
+<p><strong>Table S3:</strong> Table summarising the posterior estimates of each fixed effect in the best-fitting model of Experiment 2. This was a multinomial model with three possible outcomes (stay inside, leave voluntarily, be forced out), and so there are two parameter estimates for the intercept and for each predictor in the model. ‘Treatment’ is a fixed factor with two levels, and the effect of LPS shown here is expressed relative to the ‘Ringers’ treatment. ‘Hive’ was a fixed factor with four levels; unlike for treatment, we modelled hive using deviation coding, such that the intercept term represents the mean across all hives (in the Ringers treatment), and the three hive terms represent the deviation from this mean for three of the four hives. Lastly, observation duration was a continuous variable expressed to the nearest minute. The <span class="math inline">\(p\)</span> column gives the posterior probability that the true effect size is opposite in sign to what is reported in the Estimate column, similarly to a <span class="math inline">\(p\)</span>-value.</p>
 </div>
 </div>
 <div id="plotting-estimates-from-the-model" class="section level2">
@@ -1855,11 +1875,11 @@ stats_table &lt;- rbind(
   plotting_data %&gt;%
     filter(outcome == &quot;Stayed inside&quot;) %&gt;%
     spread(treatment, prop) %&gt;%
-    mutate(`Absolute difference in % bees exiting the hive` = 100 * (LPS - Ringers),
+    mutate(`Absolute difference in % bees staying inside` = 100 * (LPS - Ringers),
            `Log odds ratio` = get_log_odds(Ringers, LPS)) %&gt;%
-    my_summary(c(&quot;Absolute difference in % bees exiting the hive&quot;, 
+    my_summary(c(&quot;Absolute difference in % bees staying inside&quot;, 
                  &quot;Log odds ratio&quot;),
-               outcome = &quot;Stayed inside the hive&quot;) %&gt;%
+               outcome = &quot;Stayed inside&quot;) %&gt;%
     mutate(p = c(&quot; &quot;, format(round(p[2], 4), nsmall = 4))),
   
   plotting_data %&gt;%
@@ -1881,25 +1901,24 @@ stats_table &lt;- rbind(
                  &quot;Log odds ratio&quot;),
                outcome = &quot;Forced out&quot;) %&gt;%
     mutate(p = c(&quot; &quot;, format(round(p[2], 4), nsmall = 4))) 
-) 
-
-
+) %&gt;%
+  mutate(` ` = ifelse(p &lt; 0.05, &quot;\\*&quot;, &quot;&quot;),
+         ` ` = replace(` `, p &lt; 0.01, &quot;**&quot;),
+         ` ` = replace(` `, p &lt; 0.001, &quot;***&quot;),
+         ` ` = replace(` `, p == &quot; &quot;, &quot;&quot;))
 
 stats_table[c(2,4,6), 1] &lt;- &quot; &quot;
 
 stats_table %&gt;%
-  mutate(` ` = ifelse(p &lt; 0.05, &quot;\\*&quot;, &quot;&quot;),
-         ` ` = replace(` `, p &lt; 0.01, &quot;**&quot;),
-         ` ` = replace(` `, p &lt; 0.001, &quot;***&quot;),
-         ` ` = replace(` `, p == &quot; &quot;, &quot;&quot;)) %&gt;%
+  select(-Outcome) %&gt;%
   kable(digits = 3) %&gt;% kable_styling(full_width = FALSE) %&gt;% 
-  row_spec(c(0,2,4,6), extra_css = &quot;border-bottom: solid;&quot;)</code></pre>
+  row_spec(c(0,2,4,6), extra_css = &quot;border-bottom: solid;&quot;) %&gt;%
+  pack_rows(&quot;% bees staying inside&quot;, 1, 2) %&gt;%
+  pack_rows(&quot;% bees leaving voluntarily&quot;, 3, 4) %&gt;%
+  pack_rows(&quot;% bees forced out&quot;, 5, 6)</code></pre>
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
-<th style="text-align:left;border-bottom: solid;">
-Outcome
-</th>
 <th style="text-align:left;border-bottom: solid;">
 Metric
 </th>
@@ -1923,12 +1942,14 @@ p
 </tr>
 </thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-Stayed inside the hive
+<tr grouplength="2">
+<td colspan="7" style="border-bottom: 1px solid;">
+<strong>% bees staying inside</strong>
 </td>
-<td style="text-align:left;">
-Absolute difference in % bees exiting the hive
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Absolute difference in % bees staying inside
 </td>
 <td style="text-align:right;">
 -9.637
@@ -1948,9 +1969,7 @@ Absolute difference in % bees exiting the hive
 </td>
 </tr>
 <tr>
-<td style="text-align:left;border-bottom: solid;">
-</td>
-<td style="text-align:left;border-bottom: solid;">
+<td style="text-align:left;border-bottom: solid; padding-left: 2em;" indentlevel="1">
 Log odds ratio
 </td>
 <td style="text-align:right;border-bottom: solid;">
@@ -1972,11 +1991,13 @@ Log odds ratio
 *
 </td>
 </tr>
-<tr>
-<td style="text-align:left;">
-Left voluntarily
+<tr grouplength="2">
+<td colspan="7" style="border-bottom: 1px solid;">
+<strong>% bees leaving voluntarily</strong>
 </td>
-<td style="text-align:left;">
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
 Absolute difference in % bees leaving voluntarily
 </td>
 <td style="text-align:right;">
@@ -1997,9 +2018,7 @@ Absolute difference in % bees leaving voluntarily
 </td>
 </tr>
 <tr>
-<td style="text-align:left;border-bottom: solid;">
-</td>
-<td style="text-align:left;border-bottom: solid;">
+<td style="text-align:left;border-bottom: solid; padding-left: 2em;" indentlevel="1">
 Log odds ratio
 </td>
 <td style="text-align:right;border-bottom: solid;">
@@ -2020,11 +2039,13 @@ Log odds ratio
 <td style="text-align:left;border-bottom: solid;">
 </td>
 </tr>
-<tr>
-<td style="text-align:left;">
-Forced out
+<tr grouplength="2">
+<td colspan="7" style="border-bottom: 1px solid;">
+<strong>% bees forced out</strong>
 </td>
-<td style="text-align:left;">
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
 Absolute difference in % bees forced out
 </td>
 <td style="text-align:right;">
@@ -2045,9 +2066,7 @@ Absolute difference in % bees forced out
 </td>
 </tr>
 <tr>
-<td style="text-align:left;border-bottom: solid;">
-</td>
-<td style="text-align:left;border-bottom: solid;">
+<td style="text-align:left;border-bottom: solid; padding-left: 2em;" indentlevel="1">
 Log odds ratio
 </td>
 <td style="text-align:right;border-bottom: solid;">
@@ -2071,6 +2090,7 @@ Log odds ratio
 </tr>
 </tbody>
 </table>
+<p><strong>Table S4</strong>: This table gives statistics associated with each of the contrasts plotted in Figure 2B. Each pair of rows gives the absolute and standardised effect size (as log odds ratio; LOR) for the LPS treatment, relative to the Ringers treatment, for one of the three possible outcomes (stayed inside, left voluntarily, or forced out). A LOR of <span class="math inline">\(|log(x)|\)</span> indicates that the outcome is <span class="math inline">\(x\)</span> times more frequent in one treatment compared to the other, e.g. <span class="math inline">\(|log(2) = 0.69|\)</span> indicates a two-fold difference in frequency. The <span class="math inline">\(p\)</span> column gives the posterior probability that the true effect size has the same sign as is shown in the Estimate column; this metric has a similar interpretation to a one-tailed <span class="math inline">\(p\)</span> value in frequentist statistics.</p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
