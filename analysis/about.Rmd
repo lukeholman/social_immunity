@@ -7,4 +7,6 @@ editor_options:
   chunk_output_type: console
 ---
 
-Describe your project.
+These analyses accompany an in-prep manuscript.
+
+You can read more about Luke Holman's research or get in contact with him at [lukeholman.org](https://www.lukeholman.org/).

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
@@ -83,7 +83,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -232,6 +231,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -243,18 +243,6 @@ $(document).ready(function () {
   display: none;
 }
 </style>
-
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
 
 <!-- code folding -->
 
@@ -318,7 +306,7 @@ div.section {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -327,7 +315,7 @@ div.section {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -336,17 +324,17 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-10-17
+<strong>Last updated:</strong> 2020-04-25
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 1 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
-<strong>Knit directory:</strong> <code>LPS_honeybees/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+<strong>Knit directory:</strong> <code>social_immunity/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
 </p>
 <p>
 This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
-  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.4.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
 </p>
 <hr>
 </div>
@@ -355,22 +343,22 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanLPShoneybeestree8c02129a4b51023561562fc9a73e8e6776755fc2targetblank8c02129a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/LPS_honeybees/tree/8c02129a4b51023561562fc9a73e8e6776755fc2" target="_blank">8c02129</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree71b61606c2c4ca843d6a5ae1ab7d8ec2637b4935targetblank71b6160a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/71b61606c2c4ca843d6a5ae1ab7d8ec2637b4935" target="_blank">71b6160</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanLPShoneybeestree8c02129a4b51023561562fc9a73e8e6776755fc2targetblank8c02129a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree71b61606c2c4ca843d6a5ae1ab7d8ec2637b4935targetblank71b6160a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -380,7 +368,21 @@ Ignored files:
     Ignored:    .DS_Store
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
+    Ignored:    code/notes from old analysis of movement.R
     Ignored:    data/.DS_Store
+    Ignored:    data/movement data - not used/
+    Ignored:    output/exp1_model.rds
+    Ignored:    output/exp1_post_prob.rds
+    Ignored:    output/exp2_model.rds
+    Ignored:    output/exp2_post_prob.rds
+    Ignored:    output/exp3_model.rds
+    Ignored:    output/exp3_post_prob.rds
+
+Unstaged changes:
+    Modified:   .gitignore
+    Modified:   analysis/index.Rmd
+    Modified:   figures/fig2.pdf
+    Modified:   figures/fig3.pdf
 
 </code></pre>
 <p>
@@ -424,7 +426,7 @@ Message
 Rmd
 </td>
 <td>
-<a href="https://github.com/lukeholman/LPS_honeybees/blob/8c02129a4b51023561562fc9a73e8e6776755fc2/analysis/index.Rmd" target="_blank">8c02129</a>
+<a href="https://github.com/lukeholman/social_immunity/blob/aae65cfb1436802ba2a4d3ed194b2888e7e659f7/analysis/index.Rmd" target="_blank">aae65cf</a>
 </td>
 <td>
 lukeholman
@@ -433,7 +435,7 @@ lukeholman
 2019-10-17
 </td>
 <td>
-Commit for thesis
+First commit
 </td>
 </tr>
 <tr>
@@ -441,7 +443,7 @@ Commit for thesis
 html
 </td>
 <td>
-<a href="https://rawcdn.githack.com/lukeholman/LPS_honeybees/8c02129a4b51023561562fc9a73e8e6776755fc2/docs/index.html" target="_blank">8c02129</a>
+<a href="https://rawcdn.githack.com/lukeholman/social_immunity/aae65cfb1436802ba2a4d3ed194b2888e7e659f7/docs/index.html" target="_blank">aae65cf</a>
 </td>
 <td>
 lukeholman
@@ -450,7 +452,7 @@ lukeholman
 2019-10-17
 </td>
 <td>
-Commit for thesis
+First commit
 </td>
 </tr>
 <tr>
@@ -458,13 +460,13 @@ Commit for thesis
 Rmd
 </td>
 <td>
-<a href="https://github.com/lukeholman/LPS_honeybees/blob/6f52da773422b121e6327d049b4eeb16b713dc92/analysis/index.Rmd" target="_blank">6f52da7</a>
+<a href="https://github.com/lukeholman/social_immunity/blob/023a508524467608f2a707c665296414f2b52cb0/analysis/index.Rmd" target="_blank">023a508</a>
 </td>
 <td>
 lukeholman
 </td>
 <td>
-2019-07-01
+2019-10-17
 </td>
 <td>
 Start workflowr project.
@@ -477,12 +479,16 @@ Start workflowr project.
 </div>
 </div>
 </div>
-<p>This website presents all the code used for the paper ‘Honeybees detect and evict sick nestmates using chemical cues’ by Tarli Conroy and Luke Holman.</p>
-<ul>
-<li><p><a href="experiment1.html">Analysis of Experiment 1</a></p></li>
-<li><p><a href="experiment2.html">Analysis of Experiment 2</a></p></li>
-<li><p><a href="experiment3.html">Analysis of Experiment 3</a></p></li>
-</ul>
+<p>This website accompanies the paper ‘Honeybees detect and evict sick nestmates using chemical cues’ by Tarli Conroy and Luke Holman. Click one of the three links below to see the analysis for Experiments 1-3.</p>
+<div id="analysis-of-experiment-1" class="section level3">
+<h3><a href="experiment1.html">1. Analysis of Experiment 1</a></h3>
+</div>
+<div id="analysis-of-experiment-2" class="section level3">
+<h3><a href="experiment2.html">2. Analysis of Experiment 2</a></h3>
+</div>
+<div id="analysis-of-experiment-3" class="section level3">
+<h3><a href="experiment3.html">3. Analysis of Experiment 3</a></h3>
+</div>
 
 
 <!-- Adjust MathJax settings so that all math formulae are shown using
@@ -513,6 +519,23 @@ $(document).ready(function () {
 
 
 </script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

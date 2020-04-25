@@ -8,11 +8,11 @@ editor_options:
   chunk_output_type: console
 ---
 
-This website presents all the code used for the paper 'Honeybees detect and evict sick nestmates using chemical cues' by Tarli Conroy and Luke Holman.
+This website accompanies the paper 'Honeybees detect and evict sick nestmates using chemical cues' by Tarli Conroy and Luke Holman. Click one of the three links below to see the analysis for Experiments 1-3. 
 
 
-- [Analysis of Experiment 1](experiment1.html)
+### [1. Analysis of Experiment 1](experiment1.html)
 
-- [Analysis of Experiment 2](experiment2.html)
+### [2. Analysis of Experiment 2](experiment2.html)
 
-- [Analysis of Experiment 3](experiment3.html)
+### [3. Analysis of Experiment 3](experiment3.html)
