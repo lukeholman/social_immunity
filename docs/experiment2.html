@@ -504,10 +504,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree99649a7a9ef820b67ec6ba211f1f28b816c14e21targetblank99649a7a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/99649a7a9ef820b67ec6ba211f1f28b816c14e21" target="_blank">99649a7</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree76a317d13b282950bf19f6f502ac857d4406fd2dtargetblank76a317da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/76a317d13b282950bf19f6f502ac857d4406fd2d" target="_blank">76a317d</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree99649a7a9ef820b67ec6ba211f1f28b816c14e21targetblank99649a7a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree76a317d13b282950bf19f6f502ac857d4406fd2dtargetblank76a317da" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -517,7 +517,9 @@ Ignored files:
     Ignored:    .DS_Store
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
+    Ignored:    code/notes from old analysis of movement.R
     Ignored:    data/.DS_Store
+    Ignored:    data/movement data - not used/
     Ignored:    output/exp1_model.rds
     Ignored:    output/exp1_post_prob.rds
     Ignored:    output/exp2_model.rds
@@ -527,7 +529,6 @@ Ignored files:
 
 Unstaged changes:
     Modified:   .gitignore
-    Modified:   figures/fig1.pdf
 
 </code></pre>
 <p>
@@ -566,6 +567,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/76a317d13b282950bf19f6f502ac857d4406fd2d/analysis/experiment2.Rmd" target="_blank">76a317d</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-04-25
+</td>
+<td>
+tweaks
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/social_immunity/2235ae45f5172d02b309ea28831bc1759c111926/docs/experiment2.html" target="_blank">2235ae4</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-04-25
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -2200,7 +2235,7 @@ sum(LOR_left &gt; -log(1.5) &amp; LOR_left &lt; log(1.5)) / length(LOR_left)</co
 </div>
 <div id="stats-associated-with-figure-2c" class="section level3">
 <h3>Stats associated with Figure 2C</h3>
-<p>Here, we derive the result present in prose in the Results, that the</p>
+<p>Here, we derive the result presented in prose in the Results, regarding the effect of LPS on the proportion of bees that left the hive by force.</p>
 <pre class="r"><code>difference_prop_forced_out_LOR &lt;- plotting_data %&gt;%
   spread(outcome, prop) %&gt;%
   mutate(prop_leavers_that_were_forced_out = `Forced out` / (`Forced out` + `Left voluntarily`)) %&gt;%
