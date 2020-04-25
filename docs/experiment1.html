@@ -395,7 +395,7 @@ div.section {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -404,7 +404,7 @@ div.section {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -416,7 +416,7 @@ div.section {
 <strong>Last updated:</strong> 2020-04-25
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>social_immunity/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -432,12 +432,12 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
 </div>
 </div>
 </div>
@@ -504,10 +504,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree4b72d586c17124410b8230d0b0cbbeecfbcde9c4targetblank4b72d58a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/4b72d586c17124410b8230d0b0cbbeecfbcde9c4" target="_blank">4b72d58</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree99649a7a9ef820b67ec6ba211f1f28b816c14e21targetblank99649a7a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/99649a7a9ef820b67ec6ba211f1f28b816c14e21" target="_blank">99649a7</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree4b72d586c17124410b8230d0b0cbbeecfbcde9c4targetblank4b72d58a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree99649a7a9ef820b67ec6ba211f1f28b816c14e21targetblank99649a7a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -517,7 +517,6 @@ Ignored files:
     Ignored:    .DS_Store
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
-    Ignored:    analysis/figure/
     Ignored:    data/.DS_Store
     Ignored:    output/exp1_model.rds
     Ignored:    output/exp1_post_prob.rds
@@ -528,12 +527,6 @@ Ignored files:
 
 Unstaged changes:
     Modified:   .gitignore
-    Modified:   analysis/experiment1.Rmd
-    Modified:   analysis/experiment2.Rmd
-    Modified:   analysis/experiment3.Rmd
-    Modified:   figures/fig1.pdf
-    Modified:   figures/fig2.pdf
-    Modified:   figures/fig3.pdf
 
 </code></pre>
 <p>
@@ -572,6 +565,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/99649a7a9ef820b67ec6ba211f1f28b816c14e21/analysis/experiment1.Rmd" target="_blank">99649a7</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-04-25
+</td>
+<td>
+tweaks
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/social_immunity/99649a7a9ef820b67ec6ba211f1f28b816c14e21/docs/experiment1.html" target="_blank">99649a7</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-04-25
+</td>
+<td>
+tweaks
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -2324,7 +2351,7 @@ dot_plot &lt;- plotting_data %&gt;%
          treatment = factor(paste(treatment, &quot;\n(n = &quot;, n, &quot;)&quot;, sep = &quot;&quot;),
                             unique(paste(treatment, &quot;\n(n = &quot;, n, &quot;)&quot;, sep = &quot;&quot;)))) %&gt;% 
   ggplot(aes(100 * prop, treatment)) + 
-  stat_dotsh(quantiles = 100, fill = &quot;grey40&quot;, colour = &quot;grey40&quot;) + # aes(fill = treatment), 
+  stat_dotsh(quantiles = 100, fill = &quot;grey40&quot;, colour = &quot;grey40&quot;) + 
   stat_pointintervalh(aes(colour = outcome, fill = outcome), 
                       .width = c(0.5, 0.95),
                       position = position_nudge(y = -0.07), 
@@ -2417,6 +2444,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/99649a7a9ef820b67ec6ba211f1f28b816c14e21/docs/figure/experiment1.Rmd/unnamed-chunk-10-1.png" target="_blank">99649a7</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-04-25
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lukeholman/social_immunity/blob/8c3b471bcdb8a8ee8911bb2a1ea753bcf306279f/docs/figure/experiment1.Rmd/unnamed-chunk-10-1.png" target="_blank">8c3b471</a>
@@ -3566,6 +3604,7 @@ other attached packages:
  [9] purrr_0.3.3      readr_1.3.1      tidyr_1.0.2      tibble_3.0.0    
 [13] ggplot2_3.3.0    tidyverse_1.3.0  bayesplot_1.7.1  brms_2.12.0     
 [17] Rcpp_1.0.3       showtext_0.7-1   showtextdb_2.0   sysfonts_0.8    
+[21] workflowr_1.6.0 
 
 loaded via a namespace (and not attached):
   [1] colorspace_1.4-1     ellipsis_0.3.0       ggridges_0.5.2      
@@ -3575,36 +3614,36 @@ loaded via a namespace (and not attached):
  [13] DT_0.13              fansi_0.4.1          mvtnorm_1.1-0       
  [16] lubridate_1.7.8      xml2_1.3.1           bridgesampling_1.0-0
  [19] knitr_1.28           shinythemes_1.1.2    jsonlite_1.6.1      
- [22] workflowr_1.6.0      broom_0.5.4          dbplyr_1.4.2        
- [25] shiny_1.4.0          compiler_3.6.3       httr_1.4.1          
- [28] backports_1.1.6      assertthat_0.2.1     Matrix_1.2-18       
- [31] fastmap_1.0.1        cli_2.0.2            later_1.0.0         
- [34] htmltools_0.4.0      prettyunits_1.1.1    tools_3.6.3         
- [37] igraph_1.2.5         coda_0.19-3          gtable_0.3.0        
- [40] glue_1.4.0           reshape2_1.4.4       cellranger_1.1.0    
- [43] vctrs_0.2.4          nlme_3.1-147         crosstalk_1.1.0.1   
- [46] insight_0.8.1        xfun_0.13            ps_1.3.0            
- [49] rvest_0.3.5          mime_0.9             miniUI_0.1.1.1      
- [52] lifecycle_0.2.0      gtools_3.8.2         zoo_1.8-7           
- [55] scales_1.1.0         colourpicker_1.0     hms_0.5.3           
- [58] promises_1.1.0       Brobdingnag_1.2-6    parallel_3.6.3      
- [61] inline_0.3.15        RColorBrewer_1.1-2   shinystan_2.5.0     
- [64] curl_4.3             yaml_2.2.1           loo_2.2.0           
- [67] StanHeaders_2.19.2   stringi_1.4.6        highr_0.8           
- [70] dygraphs_1.1.1.6     pkgbuild_1.0.6       rlang_0.4.5         
- [73] pkgconfig_2.0.3      matrixStats_0.56.0   evaluate_0.14       
- [76] lattice_0.20-41      labeling_0.3         rstantools_2.0.0    
- [79] htmlwidgets_1.5.1    processx_3.4.2       tidyselect_1.0.0    
- [82] plyr_1.8.6           magrittr_1.5         R6_2.4.1            
- [85] generics_0.0.2       DBI_1.1.0            pillar_1.4.3        
- [88] haven_2.2.0          whisker_0.4          withr_2.1.2         
- [91] xts_0.12-0           abind_1.4-5          modelr_0.1.5        
- [94] crayon_1.3.4         arrayhelpers_1.1-0   rmarkdown_2.1       
- [97] grid_3.6.3           readxl_1.3.1         callr_3.4.3         
-[100] git2r_0.26.1         threejs_0.3.3        reprex_0.3.0        
-[103] digest_0.6.25        webshot_0.5.2        xtable_1.8-4        
-[106] httpuv_1.5.2         stats4_3.6.3         munsell_0.5.0       
-[109] viridisLite_0.3.0    shinyjs_1.1         </code></pre>
+ [22] broom_0.5.4          dbplyr_1.4.2         shiny_1.4.0         
+ [25] compiler_3.6.3       httr_1.4.1           backports_1.1.6     
+ [28] assertthat_0.2.1     Matrix_1.2-18        fastmap_1.0.1       
+ [31] cli_2.0.2            later_1.0.0          htmltools_0.4.0     
+ [34] prettyunits_1.1.1    tools_3.6.3          igraph_1.2.5        
+ [37] coda_0.19-3          gtable_0.3.0         glue_1.4.0          
+ [40] reshape2_1.4.4       cellranger_1.1.0     vctrs_0.2.4         
+ [43] nlme_3.1-147         crosstalk_1.1.0.1    insight_0.8.1       
+ [46] xfun_0.13            ps_1.3.0             rvest_0.3.5         
+ [49] mime_0.9             miniUI_0.1.1.1       lifecycle_0.2.0     
+ [52] gtools_3.8.2         zoo_1.8-7            scales_1.1.0        
+ [55] colourpicker_1.0     hms_0.5.3            promises_1.1.0      
+ [58] Brobdingnag_1.2-6    parallel_3.6.3       inline_0.3.15       
+ [61] RColorBrewer_1.1-2   shinystan_2.5.0      curl_4.3            
+ [64] yaml_2.2.1           loo_2.2.0            StanHeaders_2.19.2  
+ [67] stringi_1.4.6        highr_0.8            dygraphs_1.1.1.6    
+ [70] pkgbuild_1.0.6       rlang_0.4.5          pkgconfig_2.0.3     
+ [73] matrixStats_0.56.0   evaluate_0.14        lattice_0.20-41     
+ [76] labeling_0.3         rstantools_2.0.0     htmlwidgets_1.5.1   
+ [79] processx_3.4.2       tidyselect_1.0.0     plyr_1.8.6          
+ [82] magrittr_1.5         R6_2.4.1             generics_0.0.2      
+ [85] DBI_1.1.0            pillar_1.4.3         haven_2.2.0         
+ [88] whisker_0.4          withr_2.1.2          xts_0.12-0          
+ [91] abind_1.4-5          modelr_0.1.5         crayon_1.3.4        
+ [94] arrayhelpers_1.1-0   rmarkdown_2.1        grid_3.6.3          
+ [97] readxl_1.3.1         callr_3.4.3          git2r_0.26.1        
+[100] threejs_0.3.3        reprex_0.3.0         digest_0.6.25       
+[103] webshot_0.5.2        xtable_1.8-4         httpuv_1.5.2        
+[106] stats4_3.6.3         munsell_0.5.0        viridisLite_0.3.0   
+[109] shinyjs_1.1         </code></pre>
 </div>
 </div>
 </div>
