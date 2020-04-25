@@ -1,7 +1,7 @@
-name: "LPS_honeybees"
+name: "Social immunity"
 output_dir: ../docs
 navbar:
-  title: "LPS_honeybees"
+  title: "Social immunity"
   left:
   - text: Home
     href: index.html
