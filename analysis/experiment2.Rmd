@@ -1,8 +1,10 @@
 ---
-title: "Analysis of Experiment 1"
-output: workflowr::wflow_html
+title: "Analysis of Experiment 2"
 editor_options:
   chunk_output_type: console
+output: 
+  workflowr::wflow_html:
+    code_folding: hide 
 ---
 
 ## Load data and R packages
@@ -69,9 +71,11 @@ data_for_categorical_model <- outcome_tally %>%
 
 ### Sample sizes by treatment
 ```{r}
-data_for_categorical_model %>%
+sample_sizes <- data_for_categorical_model %>%
   group_by(treatment) %>%
-  summarise(n = n()) %>%
+  summarise(n = n()) 
+
+sample_sizes %>%
   kable() %>% kable_styling(full_width = FALSE)
 ```
 
@@ -169,8 +173,6 @@ exp2_model <- readRDS("output/exp2_model.rds")
 posterior_model_probabilities <- readRDS("output/exp2_post_prob.rds")
 ```
 
-
-
 ### Posterior model probabilites
 
 ```{r}
@@ -209,24 +211,33 @@ tableS3 %>%
 ### Derive prediction from the posterior
 
 ```{r}
-new <- expand.grid(treatment = levels(data_for_categorical_model$treatment), 
-                   hive = NA,
-                   observation_time_minutes = 120) 
+get_posterior_preds <- function(hive){
+  new <- expand.grid(treatment = levels(data_for_categorical_model$treatment), 
+                     hive = "Zoology",
+                     observation_time_minutes = 120) 
+  
+  preds <- fitted(exp2_model, newdata = new, summary = FALSE)
+  dimnames(preds) <- list(NULL, paste(new$treatment, new$hive, sep = "~"), NULL)
+  
+  rbind(
+    as.data.frame(preds[,, 1]) %>% mutate(outcome = "Stayed inside", posterior_sample = 1:n()),
+    as.data.frame(preds[,, 2]) %>% mutate(outcome = "Left voluntarily", posterior_sample = 1:n()),
+    as.data.frame(preds[,, 3]) %>% mutate(outcome = "Forced out", posterior_sample = 1:n())) %>%
+    gather(treatment, prop, contains("~")) %>%
+    mutate(treatment = strsplit(treatment, split = "~"),
+           hive = map_chr(treatment, ~ .x[2]),
+           treatment = map_chr(treatment, ~ .x[1]),
+           treatment = factor(treatment, c("Ringers", "LPS")),
+           outcome = factor(outcome, c("Stayed inside", "Left voluntarily", "Forced out"))) %>%
+    arrange(treatment, outcome) %>% as_tibble() %>% select(-hive)
+}
 
-preds <- fitted(exp2_model, newdata = new, summary = FALSE)
-dimnames(preds) <- list(NULL, paste(new$treatment, new$hive, sep = "~"), NULL)
 
-plotting_data <- rbind(
-  as.data.frame(preds[,, 1]) %>% mutate(outcome = "Stayed inside", posterior_sample = 1:n()),
-  as.data.frame(preds[,, 2]) %>% mutate(outcome = "Left voluntarily", posterior_sample = 1:n()),
-  as.data.frame(preds[,, 3]) %>% mutate(outcome = "Forced out", posterior_sample = 1:n())) %>%
-  gather(treatment, prop, contains("~")) %>%
-  mutate(treatment = strsplit(treatment, split = "~"),
-         hive = map_chr(treatment, ~ .x[2]),
-         treatment = map_chr(treatment, ~ .x[1]),
-         treatment = factor(treatment, c("Ringers", "LPS")),
-         outcome = factor(outcome, c("Stayed inside", "Left voluntarily", "Forced out"))) %>%
-  arrange(treatment, outcome) %>% as_tibble() %>% select(-hive)
+# plotting data for panel A: one specific hive
+plotting_data <- get_posterior_preds(hive = "Zoology")
+
+# stats data: for comparing means across all hives
+stats_data <- get_posterior_preds(hive = NA)
 ```
 
 ### Make Figure 2
@@ -235,6 +246,10 @@ plotting_data <- rbind(
 cols <- c("#34558b", "#4ec5a5", "#ffaf12")
 
 dot_plot <- plotting_data %>%
+  left_join(sample_sizes, by = "treatment") %>%
+  arrange(treatment) %>%
+  mutate(treatment = factor(paste(treatment, "\n(n = ", n, ")", sep = ""),
+                            unique(paste(treatment, "\n(n = ", n, ")", sep = "")))) %>% 
   ggplot(aes(100 * prop, treatment)) + 
   stat_dotsh(quantiles = 100, fill = "grey40", colour = "grey40") + 
   stat_pointintervalh(aes(colour = outcome, fill = outcome), 
@@ -267,8 +282,9 @@ LOR <- plotting_data %>%
 
 LOR_plot <- LOR %>%
   ggplot(aes(LOR, outcome, colour = outcome)) + 
-  geom_vline(xintercept = 0, linetype = 2) + 
-  geom_vline(xintercept = 0.9068997, linetype = 2, colour = "grey") +
+  geom_vline(xintercept = 0, linetype = 2) +
+  geom_vline(xintercept = log(2), linetype = 2, colour = "pink") +
+  geom_vline(xintercept = -log(2), linetype = 2, colour = "pink") +
   stat_pointintervalh(aes(colour = outcome, fill = outcome), 
                       position = position_dodge(0.4), 
                       .width = c(0.5, 0.95),
@@ -311,13 +327,21 @@ ggsave(plot = p, filename = "figures/fig2.pdf", height = 6, width = 6)
 p
 ```
 
+The dashed lines mark $LOR = 0$, indicating no effect, and $LOR = \pm log(2)$, i.e. the point at which the odds are twice as high in one treatment as the other.
+
+
+
+
+
 
 ## Hypothesis testing and effect sizes
 
 This section calculates the posterior difference in treatment group means, in order to perform some null hypothesis testing, calculate effect size, and calculate the 95% credible intervals on the effect size. In all cases, the effect size expresses the effect of the "LPS-treated bee CHCs" treatment relative to the "Ringer-treated bee CHCs" control. 
 
 
-### % bees exiting the hive
+### Stats associated with Figure 2B
+
+#### Making Table S4
 
 ```{r}
 my_summary <- function(df, columns, outcome) {
@@ -379,4 +403,36 @@ stats_table %>%
   pack_rows("% bees forced out", 5, 6)
 ```
 
-**Table S4**: This table gives statistics associated with each of the contrasts plotted in Figure 2B. Each pair of rows gives the absolute and standardised effect size (as log odds ratio; LOR) for the LPS treatment, relative to the Ringers treatment, for one of the three possible outcomes (stayed inside, left voluntarily, or forced out). A LOR of $|log(x)|$ indicates that the outcome is $x$ times more frequent in one treatment compared to the other, e.g. $|log(2) = 0.69|$ indicates a two-fold difference in frequency. The $p$ column gives the posterior probability that the true effect size has the same sign as is shown in the Estimate column; this metric has a similar interpretation to a one-tailed $p$ value in frequentist statistics. 
+**Table S4**: This table gives statistics associated with each of the contrasts plotted in Figure 2B. Each pair of rows gives the absolute and standardised effect size (as log odds ratio; LOR) for the LPS treatment, relative to the Ringers treatment, for one of the three possible outcomes (stayed inside, left voluntarily, or forced out). A LOR of $|log(x)|$ indicates that the outcome is $x$ times more frequent in one treatment compared to the other, e.g. $log(2) = 0.69$ indicates a two-fold difference in frequency. The $p$ column gives the posterior probability that the true effect size has the same sign as is shown in the Estimate column; this metric has a similar interpretation to a one-tailed $p$ value in frequentist statistics. 
+
+#### Evaluating evidence for the null hypothesis
+
+Here, we derive the result present in prose in the Results, that the true effect size
+
+```{r}
+LOR_left <- LOR %>%
+  filter(outcome == "Left voluntarily") %>% # Forced out
+  pull(LOR)
+
+sum(LOR_left > -log(1.5) & LOR_left < log(1.5)) / length(LOR_left)
+sum(LOR_left > -log(2) & LOR_left < log(2)) / length(LOR_left)
+```
+
+
+
+### Stats associated with Figure 2C
+
+Here, we derive the result present in prose in the Results, that the 
+
+```{r}
+difference_prop_forced_out_LOR <- plotting_data %>%
+  spread(outcome, prop) %>%
+  mutate(prop_leavers_that_were_forced_out = `Forced out` / (`Forced out` + `Left voluntarily`)) %>%
+  select(posterior_sample, treatment, prop_leavers_that_were_forced_out)  %>%
+  spread(treatment, prop_leavers_that_were_forced_out) %>% 
+  mutate(difference_prop_forced_out_LOR = get_log_odds(Ringers, LPS)) %>%
+  pull(difference_prop_forced_out_LOR)
+
+hypothesis(difference_prop_forced_out_LOR, "x > 0")$hypothesis
+```
+

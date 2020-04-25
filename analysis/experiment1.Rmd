@@ -1,5 +1,7 @@
 ---
 title: "Analysis of Experiment 1"
+editor_options:
+  chunk_output_type: console
 output: 
   workflowr::wflow_html:
     code_folding: hide 
@@ -65,9 +67,11 @@ data_for_categorical_model <- outcome_tally %>%
 
 ### Sample sizes by treatment
 ```{r}
-data_for_categorical_model %>%
+sample_sizes <- data_for_categorical_model %>%
   group_by(treatment) %>%
-  summarise(n = n()) %>%
+  summarise(n = n()) 
+
+sample_sizes %>%
   kable() %>% kable_styling(full_width = FALSE)
 ```
 
@@ -171,6 +175,15 @@ posterior_model_probabilities <- readRDS("output/exp1_post_prob.rds")
 
 
 
+
+### Inspect the posterior model probabilities
+
+```{r}
+posterior_model_probabilities %>%
+  kable(digits = 3) %>%
+  kable_styling(full_width = FALSE)
+```
+
 ### Fixed effects from the full model
 
 The code chunk below wrangles the raw output of the `summary()` functions for `brms` models into a more readable table of results, and also adds 'Bayesian p-values' (i.e. the posterior probability that the true effect size has the same sign as the reported effect). 
@@ -202,23 +215,29 @@ tableS1 %>%
 ### Derive prediction from the posterior
 
 ```{r}
-new <- expand.grid(treatment = levels(data_for_categorical_model$treatment), 
-                   hive = NA,
-                   observation_time_minutes = 120)
+get_posterior_preds <- function(hive){
+  new <- expand.grid(treatment = levels(data_for_categorical_model$treatment), 
+                     hive = hive,
+                     observation_time_minutes = 120)
+  
+  preds <- fitted(exp1_model, newdata = new, summary = FALSE)
+  dimnames(preds) <- list(NULL, new[,1], NULL)
+  
+  rbind(
+    as.data.frame(preds[,, 1]) %>% mutate(outcome = "Stayed inside the hive", posterior_sample = 1:n()),
+    as.data.frame(preds[,, 2]) %>% mutate(outcome = "Left voluntarily", posterior_sample = 1:n()),
+    as.data.frame(preds[,, 3]) %>% mutate(outcome = "Forced out", posterior_sample = 1:n())) %>%
+    gather(treatment, prop, `Intact control`, Ringers, `Heat-treated LPS`, LPS) %>% 
+    mutate(outcome = factor(outcome, c("Stayed inside the hive", "Left voluntarily", "Forced out")),
+           treatment = factor(treatment, c("Intact control", "Ringers", "Heat-treated LPS", "LPS"))) %>%
+    as_tibble() %>% arrange(treatment, outcome) 
+}
 
-preds <- fitted(exp1_model, newdata = new, summary = FALSE)
-dimnames(preds) <- list(NULL, new[,1], NULL)
+# plotting data for panel A: one specific hive
+plotting_data <- get_posterior_preds(hive = "Zoology")
 
-plotting_data <- rbind(
-  as.data.frame(preds[,, 1]) %>% mutate(outcome = "Stayed inside the hive", posterior_sample = 1:n()),
-  as.data.frame(preds[,, 2]) %>% mutate(outcome = "Left voluntarily", posterior_sample = 1:n()),
-  as.data.frame(preds[,, 3]) %>% mutate(outcome = "Forced out", posterior_sample = 1:n())) %>%
-  gather(treatment, prop, `Intact control`, Ringers, `Heat-treated LPS`, LPS) %>% 
-  mutate(outcome = factor(outcome, c("Stayed inside the hive", "Left voluntarily", "Forced out"))) %>%
-  as_tibble() %>% arrange(treatment, outcome) 
-
-stats_data <- plotting_data
-plotting_data$treatment <- factor(plotting_data$treatment, c("Intact control", "Ringers", "Heat-treated LPS", "LPS"))
+# stats data: for panel B and the table of stats
+stats_data <- get_posterior_preds(hive = NA)
 ```
 
 ### Make Figure 1
@@ -227,10 +246,14 @@ plotting_data$treatment <- factor(plotting_data$treatment, c("Intact control", "
 cols <- c("#34558b", "#4ec5a5", "#ffaf12")
 
 dot_plot <- plotting_data %>%
+  left_join(sample_sizes, by = "treatment") %>%
+  arrange(treatment) %>%
   mutate(outcome = str_replace_all(outcome, "Stayed inside the hive", "Stayed inside"),
-         outcome = factor(outcome, c("Stayed inside", "Left voluntarily", "Forced out"))) %>% 
+         outcome = factor(outcome, c("Stayed inside", "Left voluntarily", "Forced out")),
+         treatment = factor(paste(treatment, "\n(n = ", n, ")", sep = ""),
+                            unique(paste(treatment, "\n(n = ", n, ")", sep = "")))) %>% 
   ggplot(aes(100 * prop, treatment)) + 
-  stat_dotsh(quantiles = 100, fill = "grey40", colour = "grey40") + # aes(fill = treatment), 
+  stat_dotsh(quantiles = 100, fill = "grey40", colour = "grey40") + 
   stat_pointintervalh(aes(colour = outcome, fill = outcome), 
                       .width = c(0.5, 0.95),
                       position = position_nudge(y = -0.07), 
@@ -279,8 +302,8 @@ LOR_plot <- LOR %>%
          outcome = factor(outcome, levels = rev(c("Forced out", "Left voluntarily", "Stayed inside")))) %>%
   ggplot(aes(comparison, y = LOR, colour = outcome)) + 
   geom_vline(xintercept = 0, linetype = 2) + 
-  geom_vline(xintercept = 0.6931472, linetype = 2, colour = "pink") +
-  geom_vline(xintercept = -0.6931472, linetype = 2, colour = "pink") +
+  geom_vline(xintercept = log(2), linetype = 2, colour = "pink") +
+  geom_vline(xintercept = -log(2), linetype = 2, colour = "pink") +
   stat_pointintervalh(aes(colour = outcome, fill = outcome), 
                       .width = c(0.5, 0.95),
                       position = position_dodge(0.5), 
@@ -302,7 +325,7 @@ ggsave(plot = p, filename = "figures/fig1.pdf", height = 7, width = 4.7)
 p
 ```
 <br></br>
-**Figure 1**: Panel A shows the posterior estimate of the mean % bees staying inside the hive (left), leaving voluntarily (middle), or being forced out (right), for each of the four treatments. The quantile dot plot shows 100 approximately equally likely estimates of the true % bees, and the horizontal bars show the median and the 50% and 95% credible intervals of the posterior distribution. Panel B gives the posterior estimates of the effect size of each treatment, relative to one of the other treatments (the name of which appears in parentheses), and expressed as a log odds ratio (LOR). Positive LOR indicates that the % bees showing this particular outcome is higher in the treatment than the control; for example, more bees left voluntarily (green) or were forced out (orange) in the LPS treatment than in the intact control. The dashed lines mark $LOR = 0$, indicating no effect, and $LOR = \pm log(2)$, i.e. the point at which the odds are twice as high in one treatment as the other. Statistical results associated with this figure are described in Tables S1-S2. 
+**Figure 1**: Panel A shows the posterior estimate of the mean % bees staying inside the hive (left), leaving voluntarily (middle), or being forced out (right), for each of the four treatments. The quantile dot plot shows 100 approximately equally likely estimates of the true % bees, and the horizontal bars show the median and the 50% and 95% credible intervals of the posterior distribution. Panel B gives the posterior estimates of the effect size of each treatment, relative to one of the other treatments (the name of which appears in parentheses), and expressed as a log odds ratio (LOR). Positive LOR indicates that the % bees showing this particular outcome is higher in the treatment than the control; for example, more bees left voluntarily (green) or were forced out (orange) in the LPS treatment than in the intact control. The dashed lines mark $LOR = 0$, indicating no effect, and $LOR = \pm log(2)$, i.e. the point at which the odds are twice as high in one treatment as the other. For clarity, the estimates plotted in panel A are for one specific hive (the % bees staying inside varied considerably across hives), while the effect sizes in panel B (and the statistics in Table S2) were calculated on the global means for each treatment across hives.
 
 
 
@@ -336,8 +359,7 @@ my_summary <- function(df, columns) {
 
 # Helper to make one unit of the big stats table
 make_stats_table <- function(
-  dat, groupA, groupB, comparison, 
-  metric = "Absolute difference in % bees exiting the hive"){
+  dat, groupA, groupB, comparison, metric){
   
   output <- dat %>%
     spread(treatment, prop) %>%
@@ -359,27 +381,33 @@ stayed_inside_stats_table <- rbind(
   
   stats_data %>%
     filter(outcome == "Stayed inside the hive") %>%
-    make_stats_table(`Heat-treated LPS`, `LPS`, "LPS (Heat-treated LPS)"),
+    make_stats_table(`Heat-treated LPS`, `LPS`, "LPS (Heat-treated LPS)",
+                     metric = "Absolute difference in % bees staying inside the hive"),
   
   stats_data %>%
     filter(outcome == "Stayed inside the hive") %>%
-    make_stats_table(`Ringers`, `LPS`, "LPS (Ringers)"),
+    make_stats_table(`Ringers`, `LPS`, "LPS (Ringers)",
+                     metric = "Absolute difference in % bees staying inside the hive"),
   
   stats_data %>%
     filter(outcome == "Stayed inside the hive") %>%
-    make_stats_table(`Intact control`, `LPS`, "LPS (Intact control)"),
+    make_stats_table(`Intact control`, `LPS`, "LPS (Intact control)",
+                     metric = "Absolute difference in % bees staying inside the hive"),
   
   stats_data %>%
     filter(outcome == "Stayed inside the hive") %>%
-    make_stats_table(`Ringers`, `Heat-treated LPS`, "Heat-treated LPS (Ringers)"),
+    make_stats_table(`Ringers`, `Heat-treated LPS`, "Heat-treated LPS (Ringers)",
+                     metric = "Absolute difference in % bees staying inside the hive"),
   
   stats_data %>%
     filter(outcome == "Stayed inside the hive") %>%
-    make_stats_table(`Intact control`, `Heat-treated LPS`, "Heat-treated LPS (Intact control)"),  
+    make_stats_table(`Intact control`, `Heat-treated LPS`, "Heat-treated LPS (Intact control)",
+                     metric = "Absolute difference in % bees staying inside the hive"),  
   
   stats_data %>%
     filter(outcome == "Stayed inside the hive") %>%
-    make_stats_table(`Intact control`, `Ringers`, "Ringers (Intact control)")
+    make_stats_table(`Intact control`, `Ringers`, "Ringers (Intact control)",
+                     metric = "Absolute difference in % bees staying inside the hive")
   
 ) %>% as_tibble()
 
@@ -399,14 +427,14 @@ voluntary_stats_table <- rbind(
   
   stats_data %>%
     filter(outcome == "Left voluntarily") %>%
-    make_stats_table(`Intact control`, `LPS`, 
-                     "LPS (Intact control)", 
-                     metric = "Absolute difference in % bees that left voluntarily"),
-  
-  stats_data %>%
-    filter(outcome == "Left voluntarily") %>%
     make_stats_table(`Ringers`, `LPS`, 
                      "LPS (Ringers)", 
+                     metric = "Absolute difference in % bees that left voluntarily"),
+  
+   stats_data %>%
+    filter(outcome == "Left voluntarily") %>%
+    make_stats_table(`Intact control`, `LPS`, 
+                     "LPS (Intact control)", 
                      metric = "Absolute difference in % bees that left voluntarily"),
   
   stats_data %>%
@@ -441,17 +469,19 @@ forced_out_stats_table <- rbind(
     make_stats_table(`Heat-treated LPS`, `LPS`, 
                      "LPS (Heat-treated LPS)", 
                      metric = "Absolute difference in % bees that were forced out"),
-  stats_data %>%
-    filter(outcome == "Forced out") %>%
-    make_stats_table(`Intact control`, `LPS`, 
-                     "LPS (Intact control)", 
-                     metric = "Absolute difference in % bees that were forced out"),
   
   stats_data %>%
     filter(outcome == "Forced out") %>%
     make_stats_table(`Ringers`, `LPS`, 
                      "LPS (Ringers)", 
                      metric = "Absolute difference in % bees that were forced out"),
+  
+  stats_data %>%
+    filter(outcome == "Forced out") %>%
+    make_stats_table(`Intact control`, `LPS`, 
+                     "LPS (Intact control)", 
+                     metric = "Absolute difference in % bees that were forced out"),
+  
   stats_data %>%
     filter(outcome == "Forced out") %>%
     make_stats_table(`Ringers`, `Heat-treated LPS`, 
@@ -471,7 +501,6 @@ forced_out_stats_table <- rbind(
 
 forced_out_stats_table[c(2,4,6,8,10,12), 1] <- " "
 ```
-
 
 **Table S2**: This table gives statistics associated with each of the contrasts plotted in Figure 1B. Each pair of rows gives the absolute and standardised effect size (as log odds ratio; LOR) for the focal treatment, relative to the treatment shown in parentheses, for one of the three possible outcomes (stayed inside, left voluntarily, or forced out). A LOR of $|log(x)|$ indicates that the outcome is $x$ times more frequent in one treatment compared to the other, e.g. $|log(2) = 0.69|$ indicates a two-fold difference in frequency. The $p$ column gives the posterior probability that the true effect size has the same sign as is shown in the Estimate column; this metric has a similar interpretation to a one-tailed $p$ value in frequentist statistics. 
 
