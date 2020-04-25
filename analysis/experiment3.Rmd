@@ -223,55 +223,6 @@ tableS5 %>%
 **Table S5:** Table summarising the posterior estimates of each fixed effect in the best-fitting model of Experiment 3 that contained the treatment effect. This was a binomial model where the response variable was 0 for observations in which bees were not in close contact, and 1 when they were. 'Treatment' is a fixed factor with two levels, and the effect of LPS shown here is expressed relative to the 'Ringers' treatment. 'Hive' was a fixed factor with four levels; unlike for treatment, we modelled hive using deviation coding, such that the intercept term represents the mean across all hives (in the Ringers treatment), and the three hive terms represent the deviation from this mean for three of the four hives. The model also included a random effect 'pair ID' (XXXXX), which grouped repeated observations made on each pair of bees, preventing pseudoreplication. The $p$ column gives the posterior probability that the true effect size is opposite in sign to what is reported in the Estimate column, similarly to a p-value.
 
 
-```{r eval=F}
-movement_files <- c("data/data_collection_sheets/hiveA_movement.csv",
-                    "data/data_collection_sheets/hiveB_movement.csv",
-                    "data/data_collection_sheets/hiveC_movement.csv",
-                    "data/data_collection_sheets/hiveD_movement.csv")
-movement <- map(1:4, ~ read_csv(movement_files[.x]) %>%
-                  mutate(hive = c("A", "B", "C", "D")[.x]) %>%
-                  gather(video, movement, -hive, -tube)) %>%
-  bind_rows() %>%
-  mutate(treatment = ifelse(substr(tube, 1, 1) %in% c("A", "B"), "AB", "CD")) %>%
-  mutate(treatment = replace(treatment, treatment == "AB" & hive %in% c("A", "B"), "Ringers"),
-         treatment = replace(treatment, treatment == "AB" & hive %in% c("C", "D"), "LPS"),
-         treatment = replace(treatment, treatment == "CD" & hive %in% c("A", "B"), "LPS"),
-         treatment = replace(treatment, treatment == "CD" & hive %in% c("C", "D"), "Ringers")) %>%
-  split(.$hive) %>%
-  map(~ .x %>% arrange(video) %>% 
-        mutate(video = as.numeric(factor(video, unique(video))))) %>%
-  bind_rows() %>%
-  mutate(hive = replace(hive, hive == "A", "Garden"),
-         hive = replace(hive, hive == "B", "Skylab"),
-         hive = replace(hive, hive == "C", "Arts"),
-         hive = replace(hive, hive == "D", "Zoology"))
-
-movement %>%
-  mutate(movement = factor(movement)) %>%
-  group_by(movement, treatment) %>%
-  summarise(n=n()) %>%
-  ggplot(aes(movement, n, fill = treatment)) +
-  geom_bar(stat = "identity", colour = "grey20", position = "dodge") +
-  scale_fill_brewer(palette="Pastel2", direction = 1)
-
-library(brms)
-mod <- brm(movement | cat(3) ~ treatment + (1 | tube),
-           data = movement %>% mutate(movement = movement + 1), family = cumulative())
-marginal_effects(mod, categorical = T)
-
-new <- expand.grid(hive = c("Arts", "Garden", "Skylab", "Zoology"),
-                   treatment = c("Ringers", "LPS"))
-
-data.frame(new, rbind(fitted(mod, newdata = new, re_formula = NA)[,,1],
-                      fitted(mod, newdata = new, re_formula = NA)[,,2],
-                      fitted(mod, newdata = new, re_formula = NA)[,,3])) %>%
-  mutate(movement = factor(rep(0:2, each = nrow(new)))) %>%
-  ggplot(aes(movement, Estimate, ymin = Q2.5, ymax=Q97.5, colour = treatment)) +
-  geom_errorbar(position = position_dodge(0.2), width = 0) +
-  geom_point(position = position_dodge(0.2)) +
-  facet_wrap(~ hive)
-```
-
 
 ## Plotting estimates from the model
 
