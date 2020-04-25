@@ -9,6 +9,8 @@ navbar:
     href: about.html
   - text: License
     href: license.html
+  - text: "Experiment 1"
+    href: experiment1.html
 output:
   workflowr::wflow_html:
     toc: yes
