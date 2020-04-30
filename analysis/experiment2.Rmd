@@ -7,6 +7,12 @@ output:
     code_folding: hide 
 ---
 
+```{r setup, include=FALSE}
+library(thematic)
+thematic_on()
+knitr::opts_chunk$set(echo = FALSE)
+```
+
 ## Load data and R packages
 
 ```{r results='hide', message=F, warning=F}
@@ -332,8 +338,6 @@ The dashed lines mark $LOR = 0$, indicating no effect, and $LOR = \pm log(2)$, i
 
 
 
-
-
 ## Hypothesis testing and effect sizes
 
 This section calculates the posterior difference in treatment group means, in order to perform some null hypothesis testing, calculate effect size, and calculate the 95% credible intervals on the effect size. In all cases, the effect size expresses the effect of the "LPS-treated bee CHCs" treatment relative to the "Ringer-treated bee CHCs" control. 
@@ -410,12 +414,24 @@ stats_table %>%
 Here, we derive the result present in prose in the Results, that the true effect size
 
 ```{r}
-LOR_left <- LOR %>%
-  filter(outcome == "Left voluntarily") %>% # Forced out
+LOR_forced <- LOR %>%
+  filter(outcome == "Forced out") %>% 
   pull(LOR)
 
-sum(LOR_left > -log(1.5) & LOR_left < log(1.5)) / length(LOR_left)
-sum(LOR_left > -log(2) & LOR_left < log(2)) / length(LOR_left)
+LOR_left <- LOR %>%
+  filter(outcome == "Left voluntarily") %>%
+  pull(LOR)
+
+ROPE_calculation <- function(scale, LOR_data){
+  sum(LOR_data > -log(scale) & LOR_data < log(scale)) / length(LOR_data)
+}
+
+ROPE_calculation(1.5, LOR_left)
+ROPE_calculation(2, LOR_left)
+ROPE_calculation(1.5, LOR_forced)
+ROPE_calculation(2, LOR_forced)
+
+
 ```
 
 
@@ -433,6 +449,6 @@ difference_prop_forced_out_LOR <- plotting_data %>%
   mutate(difference_prop_forced_out_LOR = get_log_odds(Ringers, LPS)) %>%
   pull(difference_prop_forced_out_LOR)
 
-hypothesis(difference_prop_forced_out_LOR, "x > 0")$hypothesis
+hypothesis(difference_prop_forced_out_LOR, "x > 0", alpha = 0.05)$hypothesis
 ```
 

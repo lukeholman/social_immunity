@@ -310,7 +310,8 @@ LOR_plot <- LOR %>%
                       point_colour = "grey26", pch = 21, stroke = 0.4) + 
   scale_colour_manual(values = cols) + 
   scale_fill_manual(values = cols) + 
-  xlab("Effect size (posterior log odds ratio)") + ylab("Treatment (reference)") + 
+  xlab("Effect size (posterior log odds ratio)") + 
+  ylab("Treatment (reference)") + 
   theme_bw() +
   theme(
     text = element_text(family = nice_font),
@@ -502,10 +503,6 @@ forced_out_stats_table <- rbind(
 forced_out_stats_table[c(2,4,6,8,10,12), 1] <- " "
 ```
 
-**Table S2**: This table gives statistics associated with each of the contrasts plotted in Figure 1B. Each pair of rows gives the absolute and standardised effect size (as log odds ratio; LOR) for the focal treatment, relative to the treatment shown in parentheses, for one of the three possible outcomes (stayed inside, left voluntarily, or forced out). A LOR of $|log(x)|$ indicates that the outcome is $x$ times more frequent in one treatment compared to the other, e.g. $|log(2) = 0.69|$ indicates a two-fold difference in frequency. The $p$ column gives the posterior probability that the true effect size has the same sign as is shown in the Estimate column; this metric has a similar interpretation to a one-tailed $p$ value in frequentist statistics. 
-
-
-
 ```{r}
 bind_rows(
   stayed_inside_stats_table,
@@ -517,4 +514,6 @@ bind_rows(
   pack_rows("% bees leaving voluntarily", 13, 24) %>%
   pack_rows("% bees forced out", 25, 36)
 ```
+
+**Table S2**: This table gives statistics associated with each of the contrasts plotted in Figure 1B. Each pair of rows gives the absolute and standardised effect size (as log odds ratio; LOR) for the focal treatment, relative to the treatment shown in parentheses, for one of the three possible outcomes (stayed inside, left voluntarily, or forced out). A LOR of $|log(x)|$ indicates that the outcome is $x$ times more frequent in one treatment compared to the other, e.g. $log(2) = 0.69$ and $log(0.5) = -0.69$ correspond to a two-fold difference in frequency. The $p$ column gives the posterior probability that the true effect size has the same sign as is shown in the Estimate column; this metric has a similar interpretation to a one-tailed $p$ value in frequentist statistics. 
 

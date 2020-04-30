@@ -77,6 +77,36 @@ expt3_counts <- experiment3 %>%
   mutate(hive = C(factor(hive), sum)) # sum coding for hive
 ```
 
+```{r eval=FALSE}
+time <- experiment3 %>%
+  group_by(treatment, hive, minute) %>%
+  summarise(n = sum(touching),
+            total = n(),
+            prop = n / total) 
+
+time %>%
+  ggplot(aes(minute, prop, colour = treatment))  +
+  geom_line() +
+  facet_wrap(~ hive)
+
+library(lme4)
+repeated <- brm(touching ~ treatment * hive * minute + (minute | tube), 
+                prior = prior(normal(0, 1.5), class = "b"),
+                iter = 4000, 
+                data = experiment3 %>%
+                  mutate(minute = as.numeric(scale(minute))), family = "bernoulli")
+
+new <- experiment3 %>%
+  mutate(minute = as.numeric(scale(minute))) %>%
+  select(hive, treatment, minute) %>% distinct()
+data.frame(new, pred=predict(gam_model, newdata = new, re.form = NA, type = "response", se.fit =T)) %>%
+  ggplot(aes(minute, pred, colour = treatment))  +
+  geom_line() +
+  facet_wrap(~ hive)
+
+```
+
+
 ## Inspect the raw data
 
 ### Sample sizes by treatment
