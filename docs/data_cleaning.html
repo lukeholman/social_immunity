@@ -15,12 +15,11 @@
 
 <title>data_cleaning</title>
 
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
-<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
-<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
-<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+<meta name="name" content="viewport" />
+<meta name="content" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<link href="site_libs/bootstrap-3.4.1/bootstrap-custom.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.4.1/bootstrap.min.js"></script>
 <script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
@@ -30,8 +29,17 @@
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
+  pre {
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: .5rem;
+  }
   pre:not([class]) {
     background-color: white;
+  }
+  pre code {
+    background-color: transparent;
   }
 </style>
 <script type="text/javascript">
@@ -68,6 +76,7 @@ h5 {
 h6 {
   font-size: 12px;
 }
+
 .table th:not([align]) {
   text-align: left;
 }
@@ -105,6 +114,7 @@ summary {
 
 
 <style type="text/css">
+/* TODO: remove this padding CSS when we drop BS3 */
 /* padding for bootstrap navbar */
 body {
   padding-top: 51px;
@@ -135,6 +145,7 @@ body {
   padding-top: 56px;
   margin-top: -56px;
 }
+
 .dropdown-submenu {
   position: relative;
 }
@@ -185,27 +196,29 @@ $(document).ready(function () {
   var menuAnchor = $('a[href="' + href + '"]');
 
   // mark it active
-  menuAnchor.parent().addClass('active');
+  menuAnchor.tab('show');
 
   // if it's got a parent navbar menu mark it active as well
   menuAnchor.closest('li.dropdown').addClass('active');
 });
 </script>
 
-<!-- tabsets -->
-
+<!--
+  Note that .tabset-dropdown was initially implemented using Glyphicons, which were dropped
+  in BS4. The idea behind the "equivalent" BS4 CSS derives from how carets are implemented
+  https://github.com/twbs/bootstrap/blob/099860/scss/mixins/_caret.scss#L1
+-->
 <style type="text/css">
 .tabset-dropdown > .nav-tabs {
   display: inline-table;
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
+.tabset-dropdown > .nav-tabs > li.active-dropdown-tab:before {
   content: "";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
@@ -213,7 +226,7 @@ $(document).ready(function () {
   border-right: 1px solid #ddd;
 }
 
-.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active-dropdown-tab:before {
   content: "&#xe258;";
   border: none;
 }
@@ -226,7 +239,7 @@ $(document).ready(function () {
   border-right: 1px solid #ddd;
 }
 
-.tabset-dropdown > .nav-tabs > li.active {
+.tabset-dropdown > .nav-tabs > li.active-dropdown-tab {
   display: block;
 }
 
@@ -326,13 +339,13 @@ div.tocify {
 
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
+<div class="row">
 <div class="col-xs-12 col-sm-4 col-md-3">
 <div id="TOC" class="tocify">
 </div>
 </div>
 
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+<div class="toc-content col-sm-12 col-md-8 col-lg-9">
 
 
 
@@ -382,7 +395,7 @@ div.section {
 }
 </style>
 
-<div class="fluid-row" id="header">
+<div id="header">
 
 
 
@@ -413,7 +426,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-04-25
+<strong>Last updated:</strong> 2020-04-30
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -504,10 +517,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytreee6f52d0f6245501fda53d3c71e8719dc6b9c067dtargetblanke6f52d0a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/e6f52d0f6245501fda53d3c71e8719dc6b9c067d" target="_blank">e6f52d0</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree12953af2118eb7a0de5ae95788383bc740ef54d1targetblank12953afa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/12953af2118eb7a0de5ae95788383bc740ef54d1" target="_blank">12953af</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytreee6f52d0f6245501fda53d3c71e8719dc6b9c067dtargetblanke6f52d0a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree12953af2118eb7a0de5ae95788383bc740ef54d1targetblank12953afa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -570,6 +583,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/social_immunity/d6437a5f885d83b7b0dfa91f632d41d691289ab4/docs/data_cleaning.html" target="_blank">d6437a5</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-04-25
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -824,21 +854,26 @@ other attached packages:
  [9] tidyverse_1.3.0 workflowr_1.6.0
 
 loaded via a namespace (and not attached):
- [1] tidyselect_1.0.0 xfun_0.13        haven_2.2.0      lattice_0.20-41 
- [5] colorspace_1.4-1 vctrs_0.2.4      generics_0.0.2   htmltools_0.4.0 
- [9] yaml_2.2.1       rlang_0.4.5      later_1.0.0      pillar_1.4.3    
-[13] withr_2.1.2      glue_1.4.0       DBI_1.1.0        dbplyr_1.4.2    
-[17] readxl_1.3.1     modelr_0.1.5     lifecycle_0.2.0  cellranger_1.1.0
-[21] munsell_0.5.0    gtable_0.3.0     rvest_0.3.5      evaluate_0.14   
-[25] knitr_1.28       httpuv_1.5.2     fansi_0.4.1      broom_0.5.4     
-[29] Rcpp_1.0.3       promises_1.1.0   backports_1.1.6  scales_1.1.0    
-[33] jsonlite_1.6.1   fs_1.3.1         hms_0.5.3        digest_0.6.25   
-[37] stringi_1.4.6    rprojroot_1.3-2  grid_3.6.3       cli_2.0.2       
-[41] tools_3.6.3      magrittr_1.5     crayon_1.3.4     whisker_0.4     
-[45] pkgconfig_2.0.3  ellipsis_0.3.0   xml2_1.3.1       reprex_0.3.0    
-[49] lubridate_1.7.8  rstudioapi_0.11  assertthat_0.2.1 rmarkdown_2.1   
-[53] httr_1.4.1       R6_2.4.1         nlme_3.1-147     git2r_0.26.1    
-[57] compiler_3.6.3  </code></pre>
+ [1] tidyselect_1.0.0        xfun_0.13               haven_2.2.0            
+ [4] lattice_0.20-41         colorspace_1.4-1        vctrs_0.2.4            
+ [7] generics_0.0.2          htmltools_0.4.0.9003    yaml_2.2.1             
+[10] rlang_0.4.5             jquerylib_0.1           later_1.0.0            
+[13] pillar_1.4.3            withr_2.1.2             glue_1.4.0             
+[16] DBI_1.1.0               dbplyr_1.4.2            readxl_1.3.1           
+[19] modelr_0.1.5            lifecycle_0.2.0         cellranger_1.1.0       
+[22] munsell_0.5.0           gtable_0.3.0            rvest_0.3.5            
+[25] evaluate_0.14           knitr_1.28              httpuv_1.5.2           
+[28] fansi_0.4.1             broom_0.5.4             Rcpp_1.0.4.6           
+[31] promises_1.1.0          backports_1.1.6         scales_1.1.0           
+[34] jsonlite_1.6.1          fs_1.4.1                hms_0.5.3              
+[37] digest_0.6.25           stringi_1.4.6           rprojroot_1.3-2        
+[40] grid_3.6.3              cli_2.0.2               tools_3.6.3            
+[43] magrittr_1.5            sass_0.2.0              crayon_1.3.4           
+[46] whisker_0.4             pkgconfig_2.0.3         ellipsis_0.3.0         
+[49] xml2_1.3.1              reprex_0.3.0            lubridate_1.7.8        
+[52] rstudioapi_0.11         assertthat_0.2.1        rmarkdown_2.2.0        
+[55] bootstraplib_0.1.0.9000 httr_1.4.1              R6_2.4.1               
+[58] nlme_3.1-147            git2r_0.26.1            compiler_3.6.3         </code></pre>
 </div>
 </div>
 
@@ -883,7 +918,9 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
+    $(this).siblings().removeClass("active-dropdown-tab");
+    $(this).addClass("active-dropdown-tab");
   });
 });
 </script>
@@ -904,7 +941,7 @@ $(document).ready(function ()  {
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
       },
       ignoreSelector: ".toc-ignore",
       scrollTo: 0

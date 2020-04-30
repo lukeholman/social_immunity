@@ -13,12 +13,11 @@
 
 <title>Analysis of Experiment 3</title>
 
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
-<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
-<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
-<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+<meta name="name" content="viewport" />
+<meta name="content" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<link href="site_libs/bootstrap-3.4.1/bootstrap-custom.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.4.1/bootstrap.min.js"></script>
 <script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
@@ -30,8 +29,17 @@
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
+  pre {
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: .5rem;
+  }
   pre:not([class]) {
     background-color: white;
+  }
+  pre code {
+    background-color: transparent;
   }
 </style>
 <script type="text/javascript">
@@ -68,6 +76,7 @@ h5 {
 h6 {
   font-size: 12px;
 }
+
 .table th:not([align]) {
   text-align: left;
 }
@@ -105,6 +114,7 @@ summary {
 
 
 <style type="text/css">
+/* TODO: remove this padding CSS when we drop BS3 */
 /* padding for bootstrap navbar */
 body {
   padding-top: 51px;
@@ -135,6 +145,7 @@ body {
   padding-top: 56px;
   margin-top: -56px;
 }
+
 .dropdown-submenu {
   position: relative;
 }
@@ -185,27 +196,29 @@ $(document).ready(function () {
   var menuAnchor = $('a[href="' + href + '"]');
 
   // mark it active
-  menuAnchor.parent().addClass('active');
+  menuAnchor.tab('show');
 
   // if it's got a parent navbar menu mark it active as well
   menuAnchor.closest('li.dropdown').addClass('active');
 });
 </script>
 
-<!-- tabsets -->
-
+<!--
+  Note that .tabset-dropdown was initially implemented using Glyphicons, which were dropped
+  in BS4. The idea behind the "equivalent" BS4 CSS derives from how carets are implemented
+  https://github.com/twbs/bootstrap/blob/099860/scss/mixins/_caret.scss#L1
+-->
 <style type="text/css">
 .tabset-dropdown > .nav-tabs {
   display: inline-table;
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
+.tabset-dropdown > .nav-tabs > li.active-dropdown-tab:before {
   content: "";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
@@ -213,7 +226,7 @@ $(document).ready(function () {
   border-right: 1px solid #ddd;
 }
 
-.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active-dropdown-tab:before {
   content: "&#xe258;";
   border: none;
 }
@@ -226,7 +239,7 @@ $(document).ready(function () {
   border-right: 1px solid #ddd;
 }
 
-.tabset-dropdown > .nav-tabs > li.active {
+.tabset-dropdown > .nav-tabs > li.active-dropdown-tab {
   display: block;
 }
 
@@ -329,13 +342,13 @@ div.tocify {
 
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
+<div class="row">
 <div class="col-xs-12 col-sm-4 col-md-3">
 <div id="TOC" class="tocify">
 </div>
 </div>
 
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+<div class="toc-content col-sm-12 col-md-8 col-lg-9">
 
 
 
@@ -385,13 +398,13 @@ div.section {
 }
 </style>
 
-<div class="fluid-row" id="header">
+<div id="header">
 
-<div class="btn-group pull-right">
-<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
 <ul class="dropdown-menu" style="min-width: 50px;">
-<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
-<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li><a class="dropdown-item" id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a class="dropdown-item" id="rmd-hide-all-code" href="#">Hide All Code</a></li>
 </ul>
 </div>
 
@@ -422,7 +435,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-04-25
+<strong>Last updated:</strong> 2020-04-30
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -513,10 +526,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytreee6f52d0f6245501fda53d3c71e8719dc6b9c067dtargetblanke6f52d0a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/e6f52d0f6245501fda53d3c71e8719dc6b9c067d" target="_blank">e6f52d0</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree12953af2118eb7a0de5ae95788383bc740ef54d1targetblank12953afa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/12953af2118eb7a0de5ae95788383bc740ef54d1" target="_blank">12953af</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytreee6f52d0f6245501fda53d3c71e8719dc6b9c067dtargetblanke6f52d0a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree12953af2118eb7a0de5ae95788383bc740ef54d1targetblank12953afa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -540,7 +553,6 @@ Unstaged changes:
     Modified:   .gitignore
     Modified:   figures/fig1.pdf
     Modified:   figures/fig2.pdf
-    Modified:   figures/fig3.pdf
 
 </code></pre>
 <p>
@@ -579,6 +591,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/12953af2118eb7a0de5ae95788383bc740ef54d1/analysis/experiment3.Rmd" target="_blank">12953af</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-04-30
+</td>
+<td>
+test new theme
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/social_immunity/d6437a5f885d83b7b0dfa91f632d41d691289ab4/docs/experiment3.html" target="_blank">d6437a5</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-04-25
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -891,6 +937,31 @@ expt3_counts &lt;- experiment3 %&gt;%
   filter(!is.na(n_touching)) %&gt;%
   mutate(treatment = factor(treatment, c(&quot;Ringers&quot;, &quot;LPS&quot;))) %&gt;%
   mutate(hive = C(factor(hive), sum)) # sum coding for hive</code></pre>
+<pre class="r"><code>time &lt;- experiment3 %&gt;%
+  group_by(treatment, hive, minute) %&gt;%
+  summarise(n = sum(touching),
+            total = n(),
+            prop = n / total) 
+
+time %&gt;%
+  ggplot(aes(minute, prop, colour = treatment))  +
+  geom_line() +
+  facet_wrap(~ hive)
+
+library(lme4)
+repeated &lt;- brm(touching ~ treatment * hive * minute + (minute | tube), 
+                prior = prior(normal(0, 1.5), class = &quot;b&quot;),
+                iter = 4000, 
+                data = experiment3 %&gt;%
+                  mutate(minute = as.numeric(scale(minute))), family = &quot;bernoulli&quot;)
+
+new &lt;- experiment3 %&gt;%
+  mutate(minute = as.numeric(scale(minute))) %&gt;%
+  select(hive, treatment, minute) %&gt;% distinct()
+data.frame(new, pred=predict(gam_model, newdata = new, re.form = NA, type = &quot;response&quot;, se.fit =T)) %&gt;%
+  ggplot(aes(minute, pred, colour = treatment))  +
+  geom_line() +
+  facet_wrap(~ hive)</code></pre>
 </div>
 <div id="inspect-the-raw-data" class="section level2">
 <h2>Inspect the raw data</h2>
@@ -1246,66 +1317,7 @@ raw_histogram &lt;- histo_data %&gt;%
 
 rm(histo_data)
 raw_histogram</code></pre>
-<p><img src="figure/experiment3.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-1">
-Past versions of unnamed-chunk-5-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-5-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/social_immunity/blob/2235ae45f5172d02b309ea28831bc1759c111926/docs/figure/experiment3.Rmd/unnamed-chunk-5-1.png" target="_blank">2235ae4</a>
-</td>
-<td>
-lukeholman
-</td>
-<td>
-2020-04-25
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/social_immunity/blob/99649a7a9ef820b67ec6ba211f1f28b816c14e21/docs/figure/experiment3.Rmd/unnamed-chunk-5-1.png" target="_blank">99649a7</a>
-</td>
-<td>
-lukeholman
-</td>
-<td>
-2020-04-25
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/social_immunity/blob/1ce9e19446a3c5559528bd2605aef694c373efa0/docs/figure/experiment3.Rmd/unnamed-chunk-5-1.png" target="_blank">1ce9e19</a>
-</td>
-<td>
-lukeholman
-</td>
-<td>
-2020-04-21
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/experiment3.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="binomial-model-of-time-spent-in-contact" class="section level2">
@@ -1628,13 +1640,13 @@ p &lt;- cowplot::plot_grid(raw_histogram,
                         nrow = 1, align = &#39;h&#39;, axis = &#39;l&#39;)
 ggsave(plot = p, filename = &quot;figures/fig3.pdf&quot;, height = 3.2, width = 8.6)
 p</code></pre>
-<p><img src="figure/experiment3.Rmd/unnamed-chunk-9-1.png" width="825.6" style="display: block; margin: auto;" /></p>
+<p><img src="figure/experiment3.Rmd/unnamed-chunk-10-1.png" width="825.6" style="display: block; margin: auto;" /></p>
 <p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-9-1">
-Past versions of unnamed-chunk-9-1.png
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-1">
+Past versions of unnamed-chunk-10-1.png
 </button>
 </p>
-<div id="fig-unnamed-chunk-9-1" class="collapse">
+<div id="fig-unnamed-chunk-10-1" class="collapse">
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
 <thead>
@@ -1653,13 +1665,68 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/lukeholman/social_immunity/blob/71b61606c2c4ca843d6a5ae1ab7d8ec2637b4935/docs/figure/experiment3.Rmd/unnamed-chunk-9-1.png" target="_blank">71b6160</a>
+<a href="https://github.com/lukeholman/social_immunity/blob/71b61606c2c4ca843d6a5ae1ab7d8ec2637b4935/docs/figure/experiment3.Rmd/unnamed-chunk-10-1.png" target="_blank">71b6160</a>
 </td>
 <td>
 lukeholman
 </td>
 <td>
 2020-04-25
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/2235ae45f5172d02b309ea28831bc1759c111926/docs/figure/experiment3.Rmd/unnamed-chunk-10-1.png" target="_blank">2235ae4</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-04-25
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/99649a7a9ef820b67ec6ba211f1f28b816c14e21/docs/figure/experiment3.Rmd/unnamed-chunk-10-1.png" target="_blank">99649a7</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-04-25
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/0ede6e3f36a44f7fd5170f56dfd8615691278b79/docs/figure/experiment3.Rmd/unnamed-chunk-10-1.png" target="_blank">0ede6e3</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-04-24
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/a1f8dc23d961740443b360d082aea9f0e23226fa/docs/figure/experiment3.Rmd/unnamed-chunk-10-1.png" target="_blank">a1f8dc2</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-04-24
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/1ce9e19446a3c5559528bd2605aef694c373efa0/docs/figure/experiment3.Rmd/unnamed-chunk-10-1.png" target="_blank">1ce9e19</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-04-21
 </td>
 </tr>
 </tbody>
@@ -1803,46 +1870,47 @@ other attached packages:
  [5] kableExtra_1.1.0 gridExtra_2.3    forcats_0.5.0    stringr_1.4.0   
  [9] dplyr_0.8.5      purrr_0.3.3      readr_1.3.1      tidyr_1.0.2     
 [13] tibble_3.0.0     ggplot2_3.3.0    tidyverse_1.3.0  bayesplot_1.7.1 
-[17] brms_2.12.0      Rcpp_1.0.3       showtext_0.7-1   showtextdb_2.0  
+[17] brms_2.12.0      Rcpp_1.0.4.6     showtext_0.7-1   showtextdb_2.0  
 [21] sysfonts_0.8     workflowr_1.6.0 
 
 loaded via a namespace (and not attached):
-  [1] colorspace_1.4-1     ellipsis_0.3.0       ggridges_0.5.2      
-  [4] rsconnect_0.8.16     rprojroot_1.3-2      markdown_1.1        
-  [7] base64enc_0.1-3      fs_1.3.1             rstudioapi_0.11     
- [10] farver_2.0.3         rstan_2.19.3         svUnit_0.7-12       
- [13] DT_0.13              fansi_0.4.1          mvtnorm_1.1-0       
- [16] lubridate_1.7.8      xml2_1.3.1           bridgesampling_1.0-0
- [19] knitr_1.28           shinythemes_1.1.2    jsonlite_1.6.1      
- [22] broom_0.5.4          dbplyr_1.4.2         shiny_1.4.0         
- [25] compiler_3.6.3       httr_1.4.1           backports_1.1.6     
- [28] assertthat_0.2.1     Matrix_1.2-18        fastmap_1.0.1       
- [31] cli_2.0.2            later_1.0.0          htmltools_0.4.0     
- [34] prettyunits_1.1.1    tools_3.6.3          igraph_1.2.5        
- [37] coda_0.19-3          gtable_0.3.0         glue_1.4.0          
- [40] reshape2_1.4.4       cellranger_1.1.0     vctrs_0.2.4         
- [43] nlme_3.1-147         crosstalk_1.1.0.1    insight_0.8.1       
- [46] xfun_0.13            ps_1.3.0             rvest_0.3.5         
- [49] mime_0.9             miniUI_0.1.1.1       lifecycle_0.2.0     
- [52] gtools_3.8.2         zoo_1.8-7            colourpicker_1.0    
- [55] hms_0.5.3            promises_1.1.0       Brobdingnag_1.2-6   
- [58] parallel_3.6.3       inline_0.3.15        RColorBrewer_1.1-2  
- [61] shinystan_2.5.0      curl_4.3             yaml_2.2.1          
- [64] loo_2.2.0            StanHeaders_2.19.2   stringi_1.4.6       
- [67] highr_0.8            dygraphs_1.1.1.6     pkgbuild_1.0.6      
- [70] rlang_0.4.5          pkgconfig_2.0.3      matrixStats_0.56.0  
- [73] evaluate_0.14        lattice_0.20-41      labeling_0.3        
- [76] rstantools_2.0.0     htmlwidgets_1.5.1    processx_3.4.2      
- [79] tidyselect_1.0.0     plyr_1.8.6           magrittr_1.5        
- [82] R6_2.4.1             generics_0.0.2       DBI_1.1.0           
- [85] pillar_1.4.3         haven_2.2.0          whisker_0.4         
- [88] withr_2.1.2          xts_0.12-0           abind_1.4-5         
- [91] modelr_0.1.5         crayon_1.3.4         arrayhelpers_1.1-0  
- [94] rmarkdown_2.1        grid_3.6.3           readxl_1.3.1        
- [97] callr_3.4.3          git2r_0.26.1         threejs_0.3.3       
-[100] reprex_0.3.0         digest_0.6.25        webshot_0.5.2       
-[103] xtable_1.8-4         httpuv_1.5.2         stats4_3.6.3        
-[106] munsell_0.5.0        viridisLite_0.3.0    shinyjs_1.1         </code></pre>
+  [1] colorspace_1.4-1        ellipsis_0.3.0          ggridges_0.5.2         
+  [4] rsconnect_0.8.16        rprojroot_1.3-2         markdown_1.1           
+  [7] base64enc_0.1-3         fs_1.4.1                rstudioapi_0.11        
+ [10] farver_2.0.3            bootstraplib_0.1.0.9000 rstan_2.19.3           
+ [13] svUnit_0.7-12           DT_0.13                 fansi_0.4.1            
+ [16] mvtnorm_1.1-0           lubridate_1.7.8         xml2_1.3.1             
+ [19] bridgesampling_1.0-0    knitr_1.28              shinythemes_1.1.2      
+ [22] jsonlite_1.6.1          broom_0.5.4             dbplyr_1.4.2           
+ [25] shiny_1.4.0             compiler_3.6.3          httr_1.4.1             
+ [28] backports_1.1.6         assertthat_0.2.1        Matrix_1.2-18          
+ [31] fastmap_1.0.1           cli_2.0.2               later_1.0.0            
+ [34] htmltools_0.4.0.9003    prettyunits_1.1.1       tools_3.6.3            
+ [37] igraph_1.2.5            coda_0.19-3             gtable_0.3.0           
+ [40] glue_1.4.0              reshape2_1.4.4          cellranger_1.1.0       
+ [43] jquerylib_0.1           vctrs_0.2.4             nlme_3.1-147           
+ [46] crosstalk_1.1.0.1       insight_0.8.1           xfun_0.13              
+ [49] ps_1.3.0                rvest_0.3.5             mime_0.9               
+ [52] miniUI_0.1.1.1          lifecycle_0.2.0         gtools_3.8.2           
+ [55] zoo_1.8-7               colourpicker_1.0        hms_0.5.3              
+ [58] promises_1.1.0          Brobdingnag_1.2-6       parallel_3.6.3         
+ [61] inline_0.3.15           RColorBrewer_1.1-2      shinystan_2.5.0        
+ [64] curl_4.3                yaml_2.2.1              loo_2.2.0              
+ [67] StanHeaders_2.19.2      sass_0.2.0              stringi_1.4.6          
+ [70] highr_0.8               dygraphs_1.1.1.6        pkgbuild_1.0.6         
+ [73] rlang_0.4.5             pkgconfig_2.0.3         matrixStats_0.56.0     
+ [76] evaluate_0.14           lattice_0.20-41         labeling_0.3           
+ [79] rstantools_2.0.0        htmlwidgets_1.5.1       processx_3.4.2         
+ [82] tidyselect_1.0.0        plyr_1.8.6              magrittr_1.5           
+ [85] R6_2.4.1                generics_0.0.2          DBI_1.1.0              
+ [88] withr_2.1.2             pillar_1.4.3            haven_2.2.0            
+ [91] whisker_0.4             xts_0.12-0              abind_1.4-5            
+ [94] modelr_0.1.5            crayon_1.3.4            arrayhelpers_1.1-0     
+ [97] rmarkdown_2.2.0         grid_3.6.3              readxl_1.3.1           
+[100] callr_3.4.3             git2r_0.26.1            threejs_0.3.3          
+[103] webshot_0.5.2           reprex_0.3.0            digest_0.6.25          
+[106] xtable_1.8-4            httpuv_1.5.2            stats4_3.6.3           
+[109] munsell_0.5.0           viridisLite_0.3.0       shinyjs_1.1            </code></pre>
 </div>
 </div>
 
@@ -1887,7 +1955,9 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
+    $(this).siblings().removeClass("active-dropdown-tab");
+    $(this).addClass("active-dropdown-tab");
   });
 });
 </script>
@@ -1913,7 +1983,7 @@ $(document).ready(function ()  {
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
       },
       ignoreSelector: ".toc-ignore",
       scrollTo: 0
