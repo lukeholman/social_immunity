@@ -29,7 +29,7 @@ library(scales)
 source("code/helper_functions.R")
 
 # set up nice font for figure
-nice_font <- "PT Serif"
+nice_font <- "Lora"
 font_add_google(name = nice_font, family = nice_font, regular.wt = 400, bold.wt = 700)
 showtext_auto()
 
@@ -145,7 +145,7 @@ expt3_counts %>%
 
 Note that bees more often spent close to 100% of the observation period in contact in the control group, relative to the group treated with LPS.
 
-```{r}
+```{r fig.showtext = TRUE}
 histo_data <- expt3_counts %>%
   left_join(sample_sizes, by = "treatment") %>%
   arrange(treatment) %>%
