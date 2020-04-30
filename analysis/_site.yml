@@ -19,5 +19,5 @@ output:
   workflowr::wflow_html:
     toc: yes
     toc_float: yes
-    theme: darkly
+    theme: yeti
     highlight: textmate
