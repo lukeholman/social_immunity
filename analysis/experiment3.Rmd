@@ -104,7 +104,6 @@ time %>%
   geom_line() +
   facet_wrap(~ hive)
 
-library(lme4)
 repeated <- brm(touching ~ treatment * hive * minute + (minute | pairID), 
                 prior = prior(normal(0, 1.5), class = "b"),
                 iter = 4000, 

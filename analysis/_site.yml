@@ -1,7 +1,7 @@
-name: "Social immunity"
+name: "Conroy & Holman stats"
 output_dir: ../docs
 navbar:
-  title: "Social immunity"
+  title: "Conroy & Holman stats"
   left:
   - text: Home
     href: index.html
