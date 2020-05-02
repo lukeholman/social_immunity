@@ -14,7 +14,7 @@ navbar:
   - text: Experiment 2
     href: experiment2.html
   - text: Experiment 3
-    href: experiment1.html
+    href: experiment3.html
 output:
   workflowr::wflow_html:
     toc: yes
