@@ -522,16 +522,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytreecdcb0d6f7e32fa942a370244bc7aa8740270f23dtargetblankcdcb0d6a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/cdcb0d6f7e32fa942a370244bc7aa8740270f23d" target="_blank">cdcb0d6</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree83fa522102754e16f11e167705db109506f56b1btargetblank83fa522a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/83fa522102754e16f11e167705db109506f56b1b" target="_blank">83fa522</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytreecdcb0d6f7e32fa942a370244bc7aa8740270f23dtargetblankcdcb0d6a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree83fa522102754e16f11e167705db109506f56b1btargetblank83fa522a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/social_immunity/tree/cdcb0d6f7e32fa942a370244bc7aa8740270f23d" target="_blank">cdcb0d6</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/social_immunity/tree/83fa522102754e16f11e167705db109506f56b1b" target="_blank">83fa522</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -597,6 +597,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/83fa522102754e16f11e167705db109506f56b1b/analysis/experiment1.Rmd" target="_blank">83fa522</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-05-02
+</td>
+<td>
+tweaks
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/social_immunity/3df58c257536d8a591ca60a900028190b9539d14/docs/experiment1.html" target="_blank">3df58c2</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-05-02
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -2319,29 +2353,34 @@ Observation duration (minutes)
 <h2>Plotting estimates from the model</h2>
 <div id="derive-prediction-from-the-posterior" class="section level3">
 <h3>Derive prediction from the posterior</h3>
-<pre class="r"><code>get_posterior_preds &lt;- function(hive){
+<pre class="r"><code>get_posterior_preds &lt;- function(focal_hive){
   new &lt;- expand.grid(treatment = levels(data_for_categorical_model$treatment), 
-                     hive = hive,
+                     hive = focal_hive,
                      observation_time_minutes = 120)
   
   preds &lt;- fitted(exp1_model, newdata = new, summary = FALSE)
   dimnames(preds) &lt;- list(NULL, new[,1], NULL)
   
   rbind(
-    as.data.frame(preds[,, 1]) %&gt;% mutate(outcome = &quot;Stayed inside the hive&quot;, posterior_sample = 1:n()),
-    as.data.frame(preds[,, 2]) %&gt;% mutate(outcome = &quot;Left voluntarily&quot;, posterior_sample = 1:n()),
-    as.data.frame(preds[,, 3]) %&gt;% mutate(outcome = &quot;Forced out&quot;, posterior_sample = 1:n())) %&gt;%
+    as.data.frame(preds[,, 1]) %&gt;% 
+      mutate(outcome = &quot;Stayed inside the hive&quot;, posterior_sample = 1:n()),
+    as.data.frame(preds[,, 2]) %&gt;% 
+      mutate(outcome = &quot;Left voluntarily&quot;, posterior_sample = 1:n()),
+    as.data.frame(preds[,, 3]) %&gt;% 
+      mutate(outcome = &quot;Forced out&quot;, posterior_sample = 1:n())) %&gt;%
     gather(treatment, prop, `Intact control`, Ringers, `Heat-treated LPS`, LPS) %&gt;% 
-    mutate(outcome = factor(outcome, c(&quot;Stayed inside the hive&quot;, &quot;Left voluntarily&quot;, &quot;Forced out&quot;)),
-           treatment = factor(treatment, c(&quot;Intact control&quot;, &quot;Ringers&quot;, &quot;Heat-treated LPS&quot;, &quot;LPS&quot;))) %&gt;%
+    mutate(outcome = factor(outcome, 
+                            c(&quot;Stayed inside the hive&quot;, &quot;Left voluntarily&quot;, &quot;Forced out&quot;)),
+           treatment = factor(treatment, 
+                              c(&quot;Intact control&quot;, &quot;Ringers&quot;, &quot;Heat-treated LPS&quot;, &quot;LPS&quot;))) %&gt;%
     as_tibble() %&gt;% arrange(treatment, outcome) 
 }
 
 # plotting data for panel A: one specific hive
-plotting_data &lt;- get_posterior_preds(hive = &quot;Zoology&quot;)
+plotting_data &lt;- get_posterior_preds(focal_hive = &quot;Zoology&quot;)
 
 # stats data: for panel B and the table of stats
-stats_data &lt;- get_posterior_preds(hive = NA)</code></pre>
+stats_data &lt;- get_posterior_preds(focal_hive = NA)</code></pre>
 </div>
 <div id="make-figure-1" class="section level3">
 <h3>Make Figure 1</h3>
