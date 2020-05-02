@@ -7,6 +7,20 @@ output:
     code_folding: hide 
 ---
 
+```{r, include=FALSE}
+options(width=120)
+local({
+  hook_output <- knitr::knit_hooks$get('output')
+  knitr::knit_hooks$set(output = function(x, options) {
+    options$attr.output <- c(
+      options$attr.output,
+      sprintf('style="max-height: %s;"', options$max.height)
+    )
+    hook_output(x, options)
+  })
+})
+```
+
 ## Load data and R packages
 
 ```{r results='hide', message=F, warning=F}
@@ -63,7 +77,9 @@ data_for_categorical_model <- outcome_tally %>%
 ```
 
 
-## Inspect the raw data
+## Inspect the raw data {.tabset .tabset-fade}
+
+Click the three tabs to see each table.
 
 ### Sample sizes by treatment
 ```{r}
@@ -81,20 +97,21 @@ sample_sizes %>%
 data_for_categorical_model %>%
   group_by(hive, treatment) %>%
   summarise(n = n()) %>%
+  spread(treatment, n) %>%
   kable() %>% kable_styling(full_width = FALSE)
 ```
 
 
-### Inspect the results 
+### Oberved outcomes
 
 ```{r}
 outcome_tally %>%
   select(-colour) %>% 
-  kable(digits = 3) %>% kable_styling(full_width = FALSE) %>%
-  scroll_box(height = "380px")
+  spread(outcome, n) %>%
+  kable(digits = 3) %>% kable_styling(full_width = FALSE) 
 ```
 
-### Means and 95% CI of the mean for the raw data
+## Plot showing raw means and 95% CI of the mean
 
 ```{r fig.width=9, fig.height=5, fig.showtext=TRUE}
 all_hives <- outcome_tally %>%
@@ -118,7 +135,7 @@ outcome_tally %>%
   geom_errorbar(aes(ymin=lowerCI, ymax=upperCI), position = pd, width = 0) + 
   geom_point(stat = "identity", position = pd, colour = "grey15", pch = 21, size = 4) + 
   scale_fill_brewer(palette = "Pastel2", name = "Outcome", direction = -1) + 
-  xlab("Treatment") + ylab("% bees (+95% CIs)") + 
+  xlab("Treatment") + ylab("% bees (\u00B1 95% CIs)") + 
   theme_bw(20) + 
   theme(legend.position = "top",
         text = element_text(family = nice_font)) + 
@@ -186,9 +203,21 @@ posterior_model_probabilities %>%
   kable_styling(full_width = FALSE)
 ```
 
-### Fixed effects from the full model
 
-The code chunk below wrangles the raw output of the `summary()` functions for `brms` models into a more readable table of results, and also adds 'Bayesian p-values' (i.e. the posterior probability that the true effect size has the same sign as the reported effect). 
+### Fixed effects from the top model
+
+#### Raw output of the `treatment + hive` model
+
+```{r max.height='300px', max.width='400px'}
+summary(exp1_model)
+```
+
+#### Formatted `brms` output for Table S1
+The code chunk below wrangles the raw output of the `summary()` function for `brms` models into a more readable table of results, and also adds 'Bayesian p-values' (i.e. the posterior probability that the true effect size has the same sign as the reported effect). 
+
+******
+
+**Table S1:** Table summarising the posterior estimates of each fixed effect in the best-fitting model of Experiment 1. This was a multinomial model with three possible outcomes (stay inside, leave voluntarily, be forced out), and so there are two parameter estimates for the intercept and for each predictor in the model. 'Treatment' is a fixed factor with four levels, and the effects shown here are expressed relative to the 'Intact control' group. 'Hive' was also a fixed factor with four levels; unlike for treatment, we modelled hive using deviation coding, such that the intercept term represents the mean across all hives (in the intact control treatment), and the three hive terms represent the deviation from this mean for three of the four hives. Lastly, observation duration was a continuous predictor expressed to the nearest minute. The $p$ column gives the posterior probability that the true effect size is opposite in sign to what is reported in the Estimate column, similarly to a $p$-value.
 
 ```{r}
 tableS1 <- get_fixed_effects_with_p_values(exp1_model) %>% 
@@ -210,7 +239,7 @@ tableS1 %>%
   pack_rows("% bees leaving voluntarily", 1, 8) %>%
   pack_rows("% bees forced out", 9, 16)
 ```
-**Table S1:** Table summarising the posterior estimates of each fixed effect in the best-fitting model of Experiment 1. This was a multinomial model with three possible outcomes (stay inside, leave voluntarily, be forced out), and so there are two parameter estimates for the intercept and for each predictor in the model. 'Treatment' is a fixed factor with four levels, and the effects shown here are expressed relative to the 'Intact control' group. 'Hive' was also a fixed factor with four levels; unlike for treatment, we modelled hive using deviation coding, such that the intercept term represents the mean across all hives (in the intact control treatment), and the three hive terms represent the deviation from this mean for three of the four hives. Lastly, observation duration was a continuous variable expressed to the nearest minute. The $p$ column gives the posterior probability that the true effect size is opposite in sign to what is reported in the Estimate column, similarly to a $p$-value.
+
 
 ## Plotting estimates from the model
 
@@ -328,7 +357,7 @@ ggsave(plot = p, filename = "figures/fig1.pdf", height = 7, width = 4.7)
 p
 ```
 <br></br>
-**Figure 1**: Panel A shows the posterior estimate of the mean % bees staying inside the hive (left), leaving voluntarily (middle), or being forced out (right), for each of the four treatments. The quantile dot plot shows 100 approximately equally likely estimates of the true % bees, and the horizontal bars show the median and the 50% and 95% credible intervals of the posterior distribution. Panel B gives the posterior estimates of the effect size of each treatment, relative to one of the other treatments (the name of which appears in parentheses), and expressed as a log odds ratio (LOR). Positive LOR indicates that the % bees showing this particular outcome is higher in the treatment than the control; for example, more bees left voluntarily (green) or were forced out (orange) in the LPS treatment than in the intact control. The dashed lines mark $LOR = 0$, indicating no effect, and $LOR = \pm log(2)$, i.e. the point at which the odds are twice as high in one treatment as the other. For clarity, the estimates plotted in panel A are for one specific hive (the % bees staying inside varied considerably across hives), while the effect sizes in panel B (and the statistics in Table S2) were calculated on the global means for each treatment across hives.
+**Figure 1**: Panel A shows the posterior estimate of the mean % bees staying inside the hive (left), leaving voluntarily (middle), or being forced out (right), for each of the four treatments. The quantile dot plot shows 100 approximately equally likely estimates of the true % bees, and the horizontal bars show the median and the 50% and 95% credible intervals of the posterior distribution. Panel B gives the posterior estimates of the effect size of each treatment, relative to one of the other treatments (the name of which appears in parentheses), and expressed as a log odds ratio (LOR). Positive LOR indicates that the % bees showing this particular outcome is higher in the treatment than the control; for example, more bees left voluntarily (green) or were forced out (orange) in the LPS treatment than in the intact control. The dashed lines mark $LOR = 0$, indicating no effect, and $LOR = \pm log(2)$, i.e. the point at which the odds are twice as high in one treatment as the other. 
 
 
 
@@ -351,12 +380,12 @@ my_summary <- function(df, columns) {
                 bayestestR::p_direction() %>% as.numeric())
 
     df %>% pull(!! x) %>% posterior_summary() %>% as_tibble() %>%
-      mutate(p=p) %>% mutate(Metric = x) %>% select(Metric, everything()) %>%
-      mutate(` ` = ifelse(p < 0.1, "~", ""),
-             ` ` = replace(` `, p < 0.05, "\\*"),
-             ` ` = replace(` `, p < 0.01, "**"),
-             ` ` = replace(` `, p < 0.001, "***"),
-             ` ` = replace(` `, p == " ", ""))
+      mutate(PP = p) %>% mutate(Metric = x) %>% select(Metric, everything()) %>%
+      mutate(` ` = ifelse(PP < 0.1, "~", ""),
+             ` ` = replace(` `, PP < 0.05, "\\*"),
+             ` ` = replace(` `, PP < 0.01, "**"),
+             ` ` = replace(` `, PP < 0.001, "***"),
+             ` ` = replace(` `, PP == " ", ""))
   }) %>% do.call("rbind", .)
 }
 
@@ -370,7 +399,7 @@ make_stats_table <- function(
       metric_here = 100 * (!! enquo(groupB) - !! enquo(groupA)), 
       `Log odds ratio` = get_log_odds(!! enquo(groupA), !! enquo(groupB))) %>%   
     my_summary(c("metric_here", "Log odds ratio")) %>%
-    mutate(p = c(" ", format(round(p[2], 4), nsmall = 4)),
+    mutate(PP = c(" ", format(round(PP[2], 4), nsmall = 4)),
            ` ` = c(" ", ` `[2]),
            Comparison = comparison) %>%
     select(Comparison, everything()) %>%
@@ -417,7 +446,7 @@ stayed_inside_stats_table <- rbind(
 stayed_inside_stats_table[c(2,4,6,8,10,12), 1] <- " "
 ```
 
-### % bees that left voluntarily
+### Calculate contrasts: % bees that left voluntarily
 
 ```{r}
 voluntary_stats_table <- rbind(
@@ -462,7 +491,7 @@ voluntary_stats_table <- rbind(
 voluntary_stats_table[c(2,4,6,8,10,12), 1] <- " "
 ```
 
-### % bees that were forced out 
+### Calculate contrasts: % bees that were forced out 
 
 ```{r}
 forced_out_stats_table <- rbind(
@@ -505,6 +534,8 @@ forced_out_stats_table <- rbind(
 forced_out_stats_table[c(2,4,6,8,10,12), 1] <- " "
 ```
 
+### Present all contrasts in one table:
+
 ```{r}
 bind_rows(
   stayed_inside_stats_table,
@@ -517,5 +548,5 @@ bind_rows(
   pack_rows("% bees forced out", 25, 36)
 ```
 
-**Table S2**: This table gives statistics associated with each of the contrasts plotted in Figure 1B. Each pair of rows gives the absolute and standardised effect size (as log odds ratio; LOR) for the focal treatment, relative to the treatment shown in parentheses, for one of the three possible outcomes (stayed inside, left voluntarily, or forced out). A LOR of $|log(x)|$ indicates that the outcome is $x$ times more frequent in one treatment compared to the other, e.g. $log(2) = 0.69$ and $log(0.5) = -0.69$ correspond to a two-fold difference in frequency. The $p$ column gives the posterior probability that the true effect size has the same sign as is shown in the Estimate column; this metric has a similar interpretation to a one-tailed $p$ value in frequentist statistics. 
+**Table S2**: This table gives statistics associated with each of the contrasts plotted in Figure 1B. Each pair of rows gives the absolute effect size (i.e. the difference in % bees) and standardised effect size (as log odds ratio; LOR) for the focal treatment, relative to the treatment shown in parentheses, for one of the three possible outcomes (stayed inside, left voluntarily, or forced out). A LOR of $|log(x)|$ indicates that the outcome is $x$ times more frequent in one treatment compared to the other, e.g. $log(2) = 0.69$ and $log(0.5) = -0.69$ correspond to a two-fold difference in frequency. The $PP$ column gives the posterior probability that the true effect size has the same sign as is shown in the Estimate column; this metric has a similar interpretation to a one-tailed $p$ value in frequentist statistics. 
 
