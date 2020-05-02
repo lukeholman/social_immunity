@@ -7,6 +7,20 @@ output:
     code_folding: hide 
 ---
 
+```{r, include=FALSE}
+options(width=120)
+local({
+  hook_output <- knitr::knit_hooks$get('output')
+  knitr::knit_hooks$set(output = function(x, options) {
+    options$attr.output <- c(
+      options$attr.output,
+      sprintf('style="max-height: %s;"', options$max.height)
+    )
+    hook_output(x, options)
+  })
+})
+```
+
 ## Load data and R packages
 
 ```{r results='hide', message=F, warning=F}
@@ -63,11 +77,12 @@ experiment3 <- map(
   mutate(hive = replace(hive, hive == "A", "Garden"),
          hive = replace(hive, hive == "B", "Skylab"),
          hive = replace(hive, hive == "C", "Arts"),
-         hive = replace(hive, hive == "D", "Zoology"))
+         hive = replace(hive, hive == "D", "Zoology")) %>%
+  rename(pairID = tube)
 
 
 expt3_counts <- experiment3 %>%
-  group_by(treatment, tube, hive) %>%
+  group_by(treatment, pairID, hive) %>%
   summarise(n_touching = sum(touching),
             n_not_touching = sum(touching== 0),
             percent = n_touching / (n_touching + n_not_touching)) %>% 
@@ -90,7 +105,7 @@ time %>%
   facet_wrap(~ hive)
 
 library(lme4)
-repeated <- brm(touching ~ treatment * hive * minute + (minute | tube), 
+repeated <- brm(touching ~ treatment * hive * minute + (minute | pairID), 
                 prior = prior(normal(0, 1.5), class = "b"),
                 iter = 4000, 
                 data = experiment3 %>%
@@ -103,11 +118,10 @@ data.frame(new, pred=predict(gam_model, newdata = new, re.form = NA, type = "res
   ggplot(aes(minute, pred, colour = treatment))  +
   geom_line() +
   facet_wrap(~ hive)
-
 ```
 
 
-## Inspect the raw data
+## Inspect the raw data {.tabset .tabset-fade}
 
 ### Sample sizes by treatment
 ```{r}
@@ -127,7 +141,7 @@ expt3_counts %>%
   kable() %>% kable_styling(full_width = FALSE)
 ```
 
-### Inspect the results 
+### Means and standard errors
 
 ```{r}
 expt3_counts %>%
@@ -141,7 +155,7 @@ expt3_counts %>%
   column_spec(3, width = "2in")
 ```
 
-### Plotted as histograms
+## Histogram of the results
 
 Note that bees more often spent close to 100% of the observation period in contact in the control group, relative to the group treated with LPS.
 
@@ -181,27 +195,26 @@ raw_histogram
 
 ### Run the models
 
-Fit a binomial model, where the response is either a 0 (if bees were not in contact) or 1 (if they were). To assess the effects of our predictor variables, we compare 5 models with different fixed factors, ranking them by posterior model probability.
+Fit three different binomial models, where the response is either a 0 (if bees were not in contact) or 1 (if they were). 
 
 ```{r}
-# new verison....
 if(!file.exists("output/exp3_model.rds")){
   exp3_model_v1 <- brm(
-    n_touching | trials(n) ~ treatment * hive + (1 | tube), 
+    n_touching | trials(n) ~ treatment * hive + (1 | pairID), 
     data = expt3_counts %>% mutate(n = n_touching + n_not_touching), 
     prior = c(set_prior("normal(0, 3)", class = "b")),
     family = "binomial", save_all_pars = TRUE, sample_prior = TRUE,
     chains = 4, cores = 1, iter = 20000, seed = 1)
   
   exp3_model_v2 <- brm(
-    n_touching | trials(n) ~ treatment + hive + (1 | tube), 
+    n_touching | trials(n) ~ treatment + hive + (1 | pairID), 
     data = expt3_counts %>% mutate(n = n_touching + n_not_touching), 
     prior = c(set_prior("normal(0, 3)", class = "b")),
     family = "binomial", save_all_pars = TRUE, sample_prior = TRUE,
     chains = 4, cores = 1, iter = 20000, seed = 1)
   
   exp3_model_v3 <- brm(
-    n_touching | trials(n) ~ hive + (1 | tube), 
+    n_touching | trials(n) ~ hive + (1 | pairID), 
     data = expt3_counts %>% mutate(n = n_touching + n_not_touching), 
     prior = c(set_prior("normal(0, 3)", class = "b")),
     family = "binomial",  save_all_pars = TRUE, sample_prior = TRUE,
@@ -231,7 +244,20 @@ model_probabilities %>%
   kable(digits = 3) %>% kable_styling(full_width = FALSE)
 ```
 
-### Fixed effects from the top non-null model
+### Fixed effects from the top model
+
+#### Raw output of the `treatment + hive` model
+
+```{r max.height='300px', max.width='400px'}
+summary(exp3_model)
+```
+
+#### Formatted `brms` output for Table S5
+The code chunk below wrangles the raw output of the `summary()` function for `brms` models into a more readable table of results, and also adds 'Bayesian p-values' (i.e. the posterior probability that the true effect size has the same sign as the reported effect). 
+
+******
+
+**Table S5:** Table summarising the posterior estimates of each fixed effect in the best-fitting model of Experiment 3 that contained the treatment effect. This was a binomial model where the response variable was 0 for observations in which bees were not in close contact, and 1 when they were. 'Treatment' is a fixed factor with two levels, and the effect of LPS shown here is expressed relative to the 'Ringers' treatment. 'Hive' was a fixed factor with four levels; unlike for treatment, we modelled hive using deviation coding, such that the intercept term represents the mean across all hives (in the Ringers treatment), and the three hive terms represent the deviation from this mean for three of the four hives. The model also included a random effect 'pair ID' (XXXXX), which grouped repeated observations made on each pair of bees, preventing pseudoreplication. The $p$ column gives the posterior probability that the true effect size is opposite in sign to what is reported in the Estimate column, similarly to a p-value.
 
 ```{r}
 tableS5 <- get_fixed_effects_with_p_values(exp3_model) %>% 
@@ -250,7 +276,7 @@ tableS5 %>%
   kable(digits = 3) %>% 
   kable_styling(full_width = FALSE) 
 ```
-**Table S5:** Table summarising the posterior estimates of each fixed effect in the best-fitting model of Experiment 3 that contained the treatment effect. This was a binomial model where the response variable was 0 for observations in which bees were not in close contact, and 1 when they were. 'Treatment' is a fixed factor with two levels, and the effect of LPS shown here is expressed relative to the 'Ringers' treatment. 'Hive' was a fixed factor with four levels; unlike for treatment, we modelled hive using deviation coding, such that the intercept term represents the mean across all hives (in the Ringers treatment), and the three hive terms represent the deviation from this mean for three of the four hives. The model also included a random effect 'pair ID' (XXXXX), which grouped repeated observations made on each pair of bees, preventing pseudoreplication. The $p$ column gives the posterior probability that the true effect size is opposite in sign to what is reported in the Estimate column, similarly to a p-value.
+
 
 
 
@@ -266,7 +292,7 @@ plotting_data <- as.data.frame(fitted(exp3_model,
 names(plotting_data) <- c("LPS", "Ringers")
 plotting_data <- plotting_data %>% gather(treatment, percent_time_in_contact)
 
-cols <- c("#34558b", "#4ec5a5", "#ffaf12")
+panel_c_colour <- "#CC79A7"
 
 dot_plot <- plotting_data %>%
   mutate(treatment = factor(treatment, c("Ringers", "LPS"))) %>%
@@ -307,7 +333,7 @@ LOR_plot <- LOR %>%
   geom_vline(xintercept = 0, linetype = 2) +
   stat_dotsh(quantiles = 100, fill = "grey40", colour = "grey40") + 
   stat_pointintervalh(
-    colour = "#0CE3AC", fill = "#0CE3AC",
+    colour = panel_c_colour, fill = panel_c_colour,
     .width = c(0.5, 0.95), 
     position = position_nudge(y = -0.1),
     point_colour = "grey26", pch = 21, stroke = 0.4) + 
@@ -325,7 +351,7 @@ LOR_plot <- LOR %>%
   ) 
  
 p <- cowplot::plot_grid(raw_histogram, 
-                        dot_plot, LOR_plot,  labels = c("A", "B", "C"),
+                        dot_plot, LOR_plot, labels = c("A", "B", "C"),
                         nrow = 1, align = 'h', axis = 'l')
 ggsave(plot = p, filename = "figures/fig3.pdf", height = 3.2, width = 8.6)
 p

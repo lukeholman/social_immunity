@@ -159,7 +159,7 @@ outcome_tally %>%
 
 ### Run the models
 
-Fit a multinomial logisitic model, with 3 possible outcomes describing what happened to each bee introduced to the hive: stayed inside, left of its own volition, or forced out by the other workers. To assess the effects of our predictor variables, we compare 5 models with different fixed factors, ranking them by posterior model probability.
+Fit three different multinomial logisitic models, with 3 possible outcomes describing what happened to each bee introduced to the hive: stayed inside, left voluntarily, or forced out by the other workers. 
 
 ```{r}
 if(!file.exists("output/exp2_model.rds")){
@@ -285,7 +285,8 @@ stats_data <- get_posterior_preds(hive = NA)
 ### Make Figure 2
 
 ```{r fig.height=6, fig.width=6, fig.showtext = TRUE, warning=FALSE}
-cols <- c("#34558b", "#4ec5a5", "#ffaf12")
+cols <- c("#E69F00", "#009E73", "#0072B2")
+panel_c_colour <- "#CC79A7"
 
 dot_plot <- plotting_data %>%
   left_join(sample_sizes, by = "treatment") %>%
@@ -341,6 +342,7 @@ LOR_plot <- LOR %>%
     legend.position = "none"
   ) 
 
+
 diff_in_forced_out_plot <- plotting_data %>%
   spread(outcome, prop) %>%
   mutate(prop_leavers_that_were_forced_out = `Forced out` / (`Forced out` + `Left voluntarily`)) %>%
@@ -350,14 +352,47 @@ diff_in_forced_out_plot <- plotting_data %>%
   ggplot(aes(difference_prop_forced_out_LOR, y =1)) + 
   geom_vline(xintercept = 0, linetype = 2) +
   stat_dotsh(quantiles = 100, fill = "grey40", colour = "grey40") + 
+  stat_pointintervalh(
+    colour = panel_c_colour, fill = panel_c_colour,
+    .width = c(0.5, 0.95), 
+    position = position_nudge(y = -0.1),
+    point_colour = "grey26", pch = 21, stroke = 0.4) + 
+  coord_cartesian(ylim=c(0.86, 2)) + 
   xlab("Effect of LPS on proportion\nbees leaving by force\n(log odds ratio)") + 
   ylab("Posterior density") + 
   theme_bw() +
   theme(
     text = element_text(family = nice_font),
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank(),
     panel.grid.major.y = element_blank(),
+    panel.grid.minor.y = element_blank(),
     legend.position = "none"
   ) 
+ 
+# 
+# diff_in_forced_out_plot <- plotting_data %>%
+#   spread(outcome, prop) %>%
+#   mutate(prop_leavers_that_were_forced_out = `Forced out` / (`Forced out` + `Left voluntarily`)) %>%
+#   select(posterior_sample, treatment, prop_leavers_that_were_forced_out)  %>%
+#   spread(treatment, prop_leavers_that_were_forced_out) %>% 
+#   mutate(difference_prop_forced_out_LOR = get_log_odds(Ringers, LPS)) %>%
+#   ggplot(aes(difference_prop_forced_out_LOR, y =1)) + 
+#   geom_vline(xintercept = 0, linetype = 2) +
+#   stat_dotsh(quantiles = 100, fill = "grey40", colour = "grey40") + 
+#   stat_pointintervalh(
+#     colour = "#0CE3AC", fill = "#0CE3AC",
+#     .width = c(0.5, 0.95), 
+#     position = position_nudge(y = -0.1),
+#     point_colour = "grey26", pch = 21, stroke = 0.4) +
+#   xlab("Effect of LPS on proportion\nbees leaving by force\n(log odds ratio)") + 
+#   ylab("Posterior density") + 
+#   theme_bw() +
+#   theme(
+#     text = element_text(family = nice_font),
+#     panel.grid.major.y = element_blank(),
+#     legend.position = "none"
+#   ) 
 
 bottom_row <- cowplot::plot_grid(LOR_plot, diff_in_forced_out_plot, 
                                  labels = c("B", "C"),
@@ -369,8 +404,7 @@ ggsave(plot = p, filename = "figures/fig2.pdf", height = 6, width = 6)
 p
 ```
 
-The dashed lines mark $LOR = 0$, indicating no effect, and $LOR = \pm log(2)$, i.e. the point at which the odds are twice as high in one treatment as the other.
-
+**Figure 2:** LEGEND HERE
 
 
 

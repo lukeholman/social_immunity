@@ -146,7 +146,7 @@ outcome_tally %>%
 
 ### Run the models
 
-Fit a multinomial logisitic model, with 3 possible outcomes describing what happened to each bee introduced to the hive: stayed inside, left of its own volition, or forced out by the other workers. To assess the effects of our predictor variables, we compare 5 models with different fixed factors, ranking them by posterior model probability.
+Fit three different multinomial logisitic models, with 3 possible outcomes describing what happened to each bee introduced to the hive: stayed inside, left voluntarily, or forced out by the other workers. 
 
 ```{r}
 if(!file.exists("output/exp1_model.rds")){
@@ -274,7 +274,7 @@ stats_data <- get_posterior_preds(hive = NA)
 ### Make Figure 1
 
 ```{r fig.height=7, fig.width=4.7, fig.showtext = TRUE, warning=FALSE}
-cols <- c("#34558b", "#4ec5a5", "#ffaf12")
+cols <- c("#E69F00", "#009E73", "#0072B2")
 
 dot_plot <- plotting_data %>%
   left_join(sample_sizes, by = "treatment") %>%

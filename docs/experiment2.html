@@ -405,7 +405,7 @@ div.tocify {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -414,7 +414,7 @@ div.tocify {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -426,7 +426,7 @@ div.tocify {
 <strong>Last updated:</strong> 2020-05-02
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>social_immunity/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -442,12 +442,12 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
@@ -514,16 +514,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytreef97baee319003e2e68d4b126433d45ae68f1cf36targetblankf97baeea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/f97baee319003e2e68d4b126433d45ae68f1cf36" target="_blank">f97baee</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree2227713f116ed1ac64681889e90c8cc6ca49d276targetblank2227713a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/2227713f116ed1ac64681889e90c8cc6ca49d276" target="_blank">2227713</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytreef97baee319003e2e68d4b126433d45ae68f1cf36targetblankf97baeea" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree2227713f116ed1ac64681889e90c8cc6ca49d276targetblank2227713a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/social_immunity/tree/f97baee319003e2e68d4b126433d45ae68f1cf36" target="_blank">f97baee</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/social_immunity/tree/2227713f116ed1ac64681889e90c8cc6ca49d276" target="_blank">2227713</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -545,7 +545,13 @@ Ignored files:
 
 Unstaged changes:
     Modified:   .gitignore
+    Modified:   analysis/experiment1.Rmd
+    Modified:   analysis/experiment2.Rmd
+    Modified:   analysis/experiment3.Rmd
     Modified:   figures/fig1.pdf
+    Modified:   figures/fig2.pdf
+    Modified:   figures/fig3.pdf
+    Modified:   figures/tableS5.rds
 
 </code></pre>
 <p>
@@ -584,6 +590,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/social_immunity/2227713f116ed1ac64681889e90c8cc6ca49d276/docs/experiment2.html" target="_blank">2227713</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-05-02
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1409,7 +1432,7 @@ lukeholman
 <h2>Multinomial model of outcome</h2>
 <div id="run-the-models" class="section level3">
 <h3>Run the models</h3>
-<p>Fit a multinomial logisitic model, with 3 possible outcomes describing what happened to each bee introduced to the hive: stayed inside, left of its own volition, or forced out by the other workers. To assess the effects of our predictor variables, we compare 5 models with different fixed factors, ranking them by posterior model probability.</p>
+<p>Fit three different multinomial logisitic models, with 3 possible outcomes describing what happened to each bee introduced to the hive: stayed inside, left voluntarily, or forced out by the other workers.</p>
 <pre class="r"><code>if(!file.exists(&quot;output/exp2_model.rds&quot;)){
   exp2_model_v1 &lt;- brm(
     outcome_numeric ~ treatment * hive + observation_time_minutes, 
@@ -1943,6 +1966,7 @@ LOR_plot &lt;- LOR %&gt;%
     legend.position = &quot;none&quot;
   ) 
 
+
 diff_in_forced_out_plot &lt;- plotting_data %&gt;%
   spread(outcome, prop) %&gt;%
   mutate(prop_leavers_that_were_forced_out = `Forced out` / (`Forced out` + `Left voluntarily`)) %&gt;%
@@ -1952,14 +1976,47 @@ diff_in_forced_out_plot &lt;- plotting_data %&gt;%
   ggplot(aes(difference_prop_forced_out_LOR, y =1)) + 
   geom_vline(xintercept = 0, linetype = 2) +
   stat_dotsh(quantiles = 100, fill = &quot;grey40&quot;, colour = &quot;grey40&quot;) + 
+  stat_pointintervalh(
+    colour = &quot;#0CE3AC&quot;, fill = &quot;#0CE3AC&quot;,
+    .width = c(0.5, 0.95), 
+    position = position_nudge(y = -0.1),
+    point_colour = &quot;grey26&quot;, pch = 21, stroke = 0.4) + 
+  coord_cartesian(ylim=c(0.86, 2)) + 
   xlab(&quot;Effect of LPS on proportion\nbees leaving by force\n(log odds ratio)&quot;) + 
   ylab(&quot;Posterior density&quot;) + 
   theme_bw() +
   theme(
     text = element_text(family = nice_font),
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank(),
     panel.grid.major.y = element_blank(),
+    panel.grid.minor.y = element_blank(),
     legend.position = &quot;none&quot;
   ) 
+ 
+# 
+# diff_in_forced_out_plot &lt;- plotting_data %&gt;%
+#   spread(outcome, prop) %&gt;%
+#   mutate(prop_leavers_that_were_forced_out = `Forced out` / (`Forced out` + `Left voluntarily`)) %&gt;%
+#   select(posterior_sample, treatment, prop_leavers_that_were_forced_out)  %&gt;%
+#   spread(treatment, prop_leavers_that_were_forced_out) %&gt;% 
+#   mutate(difference_prop_forced_out_LOR = get_log_odds(Ringers, LPS)) %&gt;%
+#   ggplot(aes(difference_prop_forced_out_LOR, y =1)) + 
+#   geom_vline(xintercept = 0, linetype = 2) +
+#   stat_dotsh(quantiles = 100, fill = &quot;grey40&quot;, colour = &quot;grey40&quot;) + 
+#   stat_pointintervalh(
+#     colour = &quot;#0CE3AC&quot;, fill = &quot;#0CE3AC&quot;,
+#     .width = c(0.5, 0.95), 
+#     position = position_nudge(y = -0.1),
+#     point_colour = &quot;grey26&quot;, pch = 21, stroke = 0.4) +
+#   xlab(&quot;Effect of LPS on proportion\nbees leaving by force\n(log odds ratio)&quot;) + 
+#   ylab(&quot;Posterior density&quot;) + 
+#   theme_bw() +
+#   theme(
+#     text = element_text(family = nice_font),
+#     panel.grid.major.y = element_blank(),
+#     legend.position = &quot;none&quot;
+#   ) 
 
 bottom_row &lt;- cowplot::plot_grid(LOR_plot, diff_in_forced_out_plot, 
                                  labels = c(&quot;B&quot;, &quot;C&quot;),
@@ -2007,7 +2064,7 @@ lukeholman
 </table>
 </div>
 </div>
-<p>The dashed lines mark <span class="math inline">\(LOR = 0\)</span>, indicating no effect, and <span class="math inline">\(LOR = \pm log(2)\)</span>, i.e. the point at which the odds are twice as high in one treatment as the other.</p>
+<p><strong>Figure 2:</strong> LEGEND HERE</p>
 </div>
 </div>
 <div id="hypothesis-testing-and-effect-sizes" class="section level2">
@@ -2319,31 +2376,31 @@ other attached packages:
  [1] cowplot_1.0.0    tidybayes_2.0.1  bayestestR_0.5.1 kableExtra_1.1.0 gridExtra_2.3    forcats_0.5.0   
  [7] stringr_1.4.0    dplyr_0.8.5      purrr_0.3.3      readr_1.3.1      tidyr_1.0.2      tibble_3.0.0    
 [13] ggplot2_3.3.0    tidyverse_1.3.0  bayesplot_1.7.1  brms_2.12.0      Rcpp_1.0.4.6     showtext_0.7-1  
-[19] showtextdb_2.0   sysfonts_0.8     workflowr_1.6.1 
+[19] showtextdb_2.0   sysfonts_0.8    
 
 loaded via a namespace (and not attached):
   [1] colorspace_1.4-1     ellipsis_0.3.0       ggridges_0.5.2       rsconnect_0.8.16     rprojroot_1.3-2     
   [6] markdown_1.1         base64enc_0.1-3      fs_1.4.1             rstudioapi_0.11      farver_2.0.3        
  [11] rstan_2.19.3         svUnit_0.7-12        DT_0.13              fansi_0.4.1          mvtnorm_1.1-0       
  [16] lubridate_1.7.8      xml2_1.3.1           bridgesampling_1.0-0 knitr_1.28           shinythemes_1.1.2   
- [21] jsonlite_1.6.1       broom_0.5.4          dbplyr_1.4.2         shiny_1.4.0.2        compiler_3.6.3      
- [26] httr_1.4.1           backports_1.1.6      assertthat_0.2.1     Matrix_1.2-18        fastmap_1.0.1       
- [31] cli_2.0.2            later_1.0.0          htmltools_0.4.0.9003 prettyunits_1.1.1    tools_3.6.3         
- [36] igraph_1.2.5         coda_0.19-3          gtable_0.3.0         glue_1.4.0           reshape2_1.4.4      
- [41] cellranger_1.1.0     vctrs_0.2.4          nlme_3.1-147         crosstalk_1.1.0.1    insight_0.8.1       
- [46] xfun_0.13            ps_1.3.0             rvest_0.3.5          mime_0.9             miniUI_0.1.1.1      
- [51] lifecycle_0.2.0      gtools_3.8.2         zoo_1.8-7            scales_1.1.0         colourpicker_1.0    
- [56] hms_0.5.3            promises_1.1.0       Brobdingnag_1.2-6    parallel_3.6.3       inline_0.3.15       
- [61] RColorBrewer_1.1-2   shinystan_2.5.0      curl_4.3             yaml_2.2.1           loo_2.2.0           
- [66] StanHeaders_2.19.2   stringi_1.4.6        highr_0.8            dygraphs_1.1.1.6     pkgbuild_1.0.6      
- [71] rlang_0.4.5          pkgconfig_2.0.3      matrixStats_0.56.0   evaluate_0.14        lattice_0.20-41     
- [76] labeling_0.3         rstantools_2.0.0     htmlwidgets_1.5.1    processx_3.4.2       tidyselect_1.0.0    
- [81] plyr_1.8.6           magrittr_1.5         R6_2.4.1             generics_0.0.2       DBI_1.1.0           
- [86] pillar_1.4.3         haven_2.2.0          whisker_0.4          withr_2.1.2          xts_0.12-0          
- [91] abind_1.4-5          modelr_0.1.5         crayon_1.3.4         arrayhelpers_1.1-0   rmarkdown_2.1.3     
- [96] grid_3.6.3           readxl_1.3.1         callr_3.4.3          git2r_0.26.1         threejs_0.3.3       
-[101] reprex_0.3.0         digest_0.6.25        webshot_0.5.2        xtable_1.8-4         httpuv_1.5.2        
-[106] stats4_3.6.3         munsell_0.5.0        viridisLite_0.3.0    shinyjs_1.1         </code></pre>
+ [21] jsonlite_1.6.1       workflowr_1.6.1      broom_0.5.4          dbplyr_1.4.2         shiny_1.4.0.2       
+ [26] compiler_3.6.3       httr_1.4.1           backports_1.1.6      assertthat_0.2.1     Matrix_1.2-18       
+ [31] fastmap_1.0.1        cli_2.0.2            later_1.0.0          htmltools_0.4.0.9003 prettyunits_1.1.1   
+ [36] tools_3.6.3          igraph_1.2.5         coda_0.19-3          gtable_0.3.0         glue_1.4.0          
+ [41] reshape2_1.4.4       cellranger_1.1.0     vctrs_0.2.4          nlme_3.1-147         crosstalk_1.1.0.1   
+ [46] insight_0.8.1        xfun_0.13            ps_1.3.0             rvest_0.3.5          mime_0.9            
+ [51] miniUI_0.1.1.1       lifecycle_0.2.0      gtools_3.8.2         zoo_1.8-7            scales_1.1.0        
+ [56] colourpicker_1.0     hms_0.5.3            promises_1.1.0       Brobdingnag_1.2-6    parallel_3.6.3      
+ [61] inline_0.3.15        RColorBrewer_1.1-2   shinystan_2.5.0      curl_4.3             yaml_2.2.1          
+ [66] loo_2.2.0            StanHeaders_2.19.2   stringi_1.4.6        highr_0.8            dygraphs_1.1.1.6    
+ [71] pkgbuild_1.0.6       rlang_0.4.5          pkgconfig_2.0.3      matrixStats_0.56.0   evaluate_0.14       
+ [76] lattice_0.20-41      labeling_0.3         rstantools_2.0.0     htmlwidgets_1.5.1    processx_3.4.2      
+ [81] tidyselect_1.0.0     plyr_1.8.6           magrittr_1.5         R6_2.4.1             generics_0.0.2      
+ [86] DBI_1.1.0            pillar_1.4.3         haven_2.2.0          whisker_0.4          withr_2.1.2         
+ [91] xts_0.12-0           abind_1.4-5          modelr_0.1.5         crayon_1.3.4         arrayhelpers_1.1-0  
+ [96] rmarkdown_2.1.3      grid_3.6.3           readxl_1.3.1         callr_3.4.3          git2r_0.26.1        
+[101] threejs_0.3.3        reprex_0.3.0         digest_0.6.25        webshot_0.5.2        xtable_1.8-4        
+[106] httpuv_1.5.2         stats4_3.6.3         munsell_0.5.0        viridisLite_0.3.0    shinyjs_1.1         </code></pre>
 </div>
 </div>
 </div>
