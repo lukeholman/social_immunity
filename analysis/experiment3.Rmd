@@ -47,39 +47,7 @@ nice_font <- "Lora"
 font_add_google(name = nice_font, family = nice_font, regular.wt = 400, bold.wt = 700)
 showtext_auto()
 
-files <- c("data/data_collection_sheets/hiveA_touching.csv",
-           "data/data_collection_sheets/hiveB_touching.csv",
-           "data/data_collection_sheets/hiveC_touching.csv",
-           "data/data_collection_sheets/hiveD_touching.csv")
-
-experiment3 <- map(
-  files, 
-  ~ read_csv(.x) %>%
-    gather(minute, touching, -tube) %>%
-    mutate(treatment = ifelse(substr(tube, 1, 1) %in% c("A", "B"), "AB", "CD"),
-           minute = as.numeric(minute),
-           touching = as.integer(touching),
-           hive = gsub("hive", "", str_extract(.x, "hive[ABCD]")), 
-           tube = paste(hive, tube, sep = "_"))
-  ) %>% bind_rows() %>%
-  mutate(treatment = replace(treatment, 
-                             treatment == "AB" & hive %in% c("A", "B"), 
-                             "Ringers"),
-         treatment = replace(treatment, 
-                             treatment == "AB" & hive %in% c("C", "D"), 
-                             "LPS"),
-         treatment = replace(treatment, 
-                             treatment == "CD" & hive %in% c("A", "B"), 
-                             "LPS"),
-         treatment = replace(treatment, 
-                             treatment == "CD" & hive %in% c("C", "D"), 
-                             "Ringers")) %>%
-  mutate(hive = replace(hive, hive == "A", "Garden"),
-         hive = replace(hive, hive == "B", "Skylab"),
-         hive = replace(hive, hive == "C", "Arts"),
-         hive = replace(hive, hive == "D", "Zoology")) %>%
-  rename(pairID = tube)
-
+experiment3 <- read_csv("data/clean_data/experiment_3.csv")
 
 expt3_counts <- experiment3 %>%
   group_by(treatment, pairID, hive) %>%

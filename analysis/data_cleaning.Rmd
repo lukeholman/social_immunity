@@ -1,20 +1,17 @@
 ---
-title: "data_cleaning"
-author: "lukeholman"
-date: "2019-07-05"
+title: "Processing data collection sheets"
 output: workflowr::wflow_html
 editor_options:
   chunk_output_type: console
 ---
 
-```{r results='hide', warning=FALSE, message=FALSE}
-library(tidyverse)
-```
-
+Here, I turn Tarli's raw data collection sheets into the data used in the analyses and plots.
 
 ## Experiment 1
 
-```{r}
+```{r results='hide', warning=FALSE, message=FALSE}
+library(tidyverse)
+
 experiment1 <- read_csv(
   "data/data_collection_sheets/experiment_1.csv",
   col_types = cols(
@@ -26,31 +23,47 @@ experiment1 <- read_csv(
     emergence_time = col_character(),
     end_of_emergence = col_character(),
     mode_of_exit = col_character())) %>%
-  mutate(Treatment = factor(treatment, levels = c("Unstabbed", "Ringers", "HT_LPS", "LPS"))) 
+  mutate(Treatment = factor(
+    treatment, 
+    levels = c("Unstabbed", "Ringers", "HT_LPS", "LPS"))) 
 
 experiment1 <- experiment1 %>%
   mutate(
     treatment = replace(treatment, treatment == "HT_LPS", "Heat-treated LPS"),
     treatment = replace(treatment, treatment == "Unstabbed", "Intact control"),
     mode_of_exit = replace(mode_of_exit, is.na(mode_of_exit), "Unknown"),
-    mode_of_exit = replace(mode_of_exit, mode_of_exit == "Wind", "Unknown"),
-    mode_of_exit = replace(mode_of_exit, mode_of_exit == "?", "Unknown"),
-    mode_of_exit = replace(mode_of_exit, mode_of_exit == "Divine intervention", "Unknown"),
-    mode_of_exit = replace(mode_of_exit, mode_of_exit == "re-entry 37.40", "Left but re-entered"),
-    mode_of_exit = replace(mode_of_exit, mode_of_exit == "Re-entry 50.30", "Left but re-entered"),
-    mode_of_exit = replace(mode_of_exit, mode_of_exit == "Reentry 39.10", "Left but re-entered"),
-    mode_of_exit = replace(mode_of_exit, mode_of_exit == "Attempted re-entry blocked 9.15", "Forced removal"),
-    mode_of_exit = replace(mode_of_exit, mode_of_exit == "Dragged", "Forced removal"),
-    mode_of_exit = replace(mode_of_exit, mode_of_exit == "Assisted Self-removal", "Assisted self-removal"),
-    emergence_time = as.numeric(replace(emergence_time, emergence_time == "?", NA)),
-    end_of_emergence = as.numeric(replace(end_of_emergence, end_of_emergence == "?", NA))) %>%
+    mode_of_exit = replace(mode_of_exit, 
+                           mode_of_exit == "Wind", "Unknown"),
+    mode_of_exit = replace(mode_of_exit, 
+                           mode_of_exit == "?", "Unknown"),
+    mode_of_exit = replace(mode_of_exit, 
+                           mode_of_exit == "Divine intervention", "Unknown"),
+    mode_of_exit = replace(mode_of_exit, 
+                           mode_of_exit == "re-entry 37.40", "Left but re-entered"),
+    mode_of_exit = replace(mode_of_exit, 
+                           mode_of_exit == "Re-entry 50.30", "Left but re-entered"),
+    mode_of_exit = replace(mode_of_exit, 
+                           mode_of_exit == "Reentry 39.10", "Left but re-entered"),
+    mode_of_exit = replace(mode_of_exit, 
+                           mode_of_exit == "Attempted re-entry blocked 9.15", "Forced removal"),
+    mode_of_exit = replace(mode_of_exit, 
+                           mode_of_exit == "Dragged", "Forced removal"),
+    mode_of_exit = replace(mode_of_exit, 
+                           mode_of_exit == "Assisted Self-removal", 
+                           "Assisted self-removal"),
+    emergence_time = as.numeric(replace(emergence_time, 
+                                        emergence_time == "?", NA)),
+    end_of_emergence = as.numeric(replace(end_of_emergence, 
+                                          end_of_emergence == "?", NA))) %>%
   rename(bees_introduced = total) %>%
   arrange(hive, treatment)
 
 make_outcome_tally_full <- function(experiment_df){
   
   outcome_tally_full <- expand.grid(
-    pasted = unique(paste(experiment_df$treatment, experiment_df$hive, experiment_df$colour, sep = "~")), 
+    pasted = unique(paste(experiment_df$treatment, 
+                          experiment_df$hive, 
+                          experiment_df$colour, sep = "~")), 
     mode_of_exit = c(unique(experiment_df$mode_of_exit), "Stayed_inside"),
     n = 0, 
     stringsAsFactors = FALSE) %>% 
@@ -82,12 +95,22 @@ make_outcome_tally_full <- function(experiment_df){
 
 make_outcome_tally_simplified <- function(outcome_tally_full){
   outcome_tally_full %>%
-    mutate(mode_of_exit = replace(mode_of_exit, mode_of_exit == "Flew", "Self-removal"),
-           mode_of_exit = replace(mode_of_exit, mode_of_exit == "Assisted self-removal", "Forced removal")) %>%
-    filter(mode_of_exit %in% c("Stayed inside the hive", "Self-removal", "Forced removal")) %>%
-    mutate(mode_of_exit = replace(mode_of_exit, mode_of_exit == "Self-removal", "Left of own volition"),
-           mode_of_exit = replace(mode_of_exit, mode_of_exit == "Forced removal", "Forced out"),
-           mode_of_exit = factor(mode_of_exit, levels = c("Stayed inside the hive", "Left of own volition", "Forced out"))) %>%
+    mutate(mode_of_exit = replace(mode_of_exit, 
+                                  mode_of_exit == "Flew", "Self-removal"),
+           mode_of_exit = replace(mode_of_exit, 
+                                  mode_of_exit == "Assisted self-removal", 
+                                  "Forced removal")) %>%
+    filter(mode_of_exit %in% c("Stayed inside the hive", 
+                               "Self-removal", 
+                               "Forced removal")) %>%
+    mutate(mode_of_exit = replace(mode_of_exit, 
+                                  mode_of_exit == "Self-removal", "Left of own volition"),
+           mode_of_exit = replace(mode_of_exit, 
+                                  mode_of_exit == "Forced removal", "Forced out"),
+           mode_of_exit = factor(mode_of_exit, 
+                                 levels = c("Stayed inside the hive", 
+                                            "Left of own volition", 
+                                            "Forced out"))) %>%
     group_by(hive, treatment, colour, mode_of_exit) %>%
     summarise(n = sum(n)) %>%
     arrange(hive, treatment, mode_of_exit) %>%
@@ -95,29 +118,75 @@ make_outcome_tally_simplified <- function(outcome_tally_full){
 }
 
 outcome_tally_full_exp1        <- make_outcome_tally_full(experiment1) 
-outcome_tally_simplified_exp1  <- outcome_tally_full_exp1 %>% make_outcome_tally_simplified() 
+outcome_tally_simplified_exp1  <- outcome_tally_full_exp1 %>% 
+  make_outcome_tally_simplified() 
 
 experiment1 %>% write_csv(path = "data/clean_data/experiment_1.csv")
-outcome_tally_simplified_exp1 %>% write_csv(path = "data/clean_data/experiment_1_outcome_tally.csv") 
+outcome_tally_simplified_exp1 %>% 
+  write_csv(path = "data/clean_data/experiment_1_outcome_tally.csv") 
 ```
 
 ## Experiment 2
 
-```{r warning=FALSE}
-# remember date and emergence time as well!!
+```{r results='hide', warning=FALSE, message=FALSE}
 experiment2 <- read_csv("data/data_collection_sheets/experiment2_chc_transfer.csv") %>%
-  mutate(mode_of_exit = replace(mode_of_exit, mode_of_exit == "assisted", "Assisted self-removal"),
-         mode_of_exit = replace(mode_of_exit, mode_of_exit == "forced", "Forced removal"),
-         mode_of_exit = replace(mode_of_exit, mode_of_exit == "self", "Self-removal"),
-         mode_of_exit = replace(mode_of_exit, mode_of_exit == "reentered", "Left but re-entered")) %>%
+  mutate(mode_of_exit = replace(mode_of_exit, 
+                                mode_of_exit == "assisted", "Assisted self-removal"),
+         mode_of_exit = replace(mode_of_exit, 
+                                mode_of_exit == "forced", "Forced removal"),
+         mode_of_exit = replace(mode_of_exit, 
+                                mode_of_exit == "self", "Self-removal"),
+         mode_of_exit = replace(mode_of_exit, 
+                                mode_of_exit == "reentered", "Left but re-entered")) %>%
   select(-X9, -`Test start 5.04`) %>% 
   mutate(hive = replace(hive, hive == "SkyLab", "Skylab")) %>%
   arrange(hive, treatment)
 
 outcome_tally_full_exp2        <- make_outcome_tally_full(experiment2) 
-outcome_tally_simplified_exp2  <- outcome_tally_full_exp2 %>% make_outcome_tally_simplified() 
+outcome_tally_simplified_exp2  <- outcome_tally_full_exp2 %>% 
+  make_outcome_tally_simplified() 
 
 experiment2 %>% write_csv(path = "data/clean_data/experiment_2.csv")
-outcome_tally_simplified_exp2 %>% write_csv(path = "data/clean_data/experiment_2_outcome_tally.csv") 
+outcome_tally_simplified_exp2 %>% 
+  write_csv(path = "data/clean_data/experiment_2_outcome_tally.csv") 
+```
+
+## Experiment 3
+
+```{r results='hide', warning=FALSE, message=FALSE}
+files <- c("data/data_collection_sheets/hiveA_touching.csv",
+           "data/data_collection_sheets/hiveB_touching.csv",
+           "data/data_collection_sheets/hiveC_touching.csv",
+           "data/data_collection_sheets/hiveD_touching.csv")
+
+experiment3 <- map(
+  files, 
+  ~ read_csv(.x) %>%
+    gather(minute, touching, -tube) %>%
+    mutate(treatment = ifelse(substr(tube, 1, 1) %in% c("A", "B"), "AB", "CD"),
+           minute = as.numeric(minute),
+           touching = as.integer(touching),
+           hive = gsub("hive", "", str_extract(.x, "hive[ABCD]")), 
+           tube = paste(hive, tube, sep = "_"))
+  ) %>% bind_rows() %>%
+  mutate(treatment = replace(treatment, 
+                             treatment == "AB" & hive %in% c("A", "B"), 
+                             "Ringers"),
+         treatment = replace(treatment, 
+                             treatment == "AB" & hive %in% c("C", "D"), 
+                             "LPS"),
+         treatment = replace(treatment, 
+                             treatment == "CD" & hive %in% c("A", "B"), 
+                             "LPS"),
+         treatment = replace(treatment, 
+                             treatment == "CD" & hive %in% c("C", "D"), 
+                             "Ringers")) %>%
+  mutate(hive = replace(hive, hive == "A", "Garden"),
+         hive = replace(hive, hive == "B", "Skylab"),
+         hive = replace(hive, hive == "C", "Arts"),
+         hive = replace(hive, hive == "D", "Zoology")) %>%
+  rename(pairID = tube)
+
+experiment3 %>% write_csv(path = "data/clean_data/experiment_3.csv")
 ```
 
