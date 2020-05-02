@@ -5,7 +5,7 @@ output:
   workflowr::wflow_html:
     toc: false
 editor_options:
-  chunk_output_type: console
+  chunk_output_type: console 
 ---
 
 This website accompanies the paper 'Honeybees detect and evict sick nestmates using chemical cues' by Tarli Conroy and Luke Holman. Click the links below or use the navigation button to browse to view the analyses for Experiments 1-3. 

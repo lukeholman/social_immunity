@@ -512,7 +512,7 @@ cat(
 
 ### Stats associated with Figure 2C
 
-Here, we derive the result presented in prose in the Results, regarding the effect of LPS on the proportion of bees that left the hive by force.
+Here, we derive the result presented in prose in the Results, regarding the effect of LPS on the proportion of bees that left the hive by force. 
 
 ```{r}
 difference_prop_forced_out_LOR <- plotting_data %>%
