@@ -1,7 +1,7 @@
-name: "Conroy & Holman stats"
+name: Conroy & Holman stats
 output_dir: ../docs
 navbar:
-  title: "Conroy & Holman stats"
+  title: Conroy & Holman stats
   left:
   - text: Home
     href: index.html
@@ -15,6 +15,10 @@ navbar:
     href: experiment2.html
   - text: Experiment 3
     href: experiment3.html
+  right:
+  - icon: fa-github
+    text: Source code
+    href: https://github.com/lukeholman/social_immunity
 output:
   workflowr::wflow_html:
     toc: yes
