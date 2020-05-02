@@ -394,28 +394,33 @@ diff_in_forced_out_plot <- plotting_data %>%
 #     legend.position = "none"
 #   ) 
 
-bottom_row <- cowplot::plot_grid(LOR_plot, diff_in_forced_out_plot, 
-                                 labels = c("B", "C"),
-                                 nrow = 1, align = 'hv', axis = 'l', rel_heights = c(1.6, 1))
+bottom_row <- cowplot::plot_grid(
+  LOR_plot, diff_in_forced_out_plot, 
+  labels = c("B", "C"),
+  nrow = 1, align = 'hv', 
+  axis = 'l'
+)
+
 top_row <- cowplot::plot_grid(dot_plot, labels = "A")
 p <- cowplot::plot_grid(top_row, bottom_row, 
-                        nrow = 2, align = 'v', axis = 'l', rel_heights = c(1.4, 1))
+                        nrow = 2, align = 'v', axis = 'l', 
+                        rel_heights = c(1.4, 1))
 ggsave(plot = p, filename = "figures/fig2.pdf", height = 6, width = 6)
 p
 ```
 
-**Figure 2:** LEGEND HERE
+***Figure 2:*** Panel A shows the same information as Figure 1A. Panel B gives the posterior estimates of the effect size (log odds ratio) of the LPS treatment as a log odds ratio, for each of the three possible outcomes; the details are the same as in Figure 1B. Panel C shows the posterior estimate of the effect of the LPS treatment on the proportion of bees observed leaving the hive by force, as opposed to leaving voluntarily.
 
 
 
 ## Hypothesis testing and effect sizes
 
-This section calculates the posterior difference in treatment group means, in order to perform some null hypothesis testing, calculate effect size, and calculate the 95% credible intervals on the effect size. In all cases, the effect size expresses the effect of the "LPS-treated bee CHCs" treatment relative to the "Ringer-treated bee CHCs" control. 
+### Posterior effect size estimates
+
+This section calculates the effect size and 95% CIs that are shown in Figure 2B (and creates Table S4). 
 
 
-### Stats associated with Figure 2B
-
-#### Making Table S4
+***Table S4***: This table gives statistics associated with each of the contrasts plotted in Figure 2B. Each pair of rows gives the absolute (i.e. the difference in % bees) and standardised effect size (as log odds ratio; LOR) for the LPS treatment, relative to the Ringers treatment, for one of the three possible outcomes (stayed inside, left voluntarily, or forced out). A LOR of $|log(x)|$ indicates that the outcome is $x$ times more frequent in one treatment compared to the other, e.g. $log(2) = 0.69$ indicates a two-fold difference in frequency. The $PP$ column gives the posterior probability that the true effect size has the same sign as is shown in the Estimate column; this metric has a similar interpretation to a one-tailed $p$ value in frequentist statistics. 
 
 ```{r}
 my_summary <- function(df, columns, outcome) {
@@ -477,11 +482,11 @@ stats_table %>%
   pack_rows("% bees forced out", 5, 6)
 ```
 
-**Table S4**: This table gives statistics associated with each of the contrasts plotted in Figure 2B. Each pair of rows gives the absolute (i.e. the difference in % bees) and standardised effect size (as log odds ratio; LOR) for the LPS treatment, relative to the Ringers treatment, for one of the three possible outcomes (stayed inside, left voluntarily, or forced out). A LOR of $|log(x)|$ indicates that the outcome is $x$ times more frequent in one treatment compared to the other, e.g. $log(2) = 0.69$ indicates a two-fold difference in frequency. The $PP$ column gives the posterior probability that the true effect size has the same sign as is shown in the Estimate column; this metric has a similar interpretation to a one-tailed $p$ value in frequentist statistics. 
 
-#### Evaluating evidence for the null hypothesis
 
-Here, we derive the result present in prose in the Results, where we calculated the posterior probability that the true effect size lies in the range -log(2) < LOR < log(2).
+### Evaluating evidence for the null hypothesis
+
+Here, we derive the result present in prose in the Results, where we calculated the posterior probability that the true effect size lies in the range $-log(2) < LOR < log(2)$.
 
 ```{r}
 LOR_forced <- LOR %>%
