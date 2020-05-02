@@ -514,16 +514,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytreef18896809274efd96a2067f28a5636542096f06atargetblankf188968a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/f18896809274efd96a2067f28a5636542096f06a" target="_blank">f188968</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree14377be601304e4a3f4071130c92819c2f96c10ftargetblank14377bea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/14377be601304e4a3f4071130c92819c2f96c10f" target="_blank">14377be</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytreef18896809274efd96a2067f28a5636542096f06atargetblankf188968a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree14377be601304e4a3f4071130c92819c2f96c10ftargetblank14377bea" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/social_immunity/tree/f18896809274efd96a2067f28a5636542096f06a" target="_blank">f188968</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/social_immunity/tree/14377be601304e4a3f4071130c92819c2f96c10f" target="_blank">14377be</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -585,6 +585,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/14377be601304e4a3f4071130c92819c2f96c10f/analysis/experiment3.Rmd" target="_blank">14377be</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-05-02
+</td>
+<td>
+tweak colours
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/social_immunity/fa8c1796047c167290e18c196f75e96506390a8a/docs/experiment3.html" target="_blank">fa8c179</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-05-02
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1679,7 +1713,7 @@ scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 <h4>Formatted <code>brms</code> output for Table S5</h4>
 <p>The code chunk below wrangles the raw output of the <code>summary()</code> function for <code>brms</code> models into a more readable table of results, and also adds ‘Bayesian p-values’ (i.e. the posterior probability that the true effect size has the same sign as the reported effect).</p>
 <hr />
-<p><strong>Table S5:</strong> Table summarising the posterior estimates of each fixed effect in the best-fitting model of Experiment 3 that contained the treatment effect. This was a binomial model where the response variable was 0 for observations in which bees were not in close contact, and 1 when they were. ‘Treatment’ is a fixed factor with two levels, and the effect of LPS shown here is expressed relative to the ‘Ringers’ treatment. ‘Hive’ was a fixed factor with four levels; unlike for treatment, we modelled hive using deviation coding, such that the intercept term represents the mean across all hives (in the Ringers treatment), and the three hive terms represent the deviation from this mean for three of the four hives. The model also included a random effect ‘pair ID’ (XXXXX), which grouped repeated observations made on each pair of bees, preventing pseudoreplication. The <span class="math inline">\(p\)</span> column gives the posterior probability that the true effect size is opposite in sign to what is reported in the Estimate column, similarly to a p-value.</p>
+<p><strong><em>Table S5:</em></strong> Table summarising the posterior estimates of each fixed effect in the best-fitting model of Experiment 3 that contained the treatment effect. This was a binomial model where the response variable was 0 for observations in which bees were not in close contact, and 1 when they were. ‘Treatment’ is a fixed factor with two levels, and the effect of LPS shown here is expressed relative to the ‘Ringers’ treatment. ‘Hive’ was a fixed factor with four levels; unlike for treatment, we modelled hive using deviation coding, such that the intercept term represents the mean across all hives (in the Ringers treatment), and the three hive terms represent the deviation from this mean for three of the four hives. The model also included a random effect ‘pair ID’ (XXXXX), which grouped repeated observations made on each pair of bees, preventing pseudoreplication. The <span class="math inline">\(p\)</span> column gives the posterior probability that the true effect size is opposite in sign to what is reported in the Estimate column, similarly to a p-value.</p>
 <pre class="r"><code>tableS5 &lt;- get_fixed_effects_with_p_values(exp3_model) %&gt;% 
   mutate(mu = map_chr(str_extract_all(Parameter, &quot;mu[:digit:]&quot;), ~ .x[1]),
          Parameter = str_remove_all(Parameter, &quot;mu[:digit:]_&quot;),
@@ -1937,6 +1971,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/lukeholman/social_immunity/blob/fa8c1796047c167290e18c196f75e96506390a8a/docs/figure/experiment3.Rmd/unnamed-chunk-12-1.png" target="_blank">fa8c179</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-05-02
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/lukeholman/social_immunity/blob/f18896809274efd96a2067f28a5636542096f06a/docs/figure/experiment3.Rmd/unnamed-chunk-12-1.png" target="_blank">f188968</a>
 </td>
 <td>
@@ -1950,10 +1995,11 @@ lukeholman
 </table>
 </div>
 </div>
-<p><strong>Figure 3:</strong> Panel A shows the frequency distribution of the % time in close contact, for pairs of bees from the LPS treatment and the Ringers control. Panel B shows the posterior estimates of the mean % time spent in close contact; the details of the quantile dot plot and error bars are the same as described for Figure 1. Panel C shows the effect size (LOR; log odds ratio) associated with the difference in means in Panel B.</p>
+<p><strong><em>Figure 3:</em></strong> Panel A shows the frequency distribution of the % time in close contact, for pairs of bees from the LPS treatment and the Ringers control. Panel B shows the posterior estimates of the mean % time spent in close contact; the details of the quantile dot plot and error bars are the same as described for Figure 1. Panel C shows the effect size (LOR; log odds ratio) associated with the difference in means in Panel B.</p>
 </div>
 <div id="hypothesis-testing-and-effect-sizes" class="section level2">
 <h2>Hypothesis testing and effect sizes</h2>
+<p><strong><em>Table S6:</em></strong> Pairs in which one bee had received LPS were observed in close contact less frequently than pairs in which one bee had received Ringers solution.</p>
 <pre class="r"><code>get_log_odds &lt;- function(trt1, trt2){ 
   log((trt2 / (1 - trt2) / (trt1 / (1 - trt1))))
 }
@@ -2059,7 +2105,6 @@ Log odds ratio
 </tr>
 </tbody>
 </table>
-<p><strong>Table S6:</strong> Pairs in which one bee had received LPS were observed in close contact less frequently than pairs in which one bee had received Ringers solution.</p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
