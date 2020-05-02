@@ -13,11 +13,12 @@
 
 <title>Analysis of Experiment 2</title>
 
-<script src="site_libs/jquery-3.4.1/jquery-3.4.1.min.js"></script>
-<meta name="name" content="viewport" />
-<meta name="content" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-<link href="site_libs/bootstrap-3.4.1/bootstrap-custom.min.css" rel="stylesheet" />
-<script src="site_libs/bootstrap-3.4.1/bootstrap.min.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/darkly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
 <script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
@@ -37,17 +38,8 @@ div.section {
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
-  pre {
-    background-color: #f5f5f5;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: .5rem;
-  }
   pre:not([class]) {
     background-color: white;
-  }
-  pre code {
-    background-color: transparent;
   }
 </style>
 <script type="text/javascript">
@@ -84,7 +76,6 @@ h5 {
 h6 {
   font-size: 12px;
 }
-
 .table th:not([align]) {
   text-align: left;
 }
@@ -122,7 +113,6 @@ summary {
 
 
 <style type="text/css">
-/* TODO: remove this padding CSS when we drop BS3 */
 /* padding for bootstrap navbar */
 body {
   padding-top: 51px;
@@ -153,7 +143,6 @@ body {
   padding-top: 56px;
   margin-top: -56px;
 }
-
 .dropdown-submenu {
   position: relative;
 }
@@ -204,29 +193,27 @@ $(document).ready(function () {
   var menuAnchor = $('a[href="' + href + '"]');
 
   // mark it active
-  menuAnchor.tab('show');
+  menuAnchor.parent().addClass('active');
 
   // if it's got a parent navbar menu mark it active as well
   menuAnchor.closest('li.dropdown').addClass('active');
 });
 </script>
 
-<!--
-  Note that .tabset-dropdown was initially implemented using Glyphicons, which were dropped
-  in BS4. The idea behind the "equivalent" BS4 CSS derives from how carets are implemented
-  https://github.com/twbs/bootstrap/blob/099860/scss/mixins/_caret.scss#L1
--->
+<!-- tabsets -->
+
 <style type="text/css">
 .tabset-dropdown > .nav-tabs {
   display: inline-table;
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
+  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active-dropdown-tab:before {
+.tabset-dropdown > .nav-tabs > li.active:before {
   content: "";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
@@ -234,7 +221,7 @@ $(document).ready(function () {
   border-right: 1px solid #ddd;
 }
 
-.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active-dropdown-tab:before {
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
   content: "&#xe258;";
   border: none;
 }
@@ -247,7 +234,7 @@ $(document).ready(function () {
   border-right: 1px solid #ddd;
 }
 
-.tabset-dropdown > .nav-tabs > li.active-dropdown-tab {
+.tabset-dropdown > .nav-tabs > li.active {
   display: block;
 }
 
@@ -350,13 +337,13 @@ div.tocify {
 
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row">
+<div class="row-fluid">
 <div class="col-xs-12 col-sm-4 col-md-3">
 <div id="TOC" class="tocify">
 </div>
 </div>
 
-<div class="toc-content col-sm-12 col-md-8 col-lg-9">
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -399,13 +386,13 @@ div.tocify {
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<div id="header">
+<div class="fluid-row" id="header">
 
-<div class="btn-group pull-right float-right">
-<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
 <ul class="dropdown-menu" style="min-width: 50px;">
-<li><a class="dropdown-item" id="rmd-show-all-code" href="#">Show All Code</a></li>
-<li><a class="dropdown-item" id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
 </ul>
 </div>
 
@@ -418,7 +405,7 @@ div.tocify {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -427,7 +414,7 @@ div.tocify {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -436,10 +423,10 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-04-30
+<strong>Last updated:</strong> 2020-05-02
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>social_immunity/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -455,12 +442,12 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
 </div>
 </div>
 </div>
@@ -527,16 +514,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytreed56c18fa136535861f5b75ad28e86faddfff7f69targetblankd56c18fa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/d56c18fa136535861f5b75ad28e86faddfff7f69" target="_blank">d56c18f</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree3d21d6aaf2f90aaf412a741d0c57e80271f16203targetblank3d21d6aa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/3d21d6aaf2f90aaf412a741d0c57e80271f16203" target="_blank">3d21d6a</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytreed56c18fa136535861f5b75ad28e86faddfff7f69targetblankd56c18fa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree3d21d6aaf2f90aaf412a741d0c57e80271f16203targetblank3d21d6aa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/social_immunity/tree/d56c18fa136535861f5b75ad28e86faddfff7f69" target="_blank">d56c18f</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/social_immunity/tree/3d21d6aaf2f90aaf412a741d0c57e80271f16203" target="_blank">3d21d6a</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -558,14 +545,7 @@ Ignored files:
 
 Unstaged changes:
     Modified:   .gitignore
-    Modified:   analysis/_site.yml
-    Modified:   analysis/experiment1.Rmd
-    Modified:   analysis/experiment2.Rmd
-    Modified:   analysis/experiment3.Rmd
-    Modified:   analysis/license.Rmd
     Modified:   figures/fig1.pdf
-    Modified:   figures/fig2.pdf
-    Modified:   figures/fig3.pdf
 
 </code></pre>
 <p>
@@ -604,6 +584,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/3d21d6aaf2f90aaf412a741d0c57e80271f16203/analysis/experiment2.Rmd" target="_blank">3d21d6a</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-05-02
+</td>
+<td>
+wflow_publish(&quot;*&quot;, republish = T)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/social_immunity/3d21d6aaf2f90aaf412a741d0c57e80271f16203/docs/experiment2.html" target="_blank">3d21d6a</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-05-02
+</td>
+<td>
+wflow_publish(&quot;*&quot;, republish = T)
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -934,78 +948,13 @@ First commit
 </div>
 </div>
 </div>
-<!-- ```{r setup, include=FALSE} -->
-<!-- library(thematic) -->
-<!-- thematic_on() -->
-<!-- knitr::opts_chunk$set(echo = FALSE) -->
-<!-- ``` -->
 <div id="load-data-and-r-packages" class="section level2">
 <h2>Load data and R packages</h2>
-<pre class="r"><code># All but 1 of these packages can be easily installed from CRAN.
-# However it was harder to install the showtext package. On Mac, I did this:
-# installed &#39;homebrew&#39; using Terminal: ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot; 
-# installed &#39;libpng&#39; using Terminal: brew install libpng
-# installed &#39;showtext&#39; in R using: devtools::install_github(&quot;yixuan/showtext&quot;)  
-library(showtext)
-
-library(brms)
-library(bayesplot)
-library(tidyverse)
-library(gridExtra)
-library(kableExtra)
-library(bayestestR)
-library(tidybayes)
-library(cowplot)
-source(&quot;code/helper_functions.R&quot;)
-
-# set up nice font for figure
-nice_font &lt;- &quot;Lora&quot;
-font_add_google(name = nice_font, family = nice_font, regular.wt = 400, bold.wt = 700)
-showtext_auto()
-
-exp2_treatments &lt;- c(&quot;Ringers&quot;, &quot;LPS&quot;)
-
-durations &lt;- read_csv(&quot;data/data_collection_sheets/experiment_durations.csv&quot;) %&gt;%
-  filter(experiment == 2) %&gt;% select(-experiment)
-
-outcome_tally &lt;- read_csv(file = &quot;data/clean_data/experiment_2_outcome_tally.csv&quot;) %&gt;%
-  mutate(
-    outcome = str_replace_all(outcome, &quot;Stayed inside the hive&quot;, &quot;Stayed inside&quot;),
-    outcome = str_replace_all(outcome, &quot;Left of own volition&quot;, &quot;Left voluntarily&quot;),
-    outcome = factor(outcome, levels = c(&quot;Stayed inside&quot;, &quot;Left voluntarily&quot;, &quot;Forced out&quot;)),
-         treatment = str_replace_all(treatment, &quot;Ringer CHC&quot;, &quot;Ringers&quot;),
-         treatment = str_replace_all(treatment, &quot;LPS CHC&quot;, &quot;LPS&quot;),
-         treatment = factor(treatment, levels = exp2_treatments))
-
-# Re-formatted version of the same data, where each row is an individual bee. We need this format to run the brms model.
-data_for_categorical_model &lt;- outcome_tally %&gt;%
-  mutate(id = 1:n()) %&gt;%
-  split(.$id) %&gt;%
-  map(function(x){
-    if(x$n[1] == 0) return(NULL)
-    data.frame(
-      treatment = x$treatment[1],
-      hive = x$hive[1],
-      colour = x$colour[1],
-      outcome = rep(x$outcome[1], x$n))
-  }) %&gt;% do.call(&quot;rbind&quot;, .) %&gt;% as_tibble() %&gt;%
-  arrange(hive, treatment) %&gt;%
-  mutate(outcome_numeric = as.numeric(outcome),
-         hive = as.character(hive),
-         treatment = factor(treatment, levels = exp2_treatments)) %&gt;%
-  left_join(durations, by = &quot;hive&quot;) %&gt;%
-  mutate(hive = C(factor(hive), sum))  # use &quot;sum coding&quot; for hive, since there is no obvious reference level</code></pre>
 </div>
 <div id="inspect-the-raw-data" class="section level2">
 <h2>Inspect the raw data</h2>
 <div id="sample-sizes-by-treatment" class="section level3">
 <h3>Sample sizes by treatment</h3>
-<pre class="r"><code>sample_sizes &lt;- data_for_categorical_model %&gt;%
-  group_by(treatment) %&gt;%
-  summarise(n = n()) 
-
-sample_sizes %&gt;%
-  kable() %&gt;% kable_styling(full_width = FALSE)</code></pre>
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -1039,10 +988,6 @@ LPS
 </div>
 <div id="sample-sizes-by-treatment-and-hive" class="section level3">
 <h3>Sample sizes by treatment and hive</h3>
-<pre class="r"><code>data_for_categorical_model %&gt;%
-  group_by(hive, treatment) %&gt;%
-  summarise(n = n()) %&gt;%
-  kable() %&gt;% kable_styling(full_width = FALSE)</code></pre>
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -1151,10 +1096,6 @@ LPS
 </div>
 <div id="inspect-the-results" class="section level3">
 <h3>Inspect the results</h3>
-<pre class="r"><code>outcome_tally %&gt;%
-  select(-colour) %&gt;% 
-  kable(digits = 3) %&gt;% kable_styling(full_width = FALSE) %&gt;%
-  scroll_box(height = &quot;380px&quot;)</code></pre>
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:380px; ">
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
@@ -1516,27 +1457,23 @@ Forced out
 </div>
 <div id="raw-results-as-a-bar-chart" class="section level3">
 <h3>Raw results as a bar chart</h3>
-<pre class="r"><code>pd &lt;- position_dodge(.3)
-outcome_tally %&gt;%
-  group_by(treatment, outcome) %&gt;%
-  summarise(n = sum(n)) %&gt;% mutate() %&gt;%
-  group_by(treatment) %&gt;%
-  mutate(total_n = sum(n),
-         percent = 100 * n / sum(n),
-         SE = sqrt(total_n * (percent/100) * (1-(percent/100)))) %&gt;% 
-  ungroup() %&gt;%
-  mutate(lowerCI = map_dbl(1:n(), ~ 100 * binom.test(n[.x], total_n[.x])$conf.int[1]),
-         upperCI = map_dbl(1:n(), ~ 100 * binom.test(n[.x], total_n[.x])$conf.int[2])) %&gt;%
-  filter(outcome != &quot;Stayed inside&quot;) %&gt;%
-  ggplot(aes(treatment, percent, fill = outcome)) + 
-  geom_errorbar(aes(ymin=lowerCI, ymax=upperCI), position = pd, width = 0) + 
-  geom_point(stat = &quot;identity&quot;, position = pd, colour = &quot;grey15&quot;, pch = 21, size = 4) + 
-  scale_fill_brewer(palette = &quot;Pastel1&quot;, name = &quot;Outcome&quot;, direction = -1) + 
-  xlab(&quot;Treatment&quot;) + ylab(&quot;% bees (+95% CIs)&quot;) + 
-  theme_bw(20) + 
-  theme(legend.position = &quot;top&quot;,
-        text = element_text(family = nice_font)) + 
-  coord_flip()</code></pre>
+<pre><code>Warning: thematic was unable to resolve `bg=&#39;auto&#39;`. Try providing an actual
+color (or `NA`) to the `bg` argument of `thematic_on()`. By the way, &#39;auto&#39; is
+only officially supported in `shiny::renderPlot()`, some rmarkdown scenarios
+(specifically, `html_document()` with `theme!=NULL`), in RStudio, or if
+`auto_defaults()` is set.</code></pre>
+<pre><code>Warning: thematic was unable to resolve `fg=&#39;auto&#39;`. Try providing an actual
+color (or `NA`) to the `fg` argument of `thematic_on()`. By the way, &#39;auto&#39; is
+only officially supported in `shiny::renderPlot()`, some rmarkdown scenarios
+(specifically, `html_document()` with `theme!=NULL`), in RStudio, or if
+`auto_defaults()` is set.</code></pre>
+<pre><code>Warning: thematic was unable to resolve `accent=&#39;auto&#39;`. Try providing an
+actual color (or `NA`) to the `accent` argument of `thematic_on()`. By the way,
+&#39;auto&#39; is only officially supported in `shiny::renderPlot()`, some rmarkdown
+scenarios (specifically, `html_document()` with `theme!=NULL`), in RStudio, or
+if `auto_defaults()` is set.</code></pre>
+<pre><code>Error in get(S3[i, 1L], mode = &quot;function&quot;, envir = parent.frame()) : 
+  invalid first argument</code></pre>
 <p><img src="figure/experiment2.Rmd/unnamed-chunk-5-1.png" width="864" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-1">
@@ -1560,6 +1497,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/3d21d6aaf2f90aaf412a741d0c57e80271f16203/docs/figure/experiment2.Rmd/unnamed-chunk-5-1.png" target="_blank">3d21d6a</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-05-02
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lukeholman/social_immunity/blob/93c487a585b60d272034b60c312602429aa3271b/docs/figure/experiment2.Rmd/unnamed-chunk-5-1.png" target="_blank">93c487a</a>
@@ -1615,51 +1563,9 @@ lukeholman
 <div id="run-the-models" class="section level3">
 <h3>Run the models</h3>
 <p>Fit a multinomial logisitic model, with 3 possible outcomes describing what happened to each bee introduced to the hive: stayed inside, left of its own volition, or forced out by the other workers. To assess the effects of our predictor variables, we compare 5 models with different fixed factors, ranking them by posterior model probability.</p>
-<pre class="r"><code>if(!file.exists(&quot;output/exp2_model.rds&quot;)){
-  exp2_model_v1 &lt;- brm(
-    outcome_numeric ~ treatment * hive + observation_time_minutes, 
-    data = data_for_categorical_model, 
-    prior = c(set_prior(&quot;normal(0, 3)&quot;, class = &quot;b&quot;, dpar = &quot;mu2&quot;),
-              set_prior(&quot;normal(0, 3)&quot;, class = &quot;b&quot;, dpar = &quot;mu3&quot;)),
-    family = &quot;categorical&quot;, save_all_pars = TRUE, sample_prior = TRUE,
-    chains = 4, cores = 1, iter = 5000, seed = 1)
-  
-  exp2_model_v2 &lt;- brm(
-    outcome_numeric ~ treatment + hive + observation_time_minutes, 
-    data = data_for_categorical_model, 
-    prior = c(set_prior(&quot;normal(0, 3)&quot;, class = &quot;b&quot;, dpar = &quot;mu2&quot;),
-              set_prior(&quot;normal(0, 3)&quot;, class = &quot;b&quot;, dpar = &quot;mu3&quot;)),
-    family = &quot;categorical&quot;, save_all_pars = TRUE, sample_prior = TRUE,
-    chains = 4, cores = 1, iter = 5000, seed = 1)
-  
-  exp2_model_v3 &lt;- brm(
-    outcome_numeric ~ hive + observation_time_minutes, 
-    data = data_for_categorical_model, 
-    prior = c(set_prior(&quot;normal(0, 3)&quot;, class = &quot;b&quot;, dpar = &quot;mu2&quot;),
-              set_prior(&quot;normal(0, 3)&quot;, class = &quot;b&quot;, dpar = &quot;mu3&quot;)),
-    family = &quot;categorical&quot;,  save_all_pars = TRUE, sample_prior = TRUE,
-    chains = 4, cores = 1, iter = 5000, seed = 1)
-  
-  posterior_model_probabilities &lt;- tibble(
-    Model = c(&quot;treatment * hive + observation_time_minutes&quot;,
-              &quot;treatment + hive + observation_time_minutes&quot;,
-              &quot;hive + observation_time_minutes&quot;),
-    post_prob = as.numeric(post_prob(exp2_model_v1,
-                                     exp2_model_v2,
-                                     exp2_model_v3))) %&gt;%
-    arrange(-post_prob)
-  
-  saveRDS(exp2_model_v2, &quot;output/exp2_model.rds&quot;) # save the top model, treatment + hive
-  saveRDS(posterior_model_probabilities, &quot;output/exp2_post_prob.rds&quot;)
-}
-
-exp2_model &lt;- readRDS(&quot;output/exp2_model.rds&quot;)
-posterior_model_probabilities &lt;- readRDS(&quot;output/exp2_post_prob.rds&quot;)</code></pre>
 </div>
 <div id="posterior-model-probabilites" class="section level3">
 <h3>Posterior model probabilites</h3>
-<pre class="r"><code>posterior_model_probabilities %&gt;% 
-  kable(digits = 3) %&gt;% kable_styling()</code></pre>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -1702,23 +1608,6 @@ treatment * hive + observation_time_minutes
 <div id="fixed-effects-from-the-top-model" class="section level3">
 <h3>Fixed effects from the top model</h3>
 <p>The code chunk below wrangles the raw output of the <code>summary()</code> functions for <code>brms</code> models into a more readable table of results, and also adds ‘Bayesian p-values’ (i.e. the posterior probability that the true effect size has the same sign as the reported effect).</p>
-<pre class="r"><code>tableS3 &lt;- get_fixed_effects_with_p_values(exp2_model) %&gt;% 
-  mutate(mu = map_chr(str_extract_all(Parameter, &quot;mu[:digit:]&quot;), ~ .x[1]),
-         Parameter = str_remove_all(Parameter, &quot;mu[:digit:]_&quot;),
-         Parameter = str_replace_all(Parameter, &quot;treatment&quot;, &quot;Treatment: &quot;),
-         Parameter = str_replace_all(Parameter, &quot;observation_time_minutes&quot;, &quot;Observation duration (minutes)&quot;)) %&gt;%
-  arrange(mu) %&gt;%
-  select(-mu, -Rhat, -Bulk_ESS, -Tail_ESS) 
-
-names(tableS3)[3:5] &lt;- c(&quot;Est. Error&quot;, &quot;Lower 95% CI&quot;, &quot;Upper 95% CI&quot;)
-
-saveRDS(tableS3, file = &quot;figures/tableS3.rds&quot;)
-
-tableS3 %&gt;%
-  kable(digits = 3) %&gt;% 
-  kable_styling(full_width = FALSE) %&gt;%
-  pack_rows(&quot;% bees leaving voluntarily&quot;, 1, 6) %&gt;%
-  pack_rows(&quot;% bees forced out&quot;, 7, 12)</code></pre>
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -2029,118 +1918,13 @@ Observation duration (minutes)
 <h2>Plotting estimates from the model</h2>
 <div id="derive-prediction-from-the-posterior" class="section level3">
 <h3>Derive prediction from the posterior</h3>
-<pre class="r"><code>get_posterior_preds &lt;- function(hive){
-  new &lt;- expand.grid(treatment = levels(data_for_categorical_model$treatment), 
-                     hive = &quot;Zoology&quot;,
-                     observation_time_minutes = 120) 
-  
-  preds &lt;- fitted(exp2_model, newdata = new, summary = FALSE)
-  dimnames(preds) &lt;- list(NULL, paste(new$treatment, new$hive, sep = &quot;~&quot;), NULL)
-  
-  rbind(
-    as.data.frame(preds[,, 1]) %&gt;% mutate(outcome = &quot;Stayed inside&quot;, posterior_sample = 1:n()),
-    as.data.frame(preds[,, 2]) %&gt;% mutate(outcome = &quot;Left voluntarily&quot;, posterior_sample = 1:n()),
-    as.data.frame(preds[,, 3]) %&gt;% mutate(outcome = &quot;Forced out&quot;, posterior_sample = 1:n())) %&gt;%
-    gather(treatment, prop, contains(&quot;~&quot;)) %&gt;%
-    mutate(treatment = strsplit(treatment, split = &quot;~&quot;),
-           hive = map_chr(treatment, ~ .x[2]),
-           treatment = map_chr(treatment, ~ .x[1]),
-           treatment = factor(treatment, c(&quot;Ringers&quot;, &quot;LPS&quot;)),
-           outcome = factor(outcome, c(&quot;Stayed inside&quot;, &quot;Left voluntarily&quot;, &quot;Forced out&quot;))) %&gt;%
-    arrange(treatment, outcome) %&gt;% as_tibble() %&gt;% select(-hive)
-}
-
-
-# plotting data for panel A: one specific hive
-plotting_data &lt;- get_posterior_preds(hive = &quot;Zoology&quot;)
-
-# stats data: for comparing means across all hives
-stats_data &lt;- get_posterior_preds(hive = NA)</code></pre>
 </div>
 <div id="make-figure-2" class="section level3">
 <h3>Make Figure 2</h3>
-<pre class="r"><code>cols &lt;- c(&quot;#34558b&quot;, &quot;#4ec5a5&quot;, &quot;#ffaf12&quot;)
-
-dot_plot &lt;- plotting_data %&gt;%
-  left_join(sample_sizes, by = &quot;treatment&quot;) %&gt;%
-  arrange(treatment) %&gt;%
-  mutate(treatment = factor(paste(treatment, &quot;\n(n = &quot;, n, &quot;)&quot;, sep = &quot;&quot;),
-                            unique(paste(treatment, &quot;\n(n = &quot;, n, &quot;)&quot;, sep = &quot;&quot;)))) %&gt;% 
-  ggplot(aes(100 * prop, treatment)) + 
-  stat_dotsh(quantiles = 100, fill = &quot;grey40&quot;, colour = &quot;grey40&quot;) + 
-  stat_pointintervalh(aes(colour = outcome, fill = outcome), 
-                      .width = c(0.5, 0.95),
-                      position = position_nudge(y = -0.07), point_colour = &quot;grey26&quot;, pch = 21, stroke = 0.4) + 
-  scale_colour_manual(values = cols) + 
-  scale_fill_manual(values = cols) + 
-  facet_wrap( ~ outcome, scales = &quot;free_x&quot;) + 
-  xlab(&quot;% bees (posterior estimate)&quot;) + ylab(&quot;Treatment&quot;) + 
-  theme_bw() + 
-  coord_cartesian(ylim=c(1.4, 2.2)) + 
-  theme(
-    text = element_text(family = nice_font),
-    strip.background = element_rect(fill = &quot;#eff0f1&quot;),
-    panel.grid.major.y = element_blank(),
-    legend.position = &quot;none&quot;
-  ) 
-  
-
-get_log_odds &lt;- function(trt1, trt2){ # positive effect = odds of this outcome are higher for trt2 than trt1 (put control as trt1)
-  log((trt2 / (1 - trt2) / (trt1 / (1 - trt1))))
-}
-
-LOR &lt;- plotting_data %&gt;%
-  spread(treatment, prop) %&gt;%
-  mutate(LOR = get_log_odds(Ringers, LPS)) %&gt;%
-  select(posterior_sample, outcome, LOR)
-
-
-
-LOR_plot &lt;- LOR %&gt;%
-  ggplot(aes(LOR, outcome, colour = outcome)) + 
-  geom_vline(xintercept = 0, linetype = 2) +
-  geom_vline(xintercept = log(2), linetype = 2, colour = &quot;pink&quot;) +
-  geom_vline(xintercept = -log(2), linetype = 2, colour = &quot;pink&quot;) +
-  stat_pointintervalh(aes(colour = outcome, fill = outcome), 
-                      position = position_dodge(0.4), 
-                      .width = c(0.5, 0.95),
-                      point_colour = &quot;grey26&quot;, pch = 21, stroke = 0.4) + 
-  scale_colour_manual(values = cols) + 
-  scale_fill_manual(values = cols) + 
-  xlab(&quot;Effect size of LPS\n(log odds ratio)&quot;) + ylab(&quot;Mode of exit&quot;) + 
-  theme_bw() +
-  theme(
-    text = element_text(family = nice_font),
-    panel.grid.major.y = element_blank(),
-    legend.position = &quot;none&quot;
-  ) 
-
-diff_in_forced_out_plot &lt;- plotting_data %&gt;%
-  spread(outcome, prop) %&gt;%
-  mutate(prop_leavers_that_were_forced_out = `Forced out` / (`Forced out` + `Left voluntarily`)) %&gt;%
-  select(posterior_sample, treatment, prop_leavers_that_were_forced_out)  %&gt;%
-  spread(treatment, prop_leavers_that_were_forced_out) %&gt;% 
-  mutate(difference_prop_forced_out_LOR = get_log_odds(Ringers, LPS)) %&gt;%
-  ggplot(aes(difference_prop_forced_out_LOR, y =1)) + 
-  geom_vline(xintercept = 0, linetype = 2) +
-  stat_dotsh(quantiles = 100, fill = &quot;grey40&quot;, colour = &quot;grey40&quot;) + 
-  xlab(&quot;Effect of LPS on proportion\nbees leaving by force\n(log odds ratio)&quot;) + 
-  ylab(&quot;Posterior density&quot;) + 
-  theme_bw() +
-  theme(
-    text = element_text(family = nice_font),
-    panel.grid.major.y = element_blank(),
-    legend.position = &quot;none&quot;
-  ) 
-
-bottom_row &lt;- cowplot::plot_grid(LOR_plot, diff_in_forced_out_plot, 
-                                 labels = c(&quot;B&quot;, &quot;C&quot;),
-                                 nrow = 1, align = &#39;hv&#39;, axis = &#39;l&#39;, rel_heights = c(1.6, 1))
-top_row &lt;- cowplot::plot_grid(dot_plot, labels = &quot;A&quot;)
-p &lt;- cowplot::plot_grid(top_row, bottom_row, 
-                        nrow = 2, align = &#39;v&#39;, axis = &#39;l&#39;, rel_heights = c(1.4, 1))
-ggsave(plot = p, filename = &quot;figures/fig2.pdf&quot;, height = 6, width = 6)
-p</code></pre>
+<pre><code>Error in get(S3[i, 1L], mode = &quot;function&quot;, envir = parent.frame()) : 
+  invalid first argument</code></pre>
+<pre><code>Error in get(S3[i, 1L], mode = &quot;function&quot;, envir = parent.frame()) : 
+  invalid first argument</code></pre>
 <p><img src="figure/experiment2.Rmd/unnamed-chunk-10-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-1">
@@ -2164,6 +1948,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/3d21d6aaf2f90aaf412a741d0c57e80271f16203/docs/figure/experiment2.Rmd/unnamed-chunk-10-1.png" target="_blank">3d21d6a</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-05-02
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lukeholman/social_immunity/blob/93c487a585b60d272034b60c312602429aa3271b/docs/figure/experiment2.Rmd/unnamed-chunk-10-1.png" target="_blank">93c487a</a>
@@ -2233,63 +2028,6 @@ lukeholman
 <h3>Stats associated with Figure 2B</h3>
 <div id="making-table-s4" class="section level4">
 <h4>Making Table S4</h4>
-<pre class="r"><code>my_summary &lt;- function(df, columns, outcome) {
-  lapply(columns, function(x){
-    
-    p &lt;- 1 - (df %&gt;% pull(!! x) %&gt;%
-                bayestestR::p_direction() %&gt;% as.numeric())
-    
-    df %&gt;% pull(!! x) %&gt;% posterior_summary() %&gt;% as_tibble() %&gt;% 
-      mutate(p=p, Outcome = outcome, Metric = x) %&gt;% 
-      select(Outcome, Metric, everything())
-  }) %&gt;% do.call(&quot;rbind&quot;, .)
-}
-
-stats_table &lt;- rbind(
-  plotting_data %&gt;%
-    filter(outcome == &quot;Stayed inside&quot;) %&gt;%
-    spread(treatment, prop) %&gt;%
-    mutate(`Absolute difference in % bees staying inside` = 100 * (LPS - Ringers),
-           `Log odds ratio` = get_log_odds(Ringers, LPS)) %&gt;%
-    my_summary(c(&quot;Absolute difference in % bees staying inside&quot;, 
-                 &quot;Log odds ratio&quot;),
-               outcome = &quot;Stayed inside&quot;) %&gt;%
-    mutate(p = c(&quot; &quot;, format(round(p[2], 4), nsmall = 4))),
-  
-  plotting_data %&gt;%
-    filter(outcome == &quot;Left voluntarily&quot;) %&gt;%
-    spread(treatment, prop) %&gt;%
-    mutate(`Absolute difference in % bees leaving voluntarily` = 100 * (LPS - Ringers),
-           `Log odds ratio` = get_log_odds(Ringers, LPS)) %&gt;%
-    my_summary(c(&quot;Absolute difference in % bees leaving voluntarily&quot;, 
-                 &quot;Log odds ratio&quot;),
-               outcome = &quot;Left voluntarily&quot;) %&gt;%
-    mutate(p = c(&quot; &quot;, format(round(p[2], 4), nsmall = 4))),
-  
-  plotting_data %&gt;%
-    filter(outcome == &quot;Forced out&quot;) %&gt;%
-    spread(treatment, prop) %&gt;%
-    mutate(`Absolute difference in % bees forced out` = 100 * (LPS - Ringers),
-           `Log odds ratio` = get_log_odds(Ringers, LPS)) %&gt;%
-    my_summary(c(&quot;Absolute difference in % bees forced out&quot;, 
-                 &quot;Log odds ratio&quot;),
-               outcome = &quot;Forced out&quot;) %&gt;%
-    mutate(p = c(&quot; &quot;, format(round(p[2], 4), nsmall = 4))) 
-) %&gt;%
-  mutate(` ` = ifelse(p &lt; 0.05, &quot;\\*&quot;, &quot;&quot;),
-         ` ` = replace(` `, p &lt; 0.01, &quot;**&quot;),
-         ` ` = replace(` `, p &lt; 0.001, &quot;***&quot;),
-         ` ` = replace(` `, p == &quot; &quot;, &quot;&quot;))
-
-stats_table[c(2,4,6), 1] &lt;- &quot; &quot;
-
-stats_table %&gt;%
-  select(-Outcome) %&gt;%
-  kable(digits = 3) %&gt;% kable_styling(full_width = FALSE) %&gt;% 
-  row_spec(c(0,2,4,6), extra_css = &quot;border-bottom: solid;&quot;) %&gt;%
-  pack_rows(&quot;% bees staying inside&quot;, 1, 2) %&gt;%
-  pack_rows(&quot;% bees leaving voluntarily&quot;, 3, 4) %&gt;%
-  pack_rows(&quot;% bees forced out&quot;, 5, 6)</code></pre>
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -2469,41 +2207,13 @@ Log odds ratio
 <div id="evaluating-evidence-for-the-null-hypothesis" class="section level4">
 <h4>Evaluating evidence for the null hypothesis</h4>
 <p>Here, we derive the result present in prose in the Results, where we calculated the posterior probability that the true effect size lies in the range -log(2) &lt; LOR &lt; log(2).</p>
-<pre class="r"><code>LOR_forced &lt;- LOR %&gt;%
-  filter(outcome == &quot;Forced out&quot;) %&gt;% 
-  pull(LOR)
-
-LOR_left &lt;- LOR %&gt;%
-  filter(outcome == &quot;Left voluntarily&quot;) %&gt;%
-  pull(LOR)
-
-ROPE_calculation &lt;- function(scale, LOR_data){
-  sum(LOR_data &gt; -log(scale) &amp; LOR_data &lt; log(scale)) / length(LOR_data)
-}
-
-print(&quot;Probability that |LOR|&lt;2 for % bees leaving voluntarily:&quot;, ROPE_calculation(2, LOR_left))</code></pre>
-<pre><code>[1] &quot;Probability that |LOR|&lt;2 for % bees leaving voluntarily:&quot;</code></pre>
-<pre class="r"><code>print(&quot;Probability that |LOR|&lt;2 for % bees forced out:&quot;, ROPE_calculation(2, LOR_forced))</code></pre>
-<pre><code>[1] &quot;Probability that |LOR|&lt;2 for % bees forced out:&quot;</code></pre>
+<pre><code>[1] &quot;Probability that |LOR|&lt;2 for % bees leaving voluntarily: 0.832&quot;</code></pre>
+<pre><code>[1] &quot;Probability that |LOR|&lt;2 for % bees forced out: 0.187&quot;</code></pre>
 </div>
 </div>
 <div id="stats-associated-with-figure-2c" class="section level3">
 <h3>Stats associated with Figure 2C</h3>
 <p>Here, we derive the result presented in prose in the Results, regarding the effect of LPS on the proportion of bees that left the hive by force.</p>
-<pre class="r"><code>difference_prop_forced_out_LOR &lt;- plotting_data %&gt;%
-  spread(outcome, prop) %&gt;%
-  mutate(prop_leavers_that_were_forced_out = 
-           `Forced out` / (`Forced out` + `Left voluntarily`)) %&gt;%
-  select(posterior_sample, 
-         treatment, 
-         prop_leavers_that_were_forced_out)  %&gt;%
-  spread(treatment, 
-         prop_leavers_that_were_forced_out) %&gt;% 
-  mutate(difference_prop_forced_out_LOR = get_log_odds(Ringers, LPS)) %&gt;%
-  pull(difference_prop_forced_out_LOR)
-
-hypothesis(difference_prop_forced_out_LOR, 
-           &quot;x &gt; 0&quot;, alpha = 0.05)$hypothesis</code></pre>
 <pre><code>  Hypothesis  Estimate Est.Error   CI.Lower CI.Upper Evid.Ratio Post.Prob Star
 1    (x) &gt; 0 0.7281842 0.5984938 -0.2336917 1.712823   8.082652    0.8899     </code></pre>
 <br>
@@ -2513,7 +2223,6 @@ hypothesis(difference_prop_forced_out_LOR,
 </button>
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
-<pre class="r"><code>sessionInfo()</code></pre>
 <pre><code>R version 3.6.3 (2020-02-29)
 Platform: x86_64-apple-darwin15.6.0 (64-bit)
 Running under: macOS Catalina 10.15.4
@@ -2534,6 +2243,7 @@ other attached packages:
  [9] purrr_0.3.3      readr_1.3.1      tidyr_1.0.2      tibble_3.0.0    
 [13] ggplot2_3.3.0    tidyverse_1.3.0  bayesplot_1.7.1  brms_2.12.0     
 [17] Rcpp_1.0.4.6     showtext_0.7-1   showtextdb_2.0   sysfonts_0.8    
+[21] thematic_0.0.1   workflowr_1.6.1 
 
 loaded via a namespace (and not attached):
   [1] colorspace_1.4-1        ellipsis_0.3.0          ggridges_0.5.2         
@@ -2543,37 +2253,37 @@ loaded via a namespace (and not attached):
  [13] svUnit_0.7-12           DT_0.13                 fansi_0.4.1            
  [16] mvtnorm_1.1-0           lubridate_1.7.8         xml2_1.3.1             
  [19] bridgesampling_1.0-0    knitr_1.28              shinythemes_1.1.2      
- [22] jsonlite_1.6.1          workflowr_1.6.1         broom_0.5.4            
- [25] dbplyr_1.4.2            shiny_1.4.0             compiler_3.6.3         
- [28] httr_1.4.1              backports_1.1.6         assertthat_0.2.1       
- [31] Matrix_1.2-18           fastmap_1.0.1           cli_2.0.2              
- [34] later_1.0.0             htmltools_0.4.0.9003    prettyunits_1.1.1      
- [37] tools_3.6.3             igraph_1.2.5            coda_0.19-3            
- [40] gtable_0.3.0            glue_1.4.0              reshape2_1.4.4         
- [43] cellranger_1.1.0        jquerylib_0.1           vctrs_0.2.4            
- [46] nlme_3.1-147            crosstalk_1.1.0.1       insight_0.8.1          
- [49] xfun_0.13               ps_1.3.0                rvest_0.3.5            
- [52] mime_0.9                miniUI_0.1.1.1          lifecycle_0.2.0        
- [55] gtools_3.8.2            zoo_1.8-7               scales_1.1.0           
- [58] colourpicker_1.0        hms_0.5.3               promises_1.1.0         
- [61] Brobdingnag_1.2-6       parallel_3.6.3          inline_0.3.15          
- [64] RColorBrewer_1.1-2      shinystan_2.5.0         curl_4.3               
- [67] yaml_2.2.1              loo_2.2.0               StanHeaders_2.19.2     
- [70] sass_0.2.0              stringi_1.4.6           highr_0.8              
- [73] dygraphs_1.1.1.6        pkgbuild_1.0.6          rlang_0.4.5            
- [76] pkgconfig_2.0.3         matrixStats_0.56.0      evaluate_0.14          
- [79] lattice_0.20-41         labeling_0.3            rstantools_2.0.0       
- [82] htmlwidgets_1.5.1       processx_3.4.2          tidyselect_1.0.0       
- [85] plyr_1.8.6              magrittr_1.5            R6_2.4.1               
- [88] generics_0.0.2          DBI_1.1.0               withr_2.1.2            
- [91] pillar_1.4.3            haven_2.2.0             whisker_0.4            
- [94] xts_0.12-0              abind_1.4-5             modelr_0.1.5           
- [97] crayon_1.3.4            arrayhelpers_1.1-0      rmarkdown_2.2.0        
-[100] grid_3.6.3              readxl_1.3.1            callr_3.4.3            
-[103] git2r_0.26.1            threejs_0.3.3           webshot_0.5.2          
-[106] reprex_0.3.0            digest_0.6.25           xtable_1.8-4           
-[109] httpuv_1.5.2            stats4_3.6.3            munsell_0.5.0          
-[112] viridisLite_0.3.0       shinyjs_1.1            </code></pre>
+ [22] jsonlite_1.6.1          broom_0.5.4             dbplyr_1.4.2           
+ [25] shiny_1.4.0             compiler_3.6.3          httr_1.4.1             
+ [28] backports_1.1.6         assertthat_0.2.1        Matrix_1.2-18          
+ [31] fastmap_1.0.1           cli_2.0.2               later_1.0.0            
+ [34] htmltools_0.4.0.9003    prettyunits_1.1.1       tools_3.6.3            
+ [37] igraph_1.2.5            coda_0.19-3             gtable_0.3.0           
+ [40] glue_1.4.0              reshape2_1.4.4          cellranger_1.1.0       
+ [43] jquerylib_0.1           vctrs_0.2.4             nlme_3.1-147           
+ [46] crosstalk_1.1.0.1       insight_0.8.1           xfun_0.13              
+ [49] ps_1.3.0                rvest_0.3.5             mime_0.9               
+ [52] miniUI_0.1.1.1          lifecycle_0.2.0         gtools_3.8.2           
+ [55] zoo_1.8-7               scales_1.1.0            colourpicker_1.0       
+ [58] hms_0.5.3               promises_1.1.0          Brobdingnag_1.2-6      
+ [61] parallel_3.6.3          inline_0.3.15           RColorBrewer_1.1-2     
+ [64] shinystan_2.5.0         curl_4.3                yaml_2.2.1             
+ [67] loo_2.2.0               StanHeaders_2.19.2      sass_0.2.0             
+ [70] stringi_1.4.6           highr_0.8               dygraphs_1.1.1.6       
+ [73] pkgbuild_1.0.6          rlang_0.4.5             pkgconfig_2.0.3        
+ [76] matrixStats_0.56.0      evaluate_0.14           lattice_0.20-41        
+ [79] labeling_0.3            rstantools_2.0.0        htmlwidgets_1.5.1      
+ [82] processx_3.4.2          tidyselect_1.0.0        plyr_1.8.6             
+ [85] magrittr_1.5            R6_2.4.1                generics_0.0.2         
+ [88] DBI_1.1.0               withr_2.1.2             pillar_1.4.3           
+ [91] haven_2.2.0             whisker_0.4             xts_0.12-0             
+ [94] abind_1.4-5             modelr_0.1.5            crayon_1.3.4           
+ [97] arrayhelpers_1.1-0      rmarkdown_2.1.3         grid_3.6.3             
+[100] readxl_1.3.1            callr_3.4.3             git2r_0.26.1           
+[103] threejs_0.3.3           webshot_0.5.2           reprex_0.3.0           
+[106] digest_0.6.25           xtable_1.8-4            httpuv_1.5.2           
+[109] stats4_3.6.3            munsell_0.5.0           viridisLite_0.3.0      
+[112] shinyjs_1.1            </code></pre>
 </div>
 </div>
 </div>
@@ -2619,9 +2329,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open');
-    $(this).siblings().removeClass("active-dropdown-tab");
-    $(this).addClass("active-dropdown-tab");
+    $(this).parent().toggleClass('nav-tabs-open')
   });
 });
 </script>
