@@ -34,7 +34,7 @@ library(cowplot)
 source("code/helper_functions.R")
 
 # set up nice font for figure
-nice_font <- "PT Serif"
+nice_font <- "Lora"
 font_add_google(name = nice_font, family = nice_font, regular.wt = 400, bold.wt = 700)
 showtext_auto()
 
@@ -106,7 +106,7 @@ outcome_tally %>%
 
 ### Raw results as a bar chart
 
-```{r fig.width=11, fig.height=5}
+```{r fig.width=9, fig.height=5, fig.showtext=TRUE}
 pd <- position_dodge(.3)
 outcome_tally %>%
   group_by(treatment, outcome) %>%
@@ -124,7 +124,9 @@ outcome_tally %>%
   geom_point(stat = "identity", position = pd, colour = "grey15", pch = 21, size = 4) + 
   scale_fill_brewer(palette = "Pastel1", name = "Outcome", direction = -1) + 
   xlab("Treatment") + ylab("% bees (+95% CIs)") + 
-  theme(legend.position = "top") + 
+  theme_bw(20) + 
+  theme(legend.position = "top",
+        text = element_text(family = nice_font)) + 
   coord_flip()
 ```
 
@@ -411,7 +413,7 @@ stats_table %>%
 
 #### Evaluating evidence for the null hypothesis
 
-Here, we derive the result present in prose in the Results, that the true effect size
+Here, we derive the result present in prose in the Results, where we calculated the posterior probability that the true effect size lies in the range -log(2) < LOR < log(2).
 
 ```{r}
 LOR_forced <- LOR %>%
@@ -423,15 +425,11 @@ LOR_left <- LOR %>%
   pull(LOR)
 
 ROPE_calculation <- function(scale, LOR_data){
-  sum(LOR_data > -log(scale) & LOR_data < log(scale)) / length(LOR_data)
+  round(sum(LOR_data > -log(scale) & LOR_data < log(scale)) / length(LOR_data), 3)
 }
 
-ROPE_calculation(1.5, LOR_left)
-ROPE_calculation(2, LOR_left)
-ROPE_calculation(1.5, LOR_forced)
-ROPE_calculation(2, LOR_forced)
-
-
+print(paste("Probability that |LOR|<2 for % bees leaving voluntarily:", ROPE_calculation(2, LOR_left)))
+print(paste("Probability that |LOR|<2 for % bees forced out:", ROPE_calculation(2, LOR_forced)))
 ```
 
 
@@ -443,12 +441,17 @@ Here, we derive the result presented in prose in the Results, regarding the effe
 ```{r}
 difference_prop_forced_out_LOR <- plotting_data %>%
   spread(outcome, prop) %>%
-  mutate(prop_leavers_that_were_forced_out = `Forced out` / (`Forced out` + `Left voluntarily`)) %>%
-  select(posterior_sample, treatment, prop_leavers_that_were_forced_out)  %>%
-  spread(treatment, prop_leavers_that_were_forced_out) %>% 
+  mutate(prop_leavers_that_were_forced_out = 
+           `Forced out` / (`Forced out` + `Left voluntarily`)) %>%
+  select(posterior_sample, 
+         treatment, 
+         prop_leavers_that_were_forced_out)  %>%
+  spread(treatment, 
+         prop_leavers_that_were_forced_out) %>% 
   mutate(difference_prop_forced_out_LOR = get_log_odds(Ringers, LPS)) %>%
   pull(difference_prop_forced_out_LOR)
 
-hypothesis(difference_prop_forced_out_LOR, "x > 0", alpha = 0.05)$hypothesis
+hypothesis(difference_prop_forced_out_LOR, 
+           "x > 0", alpha = 0.05)$hypothesis
 ```
 

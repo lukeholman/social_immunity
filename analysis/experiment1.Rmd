@@ -28,7 +28,7 @@ library(cowplot)
 source("code/helper_functions.R")
 
 # set up nice font for figure
-nice_font <- "PT Serif"
+nice_font <- "Lora"
 font_add_google(name = nice_font, family = nice_font, regular.wt = 400, bold.wt = 700)
 showtext_auto()
 
@@ -94,9 +94,9 @@ outcome_tally %>%
   scroll_box(height = "380px")
 ```
 
-### Means and 95% CIs of the raw data
+### Means and 95% CI of the mean for the raw data
 
-```{r fig.width=11, fig.height=5}
+```{r fig.width=9, fig.height=5, fig.showtext=TRUE}
 all_hives <- outcome_tally %>%
   group_by(treatment, outcome) %>%
   summarise(n = sum(n)) %>%
@@ -117,9 +117,11 @@ outcome_tally %>%
   ggplot(aes(treatment, percent, fill = outcome)) + 
   geom_errorbar(aes(ymin=lowerCI, ymax=upperCI), position = pd, width = 0) + 
   geom_point(stat = "identity", position = pd, colour = "grey15", pch = 21, size = 4) + 
-  scale_fill_brewer(palette = "Pastel1", name = "Outcome", direction = -1) + 
+  scale_fill_brewer(palette = "Pastel2", name = "Outcome", direction = -1) + 
   xlab("Treatment") + ylab("% bees (+95% CIs)") + 
-  theme(legend.position = "top") + 
+  theme_bw(20) + 
+  theme(legend.position = "top",
+        text = element_text(family = nice_font)) + 
   coord_flip()
 ```
 
