@@ -253,18 +253,21 @@ tableS3 %>%
 ### Derive prediction from the posterior
 
 ```{r}
-get_posterior_preds <- function(hive){
+get_posterior_preds <- function(focal_hive){
   new <- expand.grid(treatment = levels(data_for_categorical_model$treatment), 
-                     hive = "Zoology",
+                     hive = focal_hive,
                      observation_time_minutes = 120) 
   
   preds <- fitted(exp2_model, newdata = new, summary = FALSE)
   dimnames(preds) <- list(NULL, paste(new$treatment, new$hive, sep = "~"), NULL)
   
   rbind(
-    as.data.frame(preds[,, 1]) %>% mutate(outcome = "Stayed inside", posterior_sample = 1:n()),
-    as.data.frame(preds[,, 2]) %>% mutate(outcome = "Left voluntarily", posterior_sample = 1:n()),
-    as.data.frame(preds[,, 3]) %>% mutate(outcome = "Forced out", posterior_sample = 1:n())) %>%
+    as.data.frame(preds[,, 1]) %>% 
+      mutate(outcome = "Stayed inside", posterior_sample = 1:n()),
+    as.data.frame(preds[,, 2]) %>% 
+      mutate(outcome = "Left voluntarily", posterior_sample = 1:n()),
+    as.data.frame(preds[,, 3]) %>% 
+      mutate(outcome = "Forced out", posterior_sample = 1:n())) %>%
     gather(treatment, prop, contains("~")) %>%
     mutate(treatment = strsplit(treatment, split = "~"),
            hive = map_chr(treatment, ~ .x[2]),
@@ -276,10 +279,10 @@ get_posterior_preds <- function(hive){
 
 
 # plotting data for panel A: one specific hive
-plotting_data <- get_posterior_preds(hive = "Zoology")
+plotting_data <- get_posterior_preds(focal_hive = "Zoology")
 
 # stats data: for comparing means across all hives
-stats_data <- get_posterior_preds(hive = NA)
+stats_data <- get_posterior_preds(focal_hive = NA)
 ```
 
 ### Make Figure 2

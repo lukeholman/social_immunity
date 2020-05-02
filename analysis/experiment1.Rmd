@@ -246,29 +246,34 @@ tableS1 %>%
 ### Derive prediction from the posterior
 
 ```{r}
-get_posterior_preds <- function(hive){
+get_posterior_preds <- function(focal_hive){
   new <- expand.grid(treatment = levels(data_for_categorical_model$treatment), 
-                     hive = hive,
+                     hive = focal_hive,
                      observation_time_minutes = 120)
   
   preds <- fitted(exp1_model, newdata = new, summary = FALSE)
   dimnames(preds) <- list(NULL, new[,1], NULL)
   
   rbind(
-    as.data.frame(preds[,, 1]) %>% mutate(outcome = "Stayed inside the hive", posterior_sample = 1:n()),
-    as.data.frame(preds[,, 2]) %>% mutate(outcome = "Left voluntarily", posterior_sample = 1:n()),
-    as.data.frame(preds[,, 3]) %>% mutate(outcome = "Forced out", posterior_sample = 1:n())) %>%
+    as.data.frame(preds[,, 1]) %>% 
+      mutate(outcome = "Stayed inside the hive", posterior_sample = 1:n()),
+    as.data.frame(preds[,, 2]) %>% 
+      mutate(outcome = "Left voluntarily", posterior_sample = 1:n()),
+    as.data.frame(preds[,, 3]) %>% 
+      mutate(outcome = "Forced out", posterior_sample = 1:n())) %>%
     gather(treatment, prop, `Intact control`, Ringers, `Heat-treated LPS`, LPS) %>% 
-    mutate(outcome = factor(outcome, c("Stayed inside the hive", "Left voluntarily", "Forced out")),
-           treatment = factor(treatment, c("Intact control", "Ringers", "Heat-treated LPS", "LPS"))) %>%
+    mutate(outcome = factor(outcome, 
+                            c("Stayed inside the hive", "Left voluntarily", "Forced out")),
+           treatment = factor(treatment, 
+                              c("Intact control", "Ringers", "Heat-treated LPS", "LPS"))) %>%
     as_tibble() %>% arrange(treatment, outcome) 
 }
 
 # plotting data for panel A: one specific hive
-plotting_data <- get_posterior_preds(hive = "Zoology")
+plotting_data <- get_posterior_preds(focal_hive = "Zoology")
 
 # stats data: for panel B and the table of stats
-stats_data <- get_posterior_preds(hive = NA)
+stats_data <- get_posterior_preds(focal_hive = NA)
 ```
 
 ### Make Figure 1
