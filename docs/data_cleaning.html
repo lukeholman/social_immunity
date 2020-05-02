@@ -9,11 +9,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="lukeholman" />
 
-<meta name="date" content="2019-07-05" />
 
-<title>data_cleaning</title>
+<title>Processing data collection sheets</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -395,9 +393,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">data_cleaning</h1>
-<h4 class="author">lukeholman</h4>
-<h4 class="date">2019-07-05</h4>
+<h1 class="title toc-ignore">Processing data collection sheets</h1>
 
 </div>
 
@@ -513,16 +509,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree9124fb823bc590f9ea6052aa19832d72f99294cetargetblank9124fb8a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/9124fb823bc590f9ea6052aa19832d72f99294ce" target="_blank">9124fb8</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytreecdcb0d6f7e32fa942a370244bc7aa8740270f23dtargetblankcdcb0d6a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/cdcb0d6f7e32fa942a370244bc7aa8740270f23d" target="_blank">cdcb0d6</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree9124fb823bc590f9ea6052aa19832d72f99294cetargetblank9124fb8a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytreecdcb0d6f7e32fa942a370244bc7aa8740270f23dtargetblankcdcb0d6a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/social_immunity/tree/9124fb823bc590f9ea6052aa19832d72f99294ce" target="_blank">9124fb8</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/social_immunity/tree/cdcb0d6f7e32fa942a370244bc7aa8740270f23d" target="_blank">cdcb0d6</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -541,6 +537,9 @@ Ignored files:
     Ignored:    output/exp2_post_prob.rds
     Ignored:    output/exp3_model.rds
     Ignored:    output/exp3_post_prob.rds
+
+Untracked files:
+    Untracked:  data/clean_data/experiment_3.csv
 
 Unstaged changes:
     Modified:   .gitignore
@@ -585,6 +584,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/cdcb0d6f7e32fa942a370244bc7aa8740270f23d/analysis/data_cleaning.Rmd" target="_blank">cdcb0d6</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-05-02
+</td>
+<td>
+tweaks
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/social_immunity/2994a4189f15a2c7e19ec7a3c6172f1293e1d7ab/docs/data_cleaning.html" target="_blank">2994a41</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-05-02
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -847,10 +880,12 @@ First commit
 </div>
 </div>
 </div>
-<pre class="r"><code>library(tidyverse)</code></pre>
+<p>Here, I turn Tarli’s raw data collection sheets into the data used in the analyses and plots.</p>
 <div id="experiment-1" class="section level2">
 <h2>Experiment 1</h2>
-<pre class="r"><code>experiment1 &lt;- read_csv(
+<pre class="r"><code>library(tidyverse)
+
+experiment1 &lt;- read_csv(
   &quot;data/data_collection_sheets/experiment_1.csv&quot;,
   col_types = cols(
     date = col_character(),
@@ -861,31 +896,47 @@ First commit
     emergence_time = col_character(),
     end_of_emergence = col_character(),
     mode_of_exit = col_character())) %&gt;%
-  mutate(Treatment = factor(treatment, levels = c(&quot;Unstabbed&quot;, &quot;Ringers&quot;, &quot;HT_LPS&quot;, &quot;LPS&quot;))) 
+  mutate(Treatment = factor(
+    treatment, 
+    levels = c(&quot;Unstabbed&quot;, &quot;Ringers&quot;, &quot;HT_LPS&quot;, &quot;LPS&quot;))) 
 
 experiment1 &lt;- experiment1 %&gt;%
   mutate(
     treatment = replace(treatment, treatment == &quot;HT_LPS&quot;, &quot;Heat-treated LPS&quot;),
     treatment = replace(treatment, treatment == &quot;Unstabbed&quot;, &quot;Intact control&quot;),
     mode_of_exit = replace(mode_of_exit, is.na(mode_of_exit), &quot;Unknown&quot;),
-    mode_of_exit = replace(mode_of_exit, mode_of_exit == &quot;Wind&quot;, &quot;Unknown&quot;),
-    mode_of_exit = replace(mode_of_exit, mode_of_exit == &quot;?&quot;, &quot;Unknown&quot;),
-    mode_of_exit = replace(mode_of_exit, mode_of_exit == &quot;Divine intervention&quot;, &quot;Unknown&quot;),
-    mode_of_exit = replace(mode_of_exit, mode_of_exit == &quot;re-entry 37.40&quot;, &quot;Left but re-entered&quot;),
-    mode_of_exit = replace(mode_of_exit, mode_of_exit == &quot;Re-entry 50.30&quot;, &quot;Left but re-entered&quot;),
-    mode_of_exit = replace(mode_of_exit, mode_of_exit == &quot;Reentry 39.10&quot;, &quot;Left but re-entered&quot;),
-    mode_of_exit = replace(mode_of_exit, mode_of_exit == &quot;Attempted re-entry blocked 9.15&quot;, &quot;Forced removal&quot;),
-    mode_of_exit = replace(mode_of_exit, mode_of_exit == &quot;Dragged&quot;, &quot;Forced removal&quot;),
-    mode_of_exit = replace(mode_of_exit, mode_of_exit == &quot;Assisted Self-removal&quot;, &quot;Assisted self-removal&quot;),
-    emergence_time = as.numeric(replace(emergence_time, emergence_time == &quot;?&quot;, NA)),
-    end_of_emergence = as.numeric(replace(end_of_emergence, end_of_emergence == &quot;?&quot;, NA))) %&gt;%
+    mode_of_exit = replace(mode_of_exit, 
+                           mode_of_exit == &quot;Wind&quot;, &quot;Unknown&quot;),
+    mode_of_exit = replace(mode_of_exit, 
+                           mode_of_exit == &quot;?&quot;, &quot;Unknown&quot;),
+    mode_of_exit = replace(mode_of_exit, 
+                           mode_of_exit == &quot;Divine intervention&quot;, &quot;Unknown&quot;),
+    mode_of_exit = replace(mode_of_exit, 
+                           mode_of_exit == &quot;re-entry 37.40&quot;, &quot;Left but re-entered&quot;),
+    mode_of_exit = replace(mode_of_exit, 
+                           mode_of_exit == &quot;Re-entry 50.30&quot;, &quot;Left but re-entered&quot;),
+    mode_of_exit = replace(mode_of_exit, 
+                           mode_of_exit == &quot;Reentry 39.10&quot;, &quot;Left but re-entered&quot;),
+    mode_of_exit = replace(mode_of_exit, 
+                           mode_of_exit == &quot;Attempted re-entry blocked 9.15&quot;, &quot;Forced removal&quot;),
+    mode_of_exit = replace(mode_of_exit, 
+                           mode_of_exit == &quot;Dragged&quot;, &quot;Forced removal&quot;),
+    mode_of_exit = replace(mode_of_exit, 
+                           mode_of_exit == &quot;Assisted Self-removal&quot;, 
+                           &quot;Assisted self-removal&quot;),
+    emergence_time = as.numeric(replace(emergence_time, 
+                                        emergence_time == &quot;?&quot;, NA)),
+    end_of_emergence = as.numeric(replace(end_of_emergence, 
+                                          end_of_emergence == &quot;?&quot;, NA))) %&gt;%
   rename(bees_introduced = total) %&gt;%
   arrange(hive, treatment)
 
 make_outcome_tally_full &lt;- function(experiment_df){
   
   outcome_tally_full &lt;- expand.grid(
-    pasted = unique(paste(experiment_df$treatment, experiment_df$hive, experiment_df$colour, sep = &quot;~&quot;)), 
+    pasted = unique(paste(experiment_df$treatment, 
+                          experiment_df$hive, 
+                          experiment_df$colour, sep = &quot;~&quot;)), 
     mode_of_exit = c(unique(experiment_df$mode_of_exit), &quot;Stayed_inside&quot;),
     n = 0, 
     stringsAsFactors = FALSE) %&gt;% 
@@ -917,12 +968,22 @@ make_outcome_tally_full &lt;- function(experiment_df){
 
 make_outcome_tally_simplified &lt;- function(outcome_tally_full){
   outcome_tally_full %&gt;%
-    mutate(mode_of_exit = replace(mode_of_exit, mode_of_exit == &quot;Flew&quot;, &quot;Self-removal&quot;),
-           mode_of_exit = replace(mode_of_exit, mode_of_exit == &quot;Assisted self-removal&quot;, &quot;Forced removal&quot;)) %&gt;%
-    filter(mode_of_exit %in% c(&quot;Stayed inside the hive&quot;, &quot;Self-removal&quot;, &quot;Forced removal&quot;)) %&gt;%
-    mutate(mode_of_exit = replace(mode_of_exit, mode_of_exit == &quot;Self-removal&quot;, &quot;Left of own volition&quot;),
-           mode_of_exit = replace(mode_of_exit, mode_of_exit == &quot;Forced removal&quot;, &quot;Forced out&quot;),
-           mode_of_exit = factor(mode_of_exit, levels = c(&quot;Stayed inside the hive&quot;, &quot;Left of own volition&quot;, &quot;Forced out&quot;))) %&gt;%
+    mutate(mode_of_exit = replace(mode_of_exit, 
+                                  mode_of_exit == &quot;Flew&quot;, &quot;Self-removal&quot;),
+           mode_of_exit = replace(mode_of_exit, 
+                                  mode_of_exit == &quot;Assisted self-removal&quot;, 
+                                  &quot;Forced removal&quot;)) %&gt;%
+    filter(mode_of_exit %in% c(&quot;Stayed inside the hive&quot;, 
+                               &quot;Self-removal&quot;, 
+                               &quot;Forced removal&quot;)) %&gt;%
+    mutate(mode_of_exit = replace(mode_of_exit, 
+                                  mode_of_exit == &quot;Self-removal&quot;, &quot;Left of own volition&quot;),
+           mode_of_exit = replace(mode_of_exit, 
+                                  mode_of_exit == &quot;Forced removal&quot;, &quot;Forced out&quot;),
+           mode_of_exit = factor(mode_of_exit, 
+                                 levels = c(&quot;Stayed inside the hive&quot;, 
+                                            &quot;Left of own volition&quot;, 
+                                            &quot;Forced out&quot;))) %&gt;%
     group_by(hive, treatment, colour, mode_of_exit) %&gt;%
     summarise(n = sum(n)) %&gt;%
     arrange(hive, treatment, mode_of_exit) %&gt;%
@@ -930,40 +991,72 @@ make_outcome_tally_simplified &lt;- function(outcome_tally_full){
 }
 
 outcome_tally_full_exp1        &lt;- make_outcome_tally_full(experiment1) 
-outcome_tally_simplified_exp1  &lt;- outcome_tally_full_exp1 %&gt;% make_outcome_tally_simplified() 
+outcome_tally_simplified_exp1  &lt;- outcome_tally_full_exp1 %&gt;% 
+  make_outcome_tally_simplified() 
 
 experiment1 %&gt;% write_csv(path = &quot;data/clean_data/experiment_1.csv&quot;)
-outcome_tally_simplified_exp1 %&gt;% write_csv(path = &quot;data/clean_data/experiment_1_outcome_tally.csv&quot;) </code></pre>
+outcome_tally_simplified_exp1 %&gt;% 
+  write_csv(path = &quot;data/clean_data/experiment_1_outcome_tally.csv&quot;) </code></pre>
 </div>
 <div id="experiment-2" class="section level2">
 <h2>Experiment 2</h2>
-<pre class="r"><code># remember date and emergence time as well!!
-experiment2 &lt;- read_csv(&quot;data/data_collection_sheets/experiment2_chc_transfer.csv&quot;) %&gt;%
-  mutate(mode_of_exit = replace(mode_of_exit, mode_of_exit == &quot;assisted&quot;, &quot;Assisted self-removal&quot;),
-         mode_of_exit = replace(mode_of_exit, mode_of_exit == &quot;forced&quot;, &quot;Forced removal&quot;),
-         mode_of_exit = replace(mode_of_exit, mode_of_exit == &quot;self&quot;, &quot;Self-removal&quot;),
-         mode_of_exit = replace(mode_of_exit, mode_of_exit == &quot;reentered&quot;, &quot;Left but re-entered&quot;)) %&gt;%
+<pre class="r"><code>experiment2 &lt;- read_csv(&quot;data/data_collection_sheets/experiment2_chc_transfer.csv&quot;) %&gt;%
+  mutate(mode_of_exit = replace(mode_of_exit, 
+                                mode_of_exit == &quot;assisted&quot;, &quot;Assisted self-removal&quot;),
+         mode_of_exit = replace(mode_of_exit, 
+                                mode_of_exit == &quot;forced&quot;, &quot;Forced removal&quot;),
+         mode_of_exit = replace(mode_of_exit, 
+                                mode_of_exit == &quot;self&quot;, &quot;Self-removal&quot;),
+         mode_of_exit = replace(mode_of_exit, 
+                                mode_of_exit == &quot;reentered&quot;, &quot;Left but re-entered&quot;)) %&gt;%
   select(-X9, -`Test start 5.04`) %&gt;% 
   mutate(hive = replace(hive, hive == &quot;SkyLab&quot;, &quot;Skylab&quot;)) %&gt;%
-  arrange(hive, treatment)</code></pre>
-<pre><code>Parsed with column specification:
-cols(
-  date = col_character(),
-  hive = col_character(),
-  treatment = col_character(),
-  colour = col_character(),
-  bees_introduced = col_double(),
-  emergence_time = col_double(),
-  time_finished_emerged = col_character(),
-  mode_of_exit = col_character(),
-  X9 = col_logical(),
-  `Test start 5.04` = col_logical()
-)</code></pre>
-<pre class="r"><code>outcome_tally_full_exp2        &lt;- make_outcome_tally_full(experiment2) 
-outcome_tally_simplified_exp2  &lt;- outcome_tally_full_exp2 %&gt;% make_outcome_tally_simplified() 
+  arrange(hive, treatment)
+
+outcome_tally_full_exp2        &lt;- make_outcome_tally_full(experiment2) 
+outcome_tally_simplified_exp2  &lt;- outcome_tally_full_exp2 %&gt;% 
+  make_outcome_tally_simplified() 
 
 experiment2 %&gt;% write_csv(path = &quot;data/clean_data/experiment_2.csv&quot;)
-outcome_tally_simplified_exp2 %&gt;% write_csv(path = &quot;data/clean_data/experiment_2_outcome_tally.csv&quot;) </code></pre>
+outcome_tally_simplified_exp2 %&gt;% 
+  write_csv(path = &quot;data/clean_data/experiment_2_outcome_tally.csv&quot;) </code></pre>
+</div>
+<div id="experiment-3" class="section level2">
+<h2>Experiment 3</h2>
+<pre class="r"><code>files &lt;- c(&quot;data/data_collection_sheets/hiveA_touching.csv&quot;,
+           &quot;data/data_collection_sheets/hiveB_touching.csv&quot;,
+           &quot;data/data_collection_sheets/hiveC_touching.csv&quot;,
+           &quot;data/data_collection_sheets/hiveD_touching.csv&quot;)
+
+experiment3 &lt;- map(
+  files, 
+  ~ read_csv(.x) %&gt;%
+    gather(minute, touching, -tube) %&gt;%
+    mutate(treatment = ifelse(substr(tube, 1, 1) %in% c(&quot;A&quot;, &quot;B&quot;), &quot;AB&quot;, &quot;CD&quot;),
+           minute = as.numeric(minute),
+           touching = as.integer(touching),
+           hive = gsub(&quot;hive&quot;, &quot;&quot;, str_extract(.x, &quot;hive[ABCD]&quot;)), 
+           tube = paste(hive, tube, sep = &quot;_&quot;))
+  ) %&gt;% bind_rows() %&gt;%
+  mutate(treatment = replace(treatment, 
+                             treatment == &quot;AB&quot; &amp; hive %in% c(&quot;A&quot;, &quot;B&quot;), 
+                             &quot;Ringers&quot;),
+         treatment = replace(treatment, 
+                             treatment == &quot;AB&quot; &amp; hive %in% c(&quot;C&quot;, &quot;D&quot;), 
+                             &quot;LPS&quot;),
+         treatment = replace(treatment, 
+                             treatment == &quot;CD&quot; &amp; hive %in% c(&quot;A&quot;, &quot;B&quot;), 
+                             &quot;LPS&quot;),
+         treatment = replace(treatment, 
+                             treatment == &quot;CD&quot; &amp; hive %in% c(&quot;C&quot;, &quot;D&quot;), 
+                             &quot;Ringers&quot;)) %&gt;%
+  mutate(hive = replace(hive, hive == &quot;A&quot;, &quot;Garden&quot;),
+         hive = replace(hive, hive == &quot;B&quot;, &quot;Skylab&quot;),
+         hive = replace(hive, hive == &quot;C&quot;, &quot;Arts&quot;),
+         hive = replace(hive, hive == &quot;D&quot;, &quot;Zoology&quot;)) %&gt;%
+  rename(pairID = tube)
+
+experiment3 %&gt;% write_csv(path = &quot;data/clean_data/experiment_3.csv&quot;)</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
