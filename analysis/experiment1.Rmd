@@ -359,9 +359,9 @@ LOR_plot <- LOR %>%
 p <- cowplot::plot_grid(
   plotlist = list(dot_plot, LOR_plot), 
   labels = c("A", "B"),
-  nrow = 2, align = 'v', axis = 'l', 
+  nrow = 1, align = 'v', axis = 'l', 
   rel_heights = c(1.4, 1))
-ggsave(plot = p, filename = "figures/fig1.pdf", height = 7, width = 4.7)
+ggsave(plot = p, filename = "figures/fig1.pdf", height = 3.4, width = 9)
 p
 ```
 <br></br>
