@@ -522,16 +522,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytreec5c8df434eeb3dc928d5a0d9de0573cc33d7833ftargetblankc5c8df4a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/c5c8df434eeb3dc928d5a0d9de0573cc33d7833f" target="_blank">c5c8df4</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytreec80c9781cd9f647c6f186066155b6578e9422136targetblankc80c978a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/c80c9781cd9f647c6f186066155b6578e9422136" target="_blank">c80c978</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytreec5c8df434eeb3dc928d5a0d9de0573cc33d7833ftargetblankc5c8df4a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytreec80c9781cd9f647c6f186066155b6578e9422136targetblankc80c978a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/social_immunity/tree/c5c8df434eeb3dc928d5a0d9de0573cc33d7833f" target="_blank">c5c8df4</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/social_immunity/tree/c80c9781cd9f647c6f186066155b6578e9422136" target="_blank">c80c978</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -591,6 +591,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/c80c9781cd9f647c6f186066155b6578e9422136/analysis/experiment2.Rmd" target="_blank">c80c978</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-08-21
+</td>
+<td>
+Fix summarise() warnings
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/social_immunity/4f23e70bc3378c29ecedb4076d82eda477c38376/docs/experiment2.html" target="_blank">4f23e70</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-08-21
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1368,9 +1402,9 @@ data_for_categorical_model &lt;- outcome_tally %&gt;%
 <h3>Sample sizes by treatment</h3>
 <pre class="r"><code>sample_sizes &lt;- data_for_categorical_model %&gt;%
   group_by(treatment) %&gt;%
-  summarise(n = n()) </code></pre>
-<pre><code>`summarise()` ungrouping output (override with `.groups` argument)</code></pre>
-<pre class="r"><code>sample_sizes %&gt;%
+  summarise(n = n(), .groups = &quot;drop&quot;) 
+
+sample_sizes %&gt;%
   kable() %&gt;% kable_styling(full_width = FALSE)</code></pre>
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
@@ -1407,10 +1441,9 @@ LPS
 <h3>Sample sizes by treatment and hive</h3>
 <pre class="r"><code>data_for_categorical_model %&gt;%
   group_by(hive, treatment) %&gt;%
-  summarise(n = n()) %&gt;%
+  summarise(n = n(), .groups = &quot;drop&quot;) %&gt;%
   spread(treatment, n) %&gt;%
   kable() %&gt;% kable_styling(full_width = FALSE)</code></pre>
-<pre><code>`summarise()` regrouping output by &#39;hive&#39; (override with `.groups` argument)</code></pre>
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -1645,7 +1678,7 @@ LPS
 <pre class="r"><code>pd &lt;- position_dodge(.3)
 outcome_tally %&gt;%
   group_by(treatment, outcome) %&gt;%
-  summarise(n = sum(n)) %&gt;% mutate() %&gt;%
+  summarise(n = sum(n), .groups = &quot;drop&quot;) %&gt;% mutate() %&gt;%
   group_by(treatment) %&gt;%
   mutate(total_n = sum(n),
          percent = 100 * n / sum(n),
@@ -1663,7 +1696,6 @@ outcome_tally %&gt;%
   theme(text = element_text(family = nice_font),
         legend.position = &quot;top&quot;) + 
   coord_flip()</code></pre>
-<pre><code>`summarise()` regrouping output by &#39;treatment&#39; (override with `.groups` argument)</code></pre>
 <p><img src="figure/experiment2.Rmd/unnamed-chunk-6-1.png" width="864" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">

@@ -522,16 +522,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytreec5c8df434eeb3dc928d5a0d9de0573cc33d7833ftargetblankc5c8df4a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/c5c8df434eeb3dc928d5a0d9de0573cc33d7833f" target="_blank">c5c8df4</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytreec80c9781cd9f647c6f186066155b6578e9422136targetblankc80c978a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/c80c9781cd9f647c6f186066155b6578e9422136" target="_blank">c80c978</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytreec5c8df434eeb3dc928d5a0d9de0573cc33d7833ftargetblankc5c8df4a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytreec80c9781cd9f647c6f186066155b6578e9422136targetblankc80c978a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/social_immunity/tree/c5c8df434eeb3dc928d5a0d9de0573cc33d7833f" target="_blank">c5c8df4</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/social_immunity/tree/c80c9781cd9f647c6f186066155b6578e9422136" target="_blank">c80c978</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -552,6 +552,7 @@ Ignored files:
     Ignored:    output/exp3_post_prob.rds
 
 Unstaged changes:
+    Modified:   analysis/experiment1.Rmd
     Modified:   figures/fig1.pdf
     Modified:   figures/fig2.pdf
 
@@ -592,6 +593,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/c80c9781cd9f647c6f186066155b6578e9422136/analysis/experiment3.Rmd" target="_blank">c80c978</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-08-21
+</td>
+<td>
+Fix summarise() warnings
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/social_immunity/4f23e70bc3378c29ecedb4076d82eda477c38376/docs/experiment3.html" target="_blank">4f23e70</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-08-21
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1361,7 +1396,8 @@ expt3_counts &lt;- experiment3 %&gt;%
   group_by(treatment, pairID, hive) %&gt;%
   summarise(n_touching = sum(touching),
             n_not_touching = sum(touching== 0),
-            percent = n_touching / (n_touching + n_not_touching)) %&gt;% 
+            percent = n_touching / (n_touching + n_not_touching), 
+            .groups = &quot;drop&quot;) %&gt;% 
   ungroup() %&gt;%
   filter(!is.na(n_touching)) %&gt;%
   mutate(treatment = factor(treatment, c(&quot;Ringers&quot;, &quot;LPS&quot;))) %&gt;%
@@ -1370,7 +1406,7 @@ expt3_counts &lt;- experiment3 %&gt;%
   group_by(treatment, hive, minute) %&gt;%
   summarise(n = sum(touching),
             total = n(),
-            prop = n / total) 
+            prop = n / total, .groups = &quot;drop&quot;) 
 
 time %&gt;%
   ggplot(aes(minute, prop, colour = treatment))  +
@@ -1397,9 +1433,9 @@ data.frame(new, pred=predict(gam_model, newdata = new, re.form = NA, type = &quo
 <h3>Sample sizes by treatment</h3>
 <pre class="r"><code>sample_sizes &lt;- expt3_counts %&gt;%
   group_by(treatment) %&gt;%
-  summarise(n = n()) </code></pre>
-<pre><code>`summarise()` ungrouping output (override with `.groups` argument)</code></pre>
-<pre class="r"><code>sample_sizes %&gt;%
+  summarise(n = n(), .groups = &quot;drop&quot;) 
+
+sample_sizes %&gt;%
   kable() %&gt;% kable_styling(full_width = FALSE)</code></pre>
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
@@ -1436,9 +1472,8 @@ LPS
 <h3>Sample sizes by treatment and hive</h3>
 <pre class="r"><code>expt3_counts %&gt;%
   group_by(hive, treatment) %&gt;%
-  summarise(n = n()) %&gt;%
+  summarise(n = n(), .groups = &quot;drop&quot;) %&gt;%
   kable() %&gt;% kable_styling(full_width = FALSE)</code></pre>
-<pre><code>`summarise()` regrouping output by &#39;hive&#39; (override with `.groups` argument)</code></pre>
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -1551,12 +1586,11 @@ LPS
   group_by(hive, treatment) %&gt;%
   summarise(pc = mean(100 * percent),
             SE = sd(percent) /sqrt(n()),
-            n = n()) %&gt;%
+            n = n(), .groups = &quot;drop&quot;) %&gt;%
   rename(`% observations in which bees were in close contact` = pc,
          Hive = hive, Treatment = treatment) %&gt;% 
   kable(digits = 3) %&gt;% kable_styling(full_width = FALSE) %&gt;%
   column_spec(3, width = &quot;2in&quot;)</code></pre>
-<pre><code>`summarise()` regrouping output by &#39;hive&#39; (override with `.groups` argument)</code></pre>
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
