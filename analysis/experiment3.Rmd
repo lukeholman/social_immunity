@@ -328,7 +328,7 @@ p
 
 ## Hypothesis testing and effect sizes
 
-***Table S6:*** Pairs in which one bee had received LPS were observed in close contact less frequently than pairs in which one bee had received Ringers solution. 
+***Table S6:*** Pairs in which one bee had received LPS were observed in close contact less frequently than pairs in which one bee had received Ringers. 
 
 ```{r}
 get_log_odds <- function(trt1, trt2){ 
@@ -353,7 +353,7 @@ my_summary <- function(df) {
   output
 }
 
-plotting_data %>%
+tableS6 <- plotting_data %>%
   as_tibble() %>%
   mutate(sample = rep(1:(n() / 2), 2)) %>%
   spread(treatment, percent_time_in_contact) %>%
@@ -362,7 +362,11 @@ plotting_data %>%
   mutate(` ` = ifelse(p < 0.05, "\\*", ""),
          ` ` = replace(` `, p < 0.01, "**"),
          ` ` = replace(` `, p < 0.001, "***"),
-         ` ` = replace(` `, p == " ", "")) %>%
+         ` ` = replace(` `, p == " ", "")) 
+
+saveRDS(tableS6, "figures/tableS6.rds")
+
+tableS6 %>%
   kable(digits = 3) %>% kable_styling() 
 ```
 

@@ -422,32 +422,32 @@ stayed_inside_stats_table <- rbind(
   stats_data %>%
     filter(outcome == "Stayed inside the hive") %>%
     make_stats_table(`Heat-treated LPS`, `LPS`, "LPS (Heat-treated LPS)",
-                     metric = "Absolute difference in % bees staying inside the hive"),
+                     metric = "Difference in % bees staying inside"),
   
   stats_data %>%
     filter(outcome == "Stayed inside the hive") %>%
     make_stats_table(`Ringers`, `LPS`, "LPS (Ringers)",
-                     metric = "Absolute difference in % bees staying inside the hive"),
+                     metric = "Difference in % bees staying inside"),
   
   stats_data %>%
     filter(outcome == "Stayed inside the hive") %>%
     make_stats_table(`Intact control`, `LPS`, "LPS (Intact control)",
-                     metric = "Absolute difference in % bees staying inside the hive"),
+                     metric = "Difference in % bees staying inside"),
   
   stats_data %>%
     filter(outcome == "Stayed inside the hive") %>%
     make_stats_table(`Ringers`, `Heat-treated LPS`, "Heat-treated LPS (Ringers)",
-                     metric = "Absolute difference in % bees staying inside the hive"),
+                     metric = "Difference in % bees staying inside"),
   
   stats_data %>%
     filter(outcome == "Stayed inside the hive") %>%
     make_stats_table(`Intact control`, `Heat-treated LPS`, "Heat-treated LPS (Intact control)",
-                     metric = "Absolute difference in % bees staying inside the hive"),  
+                     metric = "Difference in % bees staying inside"),  
   
   stats_data %>%
     filter(outcome == "Stayed inside the hive") %>%
     make_stats_table(`Intact control`, `Ringers`, "Ringers (Intact control)",
-                     metric = "Absolute difference in % bees staying inside the hive")
+                     metric = "Difference in % bees staying inside")
   
 ) %>% as_tibble()
 
@@ -463,37 +463,37 @@ voluntary_stats_table <- rbind(
     filter(outcome == "Left voluntarily") %>%
     make_stats_table(`Heat-treated LPS`, `LPS`, 
                      "LPS (Heat-treated LPS)", 
-                     metric = "Absolute difference in % bees that left voluntarily"),
+                     metric = "Difference in % bees leaving voluntarily"),
   
   stats_data %>%
     filter(outcome == "Left voluntarily") %>%
     make_stats_table(`Ringers`, `LPS`, 
                      "LPS (Ringers)", 
-                     metric = "Absolute difference in % bees that left voluntarily"),
+                     metric = "Difference in % bees leaving voluntarily"),
   
    stats_data %>%
     filter(outcome == "Left voluntarily") %>%
     make_stats_table(`Intact control`, `LPS`, 
                      "LPS (Intact control)", 
-                     metric = "Absolute difference in % bees that left voluntarily"),
+                     metric = "Difference in % bees leaving voluntarily"),
   
   stats_data %>%
     filter(outcome == "Left voluntarily") %>%
     make_stats_table(`Ringers`, `Heat-treated LPS`, 
                      "Heat-treated LPS (Ringers)", 
-                     metric = "Absolute difference in % bees that left voluntarily"),
+                     metric = "Difference in % bees leaving voluntarily"),
   
   stats_data %>%
     filter(outcome == "Left voluntarily") %>%
     make_stats_table(`Intact control`, `Heat-treated LPS`, 
                      "Heat-treated LPS (Intact control)", 
-                     metric = "Absolute difference in % bees that left voluntarily"),
+                     metric = "Difference in % bees leaving voluntarily"),
 
   stats_data %>%
     filter(outcome == "Left voluntarily") %>%
     make_stats_table(`Intact control`, `Ringers`, 
                      "Ringers (Intact control)",
-                     metric = "Absolute difference in % bees that left voluntarily")
+                     metric = "Difference in % bees leaving voluntarily")
 ) %>% as_tibble()
 
 voluntary_stats_table[c(2,4,6,8,10,12), 1] <- " "
@@ -508,35 +508,35 @@ forced_out_stats_table <- rbind(
     filter(outcome == "Forced out") %>%
     make_stats_table(`Heat-treated LPS`, `LPS`, 
                      "LPS (Heat-treated LPS)", 
-                     metric = "Absolute difference in % bees that were forced out"),
+                     metric = "Difference in % bees forced out"),
   
   stats_data %>%
     filter(outcome == "Forced out") %>%
     make_stats_table(`Ringers`, `LPS`, 
                      "LPS (Ringers)", 
-                     metric = "Absolute difference in % bees that were forced out"),
+                     metric = "Difference in % bees forced out"),
   
   stats_data %>%
     filter(outcome == "Forced out") %>%
     make_stats_table(`Intact control`, `LPS`, 
                      "LPS (Intact control)", 
-                     metric = "Absolute difference in % bees that were forced out"),
+                     metric = "Difference in % bees forced out"),
   
   stats_data %>%
     filter(outcome == "Forced out") %>%
     make_stats_table(`Ringers`, `Heat-treated LPS`, 
                      "Heat-treated LPS (Ringers)", 
-                     metric = "Absolute difference in % bees that were forced out"),  
+                     metric = "Difference in % bees forced out"),  
   stats_data %>%
     filter(outcome == "Forced out") %>%
     make_stats_table(`Intact control`, `Heat-treated LPS`, 
                      "Heat-treated LPS (Intact control)", 
-                     metric = "Absolute difference in % bees that were forced out"),
+                     metric = "Difference in % bees forced out"),
   
   stats_data %>%
     filter(outcome == "Left voluntarily") %>%
     make_stats_table(`Intact control`, `Ringers`, "Ringers (Intact control)",
-                     metric = "Absolute difference in % bees that were forced out")
+                     metric = "Difference in % bees forced out")
 ) %>% as_tibble()
 
 forced_out_stats_table[c(2,4,6,8,10,12), 1] <- " "
@@ -547,10 +547,14 @@ forced_out_stats_table[c(2,4,6,8,10,12), 1] <- " "
 ***Table S2***: This table gives statistics associated with each of the contrasts plotted in Figure 1B. Each pair of rows gives the absolute effect size (i.e. the difference in % bees) and standardised effect size (as log odds ratio; LOR) for the focal treatment, relative to the treatment shown in parentheses, for one of the three possible outcomes (stayed inside, left voluntarily, or forced out). A LOR of $|log(x)|$ indicates that the outcome is $x$ times more frequent in one treatment compared to the other, e.g. $log(2) = 0.69$ and $log(0.5) = -0.69$ correspond to a two-fold difference in frequency. The $PP$ column gives the posterior probability that the true effect size has the same sign as is shown in the Estimate column; this metric has a similar interpretation to a one-tailed $p$ value in frequentist statistics. 
 
 ```{r}
-bind_rows(
+tableS2 <- bind_rows(
   stayed_inside_stats_table,
   voluntary_stats_table,
-  forced_out_stats_table) %>%
+  forced_out_stats_table) 
+
+saveRDS(tableS2, file = "figures/tableS2.rds")
+
+tableS2 %>%
   kable(digits = 2) %>% kable_styling(full_width = FALSE) %>% 
   row_spec(seq(2,36,by=2), extra_css = "border-bottom: solid;") %>%
   pack_rows("% bees staying inside", 1, 12) %>%
