@@ -233,7 +233,8 @@ tableS3 <- get_fixed_effects_with_p_values(exp2_model) %>%
          Parameter = str_replace_all(Parameter, "treatment", "Treatment: "),
          Parameter = str_replace_all(Parameter, "observation_time_minutes", "Observation duration (minutes)")) %>%
   arrange(mu) %>%
-  select(-mu, -Rhat, -Bulk_ESS, -Tail_ESS) 
+  select(-mu, -Rhat, -Bulk_ESS, -Tail_ESS) %>%
+  mutate(PP = format(round(PP, 4), nsmall = 4))
 
 names(tableS3)[3:5] <- c("Est. Error", "Lower 95% CI", "Upper 95% CI")
 

@@ -233,7 +233,8 @@ tableS5 <- get_fixed_effects_with_p_values(exp3_model) %>%
          Parameter = str_replace_all(Parameter, "treatment", "Treatment: "),
          Parameter = str_replace_all(Parameter, "observation_time_minutes", "Observation duration (minutes)")) %>%
   arrange(mu) %>%
-  select(-mu, -Rhat, -Bulk_ESS, -Tail_ESS) 
+  select(-mu, -Rhat, -Bulk_ESS, -Tail_ESS) %>%
+    mutate(PP = format(round(PP, 4), nsmall = 4))
 
 names(tableS5)[3:5] <- c("Est. Error", "Lower 95% CI", "Upper 95% CI")
 
@@ -344,12 +345,12 @@ my_summary <- function(df) {
   diff <- diff %>% posterior_summary() %>% as_tibble()
   LOR <- LOR %>% posterior_summary() %>% as_tibble()
   output <- rbind(diff, LOR) %>% 
-    mutate(p=p, 
+    mutate(PP=p, 
            Metric = c("Absolute difference in % time in close contact", 
                       "Log odds ratio")) %>% 
       select(Metric, everything()) %>%
-    mutate(p = format(round(p, 4), nsmall = 4))
-  output$p[1] <- " "
+    mutate(PP = format(round(PP, 4), nsmall = 4))
+  output$PP[1] <- " "
   output
 }
 
@@ -359,10 +360,10 @@ tableS6 <- plotting_data %>%
   spread(treatment, percent_time_in_contact) %>%
   mutate(difference = LPS - Ringers) %>%
   my_summary() %>%
-  mutate(` ` = ifelse(p < 0.05, "\\*", ""),
-         ` ` = replace(` `, p < 0.01, "**"),
-         ` ` = replace(` `, p < 0.001, "***"),
-         ` ` = replace(` `, p == " ", "")) 
+  mutate(` ` = ifelse(PP < 0.05, "\\*", ""),
+         ` ` = replace(` `, PP < 0.01, "**"),
+         ` ` = replace(` `, PP < 0.001, "***"),
+         ` ` = replace(` `, PP == " ", "")) 
 
 saveRDS(tableS6, "figures/tableS6.rds")
 

@@ -48,7 +48,9 @@ The figures and tables in this document, along with the with the R code used to 
 ```{r, results='asis'}
 make_table("../figures/tableS1.rds", digits = 2) %>%
   pack_rows("% bees leaving voluntarily", 1, 8) %>%
-  pack_rows("% bees forced out", 9, 16)
+  pack_rows("% bees forced out", 9, 16) %>%
+  column_spec(4, width = "1cm") %>%
+  column_spec(5, width = "1cm") 
 ```
 
 \newpage
@@ -60,7 +62,9 @@ make_table("../figures/tableS2.rds", digits = 2) %>%
   row_spec(seq(2,36,by=2), extra_css = "border-bottom: solid;") %>%
   pack_rows("% bees staying inside", 1, 12) %>%
   pack_rows("% bees leaving voluntarily", 13, 24) %>%
-  pack_rows("% bees forced out", 25, 36)
+  pack_rows("% bees forced out", 25, 36) %>%
+  column_spec(5, width = "1cm") %>%
+  column_spec(6, width = "1cm") 
 ```
 
 
@@ -71,7 +75,9 @@ make_table("../figures/tableS2.rds", digits = 2) %>%
 ```{r, results='asis'}
 make_table("../figures/tableS3.rds", digits = 2) %>%
   pack_rows("% bees leaving voluntarily", 1, 6) %>%
-  pack_rows("% bees forced out", 7, 12)
+  pack_rows("% bees forced out", 7, 12) %>%
+  column_spec(4, width = "1cm") %>%
+  column_spec(5, width = "1cm") 
 ```
 \newpage
 
@@ -82,7 +88,9 @@ make_table("../figures/tableS4.rds", digits = 2) %>%
   row_spec(c(0,2,4,6), extra_css = "border-bottom: solid;") %>%
   pack_rows("% bees staying inside", 1, 2) %>%
   pack_rows("% bees leaving voluntarily", 3, 4) %>%
-  pack_rows("% bees forced out", 5, 6)
+  pack_rows("% bees forced out", 5, 6) %>%
+  column_spec(4, width = "1cm") %>%
+  column_spec(5, width = "1cm") 
 ```
 \newpage
 
@@ -95,7 +103,7 @@ make_table("../figures/tableS5.rds", digits = 2)
 
 \newpage
 
-***Table S6:*** Pairs in which one bee had received LPS were observed in close contact less frequently than pairs in which one bee had received Ringers. 
+***Table S6:*** Pairs in which one bee had received LPS were observed in close contact less frequently than pairs in which one bee had received Ringers. The $PP$ column gives the posterior probability that the true effect size is opposite in sign to what is reported in the Estimate column, similarly to a $p$-value.
 ```{r, results='asis'}
 make_table("../figures/tableS6.rds", digits = 2)
 ```
