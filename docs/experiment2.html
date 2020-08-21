@@ -522,16 +522,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytreed1dade39334d09c94d53e79431ba84abc14709aetargetblankd1dade3a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/d1dade39334d09c94d53e79431ba84abc14709ae" target="_blank">d1dade3</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytreec5c8df434eeb3dc928d5a0d9de0573cc33d7833ftargetblankc5c8df4a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/c5c8df434eeb3dc928d5a0d9de0573cc33d7833f" target="_blank">c5c8df4</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytreed1dade39334d09c94d53e79431ba84abc14709aetargetblankd1dade3a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytreec5c8df434eeb3dc928d5a0d9de0573cc33d7833ftargetblankc5c8df4a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/social_immunity/tree/d1dade39334d09c94d53e79431ba84abc14709ae" target="_blank">d1dade3</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/social_immunity/tree/c5c8df434eeb3dc928d5a0d9de0573cc33d7833f" target="_blank">c5c8df4</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -591,6 +591,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/c5c8df434eeb3dc928d5a0d9de0573cc33d7833f/analysis/experiment2.Rmd" target="_blank">c5c8df4</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-08-21
+</td>
+<td>
+Minor fixes
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/social_immunity/1bea7695be4a185dedb3ff792e5dd6c591024c51/docs/experiment2.html" target="_blank">1bea769</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-08-21
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1655,6 +1689,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/lukeholman/social_immunity/blob/1bea7695be4a185dedb3ff792e5dd6c591024c51/docs/figure/experiment2.Rmd/unnamed-chunk-6-1.png" target="_blank">1bea769</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-08-21
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/lukeholman/social_immunity/blob/f97baee319003e2e68d4b126433d45ae68f1cf36/docs/figure/experiment2.Rmd/unnamed-chunk-6-1.png" target="_blank">f97baee</a>
 </td>
 <td>
@@ -1800,7 +1845,8 @@ scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
          Parameter = str_replace_all(Parameter, &quot;treatment&quot;, &quot;Treatment: &quot;),
          Parameter = str_replace_all(Parameter, &quot;observation_time_minutes&quot;, &quot;Observation duration (minutes)&quot;)) %&gt;%
   arrange(mu) %&gt;%
-  select(-mu, -Rhat, -Bulk_ESS, -Tail_ESS) 
+  select(-mu, -Rhat, -Bulk_ESS, -Tail_ESS) %&gt;%
+  mutate(PP = format(round(PP, 4), nsmall = 4))
 
 names(tableS3)[3:5] &lt;- c(&quot;Est. Error&quot;, &quot;Lower 95% CI&quot;, &quot;Upper 95% CI&quot;)
 
@@ -1829,7 +1875,7 @@ Lower 95% CI
 <th style="text-align:right;">
 Upper 95% CI
 </th>
-<th style="text-align:right;">
+<th style="text-align:left;">
 PP
 </th>
 <th style="text-align:left;">
@@ -1858,8 +1904,8 @@ Intercept
 <td style="text-align:right;">
 6.679
 </td>
-<td style="text-align:right;">
-0.168
+<td style="text-align:left;">
+0.1683
 </td>
 <td style="text-align:left;">
 </td>
@@ -1880,8 +1926,8 @@ Treatment: LPS
 <td style="text-align:right;">
 1.245
 </td>
-<td style="text-align:right;">
-0.197
+<td style="text-align:left;">
+0.1974
 </td>
 <td style="text-align:left;">
 </td>
@@ -1902,8 +1948,8 @@ hive1
 <td style="text-align:right;">
 3.075
 </td>
-<td style="text-align:right;">
-0.466
+<td style="text-align:left;">
+0.4657
 </td>
 <td style="text-align:left;">
 </td>
@@ -1924,8 +1970,8 @@ hive2
 <td style="text-align:right;">
 1.160
 </td>
-<td style="text-align:right;">
-0.390
+<td style="text-align:left;">
+0.3902
 </td>
 <td style="text-align:left;">
 </td>
@@ -1946,8 +1992,8 @@ hive3
 <td style="text-align:right;">
 5.113
 </td>
-<td style="text-align:right;">
-0.491
+<td style="text-align:left;">
+0.4913
 </td>
 <td style="text-align:left;">
 </td>
@@ -1968,8 +2014,8 @@ Observation duration (minutes)
 <td style="text-align:right;">
 0.165
 </td>
-<td style="text-align:right;">
-0.337
+<td style="text-align:left;">
+0.3366
 </td>
 <td style="text-align:left;">
 </td>
@@ -1995,8 +2041,8 @@ Intercept
 <td style="text-align:right;">
 7.894
 </td>
-<td style="text-align:right;">
-0.222
+<td style="text-align:left;">
+0.2217
 </td>
 <td style="text-align:left;">
 </td>
@@ -2017,8 +2063,8 @@ Treatment: LPS
 <td style="text-align:right;">
 1.989
 </td>
-<td style="text-align:right;">
-0.004
+<td style="text-align:left;">
+0.0039
 </td>
 <td style="text-align:left;">
 **
@@ -2040,8 +2086,8 @@ hive1
 <td style="text-align:right;">
 2.971
 </td>
-<td style="text-align:right;">
-0.490
+<td style="text-align:left;">
+0.4900
 </td>
 <td style="text-align:left;">
 </td>
@@ -2062,8 +2108,8 @@ hive2
 <td style="text-align:right;">
 0.490
 </td>
-<td style="text-align:right;">
-0.112
+<td style="text-align:left;">
+0.1120
 </td>
 <td style="text-align:left;">
 </td>
@@ -2084,8 +2130,8 @@ hive3
 <td style="text-align:right;">
 5.089
 </td>
-<td style="text-align:right;">
-0.493
+<td style="text-align:left;">
+0.4928
 </td>
 <td style="text-align:left;">
 </td>
@@ -2106,8 +2152,8 @@ Observation duration (minutes)
 <td style="text-align:right;">
 0.149
 </td>
-<td style="text-align:right;">
-0.414
+<td style="text-align:left;">
+0.4140
 </td>
 <td style="text-align:left;">
 </td>
@@ -2299,6 +2345,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/1bea7695be4a185dedb3ff792e5dd6c591024c51/docs/figure/experiment2.Rmd/unnamed-chunk-12-1.png" target="_blank">1bea769</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-08-21
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lukeholman/social_immunity/blob/fa8c1796047c167290e18c196f75e96506390a8a/docs/figure/experiment2.Rmd/unnamed-chunk-12-1.png" target="_blank">fa8c179</a>
