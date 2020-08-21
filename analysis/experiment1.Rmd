@@ -85,7 +85,7 @@ Click the three tabs to see each table.
 ```{r}
 sample_sizes <- data_for_categorical_model %>%
   group_by(treatment) %>%
-  summarise(n = n()) 
+  summarise(n = n(), .groups = "drop") 
 
 sample_sizes %>%
   kable() %>% kable_styling(full_width = FALSE)
@@ -96,7 +96,7 @@ sample_sizes %>%
 ```{r}
 data_for_categorical_model %>%
   group_by(hive, treatment) %>%
-  summarise(n = n()) %>%
+  summarise(n = n(), .groups = "drop") %>%
   spread(treatment, n) %>%
   kable() %>% kable_styling(full_width = FALSE)
 ```
@@ -116,13 +116,13 @@ outcome_tally %>%
 ```{r fig.width=9, fig.height=5, fig.showtext=TRUE}
 all_hives <- outcome_tally %>%
   group_by(treatment, outcome) %>%
-  summarise(n = sum(n)) %>%
+  summarise(n = sum(n), .groups = "drop") %>%
   ungroup() %>% mutate(hive = "All hives")
 
 pd <- position_dodge(.3)
 outcome_tally %>%
   group_by(treatment, outcome) %>%
-  summarise(n = sum(n)) %>% mutate() %>%
+  summarise(n = sum(n), .groups = "drop") %>% mutate() %>%
   group_by(treatment) %>%
   mutate(total_n = sum(n),
          percent = 100 * n / sum(n),

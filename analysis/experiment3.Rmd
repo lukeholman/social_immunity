@@ -53,7 +53,8 @@ expt3_counts <- experiment3 %>%
   group_by(treatment, pairID, hive) %>%
   summarise(n_touching = sum(touching),
             n_not_touching = sum(touching== 0),
-            percent = n_touching / (n_touching + n_not_touching)) %>% 
+            percent = n_touching / (n_touching + n_not_touching), 
+            .groups = "drop") %>% 
   ungroup() %>%
   filter(!is.na(n_touching)) %>%
   mutate(treatment = factor(treatment, c("Ringers", "LPS"))) %>%
@@ -65,7 +66,7 @@ time <- experiment3 %>%
   group_by(treatment, hive, minute) %>%
   summarise(n = sum(touching),
             total = n(),
-            prop = n / total) 
+            prop = n / total, .groups = "drop") 
 
 time %>%
   ggplot(aes(minute, prop, colour = treatment))  +
@@ -94,7 +95,7 @@ data.frame(new, pred=predict(gam_model, newdata = new, re.form = NA, type = "res
 ```{r}
 sample_sizes <- expt3_counts %>%
   group_by(treatment) %>%
-  summarise(n = n()) 
+  summarise(n = n(), .groups = "drop") 
 
 sample_sizes %>%
   kable() %>% kable_styling(full_width = FALSE)
@@ -104,7 +105,7 @@ sample_sizes %>%
 ```{r}
 expt3_counts %>%
   group_by(hive, treatment) %>%
-  summarise(n = n()) %>%
+  summarise(n = n(), .groups = "drop") %>%
   kable() %>% kable_styling(full_width = FALSE)
 ```
 
@@ -115,7 +116,7 @@ expt3_counts %>%
   group_by(hive, treatment) %>%
   summarise(pc = mean(100 * percent),
             SE = sd(percent) /sqrt(n()),
-            n = n()) %>%
+            n = n(), .groups = "drop") %>%
   rename(`% observations in which bees were in close contact` = pc,
          Hive = hive, Treatment = treatment) %>% 
   kable(digits = 3) %>% kable_styling(full_width = FALSE) %>%
