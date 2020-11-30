@@ -26,6 +26,8 @@
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
 <script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
@@ -37,6 +39,15 @@ div.section {
   padding-top: 12px;
 }
 </style>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -431,7 +442,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-08-21
+<strong>Last updated:</strong> 2020-11-30
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -479,7 +490,7 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 </div>
 <div id="strongSeedstrongcodesetseed20191017code" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The command <code>set.seed(20191017)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+<p>The command <code>set.seed(20191017)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
 </div>
 </div>
 </div>
@@ -522,16 +533,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree6fbe4a8f3ec27639c6d0d33a9b39358d7d35af08targetblank6fbe4a8a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/6fbe4a8f3ec27639c6d0d33a9b39358d7d35af08" target="_blank">6fbe4a8</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree7aa69df3b0b7d9c2cdad501a24c1d793b4fdba40targetblank7aa69dfa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/7aa69df3b0b7d9c2cdad501a24c1d793b4fdba40" target="_blank">7aa69df</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree6fbe4a8f3ec27639c6d0d33a9b39358d7d35af08targetblank6fbe4a8a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree7aa69df3b0b7d9c2cdad501a24c1d793b4fdba40targetblank7aa69dfa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/social_immunity/tree/6fbe4a8f3ec27639c6d0d33a9b39358d7d35af08" target="_blank">6fbe4a8</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/social_immunity/tree/7aa69df3b0b7d9c2cdad501a24c1d793b4fdba40" target="_blank">7aa69df</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -554,7 +565,6 @@ Ignored files:
 Unstaged changes:
     Modified:   figures/fig1.pdf
     Modified:   figures/fig2.pdf
-    Modified:   figures/fig3.pdf
 
 </code></pre>
 <p>
@@ -593,6 +603,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/7aa69df3b0b7d9c2cdad501a24c1d793b4fdba40/analysis/experiment1.Rmd" target="_blank">7aa69df</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-11-30
+</td>
+<td>
+Added simple models
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/social_immunity/e96fff48e4ddb13a359c91203ada23dd1a522ec3/docs/experiment1.html" target="_blank">e96fff4</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-08-21
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1032,7 +1076,7 @@ lukeholman
 2020-05-02
 </td>
 <td>
-wflow_publish(&quot;*&quot;, republish = T)
+wflow_publish("*", republish = T)
 </td>
 </tr>
 <tr>
@@ -1049,7 +1093,7 @@ lukeholman
 2020-05-02
 </td>
 <td>
-wflow_publish(&quot;*&quot;, republish = T)
+wflow_publish("*", republish = T)
 </td>
 </tr>
 <tr>
@@ -1399,6 +1443,7 @@ library(kableExtra)
 library(bayestestR)
 library(tidybayes)
 library(cowplot)
+library(car)
 source(&quot;code/helper_functions.R&quot;)
 
 # set up nice font for figure
@@ -1410,6 +1455,9 @@ exp1_treatments &lt;- c(&quot;Intact control&quot;, &quot;Ringers&quot;, &quot;H
 
 durations &lt;- read_csv(&quot;data/data_collection_sheets/experiment_durations.csv&quot;) %&gt;%
   filter(experiment == 1) %&gt;% select(-experiment)
+
+durations &lt;- bind_rows(durations, tibble(hive = &quot;SkyLab&quot;, observation_time_minutes = 90))
+  
 
 outcome_tally &lt;- read_csv(file = &quot;data/clean_data/experiment_1_outcome_tally.csv&quot;) %&gt;%
   mutate(outcome = replace(outcome, outcome == &quot;Left of own volition&quot;, &quot;Left voluntarily&quot;)) %&gt;%
@@ -1978,8 +2026,73 @@ lukeholman
 </div>
 </div>
 </div>
-<div id="multinomial-model-of-outcome" class="section level2">
-<h2>Multinomial model of outcome</h2>
+<div id="run-a-preliminary-simple-model" class="section level2">
+<h2>Run a preliminary, simple model</h2>
+<p>The statistical methods below are non-standard, though we believe they have many advantages for this particular experiment (e.g. the ability to model three possible outcomes, incorporate priors, and evaluate evidence without null hypothesis testing). However during peer review, we were asked whether the results ‘remained statistically significant’ when using standard statistical methods. To address this question, we here present a frequentist Generalised Linear Model (GLM; using <code>base::glm</code>), which tests the null hypothesis that the proportion of bees exiting the hive (i.e. the proportion leaving voluntarily + those that were forced out) is equal between treatment groups and hives. The model uses the quasibinomial family, since this is more robust to overdispersion than the binomial family (testing revealed the latter family gave qualitatively identical results).</p>
+<p>The model results are similar to those below: bees treated with LPS (either kind) left the hive more often than intact controls, and there were differences between hives in the proportion of bees leaving.</p>
+<div id="run-the-glm" class="section level3">
+<h3>Run the GLM</h3>
+<pre class="r"><code>test_dat &lt;- outcome_tally %&gt;% 
+  group_by(hive, treatment, outcome) %&gt;% 
+  summarise(n = sum(n)) %&gt;% 
+  mutate(left = ifelse(outcome == &quot;Stayed inside the hive&quot;, &quot;stayed_inside&quot; ,&quot;left_hive&quot;)) %&gt;% 
+  group_by(hive, treatment, left) %&gt;% 
+  summarise(n = sum(n)) %&gt;%
+  spread(left, n) 
+
+simple_model &lt;- glm(
+    cbind(left_hive, stayed_inside) ~ treatment + hive, 
+    data = test_dat, 
+    family = &quot;quasibinomial&quot;)</code></pre>
+</div>
+<div id="inspect-model-coefficients-and-p-values" class="section level3">
+<h3>Inspect model coefficients and p-values</h3>
+<p>The reference level for <code>treatment</code> is the Intact Control, and the reference for <code>hive</code> is the hive named Garden.</p>
+<pre class="r"><code>summary(simple_model)</code></pre>
+<pre><code>
+Call:
+glm(formula = cbind(left_hive, stayed_inside) ~ treatment + hive, 
+    family = &quot;quasibinomial&quot;, data = test_dat)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-1.5002  -1.0014  -0.2999   0.4537   1.8667  
+
+Coefficients:
+                          Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)                -5.3210     1.0230  -5.201 0.000821 ***
+treatmentRingers            0.6951     0.5605   1.240 0.250091    
+treatmentHeat-treated LPS   1.3318     0.4693   2.838 0.021884 *  
+treatmentLPS                1.2319     0.4753   2.592 0.032023 *  
+hiveSkyLab                  2.4051     1.0194   2.359 0.046012 *  
+hiveZoology                 1.8803     1.0122   1.858 0.100302    
+hiveZoology_2               3.8046     1.0011   3.800 0.005234 ** 
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+(Dispersion parameter for quasibinomial family taken to be 1.840969)
+
+    Null deviance: 116.658  on 14  degrees of freedom
+Residual deviance:  13.318  on  8  degrees of freedom
+AIC: NA
+
+Number of Fisher Scoring iterations: 5</code></pre>
+</div>
+<div id="inspect-type-ii-anova-table" class="section level3">
+<h3>Inspect Type II Anova table</h3>
+<pre class="r"><code>Anova(simple_model, test = &quot;LR&quot;, Type = &quot;II&quot;)</code></pre>
+<pre><code>Analysis of Deviance Table (Type II tests)
+
+Response: cbind(left_hive, stayed_inside)
+          LR Chisq Df Pr(&gt;Chisq)    
+treatment   10.917  3    0.01219 *  
+hive        42.607  3  2.982e-09 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+</div>
+<div id="baysian-multinomial-model" class="section level2">
+<h2>Baysian multinomial model</h2>
 <div id="run-the-models" class="section level3">
 <h3>Run the models</h3>
 <p>Fit three different multinomial logisitic models, with 3 possible outcomes describing what happened to each bee introduced to the hive: stayed inside, left voluntarily, or forced out by the other workers.</p>
@@ -2646,78 +2759,7 @@ p &lt;- cowplot::plot_grid(
   rel_heights = c(1.4, 1))
 ggsave(plot = p, filename = &quot;figures/fig1.pdf&quot;, height = 3.4, width = 9)
 p</code></pre>
-<p><img src="figure/experiment1.Rmd/unnamed-chunk-12-1.png" width="864" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-12-1">
-Past versions of unnamed-chunk-12-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-12-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/social_immunity/blob/6ee79e9602b73c43f8348e706a8b9ae29528645f/docs/figure/experiment1.Rmd/unnamed-chunk-12-1.png" target="_blank">6ee79e9</a>
-</td>
-<td>
-lukeholman
-</td>
-<td>
-2020-08-21
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/social_immunity/blob/14377be601304e4a3f4071130c92819c2f96c10f/docs/figure/experiment1.Rmd/unnamed-chunk-12-1.png" target="_blank">14377be</a>
-</td>
-<td>
-lukeholman
-</td>
-<td>
-2020-05-02
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/social_immunity/blob/fa8c1796047c167290e18c196f75e96506390a8a/docs/figure/experiment1.Rmd/unnamed-chunk-12-1.png" target="_blank">fa8c179</a>
-</td>
-<td>
-lukeholman
-</td>
-<td>
-2020-05-02
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/social_immunity/blob/f97baee319003e2e68d4b126433d45ae68f1cf36/docs/figure/experiment1.Rmd/unnamed-chunk-12-1.png" target="_blank">f97baee</a>
-</td>
-<td>
-lukeholman
-</td>
-<td>
-2020-05-02
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p><br></br> <strong><em>Figure 1</em></strong>: Panel A shows the posterior estimate of the mean % bees staying inside the hive (left), leaving voluntarily (middle), or being forced out (right), for each of the four treatments. The quantile dot plot shows 100 approximately equally likely estimates of the true % bees, and the horizontal bars show the median and the 50% and 95% credible intervals of the posterior distribution. Panel B gives the posterior estimates of the effect size of each treatment, relative to one of the other treatments (the name of which appears in parentheses), and expressed as a log odds ratio (LOR). Positive LOR indicates that the % bees showing this particular outcome is higher in the treatment than the control; for example, more bees left voluntarily (green) or were forced out (orange) in the LPS treatment than in the intact control. The dashed lines mark <span class="math inline">\(LOR = 0\)</span>, indicating no effect, and <span class="math inline">\(LOR = \pm log(2)\)</span>, i.e. the point at which the odds are twice as high in one treatment as the other.</p>
+<p><img src="figure/experiment1.Rmd/unnamed-chunk-15-1.png" width="864" style="display: block; margin: auto;" /> <br></br> <strong><em>Figure 1</em></strong>: Panel A shows the posterior estimate of the mean % bees staying inside the hive (left), leaving voluntarily (middle), or being forced out (right), for each of the four treatments. The quantile dot plot shows 100 approximately equally likely estimates of the true % bees, and the horizontal bars show the median and the 50% and 95% credible intervals of the posterior distribution. Panel B gives the posterior estimates of the effect size of each treatment, relative to one of the other treatments (the name of which appears in parentheses), and expressed as a log odds ratio (LOR). Positive LOR indicates that the % bees showing this particular outcome is higher in the treatment than the control; for example, more bees left voluntarily (green) or were forced out (orange) in the LPS treatment than in the intact control. The dashed lines mark <span class="math inline">\(LOR = 0\)</span>, indicating no effect, and <span class="math inline">\(LOR = \pm log(2)\)</span>, i.e. the point at which the odds are twice as high in one treatment as the other.</p>
 </div>
 </div>
 <div id="hypothesis-testing-and-effect-sizes" class="section level2">
@@ -2887,7 +2929,7 @@ forced_out_stats_table[c(2,4,6,8,10,12), 1] &lt;- &quot; &quot;</code></pre>
 </div>
 <div id="present-all-contrasts-in-one-table" class="section level4">
 <h4>Present all contrasts in one table:</h4>
-<p><strong><em>Table S2</em></strong>: This table gives statistics associated with each of the contrasts plotted in Figure 1B. Each pair of rows gives the absolute effect size (i.e. the difference in % bees) and standardised effect size (as log odds ratio; LOR) for the focal treatment, relative to the treatment shown in parentheses, for one of the three possible outcomes (stayed inside, left voluntarily, or forced out). A LOR of <span class="math inline">\(|log(x)|\)</span> indicates that the outcome is <span class="math inline">\(x\)</span> times more frequent in one treatment compared to the other, e.g. <span class="math inline">\(log(2) = 0.69\)</span> and <span class="math inline">\(log(0.5) = -0.69\)</span> correspond to a two-fold difference in frequency. The <span class="math inline">\(PP\)</span> column gives the posterior probability that the true effect size has the same sign as is shown in the Estimate column; this metric has a similar interpretation to a one-tailed <span class="math inline">\(p\)</span> value in frequentist statistics.</p>
+<p><strong><em>Table S2</em></strong>: This table gives statistics associated with each of the contrasts plotted in Figure 1B. Each pair of rows gives the absolute effect size (i.e. the difference in % bees) and standardised effect size (as log odds ratio; LOR) for the focal treatment, relative to the treatment shown in parentheses, for one of the three possible outcomes (stayed inside, left voluntarily, or forced out). A LOR of <span class="math inline">\(|log(x)|\)</span> indicates that the outcome is <span class="math inline">\(x\)</span> times more frequent in one treatment compared to the other, e.g. <span class="math inline">\(log(2) = 0.69\)</span> and <span class="math inline">\(log(0.5) = -0.69\)</span> correspond to a two-fold difference in frequency. The <span class="math inline">\(PP\)</span> column gives the posterior probability that the true effect size has the same sign as is shown in the Estimate column; this metric has a similar interpretation to a one-tailed <span class="math inline">\(p\)</span> value in frequentist statistics.</p>
 <pre class="r"><code>tableS2 &lt;- bind_rows(
   stayed_inside_stats_table,
   voluntary_stats_table,
@@ -3842,36 +3884,37 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] cowplot_1.0.0    tidybayes_2.0.3  bayestestR_0.6.0 kableExtra_1.1.0 gridExtra_2.3    forcats_0.5.0   
- [7] stringr_1.4.0    dplyr_1.0.0      purrr_0.3.4      readr_1.3.1      tidyr_1.1.0      tibble_3.0.1    
-[13] ggplot2_3.3.1    tidyverse_1.3.0  bayesplot_1.7.2  brms_2.13.0      Rcpp_1.0.4.6     showtext_0.8-1  
-[19] showtextdb_2.0   sysfonts_0.8.1   workflowr_1.6.2 
+ [1] car_3.0-8        carData_3.0-4    cowplot_1.0.0    tidybayes_2.0.3  bayestestR_0.6.0 kableExtra_1.1.0
+ [7] gridExtra_2.3    forcats_0.5.0    stringr_1.4.0    dplyr_1.0.0      purrr_0.3.4      readr_1.3.1     
+[13] tidyr_1.1.0      tibble_3.0.1     ggplot2_3.3.1    tidyverse_1.3.0  bayesplot_1.7.2  brms_2.13.0     
+[19] Rcpp_1.0.4.6     showtext_0.9     showtextdb_2.0   sysfonts_0.8.1   workflowr_1.6.2 
 
 loaded via a namespace (and not attached):
-  [1] TH.data_1.0-10       colorspace_1.4-1     ellipsis_0.3.1       ggridges_0.5.2       rsconnect_0.8.16    
-  [6] rprojroot_1.3-2      estimability_1.3     markdown_1.1         base64enc_0.1-3      fs_1.4.1            
- [11] rstudioapi_0.11      farver_2.0.3         rstan_2.19.3         svUnit_1.0.3         DT_0.13             
- [16] fansi_0.4.1          mvtnorm_1.1-0        lubridate_1.7.8      xml2_1.3.2           bridgesampling_1.0-0
- [21] codetools_0.2-16     splines_4.0.0        knitr_1.29           shinythemes_1.1.2    jsonlite_1.7.0      
- [26] broom_0.5.6          dbplyr_1.4.4         shiny_1.4.0.2        compiler_4.0.0       httr_1.4.1          
- [31] emmeans_1.4.7        backports_1.1.7      assertthat_0.2.1     Matrix_1.2-18        fastmap_1.0.1       
- [36] cli_2.0.2            later_1.0.0          htmltools_0.5.0      prettyunits_1.1.1    tools_4.0.0         
- [41] igraph_1.2.5         coda_0.19-3          gtable_0.3.0         glue_1.4.1           reshape2_1.4.4      
- [46] cellranger_1.1.0     vctrs_0.3.0          nlme_3.1-148         crosstalk_1.1.0.1    insight_0.8.4       
- [51] xfun_0.15            ps_1.3.3             rvest_0.3.5          mime_0.9             miniUI_0.1.1.1      
- [56] lifecycle_0.2.0      gtools_3.8.2         MASS_7.3-51.6        zoo_1.8-8            scales_1.1.1        
- [61] colourpicker_1.0     hms_0.5.3            promises_1.1.0       Brobdingnag_1.2-6    parallel_4.0.0      
- [66] sandwich_2.5-1       inline_0.3.15        RColorBrewer_1.1-2   shinystan_2.5.0      curl_4.3            
- [71] yaml_2.2.1           loo_2.2.0            StanHeaders_2.21.0-3 stringi_1.4.6        highr_0.8           
- [76] dygraphs_1.1.1.6     pkgbuild_1.0.8       rlang_0.4.6          pkgconfig_2.0.3      matrixStats_0.56.0  
- [81] evaluate_0.14        lattice_0.20-41      labeling_0.3         rstantools_2.1.0     htmlwidgets_1.5.1   
- [86] processx_3.4.2       tidyselect_1.1.0     plyr_1.8.6           magrittr_1.5         R6_2.4.1            
- [91] generics_0.0.2       multcomp_1.4-13      DBI_1.1.0            withr_2.2.0          pillar_1.4.4        
- [96] haven_2.3.1          whisker_0.4          xts_0.12-0           survival_3.1-12      abind_1.4-5         
-[101] modelr_0.1.8         crayon_1.3.4         arrayhelpers_1.1-0   rmarkdown_2.3        readxl_1.3.1        
-[106] grid_4.0.0           blob_1.2.1           callr_3.4.3          git2r_0.27.1         threejs_0.3.3       
-[111] webshot_0.5.2        reprex_0.3.0         digest_0.6.25        xtable_1.8-4         httpuv_1.5.3.1      
-[116] stats4_4.0.0         munsell_0.5.0        viridisLite_0.3.0    shinyjs_1.1         </code></pre>
+  [1] readxl_1.3.1         backports_1.1.7      plyr_1.8.6           igraph_1.2.5         splines_4.0.0       
+  [6] svUnit_1.0.3         crosstalk_1.1.0.1    TH.data_1.0-10       rstantools_2.1.0     inline_0.3.15       
+ [11] digest_0.6.25        htmltools_0.5.0      rsconnect_0.8.16     fansi_0.4.1          magrittr_1.5        
+ [16] openxlsx_4.1.5       modelr_0.1.8         matrixStats_0.56.0   xts_0.12-0           sandwich_2.5-1      
+ [21] prettyunits_1.1.1    colorspace_1.4-1     blob_1.2.1           rvest_0.3.5          haven_2.3.1         
+ [26] xfun_0.19            callr_3.4.3          crayon_1.3.4         jsonlite_1.7.0       survival_3.1-12     
+ [31] zoo_1.8-8            glue_1.4.1           gtable_0.3.0         emmeans_1.4.7        webshot_0.5.2       
+ [36] pkgbuild_1.0.8       rstan_2.19.3         abind_1.4-5          scales_1.1.1         mvtnorm_1.1-0       
+ [41] DBI_1.1.0            miniUI_0.1.1.1       viridisLite_0.3.0    xtable_1.8-4         foreign_0.8-80      
+ [46] stats4_4.0.0         StanHeaders_2.21.0-3 DT_0.13              htmlwidgets_1.5.1    httr_1.4.1          
+ [51] threejs_0.3.3        RColorBrewer_1.1-2   arrayhelpers_1.1-0   ellipsis_0.3.1       farver_2.0.3        
+ [56] pkgconfig_2.0.3      loo_2.2.0            dbplyr_1.4.4         labeling_0.3         tidyselect_1.1.0    
+ [61] rlang_0.4.6          reshape2_1.4.4       later_1.0.0          munsell_0.5.0        cellranger_1.1.0    
+ [66] tools_4.0.0          cli_2.0.2            generics_0.0.2       broom_0.5.6          ggridges_0.5.2      
+ [71] evaluate_0.14        fastmap_1.0.1        yaml_2.2.1           processx_3.4.2       knitr_1.29          
+ [76] fs_1.4.1             zip_2.0.4            nlme_3.1-148         whisker_0.4          mime_0.9            
+ [81] xml2_1.3.2           compiler_4.0.0       shinythemes_1.1.2    rstudioapi_0.11      curl_4.3            
+ [86] reprex_0.3.0         stringi_1.4.6        highr_0.8            ps_1.3.3             Brobdingnag_1.2-6   
+ [91] lattice_0.20-41      Matrix_1.2-18        markdown_1.1         shinyjs_1.1          vctrs_0.3.0         
+ [96] pillar_1.4.4         lifecycle_0.2.0      bridgesampling_1.0-0 estimability_1.3     data.table_1.12.8   
+[101] insight_0.8.4        httpuv_1.5.3.1       R6_2.4.1             promises_1.1.0       rio_0.5.16          
+[106] codetools_0.2-16     colourpicker_1.0     MASS_7.3-51.6        gtools_3.8.2         assertthat_0.2.1    
+[111] rprojroot_1.3-2      withr_2.2.0          shinystan_2.5.0      multcomp_1.4-13      parallel_4.0.0      
+[116] hms_0.5.3            grid_4.0.0           coda_0.19-3          rmarkdown_2.5        git2r_0.27.1        
+[121] shiny_1.4.0.2        lubridate_1.7.8      base64enc_0.1-3      dygraphs_1.1.1.6    </code></pre>
 </div>
 </div>
 </div>
@@ -3899,7 +3942,7 @@ footer is added to webpages before the MathJax javascript. -->
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
