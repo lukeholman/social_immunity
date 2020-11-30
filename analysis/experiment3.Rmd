@@ -40,6 +40,7 @@ library(bayestestR)
 library(cowplot)
 library(tidybayes)
 library(scales)
+library(car)
 source("code/helper_functions.R")
 
 # set up nice font for figure
@@ -159,7 +160,8 @@ raw_histogram
 
 
 
-## Binomial model of time spent in contact
+
+## Bayesian binomial model of time spent in contact
 
 ### Run the models
 

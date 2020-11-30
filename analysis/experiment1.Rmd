@@ -39,6 +39,7 @@ library(kableExtra)
 library(bayestestR)
 library(tidybayes)
 library(cowplot)
+library(car)
 source("code/helper_functions.R")
 
 # set up nice font for figure
@@ -50,6 +51,9 @@ exp1_treatments <- c("Intact control", "Ringers", "Heat-treated LPS", "LPS")
 
 durations <- read_csv("data/data_collection_sheets/experiment_durations.csv") %>%
   filter(experiment == 1) %>% select(-experiment)
+
+durations <- bind_rows(durations, tibble(hive = "SkyLab", observation_time_minutes = 90))
+  
 
 outcome_tally <- read_csv(file = "data/clean_data/experiment_1_outcome_tally.csv") %>%
   mutate(outcome = replace(outcome, outcome == "Left of own volition", "Left voluntarily")) %>%
@@ -142,9 +146,45 @@ outcome_tally %>%
   coord_flip()
 ```
 
-## Multinomial model of outcome
+## Run a preliminary, simple model
+
+The statistical methods below are non-standard, though we believe they have many advantages for this particular experiment (e.g. the ability to model three possible outcomes, incorporate priors, and evaluate evidence without null hypothesis testing). However during peer review, we were asked whether the results 'remained statistically significant' when using standard statistical methods. To address this question, we here present a frequentist Generalised Linear Model (GLM; using `base::glm`), which tests the null hypothesis that the proportion of bees exiting the hive (i.e. the proportion leaving voluntarily + those that were forced out) is equal between treatment groups and hives. The model uses the quasibinomial family, since this is more robust to overdispersion than the binomial family (testing revealed the latter family gave qualitatively identical results).
+
+The model results are similar to those below: bees treated with LPS (either kind) left the hive more often than intact controls, and there were differences between hives in the proportion of bees leaving.
+
+### Run the GLM
+```{r message=FALSE, warning=FALSE}
+test_dat <- outcome_tally %>% 
+  group_by(hive, treatment, outcome) %>% 
+  summarise(n = sum(n)) %>% 
+  mutate(left = ifelse(outcome == "Stayed inside the hive", "stayed_inside" ,"left_hive")) %>% 
+  group_by(hive, treatment, left) %>% 
+  summarise(n = sum(n)) %>%
+  spread(left, n) 
+
+simple_model <- glm(
+    cbind(left_hive, stayed_inside) ~ treatment + hive, 
+    data = test_dat, 
+    family = "quasibinomial")
+```
+
+### Inspect model coefficients and p-values
+
+The reference level for `treatment` is the Intact Control, and the reference for `hive` is the hive named Garden.
+```{r}
+summary(simple_model)
+```
+
+### Inspect Type II Anova table
+```{r}
+Anova(simple_model, test = "LR", Type = "II")
+```
+
+
+## Baysian multinomial model
 
 ### Run the models
+
 
 Fit three different multinomial logisitic models, with 3 possible outcomes describing what happened to each bee introduced to the hive: stayed inside, left voluntarily, or forced out by the other workers. 
 

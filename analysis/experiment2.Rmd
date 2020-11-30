@@ -51,6 +51,7 @@ library(kableExtra)
 library(bayestestR)
 library(tidybayes)
 library(cowplot)
+library(car)
 source("code/helper_functions.R")
 
 # set up nice font for figure
@@ -155,7 +156,44 @@ outcome_tally %>%
 
 
 
-## Multinomial model of outcome
+## Run a preliminary, simple model
+
+The statistical methods below are non-standard, though we believe they have many advantages for this particular experiment (e.g. the ability to model three possible outcomes, incorporate priors, and evaluate evidence without null hypothesis testing). However during peer review, we were asked whether the results 'remained statistically significant' when using standard statistical methods. To address this question, we here present a frequentist Generalised Linear Model (GLM; using `base::glm`), which tests the null hypothesis that the proportion of bees exiting the hive (i.e. the proportion leaving voluntarily + those that were forced out) is equal between treatment groups and hives. The model uses the quasibinomial family, since this is more robust to overdispersion than the binomial family (testing revealed the latter family gave qualitatively identical results). 
+
+The model results are similar to those below: bees treated with the CHCs from LPS-treated nestmates left the hive more often than controls, and there were differences between hives in the proportion of bees leaving.
+
+### Run the GLM
+```{r message=FALSE, warning=FALSE}
+test_dat <- outcome_tally %>% 
+  group_by(hive, treatment, outcome) %>% 
+  summarise(n = sum(n)) %>% 
+  mutate(left = ifelse(outcome == "Stayed inside", "stayed_inside" ,"left_hive")) %>% 
+  group_by(hive, treatment, left) %>% 
+  summarise(n = sum(n)) %>%
+  spread(left, n)  
+
+simple_model <- glm(
+    cbind(left_hive, stayed_inside) ~ treatment + hive, 
+    data = test_dat, 
+    family = "quasibinomial")
+```
+
+
+### Inspect model coefficients and p-values
+
+The reference level for `treatment` is the the Ringers Control, and the reference for `hive` is the hive named Arts.
+```{r}
+summary(simple_model)
+```
+
+### Inspect Type II Anova table
+```{r}
+Anova(simple_model, test = "LR", Type = "II")
+```
+
+
+
+## Baysian multinomial model
 
 ### Run the models
 
