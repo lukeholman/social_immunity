@@ -429,7 +429,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-11-30
+<strong>Last updated:</strong> 2021-01-11
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -520,16 +520,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree7aa69df3b0b7d9c2cdad501a24c1d793b4fdba40targetblank7aa69dfa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/7aa69df3b0b7d9c2cdad501a24c1d793b4fdba40" target="_blank">7aa69df</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree78386bb2dbe2918ba91bc5f7ce791f9a4dd70e10targetblank78386bba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/78386bb2dbe2918ba91bc5f7ce791f9a4dd70e10" target="_blank">78386bb</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree7aa69df3b0b7d9c2cdad501a24c1d793b4fdba40targetblank7aa69dfa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree78386bb2dbe2918ba91bc5f7ce791f9a4dd70e10targetblank78386bba" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/social_immunity/tree/7aa69df3b0b7d9c2cdad501a24c1d793b4fdba40" target="_blank">7aa69df</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/social_immunity/tree/78386bb2dbe2918ba91bc5f7ce791f9a4dd70e10" target="_blank">78386bb</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -543,7 +543,6 @@ Ignored files:
     Ignored:    data/.DS_Store
     Ignored:    data/movement data - not used/
     Ignored:    output/exp1_model.rds
-    Ignored:    output/exp1_post_prob.rds
     Ignored:    output/exp2_model.rds
     Ignored:    output/exp2_post_prob.rds
     Ignored:    output/exp3_model.rds
@@ -552,6 +551,11 @@ Ignored files:
 Unstaged changes:
     Modified:   figures/fig1.pdf
     Modified:   figures/fig2.pdf
+    Modified:   figures/fig3.pdf
+    Modified:   figures/tableS1.rds
+    Modified:   figures/tableS2.rds
+    Modified:   figures/tableS3.rds
+    Modified:   figures/tableS4.rds
 
 </code></pre>
 <p>
@@ -590,6 +594,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/social_immunity/eeb5a09dd1b3d0d4e55d1a78dbf1cc25adff6188/docs/data_cleaning.html" target="_blank">eeb5a09</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-11-30
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -1105,41 +1126,41 @@ experiment3 %&gt;% write_csv(path = &quot;data/clean_data/experiment_3.csv&quot;
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
 <pre class="r"><code>sessionInfo()</code></pre>
-<pre><code>R version 4.0.0 (2020-04-24)
+<pre><code>R version 4.0.3 (2020-10-10)
 Platform: x86_64-apple-darwin17.0 (64-bit)
-Running under: macOS Catalina 10.15.4
+Running under: macOS Catalina 10.15.7
 
 Matrix products: default
 BLAS:   /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRblas.dylib
 LAPACK: /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRlapack.dylib
 
 locale:
-[1] en_AU.UTF-8/en_AU.UTF-8/en_AU.UTF-8/C/en_AU.UTF-8/en_AU.UTF-8
+[1] en_GB.UTF-8/en_GB.UTF-8/en_GB.UTF-8/C/en_GB.UTF-8/en_GB.UTF-8
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
  [1] forcats_0.5.0   stringr_1.4.0   dplyr_1.0.0     purrr_0.3.4    
- [5] readr_1.3.1     tidyr_1.1.0     tibble_3.0.1    ggplot2_3.3.1  
+ [5] readr_1.3.1     tidyr_1.1.0     tibble_3.0.1    ggplot2_3.3.2  
  [9] tidyverse_1.3.0 workflowr_1.6.2
 
 loaded via a namespace (and not attached):
  [1] tidyselect_1.1.0 xfun_0.19        haven_2.3.1      lattice_0.20-41 
  [5] colorspace_1.4-1 vctrs_0.3.0      generics_0.0.2   htmltools_0.5.0 
  [9] yaml_2.2.1       blob_1.2.1       rlang_0.4.6      later_1.0.0     
-[13] pillar_1.4.4     withr_2.2.0      glue_1.4.1       DBI_1.1.0       
+[13] pillar_1.4.4     withr_2.2.0      glue_1.4.2       DBI_1.1.0       
 [17] dbplyr_1.4.4     modelr_0.1.8     readxl_1.3.1     lifecycle_0.2.0 
 [21] munsell_0.5.0    gtable_0.3.0     cellranger_1.1.0 rvest_0.3.5     
-[25] evaluate_0.14    knitr_1.29       httpuv_1.5.3.1   fansi_0.4.1     
+[25] evaluate_0.14    knitr_1.30       httpuv_1.5.3.1   fansi_0.4.1     
 [29] broom_0.5.6      Rcpp_1.0.4.6     promises_1.1.0   backports_1.1.7 
 [33] scales_1.1.1     jsonlite_1.7.0   fs_1.4.1         hms_0.5.3       
-[37] digest_0.6.25    stringi_1.4.6    grid_4.0.0       rprojroot_1.3-2 
-[41] cli_2.0.2        tools_4.0.0      magrittr_1.5     crayon_1.3.4    
+[37] digest_0.6.25    stringi_1.5.3    grid_4.0.3       rprojroot_1.3-2 
+[41] cli_2.0.2        tools_4.0.3      magrittr_2.0.1   crayon_1.3.4    
 [45] whisker_0.4      pkgconfig_2.0.3  ellipsis_0.3.1   xml2_1.3.2      
 [49] reprex_0.3.0     lubridate_1.7.8  rstudioapi_0.11  assertthat_0.2.1
-[53] rmarkdown_2.5    httr_1.4.1       R6_2.4.1         nlme_3.1-148    
-[57] git2r_0.27.1     compiler_4.0.0  </code></pre>
+[53] rmarkdown_2.5    httr_1.4.1       R6_2.4.1         nlme_3.1-149    
+[57] git2r_0.27.1     compiler_4.0.3  </code></pre>
 </div>
 </div>
 

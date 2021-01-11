@@ -442,7 +442,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-11-30
+<strong>Last updated:</strong> 2021-01-11
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -533,16 +533,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree7aa69df3b0b7d9c2cdad501a24c1d793b4fdba40targetblank7aa69dfa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/7aa69df3b0b7d9c2cdad501a24c1d793b4fdba40" target="_blank">7aa69df</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree78386bb2dbe2918ba91bc5f7ce791f9a4dd70e10targetblank78386bba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/78386bb2dbe2918ba91bc5f7ce791f9a4dd70e10" target="_blank">78386bb</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree7aa69df3b0b7d9c2cdad501a24c1d793b4fdba40targetblank7aa69dfa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree78386bb2dbe2918ba91bc5f7ce791f9a4dd70e10targetblank78386bba" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/social_immunity/tree/7aa69df3b0b7d9c2cdad501a24c1d793b4fdba40" target="_blank">7aa69df</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/social_immunity/tree/78386bb2dbe2918ba91bc5f7ce791f9a4dd70e10" target="_blank">78386bb</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -556,7 +556,6 @@ Ignored files:
     Ignored:    data/.DS_Store
     Ignored:    data/movement data - not used/
     Ignored:    output/exp1_model.rds
-    Ignored:    output/exp1_post_prob.rds
     Ignored:    output/exp2_model.rds
     Ignored:    output/exp2_post_prob.rds
     Ignored:    output/exp3_model.rds
@@ -565,6 +564,11 @@ Ignored files:
 Unstaged changes:
     Modified:   figures/fig1.pdf
     Modified:   figures/fig2.pdf
+    Modified:   figures/fig3.pdf
+    Modified:   figures/tableS1.rds
+    Modified:   figures/tableS2.rds
+    Modified:   figures/tableS3.rds
+    Modified:   figures/tableS4.rds
 
 </code></pre>
 <p>
@@ -603,6 +607,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/78386bb2dbe2918ba91bc5f7ce791f9a4dd70e10/analysis/experiment2.Rmd" target="_blank">78386bb</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2021-01-11
+</td>
+<td>
+tweaks 2021
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/social_immunity/eeb5a09dd1b3d0d4e55d1a78dbf1cc25adff6188/docs/experiment2.html" target="_blank">eeb5a09</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-11-30
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1793,10 +1831,10 @@ lukeholman
 </div>
 </div>
 </div>
-<div id="run-a-preliminary-simple-model" class="section level2">
-<h2>Run a preliminary, simple model</h2>
-<p>The statistical methods below are non-standard, though we believe they have many advantages for this particular experiment (e.g. the ability to model three possible outcomes, incorporate priors, and evaluate evidence without null hypothesis testing). However during peer review, we were asked whether the results ‘remained statistically significant’ when using standard statistical methods. To address this question, we here present a frequentist Generalised Linear Model (GLM; using <code>base::glm</code>), which tests the null hypothesis that the proportion of bees exiting the hive (i.e. the proportion leaving voluntarily + those that were forced out) is equal between treatment groups and hives. The model uses the quasibinomial family, since this is more robust to overdispersion than the binomial family (testing revealed the latter family gave qualitatively identical results).</p>
-<p>The model results are similar to those below: bees treated with the CHCs from LPS-treated nestmates left the hive more often than controls, and there were differences between hives in the proportion of bees leaving.</p>
+<div id="run-the-preliminary-glm" class="section level2">
+<h2>Run the preliminary GLM</h2>
+<p>The multinomial model below is not commonly used, though we believe it is the right choice for this particular experiment (e.g. because it can model a three-item categorical response variable, and it can incorporate priors). However during peer review, we were asked whether the results were similar when using standard statistical methods. To address this question, we here present a frequentist Generalised Linear Model (GLM; using <code>base::glm</code>), which tests the null hypothesis that the proportion of bees exiting the hive (i.e. the proportion leaving voluntarily plus those that were forced out) is equal between treatment groups and hives. The model uses the quasibinomial family, since this family is more robust to overdispersion than the binomial family (though testing revealed both families gave qualitatively identical results).</p>
+<p>The model results are similar to those from the multinomial model: bees treated with the CHCs from LPS-treated nestmates left the hive more often than controls, and there were differences between hives in the proportion of bees leaving.</p>
 <div id="run-the-glm" class="section level3">
 <h3>Run the GLM</h3>
 <pre class="r"><code>test_dat &lt;- outcome_tally %&gt;% 
@@ -1858,19 +1896,12 @@ Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&
 </div>
 <div id="baysian-multinomial-model" class="section level2">
 <h2>Baysian multinomial model</h2>
-<div id="run-the-models" class="section level3">
-<h3>Run the models</h3>
-<p>Fit three different multinomial logisitic models, with 3 possible outcomes describing what happened to each bee introduced to the hive: stayed inside, left voluntarily, or forced out by the other workers.</p>
+<div id="fit-the-model" class="section level3">
+<h3>Fit the model</h3>
+<p>Fit the multinomial logisitic models, with a 3-item response variable describing what happened to each bee introduced to the hive: stayed inside, left voluntarily, or forced out by the other workers.</p>
 <pre class="r"><code>if(!file.exists(&quot;output/exp2_model.rds&quot;)){
-  exp2_model_v1 &lt;- brm(
-    outcome_numeric ~ treatment * hive + observation_time_minutes, 
-    data = data_for_categorical_model, 
-    prior = c(set_prior(&quot;normal(0, 3)&quot;, class = &quot;b&quot;, dpar = &quot;mu2&quot;),
-              set_prior(&quot;normal(0, 3)&quot;, class = &quot;b&quot;, dpar = &quot;mu3&quot;)),
-    family = &quot;categorical&quot;, save_all_pars = TRUE, sample_prior = TRUE,
-    chains = 4, cores = 1, iter = 5000, seed = 1)
-  
-  exp2_model_v2 &lt;- brm(
+
+  exp2_model &lt;- brm(
     outcome_numeric ~ treatment + hive + observation_time_minutes, 
     data = data_for_categorical_model, 
     prior = c(set_prior(&quot;normal(0, 3)&quot;, class = &quot;b&quot;, dpar = &quot;mu2&quot;),
@@ -1878,75 +1909,13 @@ Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&
     family = &quot;categorical&quot;, save_all_pars = TRUE, sample_prior = TRUE,
     chains = 4, cores = 1, iter = 5000, seed = 1)
   
-  exp2_model_v3 &lt;- brm(
-    outcome_numeric ~ hive + observation_time_minutes, 
-    data = data_for_categorical_model, 
-    prior = c(set_prior(&quot;normal(0, 3)&quot;, class = &quot;b&quot;, dpar = &quot;mu2&quot;),
-              set_prior(&quot;normal(0, 3)&quot;, class = &quot;b&quot;, dpar = &quot;mu3&quot;)),
-    family = &quot;categorical&quot;,  save_all_pars = TRUE, sample_prior = TRUE,
-    chains = 4, cores = 1, iter = 5000, seed = 1)
-  
-  posterior_model_probabilities &lt;- tibble(
-    Model = c(&quot;treatment * hive + observation_time_minutes&quot;,
-              &quot;treatment + hive + observation_time_minutes&quot;,
-              &quot;hive + observation_time_minutes&quot;),
-    post_prob = as.numeric(post_prob(exp2_model_v1,
-                                     exp2_model_v2,
-                                     exp2_model_v3))) %&gt;%
-    arrange(-post_prob)
-  
-  saveRDS(exp2_model_v2, &quot;output/exp2_model.rds&quot;) # save the top model, treatment + hive
-  saveRDS(posterior_model_probabilities, &quot;output/exp2_post_prob.rds&quot;)
+  saveRDS(exp2_model, &quot;output/exp2_model.rds&quot;)
 }
 
-exp2_model &lt;- readRDS(&quot;output/exp2_model.rds&quot;)
-posterior_model_probabilities &lt;- readRDS(&quot;output/exp2_post_prob.rds&quot;)</code></pre>
+exp2_model &lt;- readRDS(&quot;output/exp2_model.rds&quot;)</code></pre>
 </div>
-<div id="posterior-model-probabilites" class="section level3">
-<h3>Posterior model probabilites</h3>
-<pre class="r"><code>posterior_model_probabilities %&gt;% 
-  kable(digits = 3) %&gt;% kable_styling()</code></pre>
-<table class="table" style="margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-Model
-</th>
-<th style="text-align:right;">
-post_prob
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-hive + observation_time_minutes
-</td>
-<td style="text-align:right;">
-0.530
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-treatment + hive + observation_time_minutes
-</td>
-<td style="text-align:right;">
-0.466
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-treatment * hive + observation_time_minutes
-</td>
-<td style="text-align:right;">
-0.003
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div id="fixed-effects-from-the-top-model" class="section level3">
-<h3>Fixed effects from the top model</h3>
+<div id="parameter-estimates-from-the-model" class="section level3">
+<h3>Parameter estimates from the model</h3>
 <div id="raw-output-of-the-treatment-hive-model" class="section level4">
 <h4>Raw output of the <code>treatment + hive</code> model</h4>
 <pre class="r"><code>summary(exp2_model)</code></pre>
@@ -2342,7 +2311,7 @@ stats_data &lt;- get_posterior_preds(focal_hive = NA)</code></pre>
 </div>
 <div id="make-figure-2" class="section level3">
 <h3>Make Figure 2</h3>
-<pre class="r"><code>cols &lt;- c(&quot;#E69F00&quot;, &quot;#009E73&quot;, &quot;#0072B2&quot;)
+<pre class="r"><code>cols &lt;- RColorBrewer::brewer.pal(3, &quot;Set2&quot;)
 panel_c_colour &lt;- &quot;#CC79A7&quot;
 
 dot_plot &lt;- plotting_data %&gt;%
@@ -2382,9 +2351,9 @@ LOR &lt;- plotting_data %&gt;%
 
 LOR_plot &lt;- LOR %&gt;%
   ggplot(aes(LOR, outcome, colour = outcome)) + 
-  geom_vline(xintercept = 0, linetype = 2) +
-  geom_vline(xintercept = log(2), linetype = 2, colour = &quot;pink&quot;) +
-  geom_vline(xintercept = -log(2), linetype = 2, colour = &quot;pink&quot;) +
+  geom_vline(xintercept = 0, size = 0.3, colour = &quot;grey20&quot;) + 
+  geom_vline(xintercept = log(2), linetype = 2, size = 0.6, colour = &quot;grey&quot;) +
+  geom_vline(xintercept = -log(2), linetype = 2, size = 0.6, colour = &quot;grey&quot;) +
   stat_pointintervalh(aes(colour = outcome, fill = outcome), 
                       position = position_dodge(0.4), 
                       .width = c(0.5, 0.95),
@@ -2464,7 +2433,7 @@ p &lt;- cowplot::plot_grid(top_row, bottom_row,
                         rel_heights = c(1.4, 1))
 ggsave(plot = p, filename = &quot;figures/fig2.pdf&quot;, height = 6, width = 6)
 p</code></pre>
-<p><img src="figure/experiment2.Rmd/unnamed-chunk-15-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="figure/experiment2.Rmd/unnamed-chunk-14-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p><strong><em>Figure 2:</em></strong> Panel A shows the same information as Figure 1A. Panel B gives the posterior estimates of the effect size (log odds ratio) of the LPS treatment as a log odds ratio, for each of the three possible outcomes; the details are the same as in Figure 1B. Panel C shows the posterior estimate of the effect of the LPS treatment on the proportion of bees observed leaving the hive by force, as opposed to leaving voluntarily.</p>
 </div>
 </div>
@@ -2760,16 +2729,16 @@ hypothesis(difference_prop_forced_out_LOR,
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
 <pre class="r"><code>sessionInfo()</code></pre>
-<pre><code>R version 4.0.0 (2020-04-24)
+<pre><code>R version 4.0.3 (2020-10-10)
 Platform: x86_64-apple-darwin17.0 (64-bit)
-Running under: macOS Catalina 10.15.4
+Running under: macOS Catalina 10.15.7
 
 Matrix products: default
 BLAS:   /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRblas.dylib
 LAPACK: /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRlapack.dylib
 
 locale:
-[1] en_AU.UTF-8/en_AU.UTF-8/en_AU.UTF-8/C/en_AU.UTF-8/en_AU.UTF-8
+[1] en_GB.UTF-8/en_GB.UTF-8/en_GB.UTF-8/C/en_GB.UTF-8/en_GB.UTF-8
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
@@ -2777,35 +2746,37 @@ attached base packages:
 other attached packages:
  [1] car_3.0-8        carData_3.0-4    cowplot_1.0.0    tidybayes_2.0.3  bayestestR_0.6.0 kableExtra_1.1.0
  [7] gridExtra_2.3    forcats_0.5.0    stringr_1.4.0    dplyr_1.0.0      purrr_0.3.4      readr_1.3.1     
-[13] tidyr_1.1.0      tibble_3.0.1     ggplot2_3.3.1    tidyverse_1.3.0  bayesplot_1.7.2  brms_2.13.0     
-[19] Rcpp_1.0.4.6     showtext_0.9     showtextdb_2.0   sysfonts_0.8.1   workflowr_1.6.2 
+[13] tidyr_1.1.0      tibble_3.0.1     ggplot2_3.3.2    tidyverse_1.3.0  bayesplot_1.7.2  brms_2.14.4     
+[19] Rcpp_1.0.4.6     showtext_0.9-1   showtextdb_3.0   sysfonts_0.8.2   workflowr_1.6.2 
 
 loaded via a namespace (and not attached):
-  [1] readxl_1.3.1         backports_1.1.7      plyr_1.8.6           igraph_1.2.5         splines_4.0.0       
-  [6] svUnit_1.0.3         crosstalk_1.1.0.1    TH.data_1.0-10       rstantools_2.1.0     inline_0.3.15       
- [11] digest_0.6.25        htmltools_0.5.0      rsconnect_0.8.16     fansi_0.4.1          magrittr_1.5        
- [16] openxlsx_4.1.5       modelr_0.1.8         matrixStats_0.56.0   xts_0.12-0           sandwich_2.5-1      
- [21] prettyunits_1.1.1    colorspace_1.4-1     blob_1.2.1           rvest_0.3.5          haven_2.3.1         
- [26] xfun_0.19            callr_3.4.3          crayon_1.3.4         jsonlite_1.7.0       survival_3.1-12     
- [31] zoo_1.8-8            glue_1.4.1           gtable_0.3.0         emmeans_1.4.7        webshot_0.5.2       
- [36] pkgbuild_1.0.8       rstan_2.19.3         abind_1.4-5          scales_1.1.1         mvtnorm_1.1-0       
- [41] DBI_1.1.0            miniUI_0.1.1.1       viridisLite_0.3.0    xtable_1.8-4         foreign_0.8-80      
- [46] stats4_4.0.0         StanHeaders_2.21.0-3 DT_0.13              htmlwidgets_1.5.1    httr_1.4.1          
- [51] threejs_0.3.3        RColorBrewer_1.1-2   arrayhelpers_1.1-0   ellipsis_0.3.1       farver_2.0.3        
- [56] pkgconfig_2.0.3      loo_2.2.0            dbplyr_1.4.4         labeling_0.3         tidyselect_1.1.0    
- [61] rlang_0.4.6          reshape2_1.4.4       later_1.0.0          munsell_0.5.0        cellranger_1.1.0    
- [66] tools_4.0.0          cli_2.0.2            generics_0.0.2       broom_0.5.6          ggridges_0.5.2      
- [71] evaluate_0.14        fastmap_1.0.1        yaml_2.2.1           processx_3.4.2       knitr_1.29          
- [76] fs_1.4.1             zip_2.0.4            nlme_3.1-148         whisker_0.4          mime_0.9            
- [81] xml2_1.3.2           compiler_4.0.0       shinythemes_1.1.2    rstudioapi_0.11      curl_4.3            
- [86] reprex_0.3.0         stringi_1.4.6        highr_0.8            ps_1.3.3             Brobdingnag_1.2-6   
- [91] lattice_0.20-41      Matrix_1.2-18        markdown_1.1         shinyjs_1.1          vctrs_0.3.0         
- [96] pillar_1.4.4         lifecycle_0.2.0      bridgesampling_1.0-0 estimability_1.3     data.table_1.12.8   
-[101] insight_0.8.4        httpuv_1.5.3.1       R6_2.4.1             promises_1.1.0       rio_0.5.16          
-[106] codetools_0.2-16     colourpicker_1.0     MASS_7.3-51.6        gtools_3.8.2         assertthat_0.2.1    
-[111] rprojroot_1.3-2      withr_2.2.0          shinystan_2.5.0      multcomp_1.4-13      parallel_4.0.0      
-[116] hms_0.5.3            grid_4.0.0           coda_0.19-3          rmarkdown_2.5        git2r_0.27.1        
-[121] shiny_1.4.0.2        lubridate_1.7.8      base64enc_0.1-3      dygraphs_1.1.1.6    </code></pre>
+  [1] readxl_1.3.1         backports_1.1.7      plyr_1.8.6           igraph_1.2.5         svUnit_1.0.3        
+  [6] splines_4.0.3        crosstalk_1.1.0.1    TH.data_1.0-10       rstantools_2.1.1     inline_0.3.15       
+ [11] digest_0.6.25        htmltools_0.5.0      rsconnect_0.8.16     fansi_0.4.1          magrittr_2.0.1      
+ [16] openxlsx_4.1.5       modelr_0.1.8         RcppParallel_5.0.1   matrixStats_0.56.0   xts_0.12-0          
+ [21] sandwich_2.5-1       prettyunits_1.1.1    colorspace_1.4-1     blob_1.2.1           rvest_0.3.5         
+ [26] haven_2.3.1          xfun_0.19            callr_3.4.3          crayon_1.3.4         jsonlite_1.7.0      
+ [31] lme4_1.1-23          survival_3.2-7       zoo_1.8-8            glue_1.4.2           gtable_0.3.0        
+ [36] emmeans_1.4.7        webshot_0.5.2        V8_3.4.0             pkgbuild_1.0.8       rstan_2.21.2        
+ [41] abind_1.4-5          scales_1.1.1         mvtnorm_1.1-0        DBI_1.1.0            miniUI_0.1.1.1      
+ [46] viridisLite_0.3.0    xtable_1.8-4         foreign_0.8-80       stats4_4.0.3         StanHeaders_2.21.0-3
+ [51] DT_0.13              htmlwidgets_1.5.1    httr_1.4.1           threejs_0.3.3        RColorBrewer_1.1-2  
+ [56] arrayhelpers_1.1-0   ellipsis_0.3.1       farver_2.0.3         pkgconfig_2.0.3      loo_2.3.1           
+ [61] dbplyr_1.4.4         labeling_0.3         tidyselect_1.1.0     rlang_0.4.6          reshape2_1.4.4      
+ [66] later_1.0.0          munsell_0.5.0        cellranger_1.1.0     tools_4.0.3          cli_2.0.2           
+ [71] generics_0.0.2       broom_0.5.6          ggridges_0.5.2       evaluate_0.14        fastmap_1.0.1       
+ [76] yaml_2.2.1           processx_3.4.2       knitr_1.30           fs_1.4.1             zip_2.0.4           
+ [81] nlme_3.1-149         whisker_0.4          mime_0.9             projpred_2.0.2       xml2_1.3.2          
+ [86] compiler_4.0.3       shinythemes_1.1.2    rstudioapi_0.11      curl_4.3             gamm4_0.2-6         
+ [91] reprex_0.3.0         statmod_1.4.34       stringi_1.5.3        highr_0.8            ps_1.3.3            
+ [96] Brobdingnag_1.2-6    lattice_0.20-41      Matrix_1.2-18        nloptr_1.2.2.1       markdown_1.1        
+[101] shinyjs_1.1          vctrs_0.3.0          pillar_1.4.4         lifecycle_0.2.0      bridgesampling_1.0-0
+[106] estimability_1.3     data.table_1.12.8    insight_0.8.4        httpuv_1.5.3.1       R6_2.4.1            
+[111] promises_1.1.0       rio_0.5.16           codetools_0.2-16     boot_1.3-25          colourpicker_1.0    
+[116] MASS_7.3-53          gtools_3.8.2         assertthat_0.2.1     rprojroot_1.3-2      withr_2.2.0         
+[121] shinystan_2.5.0      multcomp_1.4-13      mgcv_1.8-33          parallel_4.0.3       hms_0.5.3           
+[126] grid_4.0.3           coda_0.19-3          minqa_1.2.4          rmarkdown_2.5        git2r_0.27.1        
+[131] shiny_1.4.0.2        lubridate_1.7.8      base64enc_0.1-3      dygraphs_1.1.1.6    </code></pre>
 </div>
 </div>
 </div>
