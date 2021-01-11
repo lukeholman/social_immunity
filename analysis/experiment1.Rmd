@@ -7,10 +7,6 @@ output:
     code_folding: hide 
 ---
 
-To do: 
-
-- remove 3 model (t+H only)
-- obs time 
 
 ```{r, include=FALSE}
 options(width=120)
@@ -58,7 +54,6 @@ durations <- read_csv("data/data_collection_sheets/experiment_durations.csv") %>
   filter(experiment == 1) %>% select(-experiment)
 
 durations <- bind_rows(durations, tibble(hive = "SkyLab", observation_time_minutes = 90))
-  
 
 outcome_tally <- read_csv(file = "data/clean_data/experiment_1_outcome_tally.csv") %>%
   mutate(outcome = replace(outcome, outcome == "Left of own volition", "Left voluntarily")) %>%
@@ -159,7 +154,7 @@ The model's qualitative results are similar to those from the multinomial model:
 
 ### Run the GLM
 ```{r message=FALSE, warning=FALSE}
-test_dat <- outcome_tally %>% 
+glm_dat <- outcome_tally %>% 
   group_by(hive, treatment, outcome) %>% 
   summarise(n = sum(n)) %>% 
   mutate(left = ifelse(outcome == "Stayed inside the hive", "stayed_inside" ,"left_hive")) %>% 
@@ -169,7 +164,7 @@ test_dat <- outcome_tally %>%
 
 simple_model <- glm(
     cbind(left_hive, stayed_inside) ~ treatment + hive, 
-    data = test_dat, 
+    data = glm_dat, 
     family = "quasibinomial")
 ```
 
@@ -190,18 +185,18 @@ Anova(simple_model, test = "LR", Type = "II")
 
 ### Fit the model
 
-Fit the multinomial logisitic models, with a 3-item response variable describing what happened to each bee introduced to the hive: stayed inside, left voluntarily, or forced out by the other workers. 
+Fit the multinomial logistic models, with a 3-item response variable describing what happened to each bee introduced to the hive: stayed inside, left voluntarily, or forced out by the other workers. 
 
 ```{r}
 if(!file.exists("output/exp1_model.rds")){
 
   exp1_model <- brm(
-    outcome_numeric ~ treatment + hive + observation_time_minutes, 
+    outcome_numeric ~ treatment + hive, 
     data = data_for_categorical_model, 
     prior = c(set_prior("normal(0, 3)", class = "b", dpar = "mu2"),
               set_prior("normal(0, 3)", class = "b", dpar = "mu3")),
-    family = "categorical", save_all_pars = TRUE, sample_prior = TRUE,
-    chains = 4, cores = 1, iter = 5000, seed = 1)
+    family = "categorical", 
+    chains = 4, cores = 4, iter = 5000, seed = 1)
   
   saveRDS(exp1_model, "output/exp1_model.rds") 
 }
@@ -223,15 +218,14 @@ The code chunk below wrangles the raw output of the `summary()` function for `br
 
 ******
 
-***Table S1:*** Table summarising the posterior estimates of each fixed effect in the best-fitting model of Experiment 1. This was a multinomial model with three possible outcomes (stay inside, leave voluntarily, be forced out), and so there are two parameter estimates for the intercept and for each predictor in the model. 'Treatment' is a fixed factor with four levels, and the effects shown here are expressed relative to the 'Intact control' group. 'Hive' was also a fixed factor with four levels; unlike for treatment, we modelled hive using deviation coding, such that the intercept term represents the mean across all hives (in the intact control treatment), and the three hive terms represent the deviation from this mean for three of the four hives. Lastly, observation duration was a continuous predictor expressed to the nearest minute. The $p$ column gives the posterior probability that the true effect size is opposite in sign to what is reported in the Estimate column, similarly to a $p$-value.
+***Table S1:*** Table summarising the posterior estimates of each fixed effect in the best-fitting model of Experiment 1. This was a multinomial model with three possible outcomes (stay inside, leave voluntarily, be forced out), and so there are two parameter estimates for the intercept and for each predictor in the model. 'Treatment' is a fixed factor with four levels, and the effects shown here are expressed relative to the 'Intact control' group. 'Hive' was also a fixed factor with four levels; unlike for treatment, we modelled hive using deviation coding, such that the intercept term represents the mean across all hives (in the intact control treatment), and the three hive terms represent the deviation from this mean for three of the four hives. The $p$ column gives the posterior probability that the true effect size is opposite in sign to what is reported in the Estimate column, similarly to a $p$-value.
 
 ```{r}
 tableS1 <- get_fixed_effects_with_p_values(exp1_model) %>% 
   mutate(mu = map_chr(str_extract_all(Parameter, "mu[:digit:]"), ~ .x[1]),
          Parameter = str_remove_all(Parameter, "mu[:digit:]_"),
          Parameter = str_replace_all(Parameter, "treatment", "Treatment: "),
-         Parameter = str_replace_all(Parameter, "HeatMtreatedLPS", "Heat-treated LPS"),
-         Parameter = str_replace_all(Parameter, "observation_time_minutes", "Observation duration (minutes)")) %>%
+         Parameter = str_replace_all(Parameter, "HeatMtreatedLPS", "Heat-treated LPS")) %>%
   arrange(mu) %>%
   select(-mu, -Rhat, -Bulk_ESS, -Tail_ESS) %>%
   mutate(PP = format(round(PP, 4), nsmall = 4))
@@ -243,8 +237,8 @@ saveRDS(tableS1, file = "figures/tableS1.rds")
 tableS1 %>%
   kable(digits = 3) %>% 
   kable_styling(full_width = FALSE) %>%
-  pack_rows("% bees leaving voluntarily", 1, 8) %>%
-  pack_rows("% bees forced out", 9, 16)
+  pack_rows("% bees leaving voluntarily", 1, 7) %>%
+  pack_rows("% bees forced out", 8, 14)
 ```
 
 
@@ -255,8 +249,7 @@ tableS1 %>%
 ```{r}
 get_posterior_preds <- function(focal_hive){
   new <- expand.grid(treatment = levels(data_for_categorical_model$treatment), 
-                     hive = focal_hive,
-                     observation_time_minutes = 120)
+                     hive = focal_hive)
   
   preds <- fitted(exp1_model, newdata = new, summary = FALSE)
   dimnames(preds) <- list(NULL, new[,1], NULL)
@@ -340,28 +333,6 @@ LOR <- stats_data %>%
 levs <- LOR$LOR %>% unique() %>% sort()
 LOR$LOR <- factor(LOR$LOR, rev(levs[c(3,5,4,2,1,6)]))
 
-# LOR_plot <- LOR %>%
-#   mutate(outcome = str_replace_all(outcome, "Stayed inside the hive", "Stayed inside"),
-#          outcome = factor(outcome, levels = rev(c("Forced out", "Left voluntarily", "Stayed inside")))) %>%
-#   ggplot(aes(comparison, y = LOR, colour = outcome)) + 
-#   geom_vline(xintercept = 0, linetype = 2) + 
-#   geom_vline(xintercept = log(2), linetype = 2, colour = "pink") +
-#   geom_vline(xintercept = -log(2), linetype = 2, colour = "pink") +
-#   stat_pointintervalh(aes(colour = outcome, fill = outcome), 
-#                       .width = c(0.5, 0.95),
-#                       position = position_dodge(0.6), 
-#                       point_colour = "grey26", pch = 21, stroke = 0.4) + 
-#   scale_colour_manual(values = cols) + 
-#   scale_fill_manual(values = cols) + 
-#   xlab("Effect size (posterior log odds ratio)") + 
-#   ylab("Treatment (reference)") + 
-#   theme_bw() +
-#   theme(
-#     text = element_text(family = nice_font),
-#     panel.grid.major.y = element_blank(),
-#     legend.position = "none"
-#   ) 
-
 LOR_plot <- LOR %>%
   mutate(outcome = str_replace_all(outcome, "Stayed inside the hive", "Stayed inside"),
          outcome = factor(outcome, levels = rev(c("Forced out", "Left voluntarily", "Stayed inside")))) %>%
@@ -375,8 +346,8 @@ LOR_plot <- LOR %>%
                       point_colour = "grey26", pch = 21, stroke = 0.4) + 
   scale_colour_manual(values = cols) + 
   scale_fill_manual(values = cols) + 
-  xlab(" \nEffect size (posterior log odds ratio)") + 
-  ylab("Treatment (reference)") + 
+  ylab("Effect size (posterior log odds ratio)") + 
+  xlab("Treatment (reference)") + 
   theme_bw() +
   coord_flip() +
   theme(
