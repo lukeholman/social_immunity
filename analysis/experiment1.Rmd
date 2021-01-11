@@ -7,6 +7,11 @@ output:
     code_folding: hide 
 ---
 
+To do: 
+
+- remove 3 model (t+H only)
+- obs time 
+
 ```{r, include=FALSE}
 options(width=120)
 local({
@@ -146,11 +151,11 @@ outcome_tally %>%
   coord_flip()
 ```
 
-## Run a preliminary, simple model
+## Run the preliminary GLM
 
-The statistical methods below are non-standard, though we believe they have many advantages for this particular experiment (e.g. the ability to model three possible outcomes, incorporate priors, and evaluate evidence without null hypothesis testing). However during peer review, we were asked whether the results 'remained statistically significant' when using standard statistical methods. To address this question, we here present a frequentist Generalised Linear Model (GLM; using `base::glm`), which tests the null hypothesis that the proportion of bees exiting the hive (i.e. the proportion leaving voluntarily + those that were forced out) is equal between treatment groups and hives. The model uses the quasibinomial family, since this is more robust to overdispersion than the binomial family (testing revealed the latter family gave qualitatively identical results).
+The multinomial model below is not commonly used, though we believe it is the right choice for this particular experiment (e.g. because it can model a three-item categorical response variable, and it can incorporate priors). However during peer review, we were asked whether the results were similar when using standard statistical methods. To address this question, we here present a frequentist Generalised Linear Model (GLM; using `base::glm`), which tests the null hypothesis that the proportion of bees exiting the hive (i.e. the proportion leaving voluntarily plus those that were forced out) is equal between treatment groups and hives. The model uses the quasibinomial family, since this family is more robust to overdispersion than the binomial family (though testing revealed both families gave qualitatively identical results).
 
-The model results are similar to those below: bees treated with LPS (either kind) left the hive more often than intact controls, and there were differences between hives in the proportion of bees leaving.
+The model's qualitative results are similar to those from the multinomial model: bees treated with LPS (either kind) left the hive more often than intact controls, and there were differences between hives in the proportion of bees leaving.
 
 ### Run the GLM
 ```{r message=FALSE, warning=FALSE}
@@ -183,23 +188,14 @@ Anova(simple_model, test = "LR", Type = "II")
 
 ## Baysian multinomial model
 
-### Run the models
+### Fit the model
 
-
-Fit three different multinomial logisitic models, with 3 possible outcomes describing what happened to each bee introduced to the hive: stayed inside, left voluntarily, or forced out by the other workers. 
+Fit the multinomial logisitic models, with a 3-item response variable describing what happened to each bee introduced to the hive: stayed inside, left voluntarily, or forced out by the other workers. 
 
 ```{r}
 if(!file.exists("output/exp1_model.rds")){
-  
-  exp1_model_v1 <- brm(
-    outcome_numeric ~ treatment * hive + observation_time_minutes, 
-    data = data_for_categorical_model, 
-    prior = c(set_prior("normal(0, 3)", class = "b", dpar = "mu2"),
-              set_prior("normal(0, 3)", class = "b", dpar = "mu3")),
-    family = "categorical", save_all_pars = TRUE, sample_prior = TRUE,
-    chains = 4, cores = 1, iter = 5000, seed = 1)
-  
-  exp1_model_v2 <- brm(
+
+  exp1_model <- brm(
     outcome_numeric ~ treatment + hive + observation_time_minutes, 
     data = data_for_categorical_model, 
     prior = c(set_prior("normal(0, 3)", class = "b", dpar = "mu2"),
@@ -207,44 +203,14 @@ if(!file.exists("output/exp1_model.rds")){
     family = "categorical", save_all_pars = TRUE, sample_prior = TRUE,
     chains = 4, cores = 1, iter = 5000, seed = 1)
   
-  exp1_model_v3 <- brm(
-    outcome_numeric ~ hive + observation_time_minutes, 
-    data = data_for_categorical_model, 
-    prior = c(set_prior("normal(0, 3)", class = "b", dpar = "mu2"),
-              set_prior("normal(0, 3)", class = "b", dpar = "mu3")),
-    family = "categorical",  save_all_pars = TRUE, sample_prior = TRUE,
-    chains = 4, cores = 1, iter = 5000, seed = 1)
-  
-  posterior_model_probabilities <- tibble(
-    Model = c("treatment * hive + observation_time_minutes",
-              "treatment + hive + observation_time_minutes",
-              "hive + observation_time_minutes"),
-    post_prob = as.numeric(post_prob(exp1_model_v1,
-                                     exp1_model_v2,
-                                     exp1_model_v3))) %>%
-    arrange(-post_prob)
-  
-  saveRDS(exp1_model_v2, "output/exp1_model.rds") # save the top model, treatment + hive
-  saveRDS(posterior_model_probabilities, "output/exp1_post_prob.rds")
+  saveRDS(exp1_model, "output/exp1_model.rds") 
 }
 
 exp1_model <- readRDS("output/exp1_model.rds")
-posterior_model_probabilities <- readRDS("output/exp1_post_prob.rds")
 ```
 
 
-
-
-### Inspect the posterior model probabilities
-
-```{r}
-posterior_model_probabilities %>%
-  kable(digits = 3) %>%
-  kable_styling(full_width = FALSE)
-```
-
-
-### Fixed effects from the top model
+### Parameter estimates from the model
 
 #### Raw output of the `treatment + hive` model
 
@@ -320,7 +286,7 @@ stats_data <- get_posterior_preds(focal_hive = NA)
 ### Make Figure 1
 
 ```{r fig.height=3.4, fig.width=9, fig.showtext = TRUE, warning=FALSE}
-cols <- c("#E69F00", "#009E73", "#0072B2")
+cols <- RColorBrewer::brewer.pal(3, "Set2")
 
 dot_plot <- plotting_data %>%
   left_join(sample_sizes, by = "treatment") %>%
@@ -374,22 +340,45 @@ LOR <- stats_data %>%
 levs <- LOR$LOR %>% unique() %>% sort()
 LOR$LOR <- factor(LOR$LOR, rev(levs[c(3,5,4,2,1,6)]))
 
+# LOR_plot <- LOR %>%
+#   mutate(outcome = str_replace_all(outcome, "Stayed inside the hive", "Stayed inside"),
+#          outcome = factor(outcome, levels = rev(c("Forced out", "Left voluntarily", "Stayed inside")))) %>%
+#   ggplot(aes(comparison, y = LOR, colour = outcome)) + 
+#   geom_vline(xintercept = 0, linetype = 2) + 
+#   geom_vline(xintercept = log(2), linetype = 2, colour = "pink") +
+#   geom_vline(xintercept = -log(2), linetype = 2, colour = "pink") +
+#   stat_pointintervalh(aes(colour = outcome, fill = outcome), 
+#                       .width = c(0.5, 0.95),
+#                       position = position_dodge(0.6), 
+#                       point_colour = "grey26", pch = 21, stroke = 0.4) + 
+#   scale_colour_manual(values = cols) + 
+#   scale_fill_manual(values = cols) + 
+#   xlab("Effect size (posterior log odds ratio)") + 
+#   ylab("Treatment (reference)") + 
+#   theme_bw() +
+#   theme(
+#     text = element_text(family = nice_font),
+#     panel.grid.major.y = element_blank(),
+#     legend.position = "none"
+#   ) 
+
 LOR_plot <- LOR %>%
   mutate(outcome = str_replace_all(outcome, "Stayed inside the hive", "Stayed inside"),
          outcome = factor(outcome, levels = rev(c("Forced out", "Left voluntarily", "Stayed inside")))) %>%
-  ggplot(aes(comparison, y = LOR, colour = outcome)) + 
-  geom_vline(xintercept = 0, linetype = 2) + 
-  geom_vline(xintercept = log(2), linetype = 2, colour = "pink") +
-  geom_vline(xintercept = -log(2), linetype = 2, colour = "pink") +
-  stat_pointintervalh(aes(colour = outcome, fill = outcome), 
+  ggplot(aes(y = comparison, x = LOR, colour = outcome)) + 
+  geom_hline(yintercept = 0, size = 0.3, colour = "grey20") + 
+  geom_hline(yintercept = log(2), linetype = 2, size = 0.6, colour = "grey") +
+  geom_hline(yintercept = -log(2), linetype = 2, size = 0.6, colour = "grey") +
+  stat_pointinterval(aes(colour = outcome, fill = outcome), 
                       .width = c(0.5, 0.95),
                       position = position_dodge(0.6), 
                       point_colour = "grey26", pch = 21, stroke = 0.4) + 
   scale_colour_manual(values = cols) + 
   scale_fill_manual(values = cols) + 
-  xlab("Effect size (posterior log odds ratio)") + 
+  xlab(" \nEffect size (posterior log odds ratio)") + 
   ylab("Treatment (reference)") + 
   theme_bw() +
+  coord_flip() +
   theme(
     text = element_text(family = nice_font),
     panel.grid.major.y = element_blank(),

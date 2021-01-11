@@ -156,11 +156,11 @@ outcome_tally %>%
 
 
 
-## Run a preliminary, simple model
+## Run the preliminary GLM
 
-The statistical methods below are non-standard, though we believe they have many advantages for this particular experiment (e.g. the ability to model three possible outcomes, incorporate priors, and evaluate evidence without null hypothesis testing). However during peer review, we were asked whether the results 'remained statistically significant' when using standard statistical methods. To address this question, we here present a frequentist Generalised Linear Model (GLM; using `base::glm`), which tests the null hypothesis that the proportion of bees exiting the hive (i.e. the proportion leaving voluntarily + those that were forced out) is equal between treatment groups and hives. The model uses the quasibinomial family, since this is more robust to overdispersion than the binomial family (testing revealed the latter family gave qualitatively identical results). 
+The multinomial model below is not commonly used, though we believe it is the right choice for this particular experiment (e.g. because it can model a three-item categorical response variable, and it can incorporate priors). However during peer review, we were asked whether the results were similar when using standard statistical methods. To address this question, we here present a frequentist Generalised Linear Model (GLM; using `base::glm`), which tests the null hypothesis that the proportion of bees exiting the hive (i.e. the proportion leaving voluntarily plus those that were forced out) is equal between treatment groups and hives. The model uses the quasibinomial family, since this family is more robust to overdispersion than the binomial family (though testing revealed both families gave qualitatively identical results).
 
-The model results are similar to those below: bees treated with the CHCs from LPS-treated nestmates left the hive more often than controls, and there were differences between hives in the proportion of bees leaving.
+The model results are similar to those from the multinomial model: bees treated with the CHCs from LPS-treated nestmates left the hive more often than controls, and there were differences between hives in the proportion of bees leaving.
 
 ### Run the GLM
 ```{r message=FALSE, warning=FALSE}
@@ -195,21 +195,14 @@ Anova(simple_model, test = "LR", Type = "II")
 
 ## Baysian multinomial model
 
-### Run the models
+### Fit the model
 
-Fit three different multinomial logisitic models, with 3 possible outcomes describing what happened to each bee introduced to the hive: stayed inside, left voluntarily, or forced out by the other workers. 
+Fit the multinomial logisitic models, with a 3-item response variable describing what happened to each bee introduced to the hive: stayed inside, left voluntarily, or forced out by the other workers. 
 
 ```{r}
 if(!file.exists("output/exp2_model.rds")){
-  exp2_model_v1 <- brm(
-    outcome_numeric ~ treatment * hive + observation_time_minutes, 
-    data = data_for_categorical_model, 
-    prior = c(set_prior("normal(0, 3)", class = "b", dpar = "mu2"),
-              set_prior("normal(0, 3)", class = "b", dpar = "mu3")),
-    family = "categorical", save_all_pars = TRUE, sample_prior = TRUE,
-    chains = 4, cores = 1, iter = 5000, seed = 1)
-  
-  exp2_model_v2 <- brm(
+
+  exp2_model <- brm(
     outcome_numeric ~ treatment + hive + observation_time_minutes, 
     data = data_for_categorical_model, 
     prior = c(set_prior("normal(0, 3)", class = "b", dpar = "mu2"),
@@ -217,39 +210,14 @@ if(!file.exists("output/exp2_model.rds")){
     family = "categorical", save_all_pars = TRUE, sample_prior = TRUE,
     chains = 4, cores = 1, iter = 5000, seed = 1)
   
-  exp2_model_v3 <- brm(
-    outcome_numeric ~ hive + observation_time_minutes, 
-    data = data_for_categorical_model, 
-    prior = c(set_prior("normal(0, 3)", class = "b", dpar = "mu2"),
-              set_prior("normal(0, 3)", class = "b", dpar = "mu3")),
-    family = "categorical",  save_all_pars = TRUE, sample_prior = TRUE,
-    chains = 4, cores = 1, iter = 5000, seed = 1)
-  
-  posterior_model_probabilities <- tibble(
-    Model = c("treatment * hive + observation_time_minutes",
-              "treatment + hive + observation_time_minutes",
-              "hive + observation_time_minutes"),
-    post_prob = as.numeric(post_prob(exp2_model_v1,
-                                     exp2_model_v2,
-                                     exp2_model_v3))) %>%
-    arrange(-post_prob)
-  
-  saveRDS(exp2_model_v2, "output/exp2_model.rds") # save the top model, treatment + hive
-  saveRDS(posterior_model_probabilities, "output/exp2_post_prob.rds")
+  saveRDS(exp2_model, "output/exp2_model.rds")
 }
 
 exp2_model <- readRDS("output/exp2_model.rds")
-posterior_model_probabilities <- readRDS("output/exp2_post_prob.rds")
 ```
 
-### Posterior model probabilites
 
-```{r}
-posterior_model_probabilities %>% 
-  kable(digits = 3) %>% kable_styling()
-```
-
-### Fixed effects from the top model
+### Parameter estimates from the model
 
 #### Raw output of the `treatment + hive` model
 
@@ -327,7 +295,7 @@ stats_data <- get_posterior_preds(focal_hive = NA)
 ### Make Figure 2
 
 ```{r fig.height=6, fig.width=6, fig.showtext = TRUE, warning=FALSE}
-cols <- c("#E69F00", "#009E73", "#0072B2")
+cols <- RColorBrewer::brewer.pal(3, "Set2")
 panel_c_colour <- "#CC79A7"
 
 dot_plot <- plotting_data %>%
@@ -367,9 +335,9 @@ LOR <- plotting_data %>%
 
 LOR_plot <- LOR %>%
   ggplot(aes(LOR, outcome, colour = outcome)) + 
-  geom_vline(xintercept = 0, linetype = 2) +
-  geom_vline(xintercept = log(2), linetype = 2, colour = "pink") +
-  geom_vline(xintercept = -log(2), linetype = 2, colour = "pink") +
+  geom_vline(xintercept = 0, size = 0.3, colour = "grey20") + 
+  geom_vline(xintercept = log(2), linetype = 2, size = 0.6, colour = "grey") +
+  geom_vline(xintercept = -log(2), linetype = 2, size = 0.6, colour = "grey") +
   stat_pointintervalh(aes(colour = outcome, fill = outcome), 
                       position = position_dodge(0.4), 
                       .width = c(0.5, 0.95),
