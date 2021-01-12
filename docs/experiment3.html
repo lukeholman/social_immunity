@@ -442,7 +442,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-01-11
+<strong>Last updated:</strong> 2021-01-12
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -533,16 +533,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree36cb0082e5cea84fded7fedd684717af104eeec2targetblank36cb008a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/36cb0082e5cea84fded7fedd684717af104eeec2" target="_blank">36cb008</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree9c79d22c426e9451b6f58027f8d1f8775fc3f310targetblank9c79d22a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/9c79d22c426e9451b6f58027f8d1f8775fc3f310" target="_blank">9c79d22</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree36cb0082e5cea84fded7fedd684717af104eeec2targetblank36cb008a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree9c79d22c426e9451b6f58027f8d1f8775fc3f310targetblank9c79d22a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/social_immunity/tree/36cb0082e5cea84fded7fedd684717af104eeec2" target="_blank">36cb008</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/social_immunity/tree/9c79d22c426e9451b6f58027f8d1f8775fc3f310" target="_blank">9c79d22</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -557,12 +557,9 @@ Ignored files:
     Ignored:    data/movement data - not used/
     Ignored:    output/exp1_model.rds
     Ignored:    output/exp2_model.rds
-    Ignored:    output/exp2_post_prob.rds
     Ignored:    output/exp3_model.rds
-    Ignored:    output/exp3_post_prob.rds
 
 Unstaged changes:
-    Modified:   analysis/experiment2.Rmd
     Modified:   figures/fig1.pdf
     Modified:   figures/fig2.pdf
     Modified:   figures/fig3.pdf
@@ -610,6 +607,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/9c79d22c426e9451b6f58027f8d1f8775fc3f310/analysis/experiment3.Rmd" target="_blank">9c79d22</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2021-01-12
+</td>
+<td>
+mostly ready
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/social_immunity/a9799c8e69a86ad36afbfd8d19b84f1a9376c2d5/docs/experiment3.html" target="_blank">a9799c8</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2021-01-11
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -1488,30 +1519,6 @@ expt3_counts &lt;- experiment3 %&gt;%
   filter(!is.na(n_touching)) %&gt;%
   mutate(treatment = factor(treatment, c(&quot;Ringers&quot;, &quot;LPS&quot;))) %&gt;%
   mutate(hive = C(factor(hive), sum)) # sum coding for hive</code></pre>
-<pre class="r"><code>time &lt;- experiment3 %&gt;%
-  group_by(treatment, hive, minute) %&gt;%
-  summarise(n = sum(touching),
-            total = n(),
-            prop = n / total, .groups = &quot;drop&quot;) 
-
-time %&gt;%
-  ggplot(aes(minute, prop, colour = treatment))  +
-  geom_line() +
-  facet_wrap(~ hive)
-
-repeated &lt;- brm(touching ~ treatment * hive * minute + (minute | pairID), 
-                prior = prior(normal(0, 1.5), class = &quot;b&quot;),
-                iter = 4000, 
-                data = experiment3 %&gt;%
-                  mutate(minute = as.numeric(scale(minute))), family = &quot;bernoulli&quot;)
-
-new &lt;- experiment3 %&gt;%
-  mutate(minute = as.numeric(scale(minute))) %&gt;%
-  select(hive, treatment, minute) %&gt;% distinct()
-data.frame(new, pred=predict(gam_model, newdata = new, re.form = NA, type = &quot;response&quot;, se.fit =T)) %&gt;%
-  ggplot(aes(minute, pred, colour = treatment))  +
-  geom_line() +
-  facet_wrap(~ hive)</code></pre>
 </div>
 <div id="inspect-the-raw-data" class="section level2 tabset tabset-fade">
 <h2>Inspect the raw data</h2>
@@ -1868,13 +1875,13 @@ raw_histogram &lt;- histo_data %&gt;%
 
 rm(histo_data)
 raw_histogram</code></pre>
-<p><img src="figure/experiment3.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/experiment3.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-7-1">
-Past versions of unnamed-chunk-7-1.png
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
+Past versions of unnamed-chunk-6-1.png
 </button>
 </p>
-<div id="fig-unnamed-chunk-7-1" class="collapse">
+<div id="fig-unnamed-chunk-6-1" class="collapse">
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
 <thead>
@@ -1893,18 +1900,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/lukeholman/social_immunity/blob/6ee79e9602b73c43f8348e706a8b9ae29528645f/docs/figure/experiment3.Rmd/unnamed-chunk-7-1.png" target="_blank">6ee79e9</a>
-</td>
-<td>
-lukeholman
-</td>
-<td>
-2020-08-21
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/social_immunity/blob/f18896809274efd96a2067f28a5636542096f06a/docs/figure/experiment3.Rmd/unnamed-chunk-7-1.png" target="_blank">f188968</a>
+<a href="https://github.com/lukeholman/social_immunity/blob/fa8c1796047c167290e18c196f75e96506390a8a/docs/figure/experiment3.Rmd/unnamed-chunk-6-1.png" target="_blank">fa8c179</a>
 </td>
 <td>
 lukeholman
@@ -1915,24 +1911,35 @@ lukeholman
 </tr>
 <tr>
 <td>
-<a href="https://github.com/lukeholman/social_immunity/blob/8c3b471bcdb8a8ee8911bb2a1ea753bcf306279f/docs/figure/experiment3.Rmd/unnamed-chunk-7-1.png" target="_blank">8c3b471</a>
+<a href="https://github.com/lukeholman/social_immunity/blob/3d21d6aaf2f90aaf412a741d0c57e80271f16203/docs/figure/experiment3.Rmd/unnamed-chunk-6-1.png" target="_blank">3d21d6a</a>
 </td>
 <td>
 lukeholman
 </td>
 <td>
-2020-04-21
+2020-05-02
 </td>
 </tr>
 <tr>
 <td>
-<a href="https://github.com/lukeholman/social_immunity/blob/aae65cfb1436802ba2a4d3ed194b2888e7e659f7/docs/figure/experiment3.Rmd/unnamed-chunk-7-1.png" target="_blank">aae65cf</a>
+<a href="https://github.com/lukeholman/social_immunity/blob/d56c18fa136535861f5b75ad28e86faddfff7f69/docs/figure/experiment3.Rmd/unnamed-chunk-6-1.png" target="_blank">d56c18f</a>
 </td>
 <td>
 lukeholman
 </td>
 <td>
-2019-10-17
+2020-04-30
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/4bd75dc3297a0fe13ddc2359309131d596f112c9/docs/figure/experiment3.Rmd/unnamed-chunk-6-1.png" target="_blank">4bd75dc</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-04-30
 </td>
 </tr>
 </tbody>
@@ -1946,84 +1953,23 @@ lukeholman
 <h3>Run the models</h3>
 <p>Fit three different binomial models, where the response is either a 0 (if bees were not in contact) or 1 (if they were).</p>
 <pre class="r"><code>if(!file.exists(&quot;output/exp3_model.rds&quot;)){
-  exp3_model_v1 &lt;- brm(
-    n_touching | trials(n) ~ treatment * hive + (1 | pairID), 
-    data = expt3_counts %&gt;% mutate(n = n_touching + n_not_touching), 
-    prior = c(set_prior(&quot;normal(0, 3)&quot;, class = &quot;b&quot;)),
-    family = &quot;binomial&quot;, save_all_pars = TRUE, sample_prior = TRUE,
-    chains = 4, cores = 1, iter = 20000, seed = 1)
-  
-  exp3_model_v2 &lt;- brm(
+ 
+  exp3_model &lt;- brm(
     n_touching | trials(n) ~ treatment + hive + (1 | pairID), 
     data = expt3_counts %&gt;% mutate(n = n_touching + n_not_touching), 
     prior = c(set_prior(&quot;normal(0, 3)&quot;, class = &quot;b&quot;)),
-    family = &quot;binomial&quot;, save_all_pars = TRUE, sample_prior = TRUE,
-    chains = 4, cores = 1, iter = 20000, seed = 1)
+    family = &quot;binomial&quot;, 
+    chains = 4, cores = 4, iter = 20000, seed = 1)
   
-  exp3_model_v3 &lt;- brm(
-    n_touching | trials(n) ~ hive + (1 | pairID), 
-    data = expt3_counts %&gt;% mutate(n = n_touching + n_not_touching), 
-    prior = c(set_prior(&quot;normal(0, 3)&quot;, class = &quot;b&quot;)),
-    family = &quot;binomial&quot;,  save_all_pars = TRUE, sample_prior = TRUE,
-    chains = 4, cores = 1, iter = 20000, seed = 1)
-  
-  posterior_model_probabilities &lt;- tibble(
-    Model = c(&quot;treatment * hive + observation_time_minutes&quot;,
-              &quot;treatment + hive + observation_time_minutes&quot;,
-              &quot;hive + observation_time_minutes&quot;),
-    post_prob = as.numeric(post_prob(exp3_model_v1,
-                                     exp3_model_v2,
-                                     exp3_model_v3))) %&gt;%
-    arrange(-post_prob)
-  
-  saveRDS(exp3_model_v2, &quot;output/exp3_model.rds&quot;) # save the top model, treatment + hive
-  saveRDS(posterior_model_probabilities, &quot;output/exp3_post_prob.rds&quot;)
+  saveRDS(exp3_model, &quot;output/exp3_model.rds&quot;) 
 }
-exp3_model &lt;- readRDS(&quot;output/exp3_model.rds&quot;)
-model_probabilities &lt;- readRDS(&quot;output/exp3_post_prob.rds&quot;)</code></pre>
+exp3_model &lt;- readRDS(&quot;output/exp3_model.rds&quot;)</code></pre>
 </div>
-<div id="posterior-model-probabilites" class="section level3">
-<h3>Posterior model probabilites</h3>
-<pre class="r"><code>model_probabilities %&gt;% 
-  kable(digits = 3) %&gt;% kable_styling(full_width = FALSE)</code></pre>
-<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-Model
-</th>
-<th style="text-align:right;">
-post_prob
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-hive + observation_time_minutes
-</td>
-<td style="text-align:right;">
-0.720
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-treatment + hive + observation_time_minutes
-</td>
-<td style="text-align:right;">
-0.278
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-treatment * hive + observation_time_minutes
-</td>
-<td style="text-align:right;">
-0.001
-</td>
-</tr>
-</tbody>
-</table>
+<div id="posterior-predictive-check" class="section level3">
+<h3>Posterior predictive check</h3>
+<p>This plot shows ten predictions from the posterior (pale blue) as well as the original data (dark blue), for the proportion of time spent in close contact (0-100%). The predicted time in contact is similar to the real data, illustrating that the model is able to recapitulate the original data fairly closely (a necessary requirement for making inferences from the model).</p>
+<pre class="r"><code>pp_check(exp3_model, nsamples = 20)</code></pre>
+<p><img src="figure/experiment3.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="fixed-effects-from-the-top-model" class="section level3">
 <h3>Fixed effects from the top model</h3>
@@ -2032,23 +1978,23 @@ treatment * hive + observation_time_minutes
 <pre class="r"><code>summary(exp3_model)</code></pre>
 <pre style="max-height: 300px;"><code> Family: binomial 
   Links: mu = logit 
-Formula: n_touching | trials(n) ~ treatment + hive + (1 | tube) 
+Formula: n_touching | trials(n) ~ treatment + hive + (1 | pairID) 
    Data: expt3_counts %&gt;% mutate(n = n_touching + n_not_tou (Number of observations: 439) 
 Samples: 4 chains, each with iter = 20000; warmup = 10000; thin = 1;
          total post-warmup samples = 40000
 
 Group-Level Effects: 
-~tube (Number of levels: 439) 
+~pairID (Number of levels: 439) 
               Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-sd(Intercept)     2.02      0.08     1.87     2.19 1.00     3481     6133
+sd(Intercept)     2.02      0.08     1.86     2.19 1.00     2388     5155
 
 Population-Level Effects: 
              Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-Intercept        1.68      0.14     1.40     1.96 1.00     1542     2621
-treatmentLPS    -0.37      0.20    -0.76     0.02 1.00     1508     3329
-hive1           -0.20      0.17    -0.54     0.14 1.01     1423     2879
-hive2            0.14      0.16    -0.16     0.46 1.00     1302     2268
-hive3           -0.23      0.18    -0.58     0.12 1.00     1245     2518
+Intercept        1.67      0.14     1.40     1.95 1.00      933     2154
+treatmentLPS    -0.37      0.20    -0.76     0.02 1.01      785     1556
+hive1           -0.21      0.17    -0.55     0.13 1.01      757     1712
+hive2            0.15      0.16    -0.17     0.48 1.01      761     1595
+hive3           -0.23      0.18    -0.58     0.12 1.01      789     1555
 
 Samples were drawn using sampling(NUTS). For each parameter, Bulk_ESS
 and Tail_ESS are effective sample size measures, and Rhat is the potential
@@ -2106,16 +2052,16 @@ PP
 Intercept
 </td>
 <td style="text-align:right;">
-1.678
+1.668
 </td>
 <td style="text-align:right;">
-0.141
+0.138
 </td>
 <td style="text-align:right;">
-1.401
+1.400
 </td>
 <td style="text-align:right;">
-1.960
+1.946
 </td>
 <td style="text-align:left;">
 0.0000
@@ -2129,19 +2075,19 @@ Intercept
 Treatment: LPS
 </td>
 <td style="text-align:right;">
--0.369
+-0.368
 </td>
 <td style="text-align:right;">
-0.199
+0.197
 </td>
 <td style="text-align:right;">
--0.763
+-0.759
 </td>
 <td style="text-align:right;">
-0.022
+0.018
 </td>
 <td style="text-align:left;">
-0.0328
+0.0316
 </td>
 <td style="text-align:left;">
 *
@@ -2152,19 +2098,19 @@ Treatment: LPS
 hive1
 </td>
 <td style="text-align:right;">
--0.198
+-0.208
 </td>
 <td style="text-align:right;">
-0.175
+0.171
 </td>
 <td style="text-align:right;">
--0.539
+-0.547
 </td>
 <td style="text-align:right;">
-0.137
+0.126
 </td>
 <td style="text-align:left;">
-0.1300
+0.1110
 </td>
 <td style="text-align:left;">
 </td>
@@ -2174,19 +2120,19 @@ hive1
 hive2
 </td>
 <td style="text-align:right;">
-0.145
+0.148
 </td>
 <td style="text-align:right;">
-0.158
+0.164
 </td>
 <td style="text-align:right;">
--0.157
+-0.171
 </td>
 <td style="text-align:right;">
-0.462
+0.476
 </td>
 <td style="text-align:left;">
-0.1800
+0.1836
 </td>
 <td style="text-align:left;">
 </td>
@@ -2196,21 +2142,22 @@ hive2
 hive3
 </td>
 <td style="text-align:right;">
--0.227
+-0.234
 </td>
 <td style="text-align:right;">
-0.179
+0.177
 </td>
 <td style="text-align:right;">
--0.582
+-0.578
 </td>
 <td style="text-align:right;">
-0.121
+0.117
 </td>
 <td style="text-align:left;">
-0.1021
+0.0924
 </td>
 <td style="text-align:left;">
+~
 </td>
 </tr>
 </tbody>
@@ -2292,67 +2239,7 @@ p &lt;- cowplot::plot_grid(raw_histogram,
                         nrow = 1, align = &#39;h&#39;, axis = &#39;l&#39;)
 ggsave(plot = p, filename = &quot;figures/fig3.pdf&quot;, height = 3.2, width = 8.6)
 p</code></pre>
-<p><img src="figure/experiment3.Rmd/unnamed-chunk-12-1.png" width="825.6" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-12-1">
-Past versions of unnamed-chunk-12-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-12-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/social_immunity/blob/6ee79e9602b73c43f8348e706a8b9ae29528645f/docs/figure/experiment3.Rmd/unnamed-chunk-12-1.png" target="_blank">6ee79e9</a>
-</td>
-<td>
-lukeholman
-</td>
-<td>
-2020-08-21
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/social_immunity/blob/fa8c1796047c167290e18c196f75e96506390a8a/docs/figure/experiment3.Rmd/unnamed-chunk-12-1.png" target="_blank">fa8c179</a>
-</td>
-<td>
-lukeholman
-</td>
-<td>
-2020-05-02
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/social_immunity/blob/f18896809274efd96a2067f28a5636542096f06a/docs/figure/experiment3.Rmd/unnamed-chunk-12-1.png" target="_blank">f188968</a>
-</td>
-<td>
-lukeholman
-</td>
-<td>
-2020-05-02
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p><strong><em>Figure 3:</em></strong> Panel A shows the frequency distribution of the % time in close contact, for pairs of bees from the LPS treatment and the Ringers control. Panel B shows the posterior estimates of the mean % time spent in close contact; the details of the quantile dot plot and error bars are the same as described for Figure 1. Panel C shows the effect size (LOR; log odds ratio) associated with the difference in means in Panel B.</p>
+<p><img src="figure/experiment3.Rmd/unnamed-chunk-11-1.png" width="825.6" style="display: block; margin: auto;" /> <strong><em>Figure 3:</em></strong> Panel A shows the frequency distribution of the % time in close contact, for pairs of bees from the LPS treatment and the Ringers control. Panel B shows the posterior estimates of the mean % time spent in close contact; the details of the quantile dot plot and error bars are the same as described for Figure 1. Panel C shows the effect size (LOR; log odds ratio) associated with the difference in means in Panel B.</p>
 </div>
 <div id="hypothesis-testing-and-effect-sizes" class="section level2">
 <h2>Hypothesis testing and effect sizes</h2>
@@ -2425,16 +2312,16 @@ PP
 Absolute difference in % time in close contact
 </td>
 <td style="text-align:right;">
-5.538
+5.551
 </td>
 <td style="text-align:right;">
-3.006
+3.004
 </td>
 <td style="text-align:right;">
--0.330
+-0.269
 </td>
 <td style="text-align:right;">
-11.495
+11.519
 </td>
 <td style="text-align:left;">
 </td>
@@ -2446,19 +2333,19 @@ Absolute difference in % time in close contact
 Log odds ratio
 </td>
 <td style="text-align:right;">
--0.369
+-0.368
 </td>
 <td style="text-align:right;">
-0.199
+0.197
 </td>
 <td style="text-align:right;">
--0.763
+-0.759
 </td>
 <td style="text-align:right;">
-0.022
+0.018
 </td>
 <td style="text-align:left;">
-0.0328
+0.0316
 </td>
 <td style="text-align:left;">
 *

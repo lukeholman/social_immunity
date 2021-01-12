@@ -442,7 +442,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-01-11
+<strong>Last updated:</strong> 2021-01-12
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -533,16 +533,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree78386bb2dbe2918ba91bc5f7ce791f9a4dd70e10targetblank78386bba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/78386bb2dbe2918ba91bc5f7ce791f9a4dd70e10" target="_blank">78386bb</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree9c79d22c426e9451b6f58027f8d1f8775fc3f310targetblank9c79d22a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/9c79d22c426e9451b6f58027f8d1f8775fc3f310" target="_blank">9c79d22</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree78386bb2dbe2918ba91bc5f7ce791f9a4dd70e10targetblank78386bba" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree9c79d22c426e9451b6f58027f8d1f8775fc3f310targetblank9c79d22a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/social_immunity/tree/78386bb2dbe2918ba91bc5f7ce791f9a4dd70e10" target="_blank">78386bb</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/social_immunity/tree/9c79d22c426e9451b6f58027f8d1f8775fc3f310" target="_blank">9c79d22</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -557,9 +557,7 @@ Ignored files:
     Ignored:    data/movement data - not used/
     Ignored:    output/exp1_model.rds
     Ignored:    output/exp2_model.rds
-    Ignored:    output/exp2_post_prob.rds
     Ignored:    output/exp3_model.rds
-    Ignored:    output/exp3_post_prob.rds
 
 Unstaged changes:
     Modified:   figures/fig1.pdf
@@ -569,6 +567,8 @@ Unstaged changes:
     Modified:   figures/tableS2.rds
     Modified:   figures/tableS3.rds
     Modified:   figures/tableS4.rds
+    Modified:   figures/tableS5.rds
+    Modified:   figures/tableS6.rds
 
 </code></pre>
 <p>
@@ -607,6 +607,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/9c79d22c426e9451b6f58027f8d1f8775fc3f310/analysis/experiment2.Rmd" target="_blank">9c79d22</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2021-01-12
+</td>
+<td>
+mostly ready
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/social_immunity/939ecd06a19a25f2d28bc1d779cec2ff4b1a7001/docs/experiment2.html" target="_blank">939ecd0</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2021-01-11
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1837,7 +1871,7 @@ lukeholman
 <p>The model results are similar to those from the multinomial model: bees treated with the CHCs from LPS-treated nestmates left the hive more often than controls, and there were differences between hives in the proportion of bees leaving.</p>
 <div id="run-the-glm" class="section level3">
 <h3>Run the GLM</h3>
-<pre class="r"><code>test_dat &lt;- outcome_tally %&gt;% 
+<pre class="r"><code>glm_dat &lt;- outcome_tally %&gt;% 
   group_by(hive, treatment, outcome) %&gt;% 
   summarise(n = sum(n)) %&gt;% 
   mutate(left = ifelse(outcome == &quot;Stayed inside&quot;, &quot;stayed_inside&quot; ,&quot;left_hive&quot;)) %&gt;% 
@@ -1847,7 +1881,7 @@ lukeholman
 
 simple_model &lt;- glm(
     cbind(left_hive, stayed_inside) ~ treatment + hive, 
-    data = test_dat, 
+    data = glm_dat, 
     family = &quot;quasibinomial&quot;)</code></pre>
 </div>
 <div id="inspect-model-coefficients-and-p-values" class="section level3">
@@ -1857,7 +1891,7 @@ simple_model &lt;- glm(
 <pre><code>
 Call:
 glm(formula = cbind(left_hive, stayed_inside) ~ treatment + hive, 
-    family = &quot;quasibinomial&quot;, data = test_dat)
+    family = &quot;quasibinomial&quot;, data = glm_dat)
 
 Deviance Residuals: 
       1        2        3        4        5        6        7        8  
@@ -1898,21 +1932,76 @@ Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&
 <h2>Baysian multinomial model</h2>
 <div id="fit-the-model" class="section level3">
 <h3>Fit the model</h3>
-<p>Fit the multinomial logisitic models, with a 3-item response variable describing what happened to each bee introduced to the hive: stayed inside, left voluntarily, or forced out by the other workers.</p>
+<p>Fit the multinomial logistic models, with a 3-item response variable describing what happened to each bee introduced to the hive: stayed inside, left voluntarily, or forced out by the other workers.</p>
 <pre class="r"><code>if(!file.exists(&quot;output/exp2_model.rds&quot;)){
 
   exp2_model &lt;- brm(
-    outcome_numeric ~ treatment + hive + observation_time_minutes, 
+    outcome_numeric ~ treatment + hive, 
     data = data_for_categorical_model, 
     prior = c(set_prior(&quot;normal(0, 3)&quot;, class = &quot;b&quot;, dpar = &quot;mu2&quot;),
               set_prior(&quot;normal(0, 3)&quot;, class = &quot;b&quot;, dpar = &quot;mu3&quot;)),
-    family = &quot;categorical&quot;, save_all_pars = TRUE, sample_prior = TRUE,
-    chains = 4, cores = 1, iter = 5000, seed = 1)
+    family = &quot;categorical&quot;,
+    chains = 4, cores = 4, iter = 5000, seed = 1)
   
   saveRDS(exp2_model, &quot;output/exp2_model.rds&quot;)
 }
 
 exp2_model &lt;- readRDS(&quot;output/exp2_model.rds&quot;)</code></pre>
+</div>
+<div id="posterior-predictive-check" class="section level3">
+<h3>Posterior predictive check</h3>
+<p>This plot shows ten predictions from the posterior (pale blue) as well as the original data (dark blue), for the three categorical outcomes (1: stayed inside, 2: left voluntarily, 3: forced out). The predicted number of bees in each outcome category is similar to the real data, illustrating that the model is able to recapitulate the original data fairly closely (a necessary requirement for making inferences from the model).</p>
+<pre class="r"><code>pp_check(exp2_model, type = &quot;hist&quot;, nsamples = 8)</code></pre>
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="figure/experiment2.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-1">
+Past versions of unnamed-chunk-11-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-11-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/8c3b471bcdb8a8ee8911bb2a1ea753bcf306279f/docs/figure/experiment2.Rmd/unnamed-chunk-11-1.png" target="_blank">8c3b471</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-04-21
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/1ce9e19446a3c5559528bd2605aef694c373efa0/docs/figure/experiment2.Rmd/unnamed-chunk-11-1.png" target="_blank">1ce9e19</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-04-21
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="parameter-estimates-from-the-model" class="section level3">
 <h3>Parameter estimates from the model</h3>
@@ -1921,25 +2010,23 @@ exp2_model &lt;- readRDS(&quot;output/exp2_model.rds&quot;)</code></pre>
 <pre class="r"><code>summary(exp2_model)</code></pre>
 <pre style="max-height: 300px;"><code> Family: categorical 
   Links: mu2 = logit; mu3 = logit 
-Formula: outcome_numeric ~ treatment + hive + observation_time_minutes 
+Formula: outcome_numeric ~ treatment + hive 
    Data: data_for_categorical_model (Number of observations: 585) 
 Samples: 4 chains, each with iter = 5000; warmup = 2500; thin = 1;
          total post-warmup samples = 10000
 
 Population-Level Effects: 
-                             Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-mu2_Intercept                   -6.37      6.67   -19.69     6.68 1.00     3993     5078
-mu3_Intercept                   -5.18      6.71   -18.32     7.89 1.00     4124     5202
-mu2_treatmentLPS                 0.38      0.44    -0.48     1.25 1.00     9937     7148
-mu2_hive1                        0.11      1.52    -2.87     3.08 1.00     4029     5114
-mu2_hive2                       -0.18      0.68    -1.51     1.16 1.00     4964     6483
-mu2_hive3                        0.08      2.53    -4.84     5.11 1.00     4134     5283
-mu2_observation_time_minutes     0.03      0.07    -0.10     0.16 1.00     3993     5015
-mu3_treatmentLPS                 1.10      0.43     0.29     1.99 1.00     8715     6616
-mu3_hive1                       -0.03      1.54    -3.06     2.97 1.00     4022     5092
-mu3_hive2                       -0.85      0.71    -2.27     0.49 1.00     4813     6207
-mu3_hive3                        0.05      2.55    -4.89     5.09 1.00     4203     5413
-mu3_observation_time_minutes     0.01      0.07    -0.12     0.15 1.00     4104     5308
+                 Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+mu2_Intercept       -3.51      0.36    -4.26    -2.86 1.00     9895     7339
+mu3_Intercept       -3.75      0.38    -4.56    -3.05 1.00     9718     6686
+mu2_treatmentLPS     0.37      0.44    -0.48     1.26 1.00    11768     7122
+mu2_hive1            0.75      0.34     0.08     1.41 1.00     9025     7045
+mu2_hive2           -0.39      0.45    -1.32     0.41 1.00     9543     6168
+mu2_hive3           -0.99      0.49    -2.05    -0.11 1.00     8307     6067
+mu3_treatmentLPS     1.10      0.43     0.29     1.98 1.00    11232     7620
+mu3_hive1            0.29      0.35    -0.42     0.97 1.00     9145     7251
+mu3_hive2           -0.96      0.48    -2.00    -0.10 1.00     8937     6341
+mu3_hive3           -0.48      0.38    -1.25     0.23 1.00     9950     6433
 
 Samples were drawn using sampling(NUTS). For each parameter, Bulk_ESS
 and Tail_ESS are effective sample size measures, and Rhat is the potential
@@ -1949,12 +2036,11 @@ scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 <h4>Formatted <code>brms</code> output for Table S3</h4>
 <p>The code chunk below wrangles the raw output of the <code>summary()</code> function for <code>brms</code> models into a more readable table of results, and also adds ‘Bayesian p-values’ (i.e. the posterior probability that the true effect size has the same sign as the reported effect).</p>
 <hr />
-<p><strong><em>Table S3:</em></strong> Table summarising the posterior estimates of each fixed effect in the best-fitting model of Experiment 2. This was a multinomial model with three possible outcomes (stay inside, leave voluntarily, be forced out), and so there are two parameter estimates for the intercept and for each predictor in the model. ‘Treatment’ is a fixed factor with two levels, and the effect of LPS shown here is expressed relative to the ‘Ringers’ treatment. ‘Hive’ was a fixed factor with four levels; unlike for treatment, we modelled hive using deviation coding, such that the intercept term represents the mean across all hives (in the Ringers treatment), and the three hive terms represent the deviation from this mean for three of the four hives. Lastly, observation duration was a continuous predictor expressed to the nearest minute. The PP column gives the posterior probability that the true effect size is opposite in sign to what is reported in the Estimate column, similarly to a <span class="math inline">\(p\)</span>-value.</p>
+<p><strong><em>Table S3:</em></strong> Table summarising the posterior estimates of each fixed effect in the best-fitting model of Experiment 2. This was a multinomial model with three possible outcomes (stay inside, leave voluntarily, be forced out), and so there are two parameter estimates for the intercept and for each predictor in the model. ‘Treatment’ is a fixed factor with two levels, and the effect of LPS shown here is expressed relative to the ‘Ringers’ treatment. ‘Hive’ was a fixed factor with four levels; unlike for treatment, we modelled hive using deviation coding, such that the intercept term represents the mean across all hives (in the Ringers treatment), and the three hive terms represent the deviation from this mean for three of the four hives. The PP column gives the posterior probability that the true effect size is opposite in sign to what is reported in the Estimate column, similarly to a <span class="math inline">\(p\)</span>-value.</p>
 <pre class="r"><code>tableS3 &lt;- get_fixed_effects_with_p_values(exp2_model) %&gt;% 
   mutate(mu = map_chr(str_extract_all(Parameter, &quot;mu[:digit:]&quot;), ~ .x[1]),
          Parameter = str_remove_all(Parameter, &quot;mu[:digit:]_&quot;),
-         Parameter = str_replace_all(Parameter, &quot;treatment&quot;, &quot;Treatment: &quot;),
-         Parameter = str_replace_all(Parameter, &quot;observation_time_minutes&quot;, &quot;Observation duration (minutes)&quot;)) %&gt;%
+         Parameter = str_replace_all(Parameter, &quot;treatment&quot;, &quot;Treatment: &quot;)) %&gt;%
   arrange(mu) %&gt;%
   select(-mu, -Rhat, -Bulk_ESS, -Tail_ESS) %&gt;%
   mutate(PP = format(round(PP, 4), nsmall = 4))
@@ -1966,8 +2052,8 @@ saveRDS(tableS3, file = &quot;figures/tableS3.rds&quot;)
 tableS3 %&gt;%
   kable(digits = 3) %&gt;% 
   kable_styling(full_width = FALSE) %&gt;%
-  pack_rows(&quot;% bees leaving voluntarily&quot;, 1, 6) %&gt;%
-  pack_rows(&quot;% bees forced out&quot;, 7, 12)</code></pre>
+  pack_rows(&quot;% bees leaving voluntarily&quot;, 1, 5) %&gt;%
+  pack_rows(&quot;% bees forced out&quot;, 6, 10)</code></pre>
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -1994,7 +2080,7 @@ PP
 </tr>
 </thead>
 <tbody>
-<tr grouplength="6">
+<tr grouplength="5">
 <td colspan="7" style="border-bottom: 1px solid;">
 <strong>% bees leaving voluntarily</strong>
 </td>
@@ -2004,21 +2090,22 @@ PP
 Intercept
 </td>
 <td style="text-align:right;">
--6.368
+-3.511
 </td>
 <td style="text-align:right;">
-6.669
+0.356
 </td>
 <td style="text-align:right;">
--19.689
+-4.262
 </td>
 <td style="text-align:right;">
-6.679
+-2.859
 </td>
 <td style="text-align:left;">
-0.1683
+0.0000
 </td>
 <td style="text-align:left;">
+***
 </td>
 </tr>
 <tr>
@@ -2026,19 +2113,19 @@ Intercept
 Treatment: LPS
 </td>
 <td style="text-align:right;">
-0.377
+0.375
 </td>
 <td style="text-align:right;">
-0.439
+0.441
 </td>
 <td style="text-align:right;">
 -0.480
 </td>
 <td style="text-align:right;">
-1.245
+1.259
 </td>
 <td style="text-align:left;">
-0.1974
+0.1962
 </td>
 <td style="text-align:left;">
 </td>
@@ -2048,21 +2135,22 @@ Treatment: LPS
 hive1
 </td>
 <td style="text-align:right;">
-0.111
+0.753
 </td>
 <td style="text-align:right;">
-1.522
+0.341
 </td>
 <td style="text-align:right;">
--2.868
+0.084
 </td>
 <td style="text-align:right;">
-3.075
+1.410
 </td>
 <td style="text-align:left;">
-0.4657
+0.0146
 </td>
 <td style="text-align:left;">
+*
 </td>
 </tr>
 <tr>
@@ -2070,19 +2158,19 @@ hive1
 hive2
 </td>
 <td style="text-align:right;">
--0.183
+-0.394
 </td>
 <td style="text-align:right;">
-0.679
+0.446
 </td>
 <td style="text-align:right;">
--1.513
+-1.320
 </td>
 <td style="text-align:right;">
-1.160
+0.407
 </td>
 <td style="text-align:left;">
-0.3902
+0.1867
 </td>
 <td style="text-align:left;">
 </td>
@@ -2092,46 +2180,25 @@ hive2
 hive3
 </td>
 <td style="text-align:right;">
-0.082
+-0.991
 </td>
 <td style="text-align:right;">
-2.531
+0.493
 </td>
 <td style="text-align:right;">
--4.835
+-2.046
 </td>
 <td style="text-align:right;">
-5.113
+-0.107
 </td>
 <td style="text-align:left;">
-0.4913
+0.0130
 </td>
 <td style="text-align:left;">
+*
 </td>
 </tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Observation duration (minutes)
-</td>
-<td style="text-align:right;">
-0.029
-</td>
-<td style="text-align:right;">
-0.068
-</td>
-<td style="text-align:right;">
--0.103
-</td>
-<td style="text-align:right;">
-0.165
-</td>
-<td style="text-align:left;">
-0.3366
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr grouplength="6">
+<tr grouplength="5">
 <td colspan="7" style="border-bottom: 1px solid;">
 <strong>% bees forced out</strong>
 </td>
@@ -2141,21 +2208,22 @@ Observation duration (minutes)
 Intercept
 </td>
 <td style="text-align:right;">
--5.179
+-3.753
 </td>
 <td style="text-align:right;">
-6.708
+0.383
 </td>
 <td style="text-align:right;">
--18.321
+-4.559
 </td>
 <td style="text-align:right;">
-7.894
+-3.053
 </td>
 <td style="text-align:left;">
-0.2217
+0.0000
 </td>
 <td style="text-align:left;">
+***
 </td>
 </tr>
 <tr>
@@ -2166,16 +2234,16 @@ Treatment: LPS
 1.105
 </td>
 <td style="text-align:right;">
-0.433
+0.432
 </td>
 <td style="text-align:right;">
-0.291
+0.289
 </td>
 <td style="text-align:right;">
-1.989
+1.984
 </td>
 <td style="text-align:left;">
-0.0039
+0.0035
 </td>
 <td style="text-align:left;">
 **
@@ -2186,19 +2254,19 @@ Treatment: LPS
 hive1
 </td>
 <td style="text-align:right;">
--0.030
+0.289
 </td>
 <td style="text-align:right;">
-1.544
+0.350
 </td>
 <td style="text-align:right;">
--3.059
+-0.421
 </td>
 <td style="text-align:right;">
-2.971
+0.966
 </td>
 <td style="text-align:left;">
-0.4900
+0.1970
 </td>
 <td style="text-align:left;">
 </td>
@@ -2208,21 +2276,22 @@ hive1
 hive2
 </td>
 <td style="text-align:right;">
--0.847
+-0.959
 </td>
 <td style="text-align:right;">
-0.705
+0.485
 </td>
 <td style="text-align:right;">
--2.266
+-1.998
 </td>
 <td style="text-align:right;">
-0.490
+-0.095
 </td>
 <td style="text-align:left;">
-0.1120
+0.0127
 </td>
 <td style="text-align:left;">
+*
 </td>
 </tr>
 <tr>
@@ -2230,43 +2299,22 @@ hive2
 hive3
 </td>
 <td style="text-align:right;">
-0.049
+-0.485
 </td>
 <td style="text-align:right;">
-2.554
+0.378
 </td>
 <td style="text-align:right;">
--4.892
+-1.248
 </td>
 <td style="text-align:right;">
-5.089
+0.227
 </td>
 <td style="text-align:left;">
-0.4928
+0.0967
 </td>
 <td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Observation duration (minutes)
-</td>
-<td style="text-align:right;">
-0.015
-</td>
-<td style="text-align:right;">
-0.069
-</td>
-<td style="text-align:right;">
--0.118
-</td>
-<td style="text-align:right;">
-0.149
-</td>
-<td style="text-align:left;">
-0.4140
-</td>
-<td style="text-align:left;">
+~
 </td>
 </tr>
 </tbody>
@@ -2280,8 +2328,7 @@ Observation duration (minutes)
 <h3>Derive prediction from the posterior</h3>
 <pre class="r"><code>get_posterior_preds &lt;- function(focal_hive){
   new &lt;- expand.grid(treatment = levels(data_for_categorical_model$treatment), 
-                     hive = focal_hive,
-                     observation_time_minutes = 120) 
+                     hive = focal_hive) 
   
   preds &lt;- fitted(exp2_model, newdata = new, summary = FALSE)
   dimnames(preds) &lt;- list(NULL, paste(new$treatment, new$hive, sep = &quot;~&quot;), NULL)
@@ -2433,7 +2480,55 @@ p &lt;- cowplot::plot_grid(top_row, bottom_row,
                         rel_heights = c(1.4, 1))
 ggsave(plot = p, filename = &quot;figures/fig2.pdf&quot;, height = 6, width = 6)
 p</code></pre>
-<p><img src="figure/experiment2.Rmd/unnamed-chunk-14-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="figure/experiment2.Rmd/unnamed-chunk-15-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-15-1">
+Past versions of unnamed-chunk-15-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-15-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/939ecd06a19a25f2d28bc1d779cec2ff4b1a7001/docs/figure/experiment2.Rmd/unnamed-chunk-15-1.png" target="_blank">939ecd0</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2021-01-11
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/eeb5a09dd1b3d0d4e55d1a78dbf1cc25adff6188/docs/figure/experiment2.Rmd/unnamed-chunk-15-1.png" target="_blank">eeb5a09</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-11-30
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p><strong><em>Figure 2:</em></strong> Panel A shows the same information as Figure 1A. Panel B gives the posterior estimates of the effect size (log odds ratio) of the LPS treatment as a log odds ratio, for each of the three possible outcomes; the details are the same as in Figure 1B. Panel C shows the posterior estimate of the effect of the LPS treatment on the proportion of bees observed leaving the hive by force, as opposed to leaving voluntarily.</p>
 </div>
 </div>
@@ -2540,16 +2635,16 @@ PP
 Absolute difference in % bees staying inside
 </td>
 <td style="text-align:right;">
--11.949
+-11.898
 </td>
 <td style="text-align:right;">
-4.942
+4.912
 </td>
 <td style="text-align:right;">
--22.208
+-22.037
 </td>
 <td style="text-align:right;">
--2.753
+-2.861
 </td>
 <td style="text-align:left;">
 </td>
@@ -2561,19 +2656,19 @@ Absolute difference in % bees staying inside
 Log odds ratio
 </td>
 <td style="text-align:right;border-bottom: solid;">
--0.836
+-0.834
 </td>
 <td style="text-align:right;border-bottom: solid;">
-0.331
+0.329
 </td>
 <td style="text-align:right;border-bottom: solid;">
--1.520
+-1.495
 </td>
 <td style="text-align:right;border-bottom: solid;">
--0.199
+-0.205
 </td>
 <td style="text-align:left;border-bottom: solid;">
-0.0048
+0.0053
 </td>
 <td style="text-align:left;border-bottom: solid;">
 **
@@ -2589,16 +2684,16 @@ Log odds ratio
 Absolute difference in % bees leaving voluntarily
 </td>
 <td style="text-align:right;">
-1.335
+1.321
 </td>
 <td style="text-align:right;">
-2.623
+2.602
 </td>
 <td style="text-align:right;">
--3.720
+-3.691
 </td>
 <td style="text-align:right;">
-7.086
+7.116
 </td>
 <td style="text-align:left;">
 </td>
@@ -2610,19 +2705,19 @@ Absolute difference in % bees leaving voluntarily
 Log odds ratio
 </td>
 <td style="text-align:right;border-bottom: solid;">
-0.242
+0.241
 </td>
 <td style="text-align:right;border-bottom: solid;">
-0.440
+0.442
 </td>
 <td style="text-align:right;border-bottom: solid;">
--0.621
+-0.620
 </td>
 <td style="text-align:right;border-bottom: solid;">
-1.106
+1.126
 </td>
 <td style="text-align:left;border-bottom: solid;">
-0.2881
+0.2944
 </td>
 <td style="text-align:left;border-bottom: solid;">
 </td>
@@ -2637,16 +2732,16 @@ Log odds ratio
 Absolute difference in % bees forced out
 </td>
 <td style="text-align:right;">
-10.614
+10.578
 </td>
 <td style="text-align:right;">
-4.627
+4.593
 </td>
 <td style="text-align:right;">
-2.538
+2.570
 </td>
 <td style="text-align:right;">
-20.464
+20.636
 </td>
 <td style="text-align:left;">
 </td>
@@ -2661,16 +2756,16 @@ Log odds ratio
 1.079
 </td>
 <td style="text-align:right;border-bottom: solid;">
-0.433
+0.432
 </td>
 <td style="text-align:right;border-bottom: solid;">
 0.270
 </td>
 <td style="text-align:right;border-bottom: solid;">
-1.967
+1.951
 </td>
 <td style="text-align:left;border-bottom: solid;">
-0.0047
+0.0039
 </td>
 <td style="text-align:left;border-bottom: solid;">
 **
@@ -2699,7 +2794,7 @@ cat(
     paste(&quot;Probability that |LOR|&lt;2 for % bees leaving voluntarily:&quot;, ROPE_calculation(2, LOR_left)), &quot;\n&quot;,
     paste(&quot;Probability that |LOR|&lt;2 for % bees forced out:&quot;, ROPE_calculation(2, LOR_forced)), sep = &quot;&quot;)
 )</code></pre>
-<pre><code>Probability that |LOR|&lt;2 for % bees leaving voluntarily: 0.832
+<pre><code>Probability that |LOR|&lt;2 for % bees leaving voluntarily: 0.836
 Probability that |LOR|&lt;2 for % bees forced out: 0.187</code></pre>
 </div>
 <div id="stats-associated-with-figure-2c" class="section level3">
@@ -2720,7 +2815,7 @@ Probability that |LOR|&lt;2 for % bees forced out: 0.187</code></pre>
 hypothesis(difference_prop_forced_out_LOR, 
            &quot;x &gt; 0&quot;, alpha = 0.05)$hypothesis</code></pre>
 <pre><code>  Hypothesis  Estimate Est.Error   CI.Lower CI.Upper Evid.Ratio Post.Prob Star
-1    (x) &gt; 0 0.7281842 0.5984938 -0.2336917 1.712823   8.082652    0.8899     </code></pre>
+1    (x) &gt; 0 0.7303527 0.6016121 -0.2514617 1.741508    7.77193     0.886     </code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
