@@ -160,7 +160,7 @@ exp3_model <- readRDS("output/exp3_model.rds")
 
 This plot shows ten predictions from the posterior (pale blue) as well as the original data (dark blue), for the proportion of time spent in close contact (0-100%). The predicted time in contact is similar to the real data, illustrating that the model is able to recapitulate the original data fairly closely (a necessary requirement for making inferences from the model).
 
-```{r}
+```{r message=F, warning=F}
 pp_check(exp3_model, nsamples = 20)
 ```
 
