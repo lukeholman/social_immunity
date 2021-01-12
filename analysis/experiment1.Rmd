@@ -204,6 +204,14 @@ if(!file.exists("output/exp1_model.rds")){
 exp1_model <- readRDS("output/exp1_model.rds")
 ```
 
+### Posterior predictive check
+
+This plot shows ten predictions from the posterior (pale blue) as well as the original data (dark blue), for the three categorical outcomes (1: stayed inside, 2: left voluntarily, 3: forced out). The predicted number of bees in each outcome category is similar to the real data, illustrating that the model is able to recapitulate the original data fairly closely (a necessary requirement for making inferences from the model).
+
+```{r}
+pp_check(exp1_model, type = "hist", nsamples = 8)
+```
+
 
 ### Parameter estimates from the model
 

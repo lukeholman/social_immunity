@@ -62,33 +62,6 @@ expt3_counts <- experiment3 %>%
   mutate(hive = C(factor(hive), sum)) # sum coding for hive
 ```
 
-```{r eval=FALSE}
-time <- experiment3 %>%
-  group_by(treatment, hive, minute) %>%
-  summarise(n = sum(touching),
-            total = n(),
-            prop = n / total, .groups = "drop") 
-
-time %>%
-  ggplot(aes(minute, prop, colour = treatment))  +
-  geom_line() +
-  facet_wrap(~ hive)
-
-repeated <- brm(touching ~ treatment * hive * minute + (minute | pairID), 
-                prior = prior(normal(0, 1.5), class = "b"),
-                iter = 4000, 
-                data = experiment3 %>%
-                  mutate(minute = as.numeric(scale(minute))), family = "bernoulli")
-
-new <- experiment3 %>%
-  mutate(minute = as.numeric(scale(minute))) %>%
-  select(hive, treatment, minute) %>% distinct()
-data.frame(new, pred=predict(gam_model, newdata = new, re.form = NA, type = "response", se.fit =T)) %>%
-  ggplot(aes(minute, pred, colour = treatment))  +
-  geom_line() +
-  facet_wrap(~ hive)
-```
-
 
 ## Inspect the raw data {.tabset .tabset-fade}
 
@@ -169,49 +142,26 @@ Fit three different binomial models, where the response is either a 0 (if bees w
 
 ```{r}
 if(!file.exists("output/exp3_model.rds")){
-  exp3_model_v1 <- brm(
-    n_touching | trials(n) ~ treatment * hive + (1 | pairID), 
-    data = expt3_counts %>% mutate(n = n_touching + n_not_touching), 
-    prior = c(set_prior("normal(0, 3)", class = "b")),
-    family = "binomial", save_all_pars = TRUE, sample_prior = TRUE,
-    chains = 4, cores = 1, iter = 20000, seed = 1)
-  
-  exp3_model_v2 <- brm(
+ 
+  exp3_model <- brm(
     n_touching | trials(n) ~ treatment + hive + (1 | pairID), 
     data = expt3_counts %>% mutate(n = n_touching + n_not_touching), 
     prior = c(set_prior("normal(0, 3)", class = "b")),
-    family = "binomial", save_all_pars = TRUE, sample_prior = TRUE,
-    chains = 4, cores = 1, iter = 20000, seed = 1)
+    family = "binomial", 
+    chains = 4, cores = 4, iter = 20000, seed = 1)
   
-  exp3_model_v3 <- brm(
-    n_touching | trials(n) ~ hive + (1 | pairID), 
-    data = expt3_counts %>% mutate(n = n_touching + n_not_touching), 
-    prior = c(set_prior("normal(0, 3)", class = "b")),
-    family = "binomial",  save_all_pars = TRUE, sample_prior = TRUE,
-    chains = 4, cores = 1, iter = 20000, seed = 1)
-  
-  posterior_model_probabilities <- tibble(
-    Model = c("treatment * hive + observation_time_minutes",
-              "treatment + hive + observation_time_minutes",
-              "hive + observation_time_minutes"),
-    post_prob = as.numeric(post_prob(exp3_model_v1,
-                                     exp3_model_v2,
-                                     exp3_model_v3))) %>%
-    arrange(-post_prob)
-  
-  saveRDS(exp3_model_v2, "output/exp3_model.rds") # save the top model, treatment + hive
-  saveRDS(posterior_model_probabilities, "output/exp3_post_prob.rds")
+  saveRDS(exp3_model, "output/exp3_model.rds") 
 }
 exp3_model <- readRDS("output/exp3_model.rds")
-model_probabilities <- readRDS("output/exp3_post_prob.rds")
 ```
 
 
-### Posterior model probabilites
+### Posterior predictive check
+
+This plot shows ten predictions from the posterior (pale blue) as well as the original data (dark blue), for the proportion of time spent in close contact (0-100%). The predicted time in contact is similar to the real data, illustrating that the model is able to recapitulate the original data fairly closely (a necessary requirement for making inferences from the model).
 
 ```{r}
-model_probabilities %>% 
-  kable(digits = 3) %>% kable_styling(full_width = FALSE)
+pp_check(exp3_model, nsamples = 20)
 ```
 
 ### Fixed effects from the top model

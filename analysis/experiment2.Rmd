@@ -164,7 +164,7 @@ The model results are similar to those from the multinomial model: bees treated 
 
 ### Run the GLM
 ```{r message=FALSE, warning=FALSE}
-test_dat <- outcome_tally %>% 
+glm_dat <- outcome_tally %>% 
   group_by(hive, treatment, outcome) %>% 
   summarise(n = sum(n)) %>% 
   mutate(left = ifelse(outcome == "Stayed inside", "stayed_inside" ,"left_hive")) %>% 
@@ -174,7 +174,7 @@ test_dat <- outcome_tally %>%
 
 simple_model <- glm(
     cbind(left_hive, stayed_inside) ~ treatment + hive, 
-    data = test_dat, 
+    data = glm_dat, 
     family = "quasibinomial")
 ```
 
@@ -197,18 +197,18 @@ Anova(simple_model, test = "LR", Type = "II")
 
 ### Fit the model
 
-Fit the multinomial logisitic models, with a 3-item response variable describing what happened to each bee introduced to the hive: stayed inside, left voluntarily, or forced out by the other workers. 
+Fit the multinomial logistic models, with a 3-item response variable describing what happened to each bee introduced to the hive: stayed inside, left voluntarily, or forced out by the other workers. 
 
 ```{r}
 if(!file.exists("output/exp2_model.rds")){
 
   exp2_model <- brm(
-    outcome_numeric ~ treatment + hive + observation_time_minutes, 
+    outcome_numeric ~ treatment + hive, 
     data = data_for_categorical_model, 
     prior = c(set_prior("normal(0, 3)", class = "b", dpar = "mu2"),
               set_prior("normal(0, 3)", class = "b", dpar = "mu3")),
-    family = "categorical", save_all_pars = TRUE, sample_prior = TRUE,
-    chains = 4, cores = 1, iter = 5000, seed = 1)
+    family = "categorical",
+    chains = 4, cores = 4, iter = 5000, seed = 1)
   
   saveRDS(exp2_model, "output/exp2_model.rds")
 }
@@ -216,6 +216,14 @@ if(!file.exists("output/exp2_model.rds")){
 exp2_model <- readRDS("output/exp2_model.rds")
 ```
 
+
+### Posterior predictive check
+
+This plot shows ten predictions from the posterior (pale blue) as well as the original data (dark blue), for the three categorical outcomes (1: stayed inside, 2: left voluntarily, 3: forced out). The predicted number of bees in each outcome category is similar to the real data, illustrating that the model is able to recapitulate the original data fairly closely (a necessary requirement for making inferences from the model).
+
+```{r}
+pp_check(exp2_model, type = "hist", nsamples = 8)
+```
 
 ### Parameter estimates from the model
 
@@ -230,14 +238,13 @@ The code chunk below wrangles the raw output of the `summary()` function for `br
 
 ******
 
-***Table S3:*** Table summarising the posterior estimates of each fixed effect in the best-fitting model of Experiment 2. This was a multinomial model with three possible outcomes (stay inside, leave voluntarily, be forced out), and so there are two parameter estimates for the intercept and for each predictor in the model. 'Treatment' is a fixed factor with two levels, and the effect of LPS shown here is expressed relative to the 'Ringers' treatment. 'Hive' was a fixed factor with four levels; unlike for treatment, we modelled hive using deviation coding, such that the intercept term represents the mean across all hives (in the Ringers treatment), and the three hive terms represent the deviation from this mean for three of the four hives. Lastly, observation duration was a continuous predictor expressed to the nearest minute. The PP column gives the posterior probability that the true effect size is opposite in sign to what is reported in the Estimate column, similarly to a $p$-value.
+***Table S3:*** Table summarising the posterior estimates of each fixed effect in the best-fitting model of Experiment 2. This was a multinomial model with three possible outcomes (stay inside, leave voluntarily, be forced out), and so there are two parameter estimates for the intercept and for each predictor in the model. 'Treatment' is a fixed factor with two levels, and the effect of LPS shown here is expressed relative to the 'Ringers' treatment. 'Hive' was a fixed factor with four levels; unlike for treatment, we modelled hive using deviation coding, such that the intercept term represents the mean across all hives (in the Ringers treatment), and the three hive terms represent the deviation from this mean for three of the four hives. The PP column gives the posterior probability that the true effect size is opposite in sign to what is reported in the Estimate column, similarly to a $p$-value.
 
 ```{r}
 tableS3 <- get_fixed_effects_with_p_values(exp2_model) %>% 
   mutate(mu = map_chr(str_extract_all(Parameter, "mu[:digit:]"), ~ .x[1]),
          Parameter = str_remove_all(Parameter, "mu[:digit:]_"),
-         Parameter = str_replace_all(Parameter, "treatment", "Treatment: "),
-         Parameter = str_replace_all(Parameter, "observation_time_minutes", "Observation duration (minutes)")) %>%
+         Parameter = str_replace_all(Parameter, "treatment", "Treatment: ")) %>%
   arrange(mu) %>%
   select(-mu, -Rhat, -Bulk_ESS, -Tail_ESS) %>%
   mutate(PP = format(round(PP, 4), nsmall = 4))
@@ -249,8 +256,8 @@ saveRDS(tableS3, file = "figures/tableS3.rds")
 tableS3 %>%
   kable(digits = 3) %>% 
   kable_styling(full_width = FALSE) %>%
-  pack_rows("% bees leaving voluntarily", 1, 6) %>%
-  pack_rows("% bees forced out", 7, 12)
+  pack_rows("% bees leaving voluntarily", 1, 5) %>%
+  pack_rows("% bees forced out", 6, 10)
 ```
 
 
@@ -262,8 +269,7 @@ tableS3 %>%
 ```{r}
 get_posterior_preds <- function(focal_hive){
   new <- expand.grid(treatment = levels(data_for_categorical_model$treatment), 
-                     hive = focal_hive,
-                     observation_time_minutes = 120) 
+                     hive = focal_hive) 
   
   preds <- fitted(exp2_model, newdata = new, summary = FALSE)
   dimnames(preds) <- list(NULL, paste(new$treatment, new$hive, sep = "~"), NULL)
