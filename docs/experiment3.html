@@ -13,6 +13,7 @@
 
 <title>Analysis of Experiment 3</title>
 
+<script src="site_libs/header-attrs-2.5/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/darkly.min.css" rel="stylesheet" />
@@ -39,6 +40,8 @@ div.section {
   padding-top: 12px;
 }
 </style>
+
+
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -442,7 +445,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-01-12
+<strong>Last updated:</strong> 2021-04-27
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -533,16 +536,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree62a950caabca69ad1493cfdddf9eae1dbf0c76bftargetblank62a950ca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/62a950caabca69ad1493cfdddf9eae1dbf0c76bf" target="_blank">62a950c</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree43d5c2febaea90e16f62748d1c000f1e54e09303targetblank43d5c2fa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/43d5c2febaea90e16f62748d1c000f1e54e09303" target="_blank">43d5c2f</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree62a950caabca69ad1493cfdddf9eae1dbf0c76bftargetblank62a950ca" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree43d5c2febaea90e16f62748d1c000f1e54e09303targetblank43d5c2fa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/social_immunity/tree/62a950caabca69ad1493cfdddf9eae1dbf0c76bf" target="_blank">62a950c</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/social_immunity/tree/43d5c2febaea90e16f62748d1c000f1e54e09303" target="_blank">43d5c2f</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -552,6 +555,7 @@ Ignored files:
     Ignored:    .DS_Store
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
+    Ignored:    code/.DS_Store
     Ignored:    code/notes from old analysis of movement.R
     Ignored:    data/.DS_Store
     Ignored:    data/movement data - not used/
@@ -560,6 +564,8 @@ Ignored files:
     Ignored:    output/exp3_model.rds
 
 Unstaged changes:
+    Modified:   code/pdf_supp_material.Rmd
+    Deleted:    code/pdf_supp_material.pdf
     Modified:   figures/fig1.pdf
     Modified:   figures/fig2.pdf
     Modified:   figures/fig3.pdf
@@ -567,8 +573,6 @@ Unstaged changes:
     Modified:   figures/tableS2.rds
     Modified:   figures/tableS3.rds
     Modified:   figures/tableS4.rds
-    Modified:   figures/tableS5.rds
-    Modified:   figures/tableS6.rds
 
 </code></pre>
 <p>
@@ -607,6 +611,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/43d5c2febaea90e16f62748d1c000f1e54e09303/analysis/experiment3.Rmd" target="_blank">43d5c2f</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2021-04-27
+</td>
+<td>
+Behav Ecol version
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/social_immunity/5bd17258bb6b04ebe18eddc50e8f2c04009cc502/docs/experiment3.html" target="_blank">5bd1725</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2021-01-12
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1555,7 +1593,7 @@ expt3_counts &lt;- experiment3 %&gt;%
   mutate(hive = C(factor(hive), sum)) # sum coding for hive</code></pre>
 </div>
 <div id="inspect-the-raw-data" class="section level2 tabset tabset-fade">
-<h2>Inspect the raw data</h2>
+<h2 class="tabset tabset-fade">Inspect the raw data</h2>
 <div id="sample-sizes-by-treatment" class="section level3">
 <h3>Sample sizes by treatment</h3>
 <pre class="r"><code>sample_sizes &lt;- expt3_counts %&gt;%
@@ -1884,9 +1922,7 @@ LPS
 <p>Note that bees more often spent close to 100% of the observation period in contact in the control group, relative to the group treated with LPS.</p>
 <pre class="r"><code>histo_data &lt;- expt3_counts %&gt;%
   left_join(sample_sizes, by = &quot;treatment&quot;) %&gt;%
-  arrange(treatment) %&gt;%
-  mutate(treatment = factor(paste(treatment, &quot; (n = &quot;, n, &quot;)&quot;, sep = &quot;&quot;),
-                            unique(paste(treatment, &quot; (n = &quot;, n, &quot;)&quot;, sep = &quot;&quot;)))) 
+  arrange(treatment)
 
 raw_histogram &lt;- histo_data %&gt;% 
   filter(grepl(&quot;Ringers&quot;, treatment)) %&gt;%
@@ -1903,7 +1939,7 @@ raw_histogram &lt;- histo_data %&gt;%
                     direction = 1, name = &quot;Treatment&quot;) + 
   xlab(&quot;% Time in close contact&quot;) + ylab(&quot;Density&quot;) + 
   theme_bw() + 
-  theme(legend.position = c(0.37, 0.832),
+  theme(legend.position = c(0.17, 0.82),
         legend.background = element_rect(fill = scales::alpha(&#39;white&#39;, 0.7)),
         text = element_text(family = nice_font)) 
 
@@ -2253,8 +2289,9 @@ hive3
   select(treatment) %&gt;% distinct() %&gt;% 
   mutate(n = 100, key = paste(&quot;V&quot;, 1:n(), sep = &quot;&quot;),
          hive = NA) 
-plotting_data &lt;- as.data.frame(fitted(exp3_model, 
-                                      newdata=new, re_formula = NA, summary = FALSE))
+plotting_data &lt;- as.data.frame(
+  fitted(exp3_model, 
+         newdata=new, re_formula = NA, summary = FALSE))
 names(plotting_data) &lt;- c(&quot;LPS&quot;, &quot;Ringers&quot;)
 plotting_data &lt;- plotting_data %&gt;% gather(treatment, percent_time_in_contact)
 
@@ -2288,38 +2325,38 @@ get_log_odds &lt;- function(trt1, trt2){
   log((trt2 / (1 - trt2) / (trt1 / (1 - trt1))))
 }
 
-LOR &lt;- plotting_data %&gt;%
-  mutate(posterior_sample = rep(1:(n()/2), 2)) %&gt;%
-  spread(treatment, percent_time_in_contact) %&gt;%
-  mutate(LOR = get_log_odds(Ringers/100, LPS/100)) %&gt;%
-  select(LOR)
-
-LOR_plot &lt;- LOR %&gt;%
-  ggplot(aes(LOR, y =1)) + 
-  geom_vline(xintercept = 0, linetype = 2) +
-  stat_dotsh(quantiles = 100, fill = &quot;grey40&quot;, colour = &quot;grey40&quot;) + 
-  stat_pointintervalh(
-    colour = panel_c_colour, fill = panel_c_colour,
-    .width = c(0.5, 0.95), 
-    position = position_nudge(y = -0.1),
-    point_colour = &quot;grey26&quot;, pch = 21, stroke = 0.4) + 
-  coord_cartesian(ylim=c(0.86, 2)) + 
-  xlab(&quot;Effect of LPS on mean\n% time in close contact (LOR)&quot;) + 
-  ylab(&quot;Posterior density&quot;) + 
-  theme_bw() +
-  theme(
-    text = element_text(family = nice_font),
-    axis.text.y = element_blank(),
-    axis.ticks.y = element_blank(),
-    panel.grid.major.y = element_blank(),
-    panel.grid.minor.y = element_blank(),
-    legend.position = &quot;none&quot;
-  ) 
+# LOR &lt;- plotting_data %&gt;%
+#   mutate(posterior_sample = rep(1:(n()/2), 2)) %&gt;%
+#   spread(treatment, percent_time_in_contact) %&gt;%
+#   mutate(LOR = get_log_odds(Ringers/100, LPS/100)) %&gt;%
+#   select(LOR)
+# 
+# LOR_plot &lt;- LOR %&gt;%
+#   ggplot(aes(LOR, y =1)) + 
+#   geom_vline(xintercept = 0, linetype = 2) +
+#   stat_dotsh(quantiles = 100, fill = &quot;grey40&quot;, colour = &quot;grey40&quot;) + 
+#   stat_pointintervalh(
+#     colour = panel_c_colour, fill = panel_c_colour,
+#     .width = c(0.5, 0.95), 
+#     position = position_nudge(y = -0.1),
+#     point_colour = &quot;grey26&quot;, pch = 21, stroke = 0.4) + 
+#   coord_cartesian(ylim=c(0.86, 2)) + 
+#   xlab(&quot;Effect of LPS on mean\n% time in close contact (LOR)&quot;) + 
+#   ylab(&quot;Posterior density&quot;) + 
+#   theme_bw() +
+#   theme(
+#     text = element_text(family = nice_font),
+#     axis.text.y = element_blank(),
+#     axis.ticks.y = element_blank(),
+#     panel.grid.major.y = element_blank(),
+#     panel.grid.minor.y = element_blank(),
+#     legend.position = &quot;none&quot;
+#   ) 
  
 p &lt;- cowplot::plot_grid(raw_histogram, 
-                        dot_plot, LOR_plot, labels = c(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;),
+                        dot_plot, labels = c(&quot;A&quot;, &quot;B&quot;),
                         nrow = 1, align = &#39;h&#39;, axis = &#39;l&#39;)
-ggsave(plot = p, filename = &quot;figures/fig3.pdf&quot;, height = 3.2, width = 8.6)
+ggsave(plot = p, filename = &quot;figures/fig3.pdf&quot;, height = 3.4, width = 9)
 p</code></pre>
 <p><img src="figure/experiment3.Rmd/unnamed-chunk-11-1.png" width="825.6" style="display: block; margin: auto;" /></p>
 <p>
@@ -2359,7 +2396,7 @@ lukeholman
 </table>
 </div>
 </div>
-<p><strong><em>Figure 3:</em></strong> Panel A shows the frequency distribution of the % time in close contact, for pairs of bees from the LPS treatment and the Ringers control. Panel B shows the posterior estimates of the mean % time spent in close contact; the details of the quantile dot plot and error bars are the same as described for Figure 1. Panel C shows the effect size (LOR; log odds ratio) associated with the difference in means in Panel B.</p>
+<p><strong><em>Figure 3:</em></strong> Results of Experiment 3 (n = 439 bees). Panel A shows the frequency distribution of the % time in close contact, for pairs of bees from the LPS treatment and the Ringers control. Panel B shows the posterior estimates of the mean % time spent in close contact; the details of the quantile dot plot and error bars are the same as described for Figure 1.</p>
 </div>
 <div id="hypothesis-testing-and-effect-sizes" class="section level2">
 <h2>Hypothesis testing and effect sizes</h2>
@@ -2507,7 +2544,7 @@ loaded via a namespace (and not attached):
  [11] digest_0.6.25        htmltools_0.5.0      rsconnect_0.8.16     fansi_0.4.1          magrittr_2.0.1      
  [16] openxlsx_4.1.5       modelr_0.1.8         RcppParallel_5.0.1   matrixStats_0.56.0   xts_0.12-0          
  [21] sandwich_2.5-1       prettyunits_1.1.1    colorspace_1.4-1     blob_1.2.1           rvest_0.3.5         
- [26] haven_2.3.1          xfun_0.19            callr_3.4.3          crayon_1.3.4         jsonlite_1.7.0      
+ [26] haven_2.3.1          xfun_0.22            callr_3.4.3          crayon_1.3.4         jsonlite_1.7.0      
  [31] lme4_1.1-23          survival_3.2-7       zoo_1.8-8            glue_1.4.2           gtable_0.3.0        
  [36] emmeans_1.4.7        webshot_0.5.2        V8_3.4.0             pkgbuild_1.0.8       rstan_2.21.2        
  [41] abind_1.4-5          mvtnorm_1.1-0        DBI_1.1.0            miniUI_0.1.1.1       viridisLite_0.3.0   
@@ -2517,7 +2554,7 @@ loaded via a namespace (and not attached):
  [61] labeling_0.3         tidyselect_1.1.0     rlang_0.4.6          reshape2_1.4.4       later_1.0.0         
  [66] munsell_0.5.0        cellranger_1.1.0     tools_4.0.3          cli_2.0.2            generics_0.0.2      
  [71] broom_0.5.6          ggridges_0.5.2       evaluate_0.14        fastmap_1.0.1        yaml_2.2.1          
- [76] processx_3.4.2       knitr_1.30           fs_1.4.1             zip_2.0.4            nlme_3.1-149        
+ [76] processx_3.4.2       knitr_1.32           fs_1.4.1             zip_2.1.1            nlme_3.1-149        
  [81] whisker_0.4          mime_0.9             projpred_2.0.2       xml2_1.3.2           compiler_4.0.3      
  [86] shinythemes_1.1.2    rstudioapi_0.11      curl_4.3             gamm4_0.2-6          reprex_0.3.0        
  [91] statmod_1.4.34       stringi_1.5.3        highr_0.8            ps_1.3.3             Brobdingnag_1.2-6   
@@ -2544,6 +2581,8 @@ footer is added to webpages before the MathJax javascript. -->
     "HTML-CSS": { availableFonts: ["TeX"] }
   });
 </script>
+
+
 
 
 </div>

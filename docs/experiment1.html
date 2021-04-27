@@ -13,6 +13,7 @@
 
 <title>Analysis of Experiment 1</title>
 
+<script src="site_libs/header-attrs-2.5/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/darkly.min.css" rel="stylesheet" />
@@ -39,6 +40,8 @@ div.section {
   padding-top: 12px;
 }
 </style>
+
+
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -442,7 +445,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-01-12
+<strong>Last updated:</strong> 2021-04-27
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -533,16 +536,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree62a950caabca69ad1493cfdddf9eae1dbf0c76bftargetblank62a950ca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/62a950caabca69ad1493cfdddf9eae1dbf0c76bf" target="_blank">62a950c</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree43d5c2febaea90e16f62748d1c000f1e54e09303targetblank43d5c2fa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/43d5c2febaea90e16f62748d1c000f1e54e09303" target="_blank">43d5c2f</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree62a950caabca69ad1493cfdddf9eae1dbf0c76bftargetblank62a950ca" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree43d5c2febaea90e16f62748d1c000f1e54e09303targetblank43d5c2fa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/social_immunity/tree/62a950caabca69ad1493cfdddf9eae1dbf0c76bf" target="_blank">62a950c</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/social_immunity/tree/43d5c2febaea90e16f62748d1c000f1e54e09303" target="_blank">43d5c2f</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -552,6 +555,7 @@ Ignored files:
     Ignored:    .DS_Store
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
+    Ignored:    code/.DS_Store
     Ignored:    code/notes from old analysis of movement.R
     Ignored:    data/.DS_Store
     Ignored:    data/movement data - not used/
@@ -560,6 +564,8 @@ Ignored files:
     Ignored:    output/exp3_model.rds
 
 Unstaged changes:
+    Modified:   code/pdf_supp_material.Rmd
+    Deleted:    code/pdf_supp_material.pdf
     Modified:   figures/fig1.pdf
     Modified:   figures/fig2.pdf
     Modified:   figures/fig3.pdf
@@ -567,8 +573,6 @@ Unstaged changes:
     Modified:   figures/tableS2.rds
     Modified:   figures/tableS3.rds
     Modified:   figures/tableS4.rds
-    Modified:   figures/tableS5.rds
-    Modified:   figures/tableS6.rds
 
 </code></pre>
 <p>
@@ -607,6 +611,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/43d5c2febaea90e16f62748d1c000f1e54e09303/analysis/experiment1.Rmd" target="_blank">43d5c2f</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2021-04-27
+</td>
+<td>
+Behav Ecol version
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/social_immunity/5bd17258bb6b04ebe18eddc50e8f2c04009cc502/docs/experiment1.html" target="_blank">5bd1725</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2021-01-12
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1576,6 +1614,7 @@ First commit
 library(showtext)
 
 library(brms)
+library(lme4)
 library(bayesplot)
 library(tidyverse)
 library(gridExtra)
@@ -1591,17 +1630,24 @@ nice_font &lt;- &quot;Lora&quot;
 font_add_google(name = nice_font, family = nice_font, regular.wt = 400, bold.wt = 700)
 showtext_auto()
 
-exp1_treatments &lt;- c(&quot;Intact control&quot;, &quot;Ringers&quot;, &quot;Heat-treated LPS&quot;, &quot;LPS&quot;)
+exp1_treatments &lt;- c(&quot;Intact control&quot;, &quot;Ringers&quot;, &quot;LPS&quot;)
 
 durations &lt;- read_csv(&quot;data/data_collection_sheets/experiment_durations.csv&quot;) %&gt;%
   filter(experiment == 1) %&gt;% select(-experiment)
 
 durations &lt;- bind_rows(durations, tibble(hive = &quot;SkyLab&quot;, observation_time_minutes = 90))
 
+# Note that we here merge the heat-treated LPS data with the LPS data. 
+# This change was made because there is no difference in the response variables between the two LPS treatments (heated and standard LPS), and because all evidence suggests that heat treatment does not do anything to the LPS; see the earlier version of this paper on bioarXiv for complete results without merging these treatments and discussion of why we included two LPS treatments (short version: immunologists often have heat-treated LPS as a control, even though this does not make any sense because LPS is notoriously heat-stable, and an immunologist colleague told us to include this control before we knew about this). 
+# The original manuscript was rejected by 2 journals, in part because the reviewers were baffled by the inclusion of two different LPS treatments, and so we merged the LPS for simplicity in this version. The results are not changed in any way (they&#39;re jsut simpler as there are now 3 treatments instead of 4 in experiment 1) - see the bioarXiv version for comparison.
 outcome_tally &lt;- read_csv(file = &quot;data/clean_data/experiment_1_outcome_tally.csv&quot;) %&gt;%
+  mutate(treatment = replace(treatment, treatment == &quot;Heat-treated LPS&quot;, &quot;LPS&quot;)) %&gt;% # merge the 2 LPS treatments
+  group_by(hive, treatment, outcome) %&gt;%
+  summarise(n = sum(n), .groups = &quot;drop&quot;) %&gt;%
   mutate(outcome = replace(outcome, outcome == &quot;Left of own volition&quot;, &quot;Left voluntarily&quot;)) %&gt;%
   mutate(outcome   = factor(outcome, levels = c(&quot;Stayed inside the hive&quot;, &quot;Left voluntarily&quot;, &quot;Forced out&quot;)),
-         treatment = factor(treatment, levels = exp1_treatments)) 
+         treatment = factor(treatment, levels = exp1_treatments)) %&gt;%
+  arrange(hive, treatment, outcome)
 
 # Re-formatted version of the same data, where each row is an individual bee. We need this format to run the brms model.
 data_for_categorical_model &lt;- outcome_tally %&gt;%
@@ -1612,18 +1658,16 @@ data_for_categorical_model &lt;- outcome_tally %&gt;%
     data.frame(
       treatment = x$treatment[1],
       hive = x$hive[1],
-      colour = x$colour[1],
       outcome = rep(x$outcome[1], x$n))
   }) %&gt;% do.call(&quot;rbind&quot;, .) %&gt;% as_tibble() %&gt;%
   arrange(hive, treatment) %&gt;%
   mutate(outcome_numeric = as.numeric(outcome),
          hive = as.character(hive),
          treatment = factor(treatment, levels = exp1_treatments)) %&gt;%
-  left_join(durations, by = &quot;hive&quot;) %&gt;%
-  mutate(hive = C(factor(hive), sum)) # use sum coding for the factor levels of &quot;hive&quot;</code></pre>
+  left_join(durations, by = &quot;hive&quot;)</code></pre>
 </div>
 <div id="inspect-the-raw-data" class="section level2 tabset tabset-fade">
-<h2>Inspect the raw data</h2>
+<h2 class="tabset tabset-fade">Inspect the raw data</h2>
 <p>Click the three tabs to see each table.</p>
 <div id="sample-sizes-by-treatment" class="section level3">
 <h3>Sample sizes by treatment</h3>
@@ -1663,18 +1707,10 @@ Ringers
 </tr>
 <tr>
 <td style="text-align:left;">
-Heat-treated LPS
-</td>
-<td style="text-align:right;">
-186
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
 LPS
 </td>
 <td style="text-align:right;">
-182
+368
 </td>
 </tr>
 </tbody>
@@ -1700,9 +1736,6 @@ Intact control
 Ringers
 </th>
 <th style="text-align:right;">
-Heat-treated LPS
-</th>
-<th style="text-align:right;">
 LPS
 </th>
 </tr>
@@ -1719,10 +1752,7 @@ Garden
 41
 </td>
 <td style="text-align:right;">
-34
-</td>
-<td style="text-align:right;">
-37
+71
 </td>
 </tr>
 <tr>
@@ -1736,10 +1766,7 @@ SkyLab
 NA
 </td>
 <td style="text-align:right;">
-58
-</td>
-<td style="text-align:right;">
-43
+101
 </td>
 </tr>
 <tr>
@@ -1753,10 +1780,7 @@ Zoology
 80
 </td>
 <td style="text-align:right;">
-67
-</td>
-<td style="text-align:right;">
-67
+134
 </td>
 </tr>
 <tr>
@@ -1770,10 +1794,7 @@ Zoology_2
 32
 </td>
 <td style="text-align:right;">
-27
-</td>
-<td style="text-align:right;">
-35
+62
 </td>
 </tr>
 </tbody>
@@ -1782,7 +1803,6 @@ Zoology_2
 <div id="oberved-outcomes" class="section level3">
 <h3>Oberved outcomes</h3>
 <pre class="r"><code>outcome_tally %&gt;%
-  select(-colour) %&gt;% 
   spread(outcome, n) %&gt;%
   kable(digits = 3) %&gt;% kable_styling(full_width = FALSE) </code></pre>
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
@@ -1845,27 +1865,10 @@ Ringers
 Garden
 </td>
 <td style="text-align:left;">
-Heat-treated LPS
-</td>
-<td style="text-align:right;">
-34
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Garden
-</td>
-<td style="text-align:left;">
 LPS
 </td>
 <td style="text-align:right;">
-37
+71
 </td>
 <td style="text-align:right;">
 0
@@ -1896,33 +1899,16 @@ Intact control
 SkyLab
 </td>
 <td style="text-align:left;">
-Heat-treated LPS
-</td>
-<td style="text-align:right;">
-47
-</td>
-<td style="text-align:right;">
-6
-</td>
-<td style="text-align:right;">
-5
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SkyLab
-</td>
-<td style="text-align:left;">
 LPS
 </td>
 <td style="text-align:right;">
-35
+82
 </td>
 <td style="text-align:right;">
-6
+12
 </td>
 <td style="text-align:right;">
-2
+7
 </td>
 </tr>
 <tr>
@@ -1964,33 +1950,16 @@ Ringers
 Zoology
 </td>
 <td style="text-align:left;">
-Heat-treated LPS
-</td>
-<td style="text-align:right;">
-59
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-7
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Zoology
-</td>
-<td style="text-align:left;">
 LPS
 </td>
 <td style="text-align:right;">
-60
+119
 </td>
 <td style="text-align:right;">
-2
+3
 </td>
 <td style="text-align:right;">
-5
+12
 </td>
 </tr>
 <tr>
@@ -2032,33 +2001,16 @@ Ringers
 Zoology_2
 </td>
 <td style="text-align:left;">
-Heat-treated LPS
-</td>
-<td style="text-align:right;">
-16
-</td>
-<td style="text-align:right;">
-1
-</td>
-<td style="text-align:right;">
-10
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Zoology_2
-</td>
-<td style="text-align:left;">
 LPS
 </td>
 <td style="text-align:right;">
-21
+37
 </td>
 <td style="text-align:right;">
-2
+3
 </td>
 <td style="text-align:right;">
-12
+22
 </td>
 </tr>
 </tbody>
@@ -2165,13 +2117,16 @@ lukeholman
 </div>
 </div>
 </div>
-<div id="run-the-preliminary-glm" class="section level2">
-<h2>Run the preliminary GLM</h2>
-<p>The multinomial model below is not commonly used, though we believe it is the right choice for this particular experiment (e.g. because it can model a three-item categorical response variable, and it can incorporate priors). However during peer review, we were asked whether the results were similar when using standard statistical methods. To address this question, we here present a frequentist Generalised Linear Model (GLM; using <code>base::glm</code>), which tests the null hypothesis that the proportion of bees exiting the hive (i.e. the proportion leaving voluntarily plus those that were forced out) is equal between treatment groups and hives. The model uses the quasibinomial family, since this family is more robust to overdispersion than the binomial family (though testing revealed both families gave qualitatively identical results).</p>
-<p>The model’s qualitative results are similar to those from the multinomial model: bees treated with LPS (either kind) left the hive more often than intact controls, and there were differences between hives in the proportion of bees leaving.</p>
-<div id="run-the-glm" class="section level3">
-<h3>Run the GLM</h3>
-<pre class="r"><code>glm_dat &lt;- outcome_tally %&gt;% 
+<div id="preliminary-glmm" class="section level2">
+<h2>Preliminary GLMM</h2>
+<p>The multinomial model below is not commonly used, though we believe it is the right choice for this particular experiment (e.g. because it can model a three-item categorical response variable, and it can incorporate priors). However during peer review, we were asked whether the results were similar when using standard statistical methods. To address this question, we here present a frequentist Generalised Linear Mixed Model (GLMM; using <code>lme4::glmer</code>), which tests the null hypothesis that the proportion of bees exiting the hive (i.e. the proportion leaving voluntarily plus those that were forced out) is equal between treatment groups and hives.</p>
+<p>The model’s qualitative results are similar to those from the multinomial model: bees treated with LPS left the hive more often than intact controls (and there was a non-significant trend for more LPS bees to leave than Ringers bees), and there was variation between hives in the proportion of bees leaving.</p>
+<div id="parameter-estimates-from-the-glmm" class="section level3 tabset">
+<h3 class="tabset">Parameter estimates from the GLMM</h3>
+<div id="with-intact-control-as-the-reference-level" class="section level4">
+<h4>With <code>Intact control</code> as the reference level</h4>
+<p>Note that the intact and Ringers controls are not different, but the intact control differs from the LPS treatment.</p>
+<pre class="r"><code>glmm_data &lt;- outcome_tally %&gt;% 
   group_by(hive, treatment, outcome) %&gt;% 
   summarise(n = sum(n)) %&gt;% 
   mutate(left = ifelse(outcome == &quot;Stayed inside the hive&quot;, &quot;stayed_inside&quot; ,&quot;left_hive&quot;)) %&gt;% 
@@ -2179,53 +2134,91 @@ lukeholman
   summarise(n = sum(n)) %&gt;%
   spread(left, n) 
 
-simple_model &lt;- glm(
-    cbind(left_hive, stayed_inside) ~ treatment + hive, 
-    data = glm_dat, 
-    family = &quot;quasibinomial&quot;)</code></pre>
-</div>
-<div id="inspect-model-coefficients-and-p-values" class="section level3">
-<h3>Inspect model coefficients and p-values</h3>
-<p>The reference level for <code>treatment</code> is the Intact Control, and the reference for <code>hive</code> is the hive named Garden.</p>
-<pre class="r"><code>summary(simple_model)</code></pre>
-<pre><code>
-Call:
-glm(formula = cbind(left_hive, stayed_inside) ~ treatment + hive, 
-    family = &quot;quasibinomial&quot;, data = glm_dat)
+simple_model &lt;- glmer(
+    cbind(left_hive, stayed_inside) ~ treatment + (1 | hive), 
+    data = glmm_data, 
+    family = &quot;binomial&quot;)
 
-Deviance Residuals: 
-    Min       1Q   Median       3Q      Max  
--1.5002  -1.0014  -0.2999   0.4537   1.8667  
+summary(simple_model)</code></pre>
+<pre><code>Generalized linear mixed model fit by maximum likelihood (Laplace Approximation) [&#39;glmerMod&#39;]
+ Family: binomial  ( logit )
+Formula: cbind(left_hive, stayed_inside) ~ treatment + (1 | hive)
+   Data: glmm_data
 
-Coefficients:
-                          Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)                -5.3210     1.0230  -5.201 0.000821 ***
-treatmentRingers            0.6951     0.5605   1.240 0.250091    
-treatmentHeat-treated LPS   1.3318     0.4693   2.838 0.021884 *  
-treatmentLPS                1.2319     0.4753   2.592 0.032023 *  
-hiveSkyLab                  2.4051     1.0194   2.359 0.046012 *  
-hiveZoology                 1.8803     1.0122   1.858 0.100302    
-hiveZoology_2               3.8046     1.0011   3.800 0.005234 ** 
+     AIC      BIC   logLik deviance df.resid 
+    70.0     71.6    -31.0     62.0        7 
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-1.3801 -0.9123 -0.1932  0.6095  1.9146 
+
+Random effects:
+ Groups Name        Variance Std.Dev.
+ hive   (Intercept) 1.622    1.273   
+Number of obs: 11, groups:  hive, 4
+
+Fixed effects:
+                 Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)       -3.2470     0.7038  -4.614 3.95e-06 ***
+treatmentRingers   0.7016     0.4086   1.717   0.0859 .  
+treatmentLPS       1.2881     0.3095   4.162 3.16e-05 ***
 ---
 Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 
-(Dispersion parameter for quasibinomial family taken to be 1.840969)
+Correlation of Fixed Effects:
+            (Intr) trtmnR
+trtmntRngrs -0.260       
+treatmntLPS -0.335  0.586</code></pre>
+</div>
+<div id="with-ringers-as-the-reference-level" class="section level4">
+<h4>With <code>Ringers</code> as the reference level</h4>
+<p>Note that the intact and Ringers controls are not different as before. Moreover the Ringers and LPS treatment do not differ significantly.</p>
+<pre class="r"><code>simple_model &lt;- glmer(
+    cbind(left_hive, stayed_inside) ~ treatment + (1 | hive), 
+    data = glmm_data %&gt;%
+  mutate(treatment = relevel(treatment, ref = &quot;Ringers&quot;)), 
+    family = &quot;binomial&quot;)
 
-    Null deviance: 116.658  on 14  degrees of freedom
-Residual deviance:  13.318  on  8  degrees of freedom
-AIC: NA
+summary(simple_model)</code></pre>
+<pre><code>Generalized linear mixed model fit by maximum likelihood (Laplace Approximation) [&#39;glmerMod&#39;]
+ Family: binomial  ( logit )
+Formula: cbind(left_hive, stayed_inside) ~ treatment + (1 | hive)
+   Data: glmm_data %&gt;% mutate(treatment = relevel(treatment, ref = &quot;Ringers&quot;))
 
-Number of Fisher Scoring iterations: 5</code></pre>
+     AIC      BIC   logLik deviance df.resid 
+    70.0     71.6    -31.0     62.0        7 
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-1.3801 -0.9123 -0.1932  0.6095  1.9146 
+
+Random effects:
+ Groups Name        Variance Std.Dev.
+ hive   (Intercept) 1.622    1.273   
+Number of obs: 11, groups:  hive, 4
+
+Fixed effects:
+                        Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)              -2.5454     0.7158  -3.556 0.000377 ***
+treatmentIntact control  -0.7016     0.4086  -1.717 0.085946 .  
+treatmentLPS              0.5865     0.3383   1.733 0.083022 .  
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Correlation of Fixed Effects:
+            (Intr) trtmIc
+trtmntIntcc -0.315       
+treatmntLPS -0.376  0.671</code></pre>
+</div>
 </div>
 <div id="inspect-type-ii-anova-table" class="section level3">
 <h3>Inspect Type II Anova table</h3>
-<pre class="r"><code>Anova(simple_model, test = &quot;LR&quot;, Type = &quot;II&quot;)</code></pre>
-<pre><code>Analysis of Deviance Table (Type II tests)
+<pre class="r"><code>Anova(simple_model, test = &quot;Chisq&quot;, Type = &quot;II&quot;)</code></pre>
+<pre><code>Analysis of Deviance Table (Type II Wald chisquare tests)
 
 Response: cbind(left_hive, stayed_inside)
-          LR Chisq Df Pr(&gt;Chisq)    
-treatment   10.917  3    0.01219 *  
-hive        42.607  3  2.982e-09 ***
+           Chisq Df Pr(&gt;Chisq)    
+treatment 18.115  2  0.0001165 ***
 ---
 Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 </div>
@@ -2236,14 +2229,18 @@ Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&
 <h3>Fit the model</h3>
 <p>Fit the multinomial logistic models, with a 3-item response variable describing what happened to each bee introduced to the hive: stayed inside, left voluntarily, or forced out by the other workers.</p>
 <pre class="r"><code>if(!file.exists(&quot;output/exp1_model.rds&quot;)){
-
+  
+  prior &lt;- c(set_prior(&quot;normal(0, 3)&quot;, class = &quot;b&quot;, dpar = &quot;mu2&quot;),
+             set_prior(&quot;normal(0, 3)&quot;, class = &quot;b&quot;, dpar = &quot;mu3&quot;),
+             set_prior(&quot;normal(0, 1)&quot;, class = &quot;sd&quot;, dpar = &quot;mu2&quot;, group = &quot;hive&quot;),
+             set_prior(&quot;normal(0, 1)&quot;, class = &quot;sd&quot;, dpar = &quot;mu3&quot;, group = &quot;hive&quot;))
+  
   exp1_model &lt;- brm(
-    outcome_numeric ~ treatment + hive, 
+    outcome_numeric ~ treatment + (1 | hive), 
     data = data_for_categorical_model, 
-    prior = c(set_prior(&quot;normal(0, 3)&quot;, class = &quot;b&quot;, dpar = &quot;mu2&quot;),
-              set_prior(&quot;normal(0, 3)&quot;, class = &quot;b&quot;, dpar = &quot;mu3&quot;)),
+    prior = prior,
     family = &quot;categorical&quot;, 
-    chains = 4, cores = 4, iter = 5000, seed = 1)
+    chains = 4, cores = 1, iter = 5000, seed = 1)
   
   saveRDS(exp1_model, &quot;output/exp1_model.rds&quot;) 
 }
@@ -2295,32 +2292,30 @@ lukeholman
 </div>
 <div id="parameter-estimates-from-the-model" class="section level3">
 <h3>Parameter estimates from the model</h3>
-<div id="raw-output-of-the-treatment-hive-model" class="section level4">
-<h4>Raw output of the <code>treatment + hive</code> model</h4>
+<div id="output-of-the-bayesian-multinomial-logistic-model" class="section level4">
+<h4>Output of the Bayesian multinomial logistic model</h4>
 <pre class="r"><code>summary(exp1_model)</code></pre>
 <pre style="max-height: 300px;"><code> Family: categorical 
   Links: mu2 = logit; mu3 = logit 
-Formula: outcome_numeric ~ treatment + hive 
+Formula: outcome_numeric ~ treatment + (1 | hive) 
    Data: data_for_categorical_model (Number of observations: 842) 
 Samples: 4 chains, each with iter = 5000; warmup = 2500; thin = 1;
          total post-warmup samples = 10000
 
+Group-Level Effects: 
+~hive (Number of levels: 4) 
+                  Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+sd(mu2_Intercept)     1.34      0.51     0.55     2.51 1.00     6513     6060
+sd(mu3_Intercept)     1.39      0.43     0.74     2.38 1.00     5443     6887
+
 Population-Level Effects: 
-                             Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-mu2_Intercept                   -5.43      0.71    -6.97    -4.19 1.00     4040     4943
-mu3_Intercept                   -3.66      0.36    -4.40    -3.01 1.00     4982     5165
-mu2_treatmentRingers             0.67      0.95    -1.33     2.45 1.00     7217     6785
-mu2_treatmentHeatMtreatedLPS     1.29      0.62     0.12     2.55 1.00     6951     6273
-mu2_treatmentLPS                 1.68      0.60     0.55     2.88 1.00     6480     6007
-mu2_hive1                       -3.22      1.48    -6.64    -0.94 1.00     3461     3562
-mu2_hive2                        1.90      0.58     0.91     3.17 1.00     3908     4321
-mu2_hive3                       -0.08      0.64    -1.28     1.27 1.00     4203     4737
-mu3_treatmentRingers             0.56      0.45    -0.31     1.46 1.00     6903     7359
-mu3_treatmentHeatMtreatedLPS     1.31      0.40     0.55     2.12 1.00     6391     7223
-mu3_treatmentLPS                 0.97      0.41     0.19     1.77 1.00     6812     6626
-mu3_hive1                       -1.76      0.58    -3.07    -0.79 1.00     4773     4078
-mu3_hive2                       -0.42      0.36    -1.15     0.31 1.00     6117     6236
-mu3_hive3                        0.07      0.28    -0.47     0.65 1.00     6219     5669
+                     Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+mu2_Intercept           -4.94      0.93    -6.97    -3.30 1.00     4805     5207
+mu3_Intercept           -3.59      0.81    -5.24    -2.00 1.00     3995     5108
+mu2_treatmentRingers     0.59      0.97    -1.43     2.38 1.00     9475     6896
+mu2_treatmentLPS         1.57      0.56     0.55     2.73 1.00    11154     7439
+mu3_treatmentRingers     0.60      0.46    -0.31     1.50 1.00     8390     7922
+mu3_treatmentLPS         1.16      0.37     0.46     1.93 1.00     7964     7060
 
 Samples were drawn using sampling(NUTS). For each parameter, Bulk_ESS
 and Tail_ESS are effective sample size measures, and Rhat is the potential
@@ -2328,14 +2323,13 @@ scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 </div>
 <div id="formatted-brms-output-for-table-s1" class="section level4">
 <h4>Formatted <code>brms</code> output for Table S1</h4>
-<p>The code chunk below wrangles the raw output of the <code>summary()</code> function for <code>brms</code> models into a more readable table of results, and also adds ‘Bayesian p-values’ (i.e. the posterior probability that the true effect size has the same sign as the reported effect).</p>
+<p>The code chunk below wrangles the output of the <code>summary()</code> function for <code>brms</code> models into a more readable table of results, and also adds ‘Bayesian p-values’ (i.e. the posterior probability that the true effect size has the same sign as the reported effect).</p>
 <hr />
-<p><strong><em>Table S1:</em></strong> Table summarising the posterior estimates of each fixed effect in the best-fitting model of Experiment 1. This was a multinomial model with three possible outcomes (stay inside, leave voluntarily, be forced out), and so there are two parameter estimates for the intercept and for each predictor in the model. ‘Treatment’ is a fixed factor with four levels, and the effects shown here are expressed relative to the ‘Intact control’ group. ‘Hive’ was also a fixed factor with four levels; unlike for treatment, we modelled hive using deviation coding, such that the intercept term represents the mean across all hives (in the intact control treatment), and the three hive terms represent the deviation from this mean for three of the four hives. The <span class="math inline">\(p\)</span> column gives the posterior probability that the true effect size is opposite in sign to what is reported in the Estimate column, similarly to a <span class="math inline">\(p\)</span>-value.</p>
+<p><strong><em>Table S1:</em></strong> Table summarising the posterior estimates of each fixed effect in the Bayesian multinomial logistic model of Experiment 1. Because there were three possible outcomes for each bee (Stayed inside, Left voluntarily, or Forced out), there are two parameter estimates for the intercept and for each predictor in the model. ‘Treatment’ is a fixed factor with three levels, and the effects shown here are expressed relative to the ‘Intact control’ group. The <span class="math inline">\(p\)</span> column gives the posterior probability that the true effect size is opposite in sign to what is reported in the Estimate column, similarly to a <span class="math inline">\(p\)</span>-value.</p>
 <pre class="r"><code>tableS1 &lt;- get_fixed_effects_with_p_values(exp1_model) %&gt;% 
   mutate(mu = map_chr(str_extract_all(Parameter, &quot;mu[:digit:]&quot;), ~ .x[1]),
          Parameter = str_remove_all(Parameter, &quot;mu[:digit:]_&quot;),
-         Parameter = str_replace_all(Parameter, &quot;treatment&quot;, &quot;Treatment: &quot;),
-         Parameter = str_replace_all(Parameter, &quot;HeatMtreatedLPS&quot;, &quot;Heat-treated LPS&quot;)) %&gt;%
+         Parameter = str_replace_all(Parameter, &quot;treatment&quot;, &quot;Treatment: &quot;)) %&gt;%
   arrange(mu) %&gt;%
   select(-mu, -Rhat, -Bulk_ESS, -Tail_ESS) %&gt;%
   mutate(PP = format(round(PP, 4), nsmall = 4))
@@ -2347,8 +2341,8 @@ saveRDS(tableS1, file = &quot;figures/tableS1.rds&quot;)
 tableS1 %&gt;%
   kable(digits = 3) %&gt;% 
   kable_styling(full_width = FALSE) %&gt;%
-  pack_rows(&quot;% bees leaving voluntarily&quot;, 1, 7) %&gt;%
-  pack_rows(&quot;% bees forced out&quot;, 8, 14)</code></pre>
+  pack_rows(&quot;% bees leaving voluntarily&quot;, 1, 3) %&gt;%
+  pack_rows(&quot;% bees forced out&quot;, 4, 6)</code></pre>
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -2375,7 +2369,7 @@ PP
 </tr>
 </thead>
 <tbody>
-<tr grouplength="7">
+<tr grouplength="3">
 <td colspan="7" style="border-bottom: 1px solid;">
 <strong>% bees leaving voluntarily</strong>
 </td>
@@ -2385,16 +2379,16 @@ PP
 Intercept
 </td>
 <td style="text-align:right;">
--5.429
+-4.937
 </td>
 <td style="text-align:right;">
-0.712
+0.929
 </td>
 <td style="text-align:right;">
--6.972
+-6.969
 </td>
 <td style="text-align:right;">
--4.189
+-3.300
 </td>
 <td style="text-align:left;">
 0.0000
@@ -2408,44 +2402,21 @@ Intercept
 Treatment: Ringers
 </td>
 <td style="text-align:right;">
-0.669
+0.590
 </td>
 <td style="text-align:right;">
-0.946
+0.968
 </td>
 <td style="text-align:right;">
--1.332
+-1.426
 </td>
 <td style="text-align:right;">
-2.453
+2.375
 </td>
 <td style="text-align:left;">
-0.2282
+0.2570
 </td>
 <td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Treatment: Heat-treated LPS
-</td>
-<td style="text-align:right;">
-1.294
-</td>
-<td style="text-align:right;">
-0.618
-</td>
-<td style="text-align:right;">
-0.121
-</td>
-<td style="text-align:right;">
-2.551
-</td>
-<td style="text-align:left;">
-0.0162
-</td>
-<td style="text-align:left;">
-*
 </td>
 </tr>
 <tr>
@@ -2453,93 +2424,25 @@ Treatment: Heat-treated LPS
 Treatment: LPS
 </td>
 <td style="text-align:right;">
-1.679
+1.571
 </td>
 <td style="text-align:right;">
-0.600
+0.555
 </td>
 <td style="text-align:right;">
-0.554
+0.555
 </td>
 <td style="text-align:right;">
-2.876
+2.731
 </td>
 <td style="text-align:left;">
-0.0021
-</td>
-<td style="text-align:left;">
-**
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-hive1
-</td>
-<td style="text-align:right;">
--3.216
-</td>
-<td style="text-align:right;">
-1.482
-</td>
-<td style="text-align:right;">
--6.636
-</td>
-<td style="text-align:right;">
--0.942
-</td>
-<td style="text-align:left;">
-0.0003
+0.0007
 </td>
 <td style="text-align:left;">
 ***
 </td>
 </tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-hive2
-</td>
-<td style="text-align:right;">
-1.900
-</td>
-<td style="text-align:right;">
-0.582
-</td>
-<td style="text-align:right;">
-0.910
-</td>
-<td style="text-align:right;">
-3.170
-</td>
-<td style="text-align:left;">
-0.0000
-</td>
-<td style="text-align:left;">
-***
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-hive3
-</td>
-<td style="text-align:right;">
--0.082
-</td>
-<td style="text-align:right;">
-0.643
-</td>
-<td style="text-align:right;">
--1.278
-</td>
-<td style="text-align:right;">
-1.266
-</td>
-<td style="text-align:left;">
-0.4311
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr grouplength="7">
+<tr grouplength="3">
 <td colspan="7" style="border-bottom: 1px solid;">
 <strong>% bees forced out</strong>
 </td>
@@ -2549,16 +2452,16 @@ hive3
 Intercept
 </td>
 <td style="text-align:right;">
--3.656
+-3.586
 </td>
 <td style="text-align:right;">
-0.359
+0.812
 </td>
 <td style="text-align:right;">
--4.403
+-5.244
 </td>
 <td style="text-align:right;">
--3.005
+-1.999
 </td>
 <td style="text-align:left;">
 0.0000
@@ -2572,44 +2475,22 @@ Intercept
 Treatment: Ringers
 </td>
 <td style="text-align:right;">
-0.564
+0.596
 </td>
 <td style="text-align:right;">
-0.449
+0.458
 </td>
 <td style="text-align:right;">
--0.311
+-0.310
 </td>
 <td style="text-align:right;">
-1.457
+1.497
 </td>
 <td style="text-align:left;">
-0.1062
+0.0977
 </td>
 <td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Treatment: Heat-treated LPS
-</td>
-<td style="text-align:right;">
-1.308
-</td>
-<td style="text-align:right;">
-0.400
-</td>
-<td style="text-align:right;">
-0.545
-</td>
-<td style="text-align:right;">
-2.116
-</td>
-<td style="text-align:left;">
-0.0004
-</td>
-<td style="text-align:left;">
-***
+~
 </td>
 </tr>
 <tr>
@@ -2617,89 +2498,22 @@ Treatment: Heat-treated LPS
 Treatment: LPS
 </td>
 <td style="text-align:right;">
-0.973
+1.164
 </td>
 <td style="text-align:right;">
-0.410
+0.369
 </td>
 <td style="text-align:right;">
-0.193
+0.462
 </td>
 <td style="text-align:right;">
-1.775
+1.929
 </td>
 <td style="text-align:left;">
-0.0068
-</td>
-<td style="text-align:left;">
-**
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-hive1
-</td>
-<td style="text-align:right;">
--1.761
-</td>
-<td style="text-align:right;">
-0.581
-</td>
-<td style="text-align:right;">
--3.069
-</td>
-<td style="text-align:right;">
--0.789
-</td>
-<td style="text-align:left;">
-0.0000
+0.0001
 </td>
 <td style="text-align:left;">
 ***
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-hive2
-</td>
-<td style="text-align:right;">
--0.421
-</td>
-<td style="text-align:right;">
-0.365
-</td>
-<td style="text-align:right;">
--1.151
-</td>
-<td style="text-align:right;">
-0.305
-</td>
-<td style="text-align:left;">
-0.1194
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-hive3
-</td>
-<td style="text-align:right;">
-0.069
-</td>
-<td style="text-align:right;">
-0.282
-</td>
-<td style="text-align:right;">
--0.469
-</td>
-<td style="text-align:right;">
-0.646
-</td>
-<td style="text-align:left;">
-0.4161
-</td>
-<td style="text-align:left;">
 </td>
 </tr>
 </tbody>
@@ -2712,12 +2526,12 @@ hive3
 <div id="derive-prediction-from-the-posterior" class="section level3">
 <h3>Derive prediction from the posterior</h3>
 <pre class="r"><code>get_posterior_preds &lt;- function(focal_hive){
-  new &lt;- expand.grid(treatment = levels(data_for_categorical_model$treatment), 
-                     hive = focal_hive)
+  new &lt;- expand.grid(
+    treatment = levels(data_for_categorical_model$treatment), 
+    hive = focal_hive)
   
   preds &lt;- fitted(exp1_model, newdata = new, summary = FALSE)
   dimnames(preds) &lt;- list(NULL, new[,1], NULL)
-  
   rbind(
     as.data.frame(preds[,, 1]) %&gt;% 
       mutate(outcome = &quot;Stayed inside the hive&quot;, posterior_sample = 1:n()),
@@ -2725,11 +2539,11 @@ hive3
       mutate(outcome = &quot;Left voluntarily&quot;, posterior_sample = 1:n()),
     as.data.frame(preds[,, 3]) %&gt;% 
       mutate(outcome = &quot;Forced out&quot;, posterior_sample = 1:n())) %&gt;%
-    gather(treatment, prop, `Intact control`, Ringers, `Heat-treated LPS`, LPS) %&gt;% 
+    gather(treatment, prop, `Intact control`, Ringers, LPS) %&gt;% 
     mutate(outcome = factor(outcome, 
                             c(&quot;Stayed inside the hive&quot;, &quot;Left voluntarily&quot;, &quot;Forced out&quot;)),
            treatment = factor(treatment, 
-                              c(&quot;Intact control&quot;, &quot;Ringers&quot;, &quot;Heat-treated LPS&quot;, &quot;LPS&quot;))) %&gt;%
+                              c(&quot;Intact control&quot;, &quot;Ringers&quot;, &quot;LPS&quot;))) %&gt;%
     as_tibble() %&gt;% arrange(treatment, outcome) 
 }
 
@@ -2747,9 +2561,7 @@ dot_plot &lt;- plotting_data %&gt;%
   left_join(sample_sizes, by = &quot;treatment&quot;) %&gt;%
   arrange(treatment) %&gt;%
   mutate(outcome = str_replace_all(outcome, &quot;Stayed inside the hive&quot;, &quot;Stayed inside&quot;),
-         outcome = factor(outcome, c(&quot;Stayed inside&quot;, &quot;Left voluntarily&quot;, &quot;Forced out&quot;)),
-         treatment = factor(paste(treatment, &quot;\n(n = &quot;, n, &quot;)&quot;, sep = &quot;&quot;),
-                            unique(paste(treatment, &quot;\n(n = &quot;, n, &quot;)&quot;, sep = &quot;&quot;)))) %&gt;% 
+         outcome = factor(outcome, c(&quot;Stayed inside&quot;, &quot;Left voluntarily&quot;, &quot;Forced out&quot;))) %&gt;% 
   ggplot(aes(100 * prop, treatment)) + 
   stat_dotsh(quantiles = 100, fill = &quot;grey40&quot;, colour = &quot;grey40&quot;) + 
   stat_pointintervalh(aes(colour = outcome, fill = outcome), 
@@ -2761,7 +2573,7 @@ dot_plot &lt;- plotting_data %&gt;%
   facet_wrap( ~ outcome, scales = &quot;free_x&quot;) + 
   xlab(&quot;% bees (posterior estimate)&quot;) + ylab(&quot;Treatment&quot;) + 
   theme_bw() + 
-  coord_cartesian(ylim=c(1.4, 4)) + 
+  coord_cartesian(ylim=c(1.4, 3)) + 
   theme(
     text = element_text(family = nice_font),
     strip.background = element_rect(fill = &quot;#eff0f1&quot;),
@@ -2777,20 +2589,15 @@ get_log_odds &lt;- function(trt1, trt2){
 LOR &lt;- stats_data %&gt;%
   spread(treatment, prop) %&gt;%
   mutate(LOR_intact_Ringers = get_log_odds(`Intact control`, Ringers),
-         LOR_intact_heat = get_log_odds(`Intact control`, `Heat-treated LPS`),
          LOR_intact_LPS = get_log_odds(`Intact control`, LPS),
-         LOR_Ringers_heat = get_log_odds(Ringers, `Heat-treated LPS`),
-         LOR_Ringers_LPS = get_log_odds(Ringers, LPS), 
-         LOR_heat_LPS = get_log_odds(`Heat-treated LPS`, LPS)) %&gt;%
+         LOR_Ringers_LPS = get_log_odds(Ringers, LPS)) %&gt;%
   select(posterior_sample, outcome, starts_with(&quot;LOR&quot;)) %&gt;%
   gather(LOR, comparison, starts_with(&quot;LOR&quot;)) %&gt;%
   mutate(LOR = str_remove_all(LOR, &quot;LOR_&quot;), 
-         LOR = str_replace_all(LOR, &quot;heat_LPS&quot;, &quot;LPS\n(Heat-treated LPS)&quot;),
          LOR = str_replace_all(LOR, &quot;Ringers_LPS&quot;, &quot;LPS\n(Ringers)&quot;),
-         LOR = str_replace_all(LOR, &quot;Ringers_heat&quot;, &quot;Heat-treated LPS\n(Ringers)&quot;),
          LOR = str_replace_all(LOR, &quot;intact_Ringers&quot;, &quot;Ringers\n(Intact control)&quot;),
-         LOR = str_replace_all(LOR, &quot;intact_heat&quot;, &quot;Heat-treated LPS\n(Intact control)&quot;),
          LOR = str_replace_all(LOR, &quot;intact_LPS&quot;, &quot;LPS\n(Intact control)&quot;))
+
 
 levs &lt;- LOR$LOR %&gt;% unique() %&gt;% sort()
 LOR$LOR &lt;- factor(LOR$LOR, rev(levs[c(3,5,4,2,1,6)]))
@@ -2803,12 +2610,12 @@ LOR_plot &lt;- LOR %&gt;%
   geom_hline(yintercept = log(2), linetype = 2, size = 0.6, colour = &quot;grey&quot;) +
   geom_hline(yintercept = -log(2), linetype = 2, size = 0.6, colour = &quot;grey&quot;) +
   stat_pointinterval(aes(colour = outcome, fill = outcome), 
-                      .width = c(0.5, 0.95),
-                      position = position_dodge(0.6), 
-                      point_colour = &quot;grey26&quot;, pch = 21, stroke = 0.4) + 
+                     .width = c(0.5, 0.95),
+                     position = position_dodge(0.6), 
+                     point_colour = &quot;grey26&quot;, pch = 21, stroke = 0.4) + 
   scale_colour_manual(values = cols) + 
   scale_fill_manual(values = cols) + 
-  ylab(&quot;Effect size (posterior log odds ratio)&quot;) + 
+  ylab(&quot;Effect size (log odds ratio)&quot;) + 
   xlab(&quot;Treatment (reference)&quot;) + 
   theme_bw() +
   coord_flip() +
@@ -2886,7 +2693,7 @@ lukeholman
 </table>
 </div>
 </div>
-<p><br></br> <strong><em>Figure 1</em></strong>: Panel A shows the posterior estimate of the mean % bees staying inside the hive (left), leaving voluntarily (middle), or being forced out (right), for each of the four treatments. The quantile dot plot shows 100 approximately equally likely estimates of the true % bees, and the horizontal bars show the median and the 50% and 95% credible intervals of the posterior distribution. Panel B gives the posterior estimates of the effect size of each treatment, relative to one of the other treatments (the name of which appears in parentheses), and expressed as a log odds ratio (LOR). Positive LOR indicates that the % bees showing this particular outcome is higher in the treatment than the control; for example, more bees left voluntarily (green) or were forced out (orange) in the LPS treatment than in the intact control. The dashed lines mark <span class="math inline">\(LOR = 0\)</span>, indicating no effect, and <span class="math inline">\(LOR = \pm log(2)\)</span>, i.e. the point at which the odds are twice as high in one treatment as the other.</p>
+<p><br></br> <strong><em>Figure 1</em></strong>: Results of Experiment 1 (n = 842 bees). Panel A shows the posterior estimate of the mean % bees staying inside the hive (left), leaving voluntarily (middle), or being forced out (right), for each of the four treatments. The quantile dot plot shows 100 approximately equally likely estimates of the true % bees, and the horizontal bars show the median and the 50% and 95% credible intervals of the posterior distribution. Panel B gives the posterior estimates of the effect size of each treatment, relative to one of the other treatments (the name of which appears in parentheses), expressed as a log odds ratio (LOR). Positive LOR indicates that the % bees showing this particular outcome is higher in the treatment than the control; for example, more bees left voluntarily (orange) or were forced out (blue) in the LPS treatment than in the intact control. The dashed lines mark <span class="math inline">\(LOR = 0\)</span>, indicating no effect, and <span class="math inline">\(LOR = \pm log(2)\)</span>, i.e. the point at which the odds are twice as high in one treatment as the other.</p>
 </div>
 </div>
 <div id="hypothesis-testing-and-effect-sizes" class="section level2">
@@ -2938,11 +2745,6 @@ stayed_inside_stats_table &lt;- rbind(
   
   stats_data %&gt;%
     filter(outcome == &quot;Stayed inside the hive&quot;) %&gt;%
-    make_stats_table(`Heat-treated LPS`, `LPS`, &quot;LPS (Heat-treated LPS)&quot;,
-                     metric = &quot;Difference in % bees staying inside&quot;),
-  
-  stats_data %&gt;%
-    filter(outcome == &quot;Stayed inside the hive&quot;) %&gt;%
     make_stats_table(`Ringers`, `LPS`, &quot;LPS (Ringers)&quot;,
                      metric = &quot;Difference in % bees staying inside&quot;),
   
@@ -2953,32 +2755,16 @@ stayed_inside_stats_table &lt;- rbind(
   
   stats_data %&gt;%
     filter(outcome == &quot;Stayed inside the hive&quot;) %&gt;%
-    make_stats_table(`Ringers`, `Heat-treated LPS`, &quot;Heat-treated LPS (Ringers)&quot;,
-                     metric = &quot;Difference in % bees staying inside&quot;),
-  
-  stats_data %&gt;%
-    filter(outcome == &quot;Stayed inside the hive&quot;) %&gt;%
-    make_stats_table(`Intact control`, `Heat-treated LPS`, &quot;Heat-treated LPS (Intact control)&quot;,
-                     metric = &quot;Difference in % bees staying inside&quot;),  
-  
-  stats_data %&gt;%
-    filter(outcome == &quot;Stayed inside the hive&quot;) %&gt;%
     make_stats_table(`Intact control`, `Ringers`, &quot;Ringers (Intact control)&quot;,
                      metric = &quot;Difference in % bees staying inside&quot;)
   
 ) %&gt;% as_tibble()
 
-stayed_inside_stats_table[c(2,4,6,8,10,12), 1] &lt;- &quot; &quot;</code></pre>
+stayed_inside_stats_table[c(2,4,6), 1] &lt;- &quot; &quot;</code></pre>
 </div>
 <div id="calculate-contrasts-bees-that-left-voluntarily" class="section level4">
 <h4>Calculate contrasts: % bees that left voluntarily</h4>
 <pre class="r"><code>voluntary_stats_table &lt;- rbind(
-  
-  stats_data %&gt;%
-    filter(outcome == &quot;Left voluntarily&quot;) %&gt;%
-    make_stats_table(`Heat-treated LPS`, `LPS`, 
-                     &quot;LPS (Heat-treated LPS)&quot;, 
-                     metric = &quot;Difference in % bees leaving voluntarily&quot;),
   
   stats_data %&gt;%
     filter(outcome == &quot;Left voluntarily&quot;) %&gt;%
@@ -2991,18 +2777,6 @@ stayed_inside_stats_table[c(2,4,6,8,10,12), 1] &lt;- &quot; &quot;</code></pre>
     make_stats_table(`Intact control`, `LPS`, 
                      &quot;LPS (Intact control)&quot;, 
                      metric = &quot;Difference in % bees leaving voluntarily&quot;),
-  
-  stats_data %&gt;%
-    filter(outcome == &quot;Left voluntarily&quot;) %&gt;%
-    make_stats_table(`Ringers`, `Heat-treated LPS`, 
-                     &quot;Heat-treated LPS (Ringers)&quot;, 
-                     metric = &quot;Difference in % bees leaving voluntarily&quot;),
-  
-  stats_data %&gt;%
-    filter(outcome == &quot;Left voluntarily&quot;) %&gt;%
-    make_stats_table(`Intact control`, `Heat-treated LPS`, 
-                     &quot;Heat-treated LPS (Intact control)&quot;, 
-                     metric = &quot;Difference in % bees leaving voluntarily&quot;),
 
   stats_data %&gt;%
     filter(outcome == &quot;Left voluntarily&quot;) %&gt;%
@@ -3011,17 +2785,11 @@ stayed_inside_stats_table[c(2,4,6,8,10,12), 1] &lt;- &quot; &quot;</code></pre>
                      metric = &quot;Difference in % bees leaving voluntarily&quot;)
 ) %&gt;% as_tibble()
 
-voluntary_stats_table[c(2,4,6,8,10,12), 1] &lt;- &quot; &quot;</code></pre>
+voluntary_stats_table[c(2,4,6), 1] &lt;- &quot; &quot;</code></pre>
 </div>
 <div id="calculate-contrasts-bees-that-were-forced-out" class="section level4">
 <h4>Calculate contrasts: % bees that were forced out</h4>
 <pre class="r"><code>forced_out_stats_table &lt;- rbind(
-  
-  stats_data %&gt;%
-    filter(outcome == &quot;Forced out&quot;) %&gt;%
-    make_stats_table(`Heat-treated LPS`, `LPS`, 
-                     &quot;LPS (Heat-treated LPS)&quot;, 
-                     metric = &quot;Difference in % bees forced out&quot;),
   
   stats_data %&gt;%
     filter(outcome == &quot;Forced out&quot;) %&gt;%
@@ -3036,27 +2804,16 @@ voluntary_stats_table[c(2,4,6,8,10,12), 1] &lt;- &quot; &quot;</code></pre>
                      metric = &quot;Difference in % bees forced out&quot;),
   
   stats_data %&gt;%
-    filter(outcome == &quot;Forced out&quot;) %&gt;%
-    make_stats_table(`Ringers`, `Heat-treated LPS`, 
-                     &quot;Heat-treated LPS (Ringers)&quot;, 
-                     metric = &quot;Difference in % bees forced out&quot;),  
-  stats_data %&gt;%
-    filter(outcome == &quot;Forced out&quot;) %&gt;%
-    make_stats_table(`Intact control`, `Heat-treated LPS`, 
-                     &quot;Heat-treated LPS (Intact control)&quot;, 
-                     metric = &quot;Difference in % bees forced out&quot;),
-  
-  stats_data %&gt;%
     filter(outcome == &quot;Left voluntarily&quot;) %&gt;%
     make_stats_table(`Intact control`, `Ringers`, &quot;Ringers (Intact control)&quot;,
                      metric = &quot;Difference in % bees forced out&quot;)
 ) %&gt;% as_tibble()
 
-forced_out_stats_table[c(2,4,6,8,10,12), 1] &lt;- &quot; &quot;</code></pre>
+forced_out_stats_table[c(2,4,6), 1] &lt;- &quot; &quot;</code></pre>
 </div>
 <div id="present-all-contrasts-in-one-table" class="section level4">
 <h4>Present all contrasts in one table:</h4>
-<p><strong><em>Table S2</em></strong>: This table gives statistics associated with each of the contrasts plotted in Figure 1B. Each pair of rows gives the absolute effect size (i.e. the difference in % bees) and standardised effect size (as log odds ratio; LOR) for the focal treatment, relative to the treatment shown in parentheses, for one of the three possible outcomes (stayed inside, left voluntarily, or forced out). A LOR of <span class="math inline">\(|log(x)|\)</span> indicates that the outcome is <span class="math inline">\(x\)</span> times more frequent in one treatment compared to the other, e.g. <span class="math inline">\(log(2) = 0.69\)</span> and <span class="math inline">\(log(0.5) = -0.69\)</span> correspond to a two-fold difference in frequency. The <span class="math inline">\(PP\)</span> column gives the posterior probability that the true effect size has the same sign as is shown in the Estimate column; this metric has a similar interpretation to a one-tailed <span class="math inline">\(p\)</span> value in frequentist statistics.</p>
+<p><strong><em>Table S2</em></strong>: This table gives statistics associated with each of the contrasts plotted in Figure 1B. Each pair of rows gives the absolute effect size (i.e. the difference in % bees) and standardised effect size (as log odds ratio; LOR) for the focal treatment, relative to the treatment shown in parentheses, for one of the three possible outcomes (stayed inside, left voluntarily, or forced out). A LOR of <span class="math inline">\(|log(x)|\)</span> indicates that the outcome is <span class="math inline">\(x\)</span> times more frequent in one treatment compared to the other, e.g. <span class="math inline">\(log(2) = 0.69\)</span> and <span class="math inline">\(log(0.5) = -0.69\)</span> correspond to a two-fold difference in frequency. The <span class="math inline">\(PP\)</span> column gives the posterior probability that the true effect size has the same sign as is shown in the Estimate column; this metric has a similar interpretation to a one-tailed <span class="math inline">\(p\)</span> value.</p>
 <pre class="r"><code>tableS2 &lt;- bind_rows(
   stayed_inside_stats_table,
   voluntary_stats_table,
@@ -3066,10 +2823,10 @@ saveRDS(tableS2, file = &quot;figures/tableS2.rds&quot;)
 
 tableS2 %&gt;%
   kable(digits = 2) %&gt;% kable_styling(full_width = FALSE) %&gt;% 
-  row_spec(seq(2,36,by=2), extra_css = &quot;border-bottom: solid;&quot;) %&gt;%
-  pack_rows(&quot;% bees staying inside&quot;, 1, 12) %&gt;%
-  pack_rows(&quot;% bees leaving voluntarily&quot;, 13, 24) %&gt;%
-  pack_rows(&quot;% bees forced out&quot;, 25, 36)</code></pre>
+  row_spec(seq(2,18,by=2), extra_css = &quot;border-bottom: solid;&quot;) %&gt;%
+  pack_rows(&quot;% bees staying inside&quot;, 1, 6) %&gt;%
+  pack_rows(&quot;% bees leaving voluntarily&quot;, 7, 12) %&gt;%
+  pack_rows(&quot;% bees forced out&quot;, 13, 18)</code></pre>
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -3099,57 +2856,9 @@ PP
 </tr>
 </thead>
 <tbody>
-<tr grouplength="12">
+<tr grouplength="6">
 <td colspan="8" style="border-bottom: 1px solid;">
 <strong>% bees staying inside</strong>
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-LPS (Heat-treated LPS)
-</td>
-<td style="text-align:left;">
-Difference in % bees staying inside
-</td>
-<td style="text-align:right;">
-1.57
-</td>
-<td style="text-align:right;">
-2.85
-</td>
-<td style="text-align:right;">
--3.82
-</td>
-<td style="text-align:right;">
-7.33
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;border-bottom: solid; padding-left: 2em;" indentlevel="1">
-</td>
-<td style="text-align:left;border-bottom: solid;">
-Log odds ratio
-</td>
-<td style="text-align:right;border-bottom: solid;">
-0.18
-</td>
-<td style="text-align:right;border-bottom: solid;">
-0.33
-</td>
-<td style="text-align:right;border-bottom: solid;">
--0.45
-</td>
-<td style="text-align:right;border-bottom: solid;">
-0.83
-</td>
-<td style="text-align:left;border-bottom: solid;">
-0.2911
-</td>
-<td style="text-align:left;border-bottom: solid;">
 </td>
 </tr>
 <tr>
@@ -3160,16 +2869,16 @@ LPS (Ringers)
 Difference in % bees staying inside
 </td>
 <td style="text-align:right;">
--3.31
+-6.50
 </td>
 <td style="text-align:right;">
-2.59
+6.26
 </td>
 <td style="text-align:right;">
--8.60
+-22.41
 </td>
 <td style="text-align:right;">
-1.62
+1.41
 </td>
 <td style="text-align:left;">
 </td>
@@ -3183,19 +2892,19 @@ Difference in % bees staying inside
 Log odds ratio
 </td>
 <td style="text-align:right;border-bottom: solid;">
--0.51
+-0.65
 </td>
 <td style="text-align:right;border-bottom: solid;">
-0.39
+0.42
 </td>
 <td style="text-align:right;border-bottom: solid;">
--1.28
+-1.52
 </td>
 <td style="text-align:right;border-bottom: solid;">
-0.24
+0.14
 </td>
 <td style="text-align:left;border-bottom: solid;">
-0.0895
+0.0516
 </td>
 <td style="text-align:left;border-bottom: solid;">
 ~
@@ -3209,16 +2918,16 @@ LPS (Intact control)
 Difference in % bees staying inside
 </td>
 <td style="text-align:right;">
--5.83
+-11.22
 </td>
 <td style="text-align:right;">
-2.24
+8.64
 </td>
 <td style="text-align:right;">
--10.66
+-31.40
 </td>
 <td style="text-align:right;">
--1.93
+-1.03
 </td>
 <td style="text-align:left;">
 </td>
@@ -3232,105 +2941,7 @@ Difference in % bees staying inside
 Log odds ratio
 </td>
 <td style="text-align:right;border-bottom: solid;">
--1.11
-</td>
-<td style="text-align:right;border-bottom: solid;">
-0.36
-</td>
-<td style="text-align:right;border-bottom: solid;">
--1.81
-</td>
-<td style="text-align:right;border-bottom: solid;">
--0.42
-</td>
-<td style="text-align:left;border-bottom: solid;">
-8e-04
-</td>
-<td style="text-align:left;border-bottom: solid;">
-***
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Heat-treated LPS (Ringers)
-</td>
-<td style="text-align:left;">
-Difference in % bees staying inside
-</td>
-<td style="text-align:right;">
--4.88
-</td>
-<td style="text-align:right;">
-2.79
-</td>
-<td style="text-align:right;">
--10.53
-</td>
-<td style="text-align:right;">
-0.44
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;border-bottom: solid; padding-left: 2em;" indentlevel="1">
-</td>
-<td style="text-align:left;border-bottom: solid;">
-Log odds ratio
-</td>
-<td style="text-align:right;border-bottom: solid;">
--0.70
-</td>
-<td style="text-align:right;border-bottom: solid;">
-0.39
-</td>
-<td style="text-align:right;border-bottom: solid;">
--1.45
-</td>
-<td style="text-align:right;border-bottom: solid;">
-0.06
-</td>
-<td style="text-align:left;border-bottom: solid;">
-0.0367
-</td>
-<td style="text-align:left;border-bottom: solid;">
-*
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Heat-treated LPS (Intact control)
-</td>
-<td style="text-align:left;">
-Difference in % bees staying inside
-</td>
-<td style="text-align:right;">
--7.40
-</td>
-<td style="text-align:right;">
-2.49
-</td>
-<td style="text-align:right;">
--12.75
-</td>
-<td style="text-align:right;">
--3.03
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;border-bottom: solid; padding-left: 2em;" indentlevel="1">
-</td>
-<td style="text-align:left;border-bottom: solid;">
-Log odds ratio
-</td>
-<td style="text-align:right;border-bottom: solid;">
--1.30
+-1.27
 </td>
 <td style="text-align:right;border-bottom: solid;">
 0.35
@@ -3339,10 +2950,10 @@ Log odds ratio
 -2.00
 </td>
 <td style="text-align:right;border-bottom: solid;">
--0.62
+-0.60
 </td>
 <td style="text-align:left;border-bottom: solid;">
-1e-04
+0.0000
 </td>
 <td style="text-align:left;border-bottom: solid;">
 ***
@@ -3356,16 +2967,16 @@ Ringers (Intact control)
 Difference in % bees staying inside
 </td>
 <td style="text-align:right;">
--2.52
+-4.72
 </td>
 <td style="text-align:right;">
-1.91
+5.83
 </td>
 <td style="text-align:right;">
--6.72
+-20.54
 </td>
 <td style="text-align:right;">
-0.75
+1.53
 </td>
 <td style="text-align:left;">
 </td>
@@ -3379,75 +2990,27 @@ Difference in % bees staying inside
 Log odds ratio
 </td>
 <td style="text-align:right;border-bottom: solid;">
--0.60
+-0.62
 </td>
 <td style="text-align:right;border-bottom: solid;">
-0.41
+0.48
 </td>
 <td style="text-align:right;border-bottom: solid;">
--1.43
+-1.59
 </td>
 <td style="text-align:right;border-bottom: solid;">
-0.21
+0.30
 </td>
 <td style="text-align:left;border-bottom: solid;">
-0.0721
+0.0902
 </td>
 <td style="text-align:left;border-bottom: solid;">
 ~
 </td>
 </tr>
-<tr grouplength="12">
+<tr grouplength="6">
 <td colspan="8" style="border-bottom: 1px solid;">
 <strong>% bees leaving voluntarily</strong>
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-LPS (Heat-treated LPS)
-</td>
-<td style="text-align:left;">
-Difference in % bees leaving voluntarily
-</td>
-<td style="text-align:right;">
-0.79
-</td>
-<td style="text-align:right;">
-1.13
-</td>
-<td style="text-align:right;">
--1.21
-</td>
-<td style="text-align:right;">
-3.46
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;border-bottom: solid; padding-left: 2em;" indentlevel="1">
-</td>
-<td style="text-align:left;border-bottom: solid;">
-Log odds ratio
-</td>
-<td style="text-align:right;border-bottom: solid;">
-0.41
-</td>
-<td style="text-align:right;border-bottom: solid;">
-0.51
-</td>
-<td style="text-align:right;border-bottom: solid;">
--0.60
-</td>
-<td style="text-align:right;border-bottom: solid;">
-1.42
-</td>
-<td style="text-align:left;border-bottom: solid;">
-0.2121
-</td>
-<td style="text-align:left;border-bottom: solid;">
 </td>
 </tr>
 <tr>
@@ -3458,16 +3021,16 @@ LPS (Ringers)
 Difference in % bees leaving voluntarily
 </td>
 <td style="text-align:right;">
-1.36
+2.26
 </td>
 <td style="text-align:right;">
-1.38
+3.37
 </td>
 <td style="text-align:right;">
--1.10
+-2.86
 </td>
 <td style="text-align:right;">
-4.47
+10.72
 </td>
 <td style="text-align:left;">
 </td>
@@ -3481,19 +3044,19 @@ Difference in % bees leaving voluntarily
 Log odds ratio
 </td>
 <td style="text-align:right;border-bottom: solid;">
-0.99
+0.92
 </td>
 <td style="text-align:right;border-bottom: solid;">
-0.87
+0.88
 </td>
 <td style="text-align:right;border-bottom: solid;">
--0.56
+-0.63
 </td>
 <td style="text-align:right;border-bottom: solid;">
-2.92
+2.79
 </td>
 <td style="text-align:left;border-bottom: solid;">
-0.1183
+0.1392
 </td>
 <td style="text-align:left;border-bottom: solid;">
 </td>
@@ -3506,16 +3069,16 @@ LPS (Intact control)
 Difference in % bees leaving voluntarily
 </td>
 <td style="text-align:right;">
-1.97
+3.53
 </td>
 <td style="text-align:right;">
-1.22
+3.45
 </td>
 <td style="text-align:right;">
-0.30
+0.08
 </td>
 <td style="text-align:right;">
-4.95
+12.40
 </td>
 <td style="text-align:left;">
 </td>
@@ -3529,119 +3092,22 @@ Difference in % bees leaving voluntarily
 Log odds ratio
 </td>
 <td style="text-align:right;border-bottom: solid;">
-1.64
+1.46
 </td>
 <td style="text-align:right;border-bottom: solid;">
-0.60
+0.57
 </td>
 <td style="text-align:right;border-bottom: solid;">
-0.51
+0.42
 </td>
 <td style="text-align:right;border-bottom: solid;">
-2.84
+2.64
 </td>
 <td style="text-align:left;border-bottom: solid;">
-0.0025
+0.0029
 </td>
 <td style="text-align:left;border-bottom: solid;">
 **
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Heat-treated LPS (Ringers)
-</td>
-<td style="text-align:left;">
-Difference in % bees leaving voluntarily
-</td>
-<td style="text-align:right;">
-0.57
-</td>
-<td style="text-align:right;">
-1.19
-</td>
-<td style="text-align:right;">
--1.83
-</td>
-<td style="text-align:right;">
-3.16
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;border-bottom: solid; padding-left: 2em;" indentlevel="1">
-</td>
-<td style="text-align:left;border-bottom: solid;">
-Log odds ratio
-</td>
-<td style="text-align:right;border-bottom: solid;">
-0.58
-</td>
-<td style="text-align:right;border-bottom: solid;">
-0.91
-</td>
-<td style="text-align:right;border-bottom: solid;">
--1.08
-</td>
-<td style="text-align:right;border-bottom: solid;">
-2.53
-</td>
-<td style="text-align:left;border-bottom: solid;">
-0.2668
-</td>
-<td style="text-align:left;border-bottom: solid;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Heat-treated LPS (Intact control)
-</td>
-<td style="text-align:left;">
-Difference in % bees leaving voluntarily
-</td>
-<td style="text-align:right;">
-1.18
-</td>
-<td style="text-align:right;">
-0.89
-</td>
-<td style="text-align:right;">
-0.03
-</td>
-<td style="text-align:right;">
-3.43
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;border-bottom: solid; padding-left: 2em;" indentlevel="1">
-</td>
-<td style="text-align:left;border-bottom: solid;">
-Log odds ratio
-</td>
-<td style="text-align:right;border-bottom: solid;">
-1.23
-</td>
-<td style="text-align:right;border-bottom: solid;">
-0.62
-</td>
-<td style="text-align:right;border-bottom: solid;">
-0.05
-</td>
-<td style="text-align:right;border-bottom: solid;">
-2.47
-</td>
-<td style="text-align:left;border-bottom: solid;">
-0.0213
-</td>
-<td style="text-align:left;border-bottom: solid;">
-*
 </td>
 </tr>
 <tr>
@@ -3652,16 +3118,16 @@ Ringers (Intact control)
 Difference in % bees leaving voluntarily
 </td>
 <td style="text-align:right;">
-0.61
+1.27
 </td>
 <td style="text-align:right;">
-0.92
+2.91
 </td>
 <td style="text-align:right;">
--0.65
+-1.97
 </td>
 <td style="text-align:right;">
-2.95
+9.71
 </td>
 <td style="text-align:left;">
 </td>
@@ -3675,74 +3141,26 @@ Difference in % bees leaving voluntarily
 Log odds ratio
 </td>
 <td style="text-align:right;border-bottom: solid;">
-0.65
+0.55
 </td>
 <td style="text-align:right;border-bottom: solid;">
-0.95
+0.97
 </td>
 <td style="text-align:right;border-bottom: solid;">
--1.36
+-1.46
 </td>
 <td style="text-align:right;border-bottom: solid;">
-2.43
+2.33
 </td>
 <td style="text-align:left;border-bottom: solid;">
-0.2363
+0.2716
 </td>
 <td style="text-align:left;border-bottom: solid;">
 </td>
 </tr>
-<tr grouplength="12">
+<tr grouplength="6">
 <td colspan="8" style="border-bottom: 1px solid;">
 <strong>% bees forced out</strong>
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-LPS (Heat-treated LPS)
-</td>
-<td style="text-align:left;">
-Difference in % bees forced out
-</td>
-<td style="text-align:right;">
--2.36
-</td>
-<td style="text-align:right;">
-2.60
-</td>
-<td style="text-align:right;">
--7.79
-</td>
-<td style="text-align:right;">
-2.48
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;border-bottom: solid; padding-left: 2em;" indentlevel="1">
-</td>
-<td style="text-align:left;border-bottom: solid;">
-Log odds ratio
-</td>
-<td style="text-align:right;border-bottom: solid;">
--0.34
-</td>
-<td style="text-align:right;border-bottom: solid;">
-0.37
-</td>
-<td style="text-align:right;border-bottom: solid;">
--1.07
-</td>
-<td style="text-align:right;border-bottom: solid;">
-0.37
-</td>
-<td style="text-align:left;border-bottom: solid;">
-0.1843
-</td>
-<td style="text-align:left;border-bottom: solid;">
 </td>
 </tr>
 <tr>
@@ -3753,16 +3171,16 @@ LPS (Ringers)
 Difference in % bees forced out
 </td>
 <td style="text-align:right;">
-1.95
+4.24
 </td>
 <td style="text-align:right;">
-2.18
+5.60
 </td>
 <td style="text-align:right;">
--2.21
+-1.24
 </td>
 <td style="text-align:right;">
-6.35
+20.39
 </td>
 <td style="text-align:left;">
 </td>
@@ -3776,21 +3194,22 @@ Difference in % bees forced out
 Log odds ratio
 </td>
 <td style="text-align:right;border-bottom: solid;">
-0.39
+0.54
 </td>
 <td style="text-align:right;border-bottom: solid;">
-0.42
+0.37
 </td>
 <td style="text-align:right;border-bottom: solid;">
--0.41
+-0.18
 </td>
 <td style="text-align:right;border-bottom: solid;">
-1.22
+1.29
 </td>
 <td style="text-align:left;border-bottom: solid;">
-0.1741
+0.0743
 </td>
 <td style="text-align:left;border-bottom: solid;">
+~
 </td>
 </tr>
 <tr>
@@ -3801,16 +3220,16 @@ LPS (Intact control)
 Difference in % bees forced out
 </td>
 <td style="text-align:right;">
-3.86
+7.69
 </td>
 <td style="text-align:right;">
-1.93
+8.14
 </td>
 <td style="text-align:right;">
-0.61
+0.54
 </td>
 <td style="text-align:right;">
-8.12
+28.33
 </td>
 <td style="text-align:left;">
 </td>
@@ -3824,117 +3243,19 @@ Difference in % bees forced out
 Log odds ratio
 </td>
 <td style="text-align:right;border-bottom: solid;">
-0.95
+1.12
+</td>
+<td style="text-align:right;border-bottom: solid;">
+0.37
 </td>
 <td style="text-align:right;border-bottom: solid;">
 0.41
 </td>
 <td style="text-align:right;border-bottom: solid;">
-0.17
-</td>
-<td style="text-align:right;border-bottom: solid;">
-1.75
+1.89
 </td>
 <td style="text-align:left;border-bottom: solid;">
-0.0078
-</td>
-<td style="text-align:left;border-bottom: solid;">
-**
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Heat-treated LPS (Ringers)
-</td>
-<td style="text-align:left;">
-Difference in % bees forced out
-</td>
-<td style="text-align:right;">
-4.31
-</td>
-<td style="text-align:right;">
-2.54
-</td>
-<td style="text-align:right;">
--0.38
-</td>
-<td style="text-align:right;">
-9.60
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;border-bottom: solid; padding-left: 2em;" indentlevel="1">
-</td>
-<td style="text-align:left;border-bottom: solid;">
-Log odds ratio
-</td>
-<td style="text-align:right;border-bottom: solid;">
-0.74
-</td>
-<td style="text-align:right;border-bottom: solid;">
-0.41
-</td>
-<td style="text-align:right;border-bottom: solid;">
--0.07
-</td>
-<td style="text-align:right;border-bottom: solid;">
-1.55
-</td>
-<td style="text-align:left;border-bottom: solid;">
-0.0374
-</td>
-<td style="text-align:left;border-bottom: solid;">
-*
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Heat-treated LPS (Intact control)
-</td>
-<td style="text-align:left;">
-Difference in % bees forced out
-</td>
-<td style="text-align:right;">
-6.22
-</td>
-<td style="text-align:right;">
-2.36
-</td>
-<td style="text-align:right;">
-2.18
-</td>
-<td style="text-align:right;">
-11.43
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;border-bottom: solid; padding-left: 2em;" indentlevel="1">
-</td>
-<td style="text-align:left;border-bottom: solid;">
-Log odds ratio
-</td>
-<td style="text-align:right;border-bottom: solid;">
-1.29
-</td>
-<td style="text-align:right;border-bottom: solid;">
-0.40
-</td>
-<td style="text-align:right;border-bottom: solid;">
-0.53
-</td>
-<td style="text-align:right;border-bottom: solid;">
-2.10
-</td>
-<td style="text-align:left;border-bottom: solid;">
-5e-04
+4e-04
 </td>
 <td style="text-align:left;border-bottom: solid;">
 ***
@@ -3948,16 +3269,16 @@ Ringers (Intact control)
 Difference in % bees forced out
 </td>
 <td style="text-align:right;">
-0.61
+1.27
 </td>
 <td style="text-align:right;">
-0.92
+2.91
 </td>
 <td style="text-align:right;">
--0.65
+-1.97
 </td>
 <td style="text-align:right;">
-2.95
+9.71
 </td>
 <td style="text-align:left;">
 </td>
@@ -3971,19 +3292,19 @@ Difference in % bees forced out
 Log odds ratio
 </td>
 <td style="text-align:right;border-bottom: solid;">
-0.65
+0.55
 </td>
 <td style="text-align:right;border-bottom: solid;">
-0.95
+0.97
 </td>
 <td style="text-align:right;border-bottom: solid;">
--1.36
+-1.46
 </td>
 <td style="text-align:right;border-bottom: solid;">
-2.43
+2.33
 </td>
 <td style="text-align:left;border-bottom: solid;">
-0.2363
+0.2716
 </td>
 <td style="text-align:left;border-bottom: solid;">
 </td>
@@ -4015,8 +3336,9 @@ attached base packages:
 other attached packages:
  [1] car_3.0-8        carData_3.0-4    cowplot_1.0.0    tidybayes_2.0.3  bayestestR_0.6.0 kableExtra_1.1.0
  [7] gridExtra_2.3    forcats_0.5.0    stringr_1.4.0    dplyr_1.0.0      purrr_0.3.4      readr_1.3.1     
-[13] tidyr_1.1.0      tibble_3.0.1     ggplot2_3.3.2    tidyverse_1.3.0  bayesplot_1.7.2  brms_2.14.4     
-[19] Rcpp_1.0.4.6     showtext_0.9-1   showtextdb_3.0   sysfonts_0.8.2   workflowr_1.6.2 
+[13] tidyr_1.1.0      tibble_3.0.1     ggplot2_3.3.2    tidyverse_1.3.0  bayesplot_1.7.2  lme4_1.1-23     
+[19] Matrix_1.2-18    brms_2.14.4      Rcpp_1.0.4.6     showtext_0.9-1   showtextdb_3.0   sysfonts_0.8.2  
+[25] workflowr_1.6.2 
 
 loaded via a namespace (and not attached):
   [1] readxl_1.3.1         backports_1.1.7      plyr_1.8.6           igraph_1.2.5         svUnit_1.0.3        
@@ -4024,28 +3346,28 @@ loaded via a namespace (and not attached):
  [11] digest_0.6.25        htmltools_0.5.0      rsconnect_0.8.16     fansi_0.4.1          magrittr_2.0.1      
  [16] openxlsx_4.1.5       modelr_0.1.8         RcppParallel_5.0.1   matrixStats_0.56.0   xts_0.12-0          
  [21] sandwich_2.5-1       prettyunits_1.1.1    colorspace_1.4-1     blob_1.2.1           rvest_0.3.5         
- [26] haven_2.3.1          xfun_0.19            callr_3.4.3          crayon_1.3.4         jsonlite_1.7.0      
- [31] lme4_1.1-23          survival_3.2-7       zoo_1.8-8            glue_1.4.2           gtable_0.3.0        
- [36] emmeans_1.4.7        webshot_0.5.2        V8_3.4.0             pkgbuild_1.0.8       rstan_2.21.2        
- [41] abind_1.4-5          scales_1.1.1         mvtnorm_1.1-0        DBI_1.1.0            miniUI_0.1.1.1      
- [46] viridisLite_0.3.0    xtable_1.8-4         foreign_0.8-80       stats4_4.0.3         StanHeaders_2.21.0-3
- [51] DT_0.13              htmlwidgets_1.5.1    httr_1.4.1           threejs_0.3.3        RColorBrewer_1.1-2  
- [56] arrayhelpers_1.1-0   ellipsis_0.3.1       farver_2.0.3         pkgconfig_2.0.3      loo_2.3.1           
- [61] dbplyr_1.4.4         labeling_0.3         tidyselect_1.1.0     rlang_0.4.6          reshape2_1.4.4      
- [66] later_1.0.0          munsell_0.5.0        cellranger_1.1.0     tools_4.0.3          cli_2.0.2           
- [71] generics_0.0.2       broom_0.5.6          ggridges_0.5.2       evaluate_0.14        fastmap_1.0.1       
- [76] yaml_2.2.1           processx_3.4.2       knitr_1.30           fs_1.4.1             zip_2.0.4           
- [81] nlme_3.1-149         whisker_0.4          mime_0.9             projpred_2.0.2       xml2_1.3.2          
- [86] compiler_4.0.3       shinythemes_1.1.2    rstudioapi_0.11      curl_4.3             gamm4_0.2-6         
- [91] reprex_0.3.0         statmod_1.4.34       stringi_1.5.3        highr_0.8            ps_1.3.3            
- [96] Brobdingnag_1.2-6    lattice_0.20-41      Matrix_1.2-18        nloptr_1.2.2.1       markdown_1.1        
-[101] shinyjs_1.1          vctrs_0.3.0          pillar_1.4.4         lifecycle_0.2.0      bridgesampling_1.0-0
-[106] estimability_1.3     data.table_1.12.8    insight_0.8.4        httpuv_1.5.3.1       R6_2.4.1            
-[111] promises_1.1.0       rio_0.5.16           codetools_0.2-16     boot_1.3-25          colourpicker_1.0    
-[116] MASS_7.3-53          gtools_3.8.2         assertthat_0.2.1     rprojroot_1.3-2      withr_2.2.0         
-[121] shinystan_2.5.0      multcomp_1.4-13      mgcv_1.8-33          parallel_4.0.3       hms_0.5.3           
-[126] grid_4.0.3           coda_0.19-3          minqa_1.2.4          rmarkdown_2.5        git2r_0.27.1        
-[131] shiny_1.4.0.2        lubridate_1.7.8      base64enc_0.1-3      dygraphs_1.1.1.6    </code></pre>
+ [26] haven_2.3.1          xfun_0.22            callr_3.4.3          crayon_1.3.4         jsonlite_1.7.0      
+ [31] survival_3.2-7       zoo_1.8-8            glue_1.4.2           gtable_0.3.0         emmeans_1.4.7       
+ [36] webshot_0.5.2        V8_3.4.0             pkgbuild_1.0.8       rstan_2.21.2         abind_1.4-5         
+ [41] scales_1.1.1         mvtnorm_1.1-0        DBI_1.1.0            miniUI_0.1.1.1       viridisLite_0.3.0   
+ [46] xtable_1.8-4         foreign_0.8-80       stats4_4.0.3         StanHeaders_2.21.0-3 DT_0.13             
+ [51] htmlwidgets_1.5.1    httr_1.4.1           threejs_0.3.3        RColorBrewer_1.1-2   arrayhelpers_1.1-0  
+ [56] ellipsis_0.3.1       farver_2.0.3         pkgconfig_2.0.3      loo_2.3.1            dbplyr_1.4.4        
+ [61] labeling_0.3         tidyselect_1.1.0     rlang_0.4.6          reshape2_1.4.4       later_1.0.0         
+ [66] munsell_0.5.0        cellranger_1.1.0     tools_4.0.3          cli_2.0.2            generics_0.0.2      
+ [71] broom_0.5.6          ggridges_0.5.2       evaluate_0.14        fastmap_1.0.1        yaml_2.2.1          
+ [76] processx_3.4.2       knitr_1.32           fs_1.4.1             zip_2.1.1            nlme_3.1-149        
+ [81] whisker_0.4          mime_0.9             projpred_2.0.2       xml2_1.3.2           compiler_4.0.3      
+ [86] shinythemes_1.1.2    rstudioapi_0.11      curl_4.3             gamm4_0.2-6          reprex_0.3.0        
+ [91] statmod_1.4.34       stringi_1.5.3        highr_0.8            ps_1.3.3             Brobdingnag_1.2-6   
+ [96] lattice_0.20-41      nloptr_1.2.2.1       markdown_1.1         shinyjs_1.1          vctrs_0.3.0         
+[101] pillar_1.4.4         lifecycle_0.2.0      bridgesampling_1.0-0 estimability_1.3     data.table_1.12.8   
+[106] insight_0.8.4        httpuv_1.5.3.1       R6_2.4.1             promises_1.1.0       rio_0.5.16          
+[111] codetools_0.2-16     boot_1.3-25          colourpicker_1.0     MASS_7.3-53          gtools_3.8.2        
+[116] assertthat_0.2.1     rprojroot_1.3-2      withr_2.2.0          shinystan_2.5.0      multcomp_1.4-13     
+[121] mgcv_1.8-33          parallel_4.0.3       hms_0.5.3            grid_4.0.3           coda_0.19-3         
+[126] minqa_1.2.4          rmarkdown_2.5        git2r_0.27.1         shiny_1.4.0.2        lubridate_1.7.8     
+[131] base64enc_0.1-3      dygraphs_1.1.1.6    </code></pre>
 </div>
 </div>
 </div>
@@ -4062,6 +3384,8 @@ footer is added to webpages before the MathJax javascript. -->
     "HTML-CSS": { availableFonts: ["TeX"] }
   });
 </script>
+
+
 
 
 </div>
