@@ -7,17 +7,6 @@ output:
     code_folding: hide 
 ---
 
-<!-- ```{r setup, include=FALSE} -->
-<!-- library(thematic) -->
-<!-- bootstraplib::bs_theme_new() -->
-<!-- bootstraplib::bs_theme_fonts("Pacifico") -->
-
-<!-- thematic_on( -->
-<!--   bg = "black", fg = "red", accent = "orange" -->
-<!-- ) -->
-<!-- knitr::opts_chunk$set(echo = FALSE) -->
-<!-- ``` -->
-
 
 ```{r, include=FALSE}
 options(width=120)
@@ -44,6 +33,7 @@ local({
 library(showtext)
 
 library(brms)
+library(lme4)
 library(bayesplot)
 library(tidyverse)
 library(gridExtra)
@@ -156,15 +146,14 @@ outcome_tally %>%
 
 
 
-## Run the preliminary GLM
+## Preliminary GLMM
 
-The multinomial model below is not commonly used, though we believe it is the right choice for this particular experiment (e.g. because it can model a three-item categorical response variable, and it can incorporate priors). However during peer review, we were asked whether the results were similar when using standard statistical methods. To address this question, we here present a frequentist Generalised Linear Model (GLM; using `base::glm`), which tests the null hypothesis that the proportion of bees exiting the hive (i.e. the proportion leaving voluntarily plus those that were forced out) is equal between treatment groups and hives. The model uses the quasibinomial family, since this family is more robust to overdispersion than the binomial family (though testing revealed both families gave qualitatively identical results).
+The multinomial model below is not commonly used, though we believe it is the right choice for this particular experiment (e.g. because it can model a three-item categorical response variable, and it can incorporate priors). However during peer review, we were asked whether the results were similar when using standard statistical methods. To address this question, we here present a frequentist Generalised Linear Mixed Model (GLMM; using `lme4::glmer`), which tests the null hypothesis that the proportion of bees exiting the hive (i.e. the proportion leaving voluntarily plus those that were forced out) is equal between treatment groups and hives. 
 
-The model results are similar to those from the multinomial model: bees treated with the CHCs from LPS-treated nestmates left the hive more often than controls, and there were differences between hives in the proportion of bees leaving.
+The model results are similar to those from the multinomial model: bees treated with the CHCs from LPS-treated nestmates left the hive more often than controls, and there was variation between hives in the proportion of bees leaving.
 
-### Run the GLM
 ```{r message=FALSE, warning=FALSE}
-glm_dat <- outcome_tally %>% 
+glmm_data <- outcome_tally %>% 
   group_by(hive, treatment, outcome) %>% 
   summarise(n = sum(n)) %>% 
   mutate(left = ifelse(outcome == "Stayed inside", "stayed_inside" ,"left_hive")) %>% 
@@ -172,25 +161,12 @@ glm_dat <- outcome_tally %>%
   summarise(n = sum(n)) %>%
   spread(left, n)  
 
-simple_model <- glm(
-    cbind(left_hive, stayed_inside) ~ treatment + hive, 
-    data = glm_dat, 
-    family = "quasibinomial")
-```
-
-
-### Inspect model coefficients and p-values
-
-The reference level for `treatment` is the the Ringers Control, and the reference for `hive` is the hive named Arts.
-```{r}
+simple_model <- glmer(
+    cbind(left_hive, stayed_inside) ~ treatment + (1 | hive), 
+    data = glmm_data, 
+    family = "binomial")
 summary(simple_model)
 ```
-
-### Inspect Type II Anova table
-```{r}
-Anova(simple_model, test = "LR", Type = "II")
-```
-
 
 
 ## Baysian multinomial model
@@ -201,14 +177,19 @@ Fit the multinomial logistic models, with a 3-item response variable describing 
 
 ```{r}
 if(!file.exists("output/exp2_model.rds")){
-
+  
+  prior <- c(set_prior("normal(0, 3)", class = "b", dpar = "mu2"),
+             set_prior("normal(0, 3)", class = "b", dpar = "mu3"),
+             set_prior("normal(0, 1)", class = "sd", dpar = "mu2", group = "hive"),
+             set_prior("normal(0, 1)", class = "sd", dpar = "mu3", group = "hive"))
+  
   exp2_model <- brm(
-    outcome_numeric ~ treatment + hive, 
+    outcome_numeric ~ treatment + (1 | hive), 
     data = data_for_categorical_model, 
-    prior = c(set_prior("normal(0, 3)", class = "b", dpar = "mu2"),
-              set_prior("normal(0, 3)", class = "b", dpar = "mu3")),
+    prior = prior,
     family = "categorical",
-    chains = 4, cores = 4, iter = 5000, seed = 1)
+    control = list(adapt_delta = 0.99),
+    chains = 4, cores = 1, iter = 5000, seed = 1)
   
   saveRDS(exp2_model, "output/exp2_model.rds")
 }
@@ -256,8 +237,8 @@ saveRDS(tableS3, file = "figures/tableS3.rds")
 tableS3 %>%
   kable(digits = 3) %>% 
   kable_styling(full_width = FALSE) %>%
-  pack_rows("% bees leaving voluntarily", 1, 5) %>%
-  pack_rows("% bees forced out", 6, 10)
+  pack_rows("% bees leaving voluntarily", 1, 2) %>%
+  pack_rows("% bees forced out", 3, 4)
 ```
 
 
@@ -300,15 +281,13 @@ stats_data <- get_posterior_preds(focal_hive = NA)
 
 ### Make Figure 2
 
-```{r fig.height=6, fig.width=6, fig.showtext = TRUE, warning=FALSE}
+```{r fig.height=3.4, fig.width=9, fig.showtext = TRUE, warning=FALSE}
 cols <- RColorBrewer::brewer.pal(3, "Set2")
 panel_c_colour <- "#CC79A7"
 
 dot_plot <- plotting_data %>%
   left_join(sample_sizes, by = "treatment") %>%
   arrange(treatment) %>%
-  mutate(treatment = factor(paste(treatment, "\n(n = ", n, ")", sep = ""),
-                            unique(paste(treatment, "\n(n = ", n, ")", sep = "")))) %>% 
   ggplot(aes(100 * prop, treatment)) + 
   stat_dotsh(quantiles = 100, fill = "grey40", colour = "grey40") + 
   stat_pointintervalh(aes(colour = outcome, fill = outcome), 
@@ -350,7 +329,7 @@ LOR_plot <- LOR %>%
                       point_colour = "grey26", pch = 21, stroke = 0.4) + 
   scale_colour_manual(values = cols) + 
   scale_fill_manual(values = cols) + 
-  xlab("Effect size of LPS\n(log odds ratio)") + ylab("Mode of exit") + 
+  xlab("Effect size of LPS (log odds ratio)") + ylab("Mode of exit") + 
   theme_bw() +
   theme(
     text = element_text(family = nice_font),
@@ -358,34 +337,6 @@ LOR_plot <- LOR %>%
     legend.position = "none"
   ) 
 
-
-diff_in_forced_out_plot <- plotting_data %>%
-  spread(outcome, prop) %>%
-  mutate(prop_leavers_that_were_forced_out = `Forced out` / (`Forced out` + `Left voluntarily`)) %>%
-  select(posterior_sample, treatment, prop_leavers_that_were_forced_out)  %>%
-  spread(treatment, prop_leavers_that_were_forced_out) %>% 
-  mutate(difference_prop_forced_out_LOR = get_log_odds(Ringers, LPS)) %>%
-  ggplot(aes(difference_prop_forced_out_LOR, y =1)) + 
-  geom_vline(xintercept = 0, linetype = 2) +
-  stat_dotsh(quantiles = 100, fill = "grey40", colour = "grey40") + 
-  stat_pointintervalh(
-    colour = panel_c_colour, fill = panel_c_colour,
-    .width = c(0.5, 0.95), 
-    position = position_nudge(y = -0.1),
-    point_colour = "grey26", pch = 21, stroke = 0.4) + 
-  coord_cartesian(ylim=c(0.86, 2)) + 
-  xlab("Effect of LPS on proportion\nbees leaving by force\n(log odds ratio)") + 
-  ylab("Posterior density") + 
-  theme_bw() +
-  theme(
-    text = element_text(family = nice_font),
-    axis.text.y = element_blank(),
-    axis.ticks.y = element_blank(),
-    panel.grid.major.y = element_blank(),
-    panel.grid.minor.y = element_blank(),
-    legend.position = "none"
-  ) 
- 
 # 
 # diff_in_forced_out_plot <- plotting_data %>%
 #   spread(outcome, prop) %>%
@@ -397,35 +348,38 @@ diff_in_forced_out_plot <- plotting_data %>%
 #   geom_vline(xintercept = 0, linetype = 2) +
 #   stat_dotsh(quantiles = 100, fill = "grey40", colour = "grey40") + 
 #   stat_pointintervalh(
-#     colour = "#0CE3AC", fill = "#0CE3AC",
+#     colour = panel_c_colour, fill = panel_c_colour,
 #     .width = c(0.5, 0.95), 
 #     position = position_nudge(y = -0.1),
-#     point_colour = "grey26", pch = 21, stroke = 0.4) +
+#     point_colour = "grey26", pch = 21, stroke = 0.4) + 
+#   coord_cartesian(ylim=c(0.86, 2)) + 
 #   xlab("Effect of LPS on proportion\nbees leaving by force\n(log odds ratio)") + 
 #   ylab("Posterior density") + 
 #   theme_bw() +
 #   theme(
 #     text = element_text(family = nice_font),
+#     axis.text.y = element_blank(),
+#     axis.ticks.y = element_blank(),
 #     panel.grid.major.y = element_blank(),
+#     panel.grid.minor.y = element_blank(),
 #     legend.position = "none"
 #   ) 
+ 
+# bottom_row <- cowplot::plot_grid(
+#   LOR_plot, diff_in_forced_out_plot, 
+#   labels = c("B", "C"),
+#   nrow = 1, align = 'hv', 
+#   axis = 'l'
+# )
 
-bottom_row <- cowplot::plot_grid(
-  LOR_plot, diff_in_forced_out_plot, 
-  labels = c("B", "C"),
-  nrow = 1, align = 'hv', 
-  axis = 'l'
-)
-
-top_row <- cowplot::plot_grid(dot_plot, labels = "A")
-p <- cowplot::plot_grid(top_row, bottom_row, 
-                        nrow = 2, align = 'v', axis = 'l', 
-                        rel_heights = c(1.4, 1))
-ggsave(plot = p, filename = "figures/fig2.pdf", height = 6, width = 6)
+# top_row <- cowplot::plot_grid(dot_plot, labels = "A")
+p <- cowplot::plot_grid(dot_plot, LOR_plot, labels = c("A", "B"),
+                        nrow = 1, align = 'b', axis = 'l')
+ggsave(plot = p, filename = "figures/fig2.pdf", height = 3.4, width = 9)
 p
 ```
 
-***Figure 2:*** Panel A shows the same information as Figure 1A. Panel B gives the posterior estimates of the effect size (log odds ratio) of the LPS treatment as a log odds ratio, for each of the three possible outcomes; the details are the same as in Figure 1B. Panel C shows the posterior estimate of the effect of the LPS treatment on the proportion of bees observed leaving the hive by force, as opposed to leaving voluntarily.
+***Figure 2:*** Results of Experiment 2 (n = 585 bees). Panel A shows the same information as Figure 1A. Panel B gives the posterior estimates of the effect size (log odds ratio) of the LPS treatment as a log odds ratio, for each of the three possible outcomes; the details are the same as in Figure 1B.
 
 
 
@@ -504,50 +458,51 @@ stats_table %>%
 
 
 
-### Evaluating evidence for the null hypothesis
+<!-- ### Evaluating evidence for the null hypothesis -->
 
-Here, we derive the result present in prose in the Results, where we calculated the posterior probability that the true effect size lies in the range $-log(2) < LOR < log(2)$.
+<!-- Here, we derive the result present in prose in the Results, where we calculated the posterior probability that the true effect size lies in the range $-log(2) < LOR < log(2)$. -->
 
-```{r}
-LOR_forced <- LOR %>%
-  filter(outcome == "Forced out") %>% 
-  pull(LOR)
+<!-- ```{r} -->
+<!-- LOR_forced <- LOR %>% -->
+<!--   filter(outcome == "Forced out") %>%  -->
+<!--   pull(LOR) -->
 
-LOR_left <- LOR %>%
-  filter(outcome == "Left voluntarily") %>%
-  pull(LOR)
+<!-- LOR_left <- LOR %>% -->
+<!--   filter(outcome == "Left voluntarily") %>% -->
+<!--   pull(LOR) -->
 
-ROPE_calculation <- function(scale, LOR_data){
-  round(sum(LOR_data > -log(scale) & LOR_data < log(scale)) / length(LOR_data), 3)
-}
+<!-- # ROPE = region of practical equivalence -->
+<!-- ROPE_calculation <- function(scale, LOR_data){ -->
+<!--   round(sum(LOR_data > -log(scale) & LOR_data < log(scale)) / length(LOR_data), 3) -->
+<!-- } -->
 
-cat(
-  paste(
-    paste("Probability that |LOR|<2 for % bees leaving voluntarily:", ROPE_calculation(2, LOR_left)), "\n",
-    paste("Probability that |LOR|<2 for % bees forced out:", ROPE_calculation(2, LOR_forced)), sep = "")
-)
-```
+<!-- cat( -->
+<!--   paste( -->
+<!--     paste("Probability that |LOR|<2 for % bees leaving voluntarily:", ROPE_calculation(2, LOR_left)), "\n", -->
+<!--     paste("Probability that |LOR|<2 for % bees forced out:", ROPE_calculation(2, LOR_forced)), sep = "") -->
+<!-- ) -->
+<!-- ``` -->
 
 
 
-### Stats associated with Figure 2C
+<!-- ### Stats on proportion of bees that left the hive by force -->
 
-Here, we derive the result presented in prose in the Results, regarding the effect of LPS on the proportion of bees that left the hive by force. 
+<!-- Here, we derive the result presented in prose in the Results, regarding the effect of LPS on the proportion of bees that left the hive by force.  -->
 
-```{r}
-difference_prop_forced_out_LOR <- plotting_data %>%
-  spread(outcome, prop) %>%
-  mutate(prop_leavers_that_were_forced_out = 
-           `Forced out` / (`Forced out` + `Left voluntarily`)) %>%
-  select(posterior_sample, 
-         treatment, 
-         prop_leavers_that_were_forced_out)  %>%
-  spread(treatment, 
-         prop_leavers_that_were_forced_out) %>% 
-  mutate(difference_prop_forced_out_LOR = get_log_odds(Ringers, LPS)) %>%
-  pull(difference_prop_forced_out_LOR)
+<!-- ```{r} -->
+<!-- difference_prop_forced_out_LOR <- plotting_data %>% -->
+<!--   spread(outcome, prop) %>% -->
+<!--   mutate(prop_leavers_that_were_forced_out =  -->
+<!--            `Forced out` / (`Forced out` + `Left voluntarily`)) %>% -->
+<!--   select(posterior_sample,  -->
+<!--          treatment,  -->
+<!--          prop_leavers_that_were_forced_out)  %>% -->
+<!--   spread(treatment,  -->
+<!--          prop_leavers_that_were_forced_out) %>%  -->
+<!--   mutate(difference_prop_forced_out_LOR = get_log_odds(Ringers, LPS)) %>% -->
+<!--   pull(difference_prop_forced_out_LOR) -->
 
-hypothesis(difference_prop_forced_out_LOR, 
-           "x > 0", alpha = 0.05)$hypothesis
-```
+<!-- hypothesis(difference_prop_forced_out_LOR,  -->
+<!--            "x > 0", alpha = 0.05)$hypothesis -->
+<!-- ``` -->
 

@@ -104,9 +104,7 @@ Note that bees more often spent close to 100% of the observation period in conta
 ```{r fig.showtext = TRUE}
 histo_data <- expt3_counts %>%
   left_join(sample_sizes, by = "treatment") %>%
-  arrange(treatment) %>%
-  mutate(treatment = factor(paste(treatment, " (n = ", n, ")", sep = ""),
-                            unique(paste(treatment, " (n = ", n, ")", sep = "")))) 
+  arrange(treatment)
 
 raw_histogram <- histo_data %>% 
   filter(grepl("Ringers", treatment)) %>%
@@ -123,7 +121,7 @@ raw_histogram <- histo_data %>%
                     direction = 1, name = "Treatment") + 
   xlab("% Time in close contact") + ylab("Density") + 
   theme_bw() + 
-  theme(legend.position = c(0.37, 0.832),
+  theme(legend.position = c(0.17, 0.82),
         legend.background = element_rect(fill = scales::alpha('white', 0.7)),
         text = element_text(family = nice_font)) 
 
@@ -208,8 +206,9 @@ new <- expt3_counts %>%
   select(treatment) %>% distinct() %>% 
   mutate(n = 100, key = paste("V", 1:n(), sep = ""),
          hive = NA) 
-plotting_data <- as.data.frame(fitted(exp3_model, 
-                                      newdata=new, re_formula = NA, summary = FALSE))
+plotting_data <- as.data.frame(
+  fitted(exp3_model, 
+         newdata=new, re_formula = NA, summary = FALSE))
 names(plotting_data) <- c("LPS", "Ringers")
 plotting_data <- plotting_data %>% gather(treatment, percent_time_in_contact)
 
@@ -243,41 +242,43 @@ get_log_odds <- function(trt1, trt2){
   log((trt2 / (1 - trt2) / (trt1 / (1 - trt1))))
 }
 
-LOR <- plotting_data %>%
-  mutate(posterior_sample = rep(1:(n()/2), 2)) %>%
-  spread(treatment, percent_time_in_contact) %>%
-  mutate(LOR = get_log_odds(Ringers/100, LPS/100)) %>%
-  select(LOR)
-
-LOR_plot <- LOR %>%
-  ggplot(aes(LOR, y =1)) + 
-  geom_vline(xintercept = 0, linetype = 2) +
-  stat_dotsh(quantiles = 100, fill = "grey40", colour = "grey40") + 
-  stat_pointintervalh(
-    colour = panel_c_colour, fill = panel_c_colour,
-    .width = c(0.5, 0.95), 
-    position = position_nudge(y = -0.1),
-    point_colour = "grey26", pch = 21, stroke = 0.4) + 
-  coord_cartesian(ylim=c(0.86, 2)) + 
-  xlab("Effect of LPS on mean\n% time in close contact (LOR)") + 
-  ylab("Posterior density") + 
-  theme_bw() +
-  theme(
-    text = element_text(family = nice_font),
-    axis.text.y = element_blank(),
-    axis.ticks.y = element_blank(),
-    panel.grid.major.y = element_blank(),
-    panel.grid.minor.y = element_blank(),
-    legend.position = "none"
-  ) 
+# LOR <- plotting_data %>%
+#   mutate(posterior_sample = rep(1:(n()/2), 2)) %>%
+#   spread(treatment, percent_time_in_contact) %>%
+#   mutate(LOR = get_log_odds(Ringers/100, LPS/100)) %>%
+#   select(LOR)
+# 
+# LOR_plot <- LOR %>%
+#   ggplot(aes(LOR, y =1)) + 
+#   geom_vline(xintercept = 0, linetype = 2) +
+#   stat_dotsh(quantiles = 100, fill = "grey40", colour = "grey40") + 
+#   stat_pointintervalh(
+#     colour = panel_c_colour, fill = panel_c_colour,
+#     .width = c(0.5, 0.95), 
+#     position = position_nudge(y = -0.1),
+#     point_colour = "grey26", pch = 21, stroke = 0.4) + 
+#   coord_cartesian(ylim=c(0.86, 2)) + 
+#   xlab("Effect of LPS on mean\n% time in close contact (LOR)") + 
+#   ylab("Posterior density") + 
+#   theme_bw() +
+#   theme(
+#     text = element_text(family = nice_font),
+#     axis.text.y = element_blank(),
+#     axis.ticks.y = element_blank(),
+#     panel.grid.major.y = element_blank(),
+#     panel.grid.minor.y = element_blank(),
+#     legend.position = "none"
+#   ) 
  
 p <- cowplot::plot_grid(raw_histogram, 
-                        dot_plot, LOR_plot, labels = c("A", "B", "C"),
+                        dot_plot, labels = c("A", "B"),
                         nrow = 1, align = 'h', axis = 'l')
-ggsave(plot = p, filename = "figures/fig3.pdf", height = 3.2, width = 8.6)
+ggsave(plot = p, filename = "figures/fig3.pdf", height = 3.4, width = 9)
 p
 ```
-***Figure 3:*** Panel A shows the frequency distribution of the % time in close contact, for pairs of bees from the LPS treatment and the Ringers control. Panel B shows the posterior estimates of the mean % time spent in close contact; the details of the quantile dot plot and error bars are the same as described for Figure 1. Panel C shows the effect size (LOR; log odds ratio) associated with the difference in means in Panel B.
+***Figure 3:*** Results of Experiment 3 (n = 439 bees). Panel A shows the frequency distribution of the % time in close contact, for pairs of bees from the LPS treatment and the Ringers control. Panel B shows the posterior estimates of the mean % time spent in close contact; the details of the quantile dot plot and error bars are the same as described for Figure 1. 
+
+
 
 
 ## Hypothesis testing and effect sizes
