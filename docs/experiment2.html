@@ -446,7 +446,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-04-27
+<strong>Last updated:</strong> 2021-04-28
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -537,16 +537,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytreefac2952009e5c072705017504885ded81a24085atargetblankfac2952a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/fac2952009e5c072705017504885ded81a24085a" target="_blank">fac2952</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytreebe8266d0819b8862f79d471f873962181242df28targetblankbe8266da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/be8266d0819b8862f79d471f873962181242df28" target="_blank">be8266d</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytreefac2952009e5c072705017504885ded81a24085atargetblankfac2952a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytreebe8266d0819b8862f79d471f873962181242df28targetblankbe8266da" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/social_immunity/tree/fac2952009e5c072705017504885ded81a24085a" target="_blank">fac2952</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/social_immunity/tree/be8266d0819b8862f79d471f873962181242df28" target="_blank">be8266d</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -574,6 +574,8 @@ Unstaged changes:
     Modified:   figures/tableS2.rds
     Modified:   figures/tableS3.rds
     Modified:   figures/tableS4.rds
+    Modified:   figures/tableS5.rds
+    Modified:   figures/tableS6.rds
 
 </code></pre>
 <p>
@@ -612,6 +614,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/be8266d0819b8862f79d471f873962181242df28/analysis/experiment2.Rmd" target="_blank">be8266d</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2021-04-28
+</td>
+<td>
+wflow_publish("analysis/*")
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/social_immunity/af7a3ea19221873fdbee3d93cfd851378761c11f/docs/experiment2.html" target="_blank">af7a3ea</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2021-04-27
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -2093,7 +2129,7 @@ scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 <h4>Formatted <code>brms</code> output for Table S3</h4>
 <p>The code chunk below wrangles the raw output of the <code>summary()</code> function for <code>brms</code> models into a more readable table of results, and also adds ‘Bayesian p-values’ (i.e. the posterior probability that the true effect size has the same sign as the reported effect).</p>
 <hr />
-<p><strong><em>Table S3:</em></strong> Table summarising the posterior estimates of each fixed effect in the best-fitting model of Experiment 2. This was a multinomial model with three possible outcomes (stay inside, leave voluntarily, be forced out), and so there are two parameter estimates for the intercept and for each predictor in the model. ‘Treatment’ is a fixed factor with two levels, and the effect of LPS shown here is expressed relative to the ‘Ringers’ treatment. ‘Hive’ was a fixed factor with four levels; unlike for treatment, we modelled hive using deviation coding, such that the intercept term represents the mean across all hives (in the Ringers treatment), and the three hive terms represent the deviation from this mean for three of the four hives. The PP column gives the posterior probability that the true effect size is opposite in sign to what is reported in the Estimate column, similarly to a <span class="math inline">\(p\)</span>-value.</p>
+<p><strong><em>Table S3:</em></strong> Table summarising the posterior estimates of each fixed effect in the model of Experiment 2. This was a multinomial model with three possible outcomes (Stayed inside, Left voluntarily, or Forced out), and so there are two parameter estimates for each predictor in the model. ‘Treatment’ is a fixed factor with two levels, and the effect of LPS shown here is expressed relative to the ‘Ringers’ treatment. The PP column gives the posterior probability that the true effect size is opposite in sign to what is reported in the Estimate column, similarly to a <span class="math inline">\(p\)</span>-value.</p>
 <pre class="r"><code>tableS3 &lt;- get_fixed_effects_with_p_values(exp2_model) %&gt;% 
   mutate(mu = map_chr(str_extract_all(Parameter, &quot;mu[:digit:]&quot;), ~ .x[1]),
          Parameter = str_remove_all(Parameter, &quot;mu[:digit:]_&quot;),
@@ -2420,7 +2456,7 @@ lukeholman
 <div id="posterior-effect-size-estimates" class="section level3">
 <h3>Posterior effect size estimates</h3>
 <p>This section calculates the effect size and 95% CIs that are shown in Figure 2B (and creates Table S4).</p>
-<p><strong><em>Table S4</em></strong>: This table gives statistics associated with each of the contrasts plotted in Figure 2B. Each pair of rows gives the absolute (i.e. the difference in % bees) and standardised effect size (as log odds ratio; LOR) for the LPS treatment, relative to the Ringers control, for one of the three possible outcomes (stayed inside, left voluntarily, or forced out). A LOR of <span class="math inline">\(|log(x)|\)</span> indicates that the outcome is <span class="math inline">\(x\)</span> times more frequent in one treatment compared to the other, e.g. <span class="math inline">\(log(2) = 0.69\)</span> indicates a two-fold difference in frequency. The <span class="math inline">\(PP\)</span> column gives the posterior probability that the true effect size has the same sign as is shown in the Estimate column; this metric has a similar interpretation to a one-tailed <span class="math inline">\(p\)</span> value in frequentist statistics.</p>
+<p><strong><em>Table S4</em></strong>: This table gives statistics associated with each of the contrasts plotted in Figure 2B. Each pair of rows gives the absolute (i.e. the difference in % bees) and standardised effect size (as log odds ratio; LOR) for the LPS treatment, relative to the Ringers control, for one of the three possible outcomes (Stayed inside, Left voluntarily, or Forced out). A LOR of <span class="math inline">\(|log(x)|\)</span> indicates that the outcome is <span class="math inline">\(x\)</span> times more frequent in one treatment compared to the other, e.g. <span class="math inline">\(log(2) = 0.69\)</span> indicates a two-fold difference in frequency. The <span class="math inline">\(PP\)</span> column gives the posterior probability that the true effect size has the same sign as is shown in the Estimate column; this metric has a similar interpretation to a one-tailed <span class="math inline">\(p\)</span> value in frequentist statistics.</p>
 <pre class="r"><code>my_summary &lt;- function(df, columns, outcome) {
   lapply(columns, function(x){
     
