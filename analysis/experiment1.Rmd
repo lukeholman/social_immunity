@@ -249,7 +249,7 @@ The code chunk below wrangles the output of the `summary()` function for `brms` 
 
 ******
 
-***Table S1:*** Table summarising the posterior estimates of each fixed effect in the Bayesian multinomial logistic model of Experiment 1. Because there were three possible outcomes for each bee (Stayed inside, Left voluntarily, or Forced out), there are two parameter estimates for the intercept and for each predictor in the model. 'Treatment' is a fixed factor with three levels, and the effects shown here are expressed relative to the 'Intact control' group. The $p$ column gives the posterior probability that the true effect size is opposite in sign to what is reported in the Estimate column, similarly to a $p$-value.
+***Table S1:*** Table summarising the posterior estimates of each fixed effect in the Bayesian multinomial logistic model of Experiment 1. Because there were three possible outcomes for each bee (Stayed inside, Left voluntarily, or Forced out), there are two parameter estimates for each predictor in the model. 'Treatment' is a fixed factor with three levels, and the effects shown here are expressed relative to the 'Intact control' group. The $p$ column gives the posterior probability that the true effect size is opposite in sign to what is reported in the Estimate column, similarly to a $p$-value.
 
 ```{r}
 tableS1 <- get_fixed_effects_with_p_values(exp1_model) %>% 
@@ -518,7 +518,7 @@ forced_out_stats_table[c(2,4,6), 1] <- " "
 
 #### Present all contrasts in one table:
 
-***Table S2***: This table gives statistics associated with each of the contrasts plotted in Figure 1B. Each pair of rows gives the absolute effect size (i.e. the difference in % bees) and standardised effect size (as log odds ratio; LOR) for the focal treatment, relative to the treatment shown in parentheses, for one of the three possible outcomes (stayed inside, left voluntarily, or forced out). A LOR of $|log(x)|$ indicates that the outcome is $x$ times more frequent in one treatment compared to the other, e.g. $log(2) = 0.69$ and $log(0.5) = -0.69$ correspond to a two-fold difference in frequency. The $PP$ column gives the posterior probability that the true effect size has the same sign as is shown in the Estimate column; this metric has a similar interpretation to a one-tailed $p$ value.
+***Table S2***: This table gives statistics associated with each of the contrasts plotted in Figure 1B. Each pair of rows gives the absolute effect size (i.e. the difference in % bees) and standardised effect size (as log odds ratio; LOR) for the focal treatment, relative to the treatment shown in parentheses, for one of the three possible outcomes (Stayed inside, Left voluntarily, or Forced out). A LOR of $|log(x)|$ indicates that the outcome is $x$ times more frequent in one treatment compared to the other, e.g. $log(2) = 0.69$ and $log(0.5) = -0.69$ correspond to a two-fold difference in frequency. The $PP$ column gives the posterior probability that the true effect size has the same sign as is shown in the Estimate column; this metric has a similar interpretation to a one-tailed $p$ value.
 
 ```{r}
 tableS2 <- bind_rows(

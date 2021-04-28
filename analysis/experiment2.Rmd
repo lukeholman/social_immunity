@@ -219,7 +219,7 @@ The code chunk below wrangles the raw output of the `summary()` function for `br
 
 ******
 
-***Table S3:*** Table summarising the posterior estimates of each fixed effect in the best-fitting model of Experiment 2. This was a multinomial model with three possible outcomes (stay inside, leave voluntarily, be forced out), and so there are two parameter estimates for the intercept and for each predictor in the model. 'Treatment' is a fixed factor with two levels, and the effect of LPS shown here is expressed relative to the 'Ringers' treatment. 'Hive' was a fixed factor with four levels; unlike for treatment, we modelled hive using deviation coding, such that the intercept term represents the mean across all hives (in the Ringers treatment), and the three hive terms represent the deviation from this mean for three of the four hives. The PP column gives the posterior probability that the true effect size is opposite in sign to what is reported in the Estimate column, similarly to a $p$-value.
+***Table S3:*** Table summarising the posterior estimates of each fixed effect in the model of Experiment 2. This was a multinomial model with three possible outcomes (Stayed inside, Left voluntarily, or Forced out), and so there are two parameter estimates for each predictor in the model. 'Treatment' is a fixed factor with two levels, and the effect of LPS shown here is expressed relative to the 'Ringers' treatment. The PP column gives the posterior probability that the true effect size is opposite in sign to what is reported in the Estimate column, similarly to a $p$-value.
 
 ```{r}
 tableS3 <- get_fixed_effects_with_p_values(exp2_model) %>% 
@@ -390,7 +390,7 @@ p
 This section calculates the effect size and 95% CIs that are shown in Figure 2B (and creates Table S4). 
 
 
-***Table S4***: This table gives statistics associated with each of the contrasts plotted in Figure 2B. Each pair of rows gives the absolute (i.e. the difference in % bees) and standardised effect size (as log odds ratio; LOR) for the LPS treatment, relative to the Ringers control, for one of the three possible outcomes (stayed inside, left voluntarily, or forced out). A LOR of $|log(x)|$ indicates that the outcome is $x$ times more frequent in one treatment compared to the other, e.g. $log(2) = 0.69$ indicates a two-fold difference in frequency. The $PP$ column gives the posterior probability that the true effect size has the same sign as is shown in the Estimate column; this metric has a similar interpretation to a one-tailed $p$ value in frequentist statistics. 
+***Table S4***: This table gives statistics associated with each of the contrasts plotted in Figure 2B. Each pair of rows gives the absolute (i.e. the difference in % bees) and standardised effect size (as log odds ratio; LOR) for the LPS treatment, relative to the Ringers control, for one of the three possible outcomes (Stayed inside, Left voluntarily, or Forced out). A LOR of $|log(x)|$ indicates that the outcome is $x$ times more frequent in one treatment compared to the other, e.g. $log(2) = 0.69$ indicates a two-fold difference in frequency. The $PP$ column gives the posterior probability that the true effect size has the same sign as is shown in the Estimate column; this metric has a similar interpretation to a one-tailed $p$ value in frequentist statistics.
 
 ```{r}
 my_summary <- function(df, columns, outcome) {
