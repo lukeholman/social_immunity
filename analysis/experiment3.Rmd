@@ -130,7 +130,7 @@ raw_histogram
 
 ### Run the models
 
-Fit three different binomial models, where the response is either a 0 (if bees were not in contact) or 1 (if they were). 
+Fit a binomial GLMM where the response is either a 0 (if bees were not in contact) or 1 (if they were). Hive is treated as a fixed factor (to aid model convergence) and the ID of each pair of bees is treated as a random factor (to account for repeated measurements of each pair).
 
 ```{r}
 if(!file.exists("output/exp3_model.rds")){
