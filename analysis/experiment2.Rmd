@@ -118,32 +118,6 @@ outcome_tally %>%
   kable(digits = 3) %>% kable_styling(full_width = FALSE) 
 ```
 
-## Plot showing raw means and 95% CI of the mean
-
-```{r fig.width=9, fig.height=5, fig.showtext=TRUE}
-pd <- position_dodge(.3)
-outcome_tally %>%
-  group_by(treatment, outcome) %>%
-  summarise(n = sum(n), .groups = "drop") %>% mutate() %>%
-  group_by(treatment) %>%
-  mutate(total_n = sum(n),
-         percent = 100 * n / sum(n),
-         SE = sqrt(total_n * (percent/100) * (1-(percent/100)))) %>% 
-  ungroup() %>%
-  mutate(lowerCI = map_dbl(1:n(), ~ 100 * binom.test(n[.x], total_n[.x])$conf.int[1]),
-         upperCI = map_dbl(1:n(), ~ 100 * binom.test(n[.x], total_n[.x])$conf.int[2])) %>%
-  filter(outcome != "Stayed inside") %>%
-  ggplot(aes(treatment, percent, fill = outcome)) + 
-  geom_errorbar(aes(ymin=lowerCI, ymax=upperCI), position = pd, width = 0) + 
-  geom_point(stat = "identity", position = pd, colour = "grey15", pch = 21, size = 4) + 
-  scale_fill_brewer(palette = "Pastel1", name = "Outcome", direction = -1) + 
-  xlab("Treatment") + ylab("% bees (\u00B1 95% CIs)") + 
-  theme_bw(20) + 
-  theme(text = element_text(family = nice_font),
-        legend.position = "top") + 
-  coord_flip()
-```
-
 
 
 ## Preliminary GLMM
@@ -285,6 +259,30 @@ stats_data <- get_posterior_preds(focal_hive = NA)
 cols <- RColorBrewer::brewer.pal(3, "Set2")
 panel_c_colour <- "#CC79A7"
 
+pd <- position_dodge(.3)
+raw_plot <- outcome_tally %>%
+  group_by(treatment, outcome) %>%
+  summarise(n = sum(n), .groups = "drop") %>% mutate() %>%
+  group_by(treatment) %>%
+  mutate(total_n = sum(n),
+         percent = 100 * n / sum(n),
+         SE = sqrt(total_n * (percent/100) * (1-(percent/100)))) %>% 
+  ungroup() %>%
+  mutate(lowerCI = map_dbl(1:n(), ~ 100 * binom.test(n[.x], total_n[.x])$conf.int[1]),
+         upperCI = map_dbl(1:n(), ~ 100 * binom.test(n[.x], total_n[.x])$conf.int[2])) %>%
+  filter(outcome != "Stayed inside") %>%
+  mutate(treatment = paste(treatment, "\n(n = ", total_n, ")", sep = ""),
+         treatmen = factor(treatment, unique(treatment))) %>% 
+  ggplot(aes(treatment, percent, fill = outcome)) + 
+  geom_errorbar(aes(ymin=lowerCI, ymax=upperCI), position = pd, width = 0) + 
+  geom_point(stat = "identity", position = pd, colour = "grey15", pch = 21, size = 4) + 
+  scale_fill_manual(values = cols[2:3], name = "") + 
+  xlab("Treatment") + ylab("% bees (\u00B1 95% CIs)") + 
+  theme_bw() + 
+  theme(text = element_text(family = nice_font)) + 
+  coord_flip()
+
+
 dot_plot <- plotting_data %>%
   left_join(sample_sizes, by = "treatment") %>%
   arrange(treatment) %>%
@@ -337,49 +335,24 @@ LOR_plot <- LOR %>%
     legend.position = "none"
   ) 
 
-# 
-# diff_in_forced_out_plot <- plotting_data %>%
-#   spread(outcome, prop) %>%
-#   mutate(prop_leavers_that_were_forced_out = `Forced out` / (`Forced out` + `Left voluntarily`)) %>%
-#   select(posterior_sample, treatment, prop_leavers_that_were_forced_out)  %>%
-#   spread(treatment, prop_leavers_that_were_forced_out) %>% 
-#   mutate(difference_prop_forced_out_LOR = get_log_odds(Ringers, LPS)) %>%
-#   ggplot(aes(difference_prop_forced_out_LOR, y =1)) + 
-#   geom_vline(xintercept = 0, linetype = 2) +
-#   stat_dotsh(quantiles = 100, fill = "grey40", colour = "grey40") + 
-#   stat_pointintervalh(
-#     colour = panel_c_colour, fill = panel_c_colour,
-#     .width = c(0.5, 0.95), 
-#     position = position_nudge(y = -0.1),
-#     point_colour = "grey26", pch = 21, stroke = 0.4) + 
-#   coord_cartesian(ylim=c(0.86, 2)) + 
-#   xlab("Effect of LPS on proportion\nbees leaving by force\n(log odds ratio)") + 
-#   ylab("Posterior density") + 
-#   theme_bw() +
-#   theme(
-#     text = element_text(family = nice_font),
-#     axis.text.y = element_blank(),
-#     axis.ticks.y = element_blank(),
-#     panel.grid.major.y = element_blank(),
-#     panel.grid.minor.y = element_blank(),
-#     legend.position = "none"
-#   ) 
- 
-# bottom_row <- cowplot::plot_grid(
-#   LOR_plot, diff_in_forced_out_plot, 
-#   labels = c("B", "C"),
-#   nrow = 1, align = 'hv', 
-#   axis = 'l'
-# )
 
-# top_row <- cowplot::plot_grid(dot_plot, labels = "A")
-p <- cowplot::plot_grid(dot_plot, LOR_plot, labels = c("A", "B"),
-                        nrow = 1, align = 'b', axis = 'l')
-ggsave(plot = p, filename = "figures/fig2.pdf", height = 3.4, width = 9)
+empty <- ggplot() + theme_void()
+
+top <- cowplot::plot_grid(plotlist = list(empty, raw_plot, empty), nrow = 1, 
+                          labels = c("", "A", ""), rel_widths = c(0.035, 0.8, 0.12))
+
+bottom <- cowplot::plot_grid(
+  plotlist = list(dot_plot, LOR_plot), 
+  labels = c("B", "C"),
+  nrow = 1, align = 'v', axis = 'l', 
+  rel_heights = c(1.4, 1))
+
+p <- cowplot::plot_grid(top, bottom, nrow = 2, align = 'hv', axis = 'l')
+ggsave(plot = p, filename = "figures/fig2.pdf", height = 5.4, width = 9)
 p
 ```
 
-***Figure 2:*** Results of Experiment 2 (n = 585 bees). Panel A shows the same information as Figure 1A. Panel B gives the posterior estimates of the effect size (log odds ratio) of the LPS treatment as a log odds ratio, for each of the three possible outcomes; the details are the same as in Figure 1B.
+***Figure 2:*** Results of Experiment 2 (n = 585 bees). Panels A-B display the same information as the corresponding panels in Figure 1. Panel C gives the posterior estimates of the effect size (log odds ratio) of the LPS treatment as a log odds ratio, for each of the three possible outcomes; the details are the same as for Figure 1C.
 
 
 
@@ -456,53 +429,4 @@ stats_table %>%
   pack_rows("% bees forced out", 5, 6)
 ```
 
-
-
-<!-- ### Evaluating evidence for the null hypothesis -->
-
-<!-- Here, we derive the result present in prose in the Results, where we calculated the posterior probability that the true effect size lies in the range $-log(2) < LOR < log(2)$. -->
-
-<!-- ```{r} -->
-<!-- LOR_forced <- LOR %>% -->
-<!--   filter(outcome == "Forced out") %>%  -->
-<!--   pull(LOR) -->
-
-<!-- LOR_left <- LOR %>% -->
-<!--   filter(outcome == "Left voluntarily") %>% -->
-<!--   pull(LOR) -->
-
-<!-- # ROPE = region of practical equivalence -->
-<!-- ROPE_calculation <- function(scale, LOR_data){ -->
-<!--   round(sum(LOR_data > -log(scale) & LOR_data < log(scale)) / length(LOR_data), 3) -->
-<!-- } -->
-
-<!-- cat( -->
-<!--   paste( -->
-<!--     paste("Probability that |LOR|<2 for % bees leaving voluntarily:", ROPE_calculation(2, LOR_left)), "\n", -->
-<!--     paste("Probability that |LOR|<2 for % bees forced out:", ROPE_calculation(2, LOR_forced)), sep = "") -->
-<!-- ) -->
-<!-- ``` -->
-
-
-
-<!-- ### Stats on proportion of bees that left the hive by force -->
-
-<!-- Here, we derive the result presented in prose in the Results, regarding the effect of LPS on the proportion of bees that left the hive by force.  -->
-
-<!-- ```{r} -->
-<!-- difference_prop_forced_out_LOR <- plotting_data %>% -->
-<!--   spread(outcome, prop) %>% -->
-<!--   mutate(prop_leavers_that_were_forced_out =  -->
-<!--            `Forced out` / (`Forced out` + `Left voluntarily`)) %>% -->
-<!--   select(posterior_sample,  -->
-<!--          treatment,  -->
-<!--          prop_leavers_that_were_forced_out)  %>% -->
-<!--   spread(treatment,  -->
-<!--          prop_leavers_that_were_forced_out) %>%  -->
-<!--   mutate(difference_prop_forced_out_LOR = get_log_odds(Ringers, LPS)) %>% -->
-<!--   pull(difference_prop_forced_out_LOR) -->
-
-<!-- hypothesis(difference_prop_forced_out_LOR,  -->
-<!--            "x > 0", alpha = 0.05)$hypothesis -->
-<!-- ``` -->
 
