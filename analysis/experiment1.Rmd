@@ -120,36 +120,6 @@ outcome_tally %>%
   kable(digits = 3) %>% kable_styling(full_width = FALSE) 
 ```
 
-## Plot showing raw means and 95% CI of the mean
-
-```{r fig.width=9, fig.height=5, fig.showtext=TRUE}
-all_hives <- outcome_tally %>%
-  group_by(treatment, outcome) %>%
-  summarise(n = sum(n), .groups = "drop") %>%
-  ungroup() %>% mutate(hive = "All hives")
-
-pd <- position_dodge(.3)
-outcome_tally %>%
-  group_by(treatment, outcome) %>%
-  summarise(n = sum(n), .groups = "drop") %>% mutate() %>%
-  group_by(treatment) %>%
-  mutate(total_n = sum(n),
-         percent = 100 * n / sum(n),
-         SE = sqrt(total_n * (percent/100) * (1-(percent/100)))) %>% 
-  ungroup() %>%
-  mutate(lowerCI = map_dbl(1:n(), ~ 100 * binom.test(n[.x], total_n[.x])$conf.int[1]),
-         upperCI = map_dbl(1:n(), ~ 100 * binom.test(n[.x], total_n[.x])$conf.int[2])) %>%
-  filter(outcome != "Stayed inside the hive") %>%
-  ggplot(aes(treatment, percent, fill = outcome)) + 
-  geom_errorbar(aes(ymin=lowerCI, ymax=upperCI), position = pd, width = 0) + 
-  geom_point(stat = "identity", position = pd, colour = "grey15", pch = 21, size = 4) + 
-  scale_fill_brewer(palette = "Pastel2", name = "Outcome", direction = -1) + 
-  xlab("Treatment") + ylab("% bees (\u00B1 95% CIs)") + 
-  theme_bw(20) + 
-  theme(legend.position = "top",
-        text = element_text(family = nice_font)) + 
-  coord_flip()
-```
 
 ## Preliminary GLMM
 
@@ -311,6 +281,35 @@ stats_data <- get_posterior_preds(focal_hive = NA)
 ```{r fig.height=3.4, fig.width=9, fig.showtext = TRUE, warning=FALSE}
 cols <- RColorBrewer::brewer.pal(3, "Set2")
 
+# Make panel A, showing the raw data:
+all_hives <- outcome_tally %>%
+  group_by(treatment, outcome) %>%
+  summarise(n = sum(n), .groups = "drop") %>%
+  ungroup() %>% mutate(hive = "All hives")
+
+pd <- position_dodge(.3)
+raw_plot <- outcome_tally %>%
+  group_by(treatment, outcome) %>%
+  summarise(n = sum(n), .groups = "drop") %>% mutate() %>%
+  group_by(treatment) %>%
+  mutate(total_n = sum(n),
+         percent = 100 * n / sum(n),
+         SE = sqrt(total_n * (percent/100) * (1-(percent/100)))) %>% 
+  ungroup() %>%
+  mutate(lowerCI = map_dbl(1:n(), ~ 100 * binom.test(n[.x], total_n[.x])$conf.int[1]),
+         upperCI = map_dbl(1:n(), ~ 100 * binom.test(n[.x], total_n[.x])$conf.int[2])) %>%
+  filter(outcome != "Stayed inside the hive") %>%
+  mutate(treatment = paste(treatment, "\n(n = ", total_n, ")", sep = ""),
+         treatmen = factor(treatment, unique(treatment))) %>% 
+  ggplot(aes(treatment, percent, fill = outcome)) + 
+  geom_errorbar(aes(ymin=lowerCI, ymax=upperCI), position = pd, width = 0) + 
+  geom_point(stat = "identity", position = pd, colour = "grey15", pch = 21, size = 4) + 
+  scale_fill_manual(values = cols[2:3], name = "") + 
+  xlab("Treatment") + ylab("% bees (\u00B1 95% CIs)") + 
+  theme_bw() + 
+  theme(text = element_text(family = nice_font)) + 
+  coord_flip()
+
 dot_plot <- plotting_data %>%
   left_join(sample_sizes, by = "treatment") %>%
   arrange(treatment) %>%
@@ -348,9 +347,9 @@ LOR <- stats_data %>%
   select(posterior_sample, outcome, starts_with("LOR")) %>%
   gather(LOR, comparison, starts_with("LOR")) %>%
   mutate(LOR = str_remove_all(LOR, "LOR_"), 
-         LOR = str_replace_all(LOR, "Ringers_LPS", "LPS\n(Ringers)"),
-         LOR = str_replace_all(LOR, "intact_Ringers", "Ringers\n(Intact control)"),
-         LOR = str_replace_all(LOR, "intact_LPS", "LPS\n(Intact control)"))
+         LOR = str_replace_all(LOR, "Ringers_LPS", "LPS\n(vs Ringers)"),
+         LOR = str_replace_all(LOR, "intact_Ringers", "Ringers\n(vs Intact control)"),
+         LOR = str_replace_all(LOR, "intact_LPS", "LPS\n(vs Intact control)"))
 
 
 levs <- LOR$LOR %>% unique() %>% sort()
@@ -379,17 +378,26 @@ LOR_plot <- LOR %>%
     legend.position = "none"
   ) 
 
+empty <- ggplot() + theme_void()
 
-p <- cowplot::plot_grid(
+top <- cowplot::plot_grid(plotlist = list(empty, raw_plot, empty), nrow = 1, 
+                          labels = c("", "A", ""), rel_widths = c(0.021, 0.8,0.179))
+
+bottom <- cowplot::plot_grid(
   plotlist = list(dot_plot, LOR_plot), 
-  labels = c("A", "B"),
+  labels = c("B", "C"),
   nrow = 1, align = 'v', axis = 'l', 
   rel_heights = c(1.4, 1))
-ggsave(plot = p, filename = "figures/fig1.pdf", height = 3.4, width = 9)
+
+p <- cowplot::plot_grid(top, bottom, nrow = 2, align = 'hv', axis = 'l')
+
+
+
+ggsave(plot = p, filename = "figures/fig1.pdf", height = 5.4, width = 9)
 p
 ```
 <br></br>
-***Figure 1***: Results of Experiment 1 (n = 842 bees). Panel A shows the posterior estimate of the mean % bees staying inside the hive (left), leaving voluntarily (middle), or being forced out (right), for each of the three treatments. The quantile dot plot shows 100 approximately equally likely estimates of the true % bees, and the horizontal bars show the median and the 50% and 95% credible intervals of the posterior distribution. Panel B gives the posterior estimates of the effect size of each treatment, relative to one of the other treatments (the name of which appears in parentheses), expressed as a log odds ratio (LOR). Positive LOR indicates that the % bees showing this particular outcome is higher in the treatment than the control; for example, more bees left voluntarily (orange) or were forced out (blue) in the LPS treatment than in the intact control. The dashed lines mark $LOR = 0$, indicating no effect, and $LOR = \pm log(2)$, i.e. the point at which the odds are twice as high in one treatment as the other. 
+***Figure 1***: Results of Experiment 1 (n = 842 bees). Panel A shows summary statistics of the raw data, i.e. the percentage of bees leaving or being forced out of the hive ($\pm$ 95% confidence intervals), while Panels B-C show estimates from the Bayesian MLM. Panel B shows the posterior estimate of % bees staying inside the hive (left), leaving voluntarily (middle), or being forced out (right), for each of the three treatments. The quantile dot plot shows 100 approximately equally likely estimates of the true % bees, and the horizontal bars show the median and the 50% and 95% credible intervals of the posterior distribution. Panel C gives the posterior estimates of the effect size of each treatment, relative to one of the other treatments (whose name appears in parentheses), expressed as a log odds ratio (LOR). Positive LOR indicates that the % bees showing this particular outcome is higher in the treatment than the control; for example, more bees left voluntarily (orange) or were forced out (blue) in the LPS treatment than in the intact control. The vertical lines mark $LOR = 0$, indicating no effect, and $LOR = \pm log(2)$, i.e. the point at which the odds are twice as high in one treatment as the other. 
 
 
 
