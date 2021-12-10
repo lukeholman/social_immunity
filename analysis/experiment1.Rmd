@@ -278,7 +278,7 @@ stats_data <- get_posterior_preds(focal_hive = NA)
 
 ### Make Figure 1
 
-```{r fig.height=3.4, fig.width=9, fig.showtext = TRUE, warning=FALSE}
+```{r fig.height=5.4, fig.width=9, fig.showtext = TRUE, warning=FALSE}
 cols <- RColorBrewer::brewer.pal(3, "Set2")
 
 # Make panel A, showing the raw data:
@@ -390,9 +390,6 @@ bottom <- cowplot::plot_grid(
   rel_heights = c(1.4, 1))
 
 p <- cowplot::plot_grid(top, bottom, nrow = 2, align = 'hv', axis = 'l')
-
-
-
 ggsave(plot = p, filename = "figures/fig1.pdf", height = 5.4, width = 9)
 p
 ```
