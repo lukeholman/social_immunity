@@ -492,16 +492,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytreeae74b4541173e774dc0915d22a574044ca0dd32btargetblankae74b45a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/ae74b4541173e774dc0915d22a574044ca0dd32b" target="_blank">ae74b45</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree0ac317774a28b35c132cf1607460d60801b8f057targetblank0ac3177a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/0ac317774a28b35c132cf1607460d60801b8f057" target="_blank">0ac3177</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytreeae74b4541173e774dc0915d22a574044ca0dd32btargetblankae74b45a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree0ac317774a28b35c132cf1607460d60801b8f057targetblank0ac3177a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/social_immunity/tree/ae74b4541173e774dc0915d22a574044ca0dd32b" target="_blank">ae74b45</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/social_immunity/tree/0ac317774a28b35c132cf1607460d60801b8f057" target="_blank">0ac3177</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -562,6 +562,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/0ac317774a28b35c132cf1607460d60801b8f057/analysis/experiment3.Rmd" target="_blank">0ac3177</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2021-12-10
+</td>
+<td>
+wflow_publish(“analysis/experiment3.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/social_immunity/c7faa7bb6c6b1e16d334cbf09fbcae0040ce1a29/docs/experiment3.html" target="_blank">c7faa7b</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2021-12-10
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1716,9 +1750,10 @@ LPS
 </div>
 <div id="sample-sizes-by-treatment-and-hive" class="section level3">
 <h3>Sample sizes by treatment and hive</h3>
-<pre class="r"><code>expt3_counts %&gt;%
+<pre class="r"><code>n_trt_hive &lt;- expt3_counts %&gt;%
   group_by(hive, treatment) %&gt;%
-  summarise(n = n(), .groups = &quot;drop&quot;) %&gt;%
+  summarise(n = n(), .groups = &quot;drop&quot;) 
+n_trt_hive %&gt;%
   kable() %&gt;% kable_styling(full_width = FALSE)</code></pre>
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
@@ -1998,139 +2033,6 @@ LPS
 </table>
 </div>
 </div>
-<div id="histogram-of-the-results" class="section level2">
-<h2>Histogram of the results</h2>
-<p>Note that bees more often spent close to 100% of the observation period in contact in the control group, relative to the group treated with LPS.</p>
-<pre class="r"><code>histo_data &lt;- expt3_counts %&gt;%
-  left_join(sample_sizes, by = &quot;treatment&quot;) %&gt;%
-  arrange(treatment)
-
-raw_histogram &lt;- histo_data %&gt;% 
-  filter(grepl(&quot;Ringers&quot;, treatment)) %&gt;%
-  ggplot(aes(100 * percent, 
-             fill = treatment)) + 
-  geom_histogram(data = histo_data %&gt;% 
-                   filter(grepl(&quot;LPS&quot;, treatment)), 
-                 mapping = aes(y = ..density..), 
-                 alpha = 0.5, bins = 11, colour = &quot;black&quot;, linetype = 2) +
-  geom_histogram(mapping = aes(y = ..density..), 
-                 alpha = 0.5, bins = 11, 
-                 colour = &quot;black&quot;) + 
-  scale_fill_brewer(palette = &quot;Set1&quot;, 
-                    direction = 1, name = &quot;Treatment&quot;) + 
-  xlab(&quot;% Time in close contact&quot;) + ylab(&quot;Frequency&quot;) + 
-  theme_bw() + 
-  theme(legend.position = c(0.17, 0.82),
-        legend.background = element_rect(fill = scales::alpha(&#39;white&#39;, 0.7)),
-        text = element_text(family = nice_font)) 
-
-rm(histo_data)
-raw_histogram</code></pre>
-<p><img src="figure/experiment3.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
-Past versions of unnamed-chunk-6-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-6-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/social_immunity/blob/8eb5a1c1deae414fb2b2d8d46e710b3d762a2e3a/docs/figure/experiment3.Rmd/unnamed-chunk-6-1.png" target="_blank">8eb5a1c</a>
-</td>
-<td>
-lukeholman
-</td>
-<td>
-2021-12-10
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/social_immunity/blob/3e419d1303d6b62e87398c34ab3349ad21938a4f/docs/figure/experiment3.Rmd/unnamed-chunk-6-1.png" target="_blank">3e419d1</a>
-</td>
-<td>
-lukeholman
-</td>
-<td>
-2021-04-27
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/social_immunity/blob/9ebe5df75d4242bf5e15a1d2a98e9928c199cc51/docs/figure/experiment3.Rmd/unnamed-chunk-6-1.png" target="_blank">9ebe5df</a>
-</td>
-<td>
-lukeholman
-</td>
-<td>
-2021-01-12
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/social_immunity/blob/fa8c1796047c167290e18c196f75e96506390a8a/docs/figure/experiment3.Rmd/unnamed-chunk-6-1.png" target="_blank">fa8c179</a>
-</td>
-<td>
-lukeholman
-</td>
-<td>
-2020-05-02
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/social_immunity/blob/3d21d6aaf2f90aaf412a741d0c57e80271f16203/docs/figure/experiment3.Rmd/unnamed-chunk-6-1.png" target="_blank">3d21d6a</a>
-</td>
-<td>
-lukeholman
-</td>
-<td>
-2020-05-02
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/social_immunity/blob/d56c18fa136535861f5b75ad28e86faddfff7f69/docs/figure/experiment3.Rmd/unnamed-chunk-6-1.png" target="_blank">d56c18f</a>
-</td>
-<td>
-lukeholman
-</td>
-<td>
-2020-04-30
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/social_immunity/blob/4bd75dc3297a0fe13ddc2359309131d596f112c9/docs/figure/experiment3.Rmd/unnamed-chunk-6-1.png" target="_blank">4bd75dc</a>
-</td>
-<td>
-lukeholman
-</td>
-<td>
-2020-04-30
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
 <div id="bayesian-binomial-model-of-time-spent-in-contact" class="section level2">
 <h2>Bayesian binomial model of time spent in contact</h2>
 <div id="run-the-models" class="section level3">
@@ -2156,13 +2058,13 @@ exp3_model &lt;- readRDS(&quot;output/exp3_model.rds&quot;)</code></pre>
 <h3>Posterior predictive check</h3>
 <p>This plot shows ten predictions from the posterior (pale blue) as well as the original data (dark blue), for the proportion of time spent in close contact (0-100%). The predicted time in contact is similar to the real data, illustrating that the model is able to recapitulate the original data fairly closely (a necessary requirement for making inferences from the model).</p>
 <pre class="r"><code>pp_check(exp3_model, nsamples = 20)</code></pre>
-<p><img src="figure/experiment3.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/experiment3.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-1">
-Past versions of unnamed-chunk-8-1.png
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-7-1">
+Past versions of unnamed-chunk-7-1.png
 </button>
 </p>
-<div id="fig-unnamed-chunk-8-1" class="collapse">
+<div id="fig-unnamed-chunk-7-1" class="collapse">
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
 <thead>
@@ -2181,35 +2083,57 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/lukeholman/social_immunity/blob/8eb5a1c1deae414fb2b2d8d46e710b3d762a2e3a/docs/figure/experiment3.Rmd/unnamed-chunk-8-1.png" target="_blank">8eb5a1c</a>
-</td>
-<td>
-lukeholman
-</td>
-<td>
-2021-12-10
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/social_immunity/blob/af7a3ea19221873fdbee3d93cfd851378761c11f/docs/figure/experiment3.Rmd/unnamed-chunk-8-1.png" target="_blank">af7a3ea</a>
-</td>
-<td>
-lukeholman
-</td>
-<td>
-2021-04-27
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/social_immunity/blob/9ebe5df75d4242bf5e15a1d2a98e9928c199cc51/docs/figure/experiment3.Rmd/unnamed-chunk-8-1.png" target="_blank">9ebe5df</a>
+<a href="https://github.com/lukeholman/social_immunity/blob/9ebe5df75d4242bf5e15a1d2a98e9928c199cc51/docs/figure/experiment3.Rmd/unnamed-chunk-7-1.png" target="_blank">9ebe5df</a>
 </td>
 <td>
 lukeholman
 </td>
 <td>
 2021-01-12
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/6ee79e9602b73c43f8348e706a8b9ae29528645f/docs/figure/experiment3.Rmd/unnamed-chunk-7-1.png" target="_blank">6ee79e9</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-08-21
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/f18896809274efd96a2067f28a5636542096f06a/docs/figure/experiment3.Rmd/unnamed-chunk-7-1.png" target="_blank">f188968</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-05-02
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/8c3b471bcdb8a8ee8911bb2a1ea753bcf306279f/docs/figure/experiment3.Rmd/unnamed-chunk-7-1.png" target="_blank">8c3b471</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-04-21
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/aae65cfb1436802ba2a4d3ed194b2888e7e659f7/docs/figure/experiment3.Rmd/unnamed-chunk-7-1.png" target="_blank">aae65cf</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2019-10-17
 </td>
 </tr>
 </tbody>
@@ -2413,7 +2337,37 @@ hive3
 </div>
 <div id="plotting-estimates-from-the-model" class="section level2">
 <h2>Plotting estimates from the model</h2>
-<pre class="r"><code>new &lt;- expt3_counts %&gt;% 
+<pre class="r"><code># Make the histogram panel:
+sample_sizes &lt;- n_trt_hive %&gt;% 
+  group_by(treatment) %&gt;% 
+  summarise(n = sum(n)) %&gt;% 
+  mutate(trt_name = paste(treatment, &quot; (n = &quot;, n, &quot;)&quot;, sep = &quot;&quot;),
+         trt_name = factor(trt_name, unique(trt_name))) %&gt;% select(-n)</code></pre>
+<pre><code>`summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<pre class="r"><code>histo_data &lt;- expt3_counts %&gt;%
+  left_join(sample_sizes, by = &quot;treatment&quot;) %&gt;%
+  arrange(treatment) 
+
+raw_histogram &lt;- histo_data %&gt;% 
+  filter(grepl(&quot;Ringers&quot;, treatment)) %&gt;%
+  ggplot(aes(100 * percent, 
+             fill = trt_name)) + 
+  geom_histogram(data = histo_data %&gt;% 
+                   filter(grepl(&quot;LPS&quot;, treatment)), 
+                 alpha = 0.5, bins = 11, colour = &quot;black&quot;, linetype = 2) +
+  geom_histogram(alpha = 0.5, bins = 11, 
+                 colour = &quot;black&quot;) +
+  # scale_y_continuous(labels = percent_format()) + 
+  scale_fill_brewer(palette = &quot;Set1&quot;, 
+                    direction = 1, name = &quot;Treatment&quot;) + 
+  xlab(&quot;% Time in close contact&quot;) + ylab(&quot;Number of pairs&quot;) + 
+  theme_bw() + 
+  theme(legend.position = c(0.24, 0.82),
+        legend.background = element_rect(fill = scales::alpha(&#39;white&#39;, 0.7)),
+        text = element_text(family = nice_font)) 
+
+
+new &lt;- expt3_counts %&gt;% 
   select(treatment) %&gt;% distinct() %&gt;% 
   mutate(n = 100, key = paste(&quot;V&quot;, 1:n(), sep = &quot;&quot;),
          hive = NA) 
@@ -2458,13 +2412,13 @@ p &lt;- cowplot::plot_grid(raw_histogram,
                         nrow = 1, align = &#39;h&#39;, axis = &#39;l&#39;)
 ggsave(plot = p, filename = &quot;figures/fig3.pdf&quot;, height = 3.4, width = 9)
 p</code></pre>
-<p><img src="figure/experiment3.Rmd/unnamed-chunk-11-1.png" width="825.6" style="display: block; margin: auto;" /></p>
+<p><img src="figure/experiment3.Rmd/unnamed-chunk-10-1.png" width="825.6" style="display: block; margin: auto;" /></p>
 <p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-1">
-Past versions of unnamed-chunk-11-1.png
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-1">
+Past versions of unnamed-chunk-10-1.png
 </button>
 </p>
-<div id="fig-unnamed-chunk-11-1" class="collapse">
+<div id="fig-unnamed-chunk-10-1" class="collapse">
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
 <thead>
@@ -2483,53 +2437,119 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/lukeholman/social_immunity/blob/8eb5a1c1deae414fb2b2d8d46e710b3d762a2e3a/docs/figure/experiment3.Rmd/unnamed-chunk-11-1.png" target="_blank">8eb5a1c</a>
+<a href="https://github.com/lukeholman/social_immunity/blob/fa8c1796047c167290e18c196f75e96506390a8a/docs/figure/experiment3.Rmd/unnamed-chunk-10-1.png" target="_blank">fa8c179</a>
 </td>
 <td>
 lukeholman
 </td>
 <td>
-2021-12-10
+2020-05-02
 </td>
 </tr>
 <tr>
 <td>
-<a href="https://github.com/lukeholman/social_immunity/blob/af7a3ea19221873fdbee3d93cfd851378761c11f/docs/figure/experiment3.Rmd/unnamed-chunk-11-1.png" target="_blank">af7a3ea</a>
+<a href="https://github.com/lukeholman/social_immunity/blob/3d21d6aaf2f90aaf412a741d0c57e80271f16203/docs/figure/experiment3.Rmd/unnamed-chunk-10-1.png" target="_blank">3d21d6a</a>
 </td>
 <td>
 lukeholman
 </td>
 <td>
-2021-04-27
+2020-05-02
 </td>
 </tr>
 <tr>
 <td>
-<a href="https://github.com/lukeholman/social_immunity/blob/3e419d1303d6b62e87398c34ab3349ad21938a4f/docs/figure/experiment3.Rmd/unnamed-chunk-11-1.png" target="_blank">3e419d1</a>
+<a href="https://github.com/lukeholman/social_immunity/blob/d56c18fa136535861f5b75ad28e86faddfff7f69/docs/figure/experiment3.Rmd/unnamed-chunk-10-1.png" target="_blank">d56c18f</a>
 </td>
 <td>
 lukeholman
 </td>
 <td>
-2021-04-27
+2020-04-30
 </td>
 </tr>
 <tr>
 <td>
-<a href="https://github.com/lukeholman/social_immunity/blob/9ebe5df75d4242bf5e15a1d2a98e9928c199cc51/docs/figure/experiment3.Rmd/unnamed-chunk-11-1.png" target="_blank">9ebe5df</a>
+<a href="https://github.com/lukeholman/social_immunity/blob/4bd75dc3297a0fe13ddc2359309131d596f112c9/docs/figure/experiment3.Rmd/unnamed-chunk-10-1.png" target="_blank">4bd75dc</a>
 </td>
 <td>
 lukeholman
 </td>
 <td>
-2021-01-12
+2020-04-30
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/71b61606c2c4ca843d6a5ae1ab7d8ec2637b4935/docs/figure/experiment3.Rmd/unnamed-chunk-10-1.png" target="_blank">71b6160</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-04-25
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/2235ae45f5172d02b309ea28831bc1759c111926/docs/figure/experiment3.Rmd/unnamed-chunk-10-1.png" target="_blank">2235ae4</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-04-25
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/99649a7a9ef820b67ec6ba211f1f28b816c14e21/docs/figure/experiment3.Rmd/unnamed-chunk-10-1.png" target="_blank">99649a7</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-04-25
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/0ede6e3f36a44f7fd5170f56dfd8615691278b79/docs/figure/experiment3.Rmd/unnamed-chunk-10-1.png" target="_blank">0ede6e3</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-04-24
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/a1f8dc23d961740443b360d082aea9f0e23226fa/docs/figure/experiment3.Rmd/unnamed-chunk-10-1.png" target="_blank">a1f8dc2</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-04-24
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/1ce9e19446a3c5559528bd2605aef694c373efa0/docs/figure/experiment3.Rmd/unnamed-chunk-10-1.png" target="_blank">1ce9e19</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-04-21
 </td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<p><strong><em>Figure 3:</em></strong> Results of Experiment 3 (n = 439 bees). Panel A shows the frequency distribution of the % time in close contact, for pairs of bees from the LPS treatment and the Ringers control. Panel B shows the posterior estimates of the mean % time spent in close contact; the details of the quantile dot plot and error bars are the same as described for Figure 1.</p>
+<p><strong><em>Figure 3:</em></strong> Results of Experiment 3 (n = 439 pairs of bees). Panel A shows the frequency distribution of the % time in close contact, for pairs of bees from the LPS treatment and the Ringers control. Panel B shows the posterior estimates of the mean % time spent in close contact; the details of the quantile dot plot and error bars are the same as described for Figure 1.</p>
 </div>
 <div id="hypothesis-testing-and-effect-sizes" class="section level2">
 <h2>Hypothesis testing and effect sizes</h2>
