@@ -71,9 +71,10 @@ sample_sizes %>%
 
 ### Sample sizes by treatment and hive
 ```{r}
-expt3_counts %>%
+n_trt_hive <- expt3_counts %>%
   group_by(hive, treatment) %>%
-  summarise(n = n(), .groups = "drop") %>%
+  summarise(n = n(), .groups = "drop") 
+n_trt_hive %>%
   kable() %>% kable_styling(full_width = FALSE)
 ```
 
@@ -90,40 +91,6 @@ expt3_counts %>%
   kable(digits = 3) %>% kable_styling(full_width = FALSE) %>%
   column_spec(3, width = "2in")
 ```
-
-## Histogram of the results
-
-Note that bees more often spent close to 100% of the observation period in contact in the control group, relative to the group treated with LPS.
-
-```{r fig.showtext = TRUE}
-histo_data <- expt3_counts %>%
-  left_join(sample_sizes, by = "treatment") %>%
-  arrange(treatment)
-
-raw_histogram <- histo_data %>% 
-  filter(grepl("Ringers", treatment)) %>%
-  ggplot(aes(100 * percent, 
-             fill = treatment)) + 
-  geom_histogram(data = histo_data %>% 
-                   filter(grepl("LPS", treatment)), 
-                 mapping = aes(y = ..density..), 
-                 alpha = 0.5, bins = 11, colour = "black", linetype = 2) +
-  geom_histogram(mapping = aes(y = ..density..), 
-                 alpha = 0.5, bins = 11, 
-                 colour = "black") + 
-  scale_fill_brewer(palette = "Set1", 
-                    direction = 1, name = "Treatment") + 
-  xlab("% Time in close contact") + ylab("Frequency") + 
-  theme_bw() + 
-  theme(legend.position = c(0.17, 0.82),
-        legend.background = element_rect(fill = scales::alpha('white', 0.7)),
-        text = element_text(family = nice_font)) 
-
-rm(histo_data)
-raw_histogram
-```
-
-
 
 
 ## Bayesian binomial model of time spent in contact
@@ -199,6 +166,36 @@ tableS5 %>%
 ## Plotting estimates from the model
 
 ```{r fig.height=3.2, fig.width=8.6, fig.showtext = TRUE, warning=FALSE}
+# Make the histogram panel:
+sample_sizes <- n_trt_hive %>% 
+  group_by(treatment) %>% 
+  summarise(n = sum(n)) %>% 
+  mutate(trt_name = paste(treatment, " (n = ", n, ")", sep = ""),
+         trt_name = factor(trt_name, unique(trt_name))) %>% select(-n)
+
+histo_data <- expt3_counts %>%
+  left_join(sample_sizes, by = "treatment") %>%
+  arrange(treatment) 
+
+raw_histogram <- histo_data %>% 
+  filter(grepl("Ringers", treatment)) %>%
+  ggplot(aes(100 * percent, 
+             fill = trt_name)) + 
+  geom_histogram(data = histo_data %>% 
+                   filter(grepl("LPS", treatment)), 
+                 alpha = 0.5, bins = 11, colour = "black", linetype = 2) +
+  geom_histogram(alpha = 0.5, bins = 11, 
+                 colour = "black") +
+  # scale_y_continuous(labels = percent_format()) + 
+  scale_fill_brewer(palette = "Set1", 
+                    direction = 1, name = "Treatment") + 
+  xlab("% Time in close contact") + ylab("Number of pairs") + 
+  theme_bw() + 
+  theme(legend.position = c(0.24, 0.82),
+        legend.background = element_rect(fill = scales::alpha('white', 0.7)),
+        text = element_text(family = nice_font)) 
+
+
 new <- expt3_counts %>% 
   select(treatment) %>% distinct() %>% 
   mutate(n = 100, key = paste("V", 1:n(), sep = ""),
@@ -245,7 +242,7 @@ p <- cowplot::plot_grid(raw_histogram,
 ggsave(plot = p, filename = "figures/fig3.pdf", height = 3.4, width = 9)
 p
 ```
-***Figure 3:*** Results of Experiment 3 (n = 439 bees). Panel A shows the frequency distribution of the % time in close contact, for pairs of bees from the LPS treatment and the Ringers control. Panel B shows the posterior estimates of the mean % time spent in close contact; the details of the quantile dot plot and error bars are the same as described for Figure 1. 
+***Figure 3:*** Results of Experiment 3 (n = 439 pairs of bees). Panel A shows the frequency distribution of the % time in close contact, for pairs of bees from the LPS treatment and the Ringers control. Panel B shows the posterior estimates of the mean % time spent in close contact; the details of the quantile dot plot and error bars are the same as described for Figure 1. 
 
 
 
