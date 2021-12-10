@@ -13,13 +13,21 @@
 
 <title>Analysis of Experiment 3</title>
 
-<script src="site_libs/header-attrs-2.5/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/jquery-3.5.0/jquery-3.5.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/darkly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
@@ -27,8 +35,6 @@
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
 <script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
@@ -42,8 +48,6 @@ div.section {
 }
 </style>
 
-
-
 <style type="text/css">
   code{white-space: pre-wrap;}
   span.smallcaps{font-variant: small-caps;}
@@ -54,11 +58,6 @@ div.section {
     </style>
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
 <script type="text/javascript">
 if (window.hljs) {
   hljs.configure({languages: []});
@@ -71,32 +70,7 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
+
 
 
 
@@ -106,10 +80,6 @@ h6 {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%;
@@ -126,40 +96,13 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 51px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h2 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h3 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h4 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h5 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h6 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -187,7 +130,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -199,7 +142,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -210,10 +153,23 @@ $(document).ready(function () {
   var menuAnchor = $('a[href="' + href + '"]');
 
   // mark it active
-  menuAnchor.parent().addClass('active');
+  menuAnchor.tab('show');
 
   // if it's got a parent navbar menu mark it active as well
   menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -225,7 +181,6 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -354,7 +309,7 @@ div.tocify {
 
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
+<div class="row">
 <div class="col-xs-12 col-sm-4 col-md-3">
 <div id="TOC" class="tocify">
 </div>
@@ -409,11 +364,11 @@ div.tocify {
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<div class="fluid-row" id="header">
+<div id="header">
 
-<div class="btn-group pull-right">
-<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
-<ul class="dropdown-menu" style="min-width: 50px;">
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
 <li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
 <li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
 </ul>
@@ -446,7 +401,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-04-28
+<strong>Last updated:</strong> 2021-12-10
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -537,16 +492,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytreebe8266d0819b8862f79d471f873962181242df28targetblankbe8266da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/be8266d0819b8862f79d471f873962181242df28" target="_blank">be8266d</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree43265866305ef15519a37e4ce84d04d057cd9256targetblank4326586a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/43265866305ef15519a37e4ce84d04d057cd9256" target="_blank">4326586</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytreebe8266d0819b8862f79d471f873962181242df28targetblankbe8266da" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree43265866305ef15519a37e4ce84d04d057cd9256targetblank4326586a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/social_immunity/tree/be8266d0819b8862f79d471f873962181242df28" target="_blank">be8266d</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/social_immunity/tree/43265866305ef15519a37e4ce84d04d057cd9256" target="_blank">4326586</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -565,17 +520,9 @@ Ignored files:
     Ignored:    output/exp3_model.rds
 
 Unstaged changes:
-    Modified:   code/pdf_supp_material.Rmd
-    Modified:   code/pdf_supp_material.pdf
+    Deleted:    code/pdf_supp_material.pdf
     Modified:   figures/fig1.pdf
-    Modified:   figures/fig2.pdf
-    Modified:   figures/fig3.pdf
-    Modified:   figures/tableS1.rds
     Modified:   figures/tableS2.rds
-    Modified:   figures/tableS3.rds
-    Modified:   figures/tableS4.rds
-    Modified:   figures/tableS5.rds
-    Modified:   figures/tableS6.rds
 
 </code></pre>
 <p>
@@ -614,6 +561,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/43265866305ef15519a37e4ce84d04d057cd9256/analysis/experiment3.Rmd" target="_blank">4326586</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2021-12-10
+</td>
+<td>
+wflow_publish(“analysis/experiment3.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/social_immunity/fbfc8201159e83e7f66153d92e92adc3c4f4342e/docs/experiment3.html" target="_blank">fbfc820</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2021-04-28
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1626,13 +1607,7 @@ First commit
 </div>
 <div id="load-data-and-r-packages" class="section level2">
 <h2>Load data and R packages</h2>
-<pre class="r"><code># All but 1 of these packages can be easily installed from CRAN.
-# However it was harder to install the showtext package. On Mac, I did this:
-# installed &#39;homebrew&#39; using Terminal: ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot; 
-# installed &#39;libpng&#39; using Terminal: brew install libpng
-# installed &#39;showtext&#39; in R using: devtools::install_github(&quot;yixuan/showtext&quot;)  
-library(showtext)
-
+<pre class="r"><code>library(showtext)
 library(brms)
 library(bayesplot)
 library(tidyverse)
@@ -1664,7 +1639,7 @@ expt3_counts &lt;- experiment3 %&gt;%
   mutate(hive = C(factor(hive), sum)) # sum coding for hive</code></pre>
 </div>
 <div id="inspect-the-raw-data" class="section level2 tabset tabset-fade">
-<h2 class="tabset tabset-fade">Inspect the raw data</h2>
+<h2>Inspect the raw data</h2>
 <div id="sample-sizes-by-treatment" class="section level3">
 <h3>Sample sizes by treatment</h3>
 <pre class="r"><code>sample_sizes &lt;- expt3_counts %&gt;%
@@ -2008,7 +1983,7 @@ raw_histogram &lt;- histo_data %&gt;%
                  colour = &quot;black&quot;) + 
   scale_fill_brewer(palette = &quot;Set1&quot;, 
                     direction = 1, name = &quot;Treatment&quot;) + 
-  xlab(&quot;% Time in close contact&quot;) + ylab(&quot;Density&quot;) + 
+  xlab(&quot;% Time in close contact&quot;) + ylab(&quot;Frequency&quot;) + 
   theme_bw() + 
   theme(legend.position = c(0.17, 0.82),
         legend.background = element_rect(fill = scales::alpha(&#39;white&#39;, 0.7)),
@@ -2421,34 +2396,6 @@ get_log_odds &lt;- function(trt1, trt2){
   log((trt2 / (1 - trt2) / (trt1 / (1 - trt1))))
 }
 
-# LOR &lt;- plotting_data %&gt;%
-#   mutate(posterior_sample = rep(1:(n()/2), 2)) %&gt;%
-#   spread(treatment, percent_time_in_contact) %&gt;%
-#   mutate(LOR = get_log_odds(Ringers/100, LPS/100)) %&gt;%
-#   select(LOR)
-# 
-# LOR_plot &lt;- LOR %&gt;%
-#   ggplot(aes(LOR, y =1)) + 
-#   geom_vline(xintercept = 0, linetype = 2) +
-#   stat_dotsh(quantiles = 100, fill = &quot;grey40&quot;, colour = &quot;grey40&quot;) + 
-#   stat_pointintervalh(
-#     colour = panel_c_colour, fill = panel_c_colour,
-#     .width = c(0.5, 0.95), 
-#     position = position_nudge(y = -0.1),
-#     point_colour = &quot;grey26&quot;, pch = 21, stroke = 0.4) + 
-#   coord_cartesian(ylim=c(0.86, 2)) + 
-#   xlab(&quot;Effect of LPS on mean\n% time in close contact (LOR)&quot;) + 
-#   ylab(&quot;Posterior density&quot;) + 
-#   theme_bw() +
-#   theme(
-#     text = element_text(family = nice_font),
-#     axis.text.y = element_blank(),
-#     axis.ticks.y = element_blank(),
-#     panel.grid.major.y = element_blank(),
-#     panel.grid.minor.y = element_blank(),
-#     legend.position = &quot;none&quot;
-#   ) 
- 
 p &lt;- cowplot::plot_grid(raw_histogram, 
                         dot_plot, labels = c(&quot;A&quot;, &quot;B&quot;),
                         nrow = 1, align = &#39;h&#39;, axis = &#39;l&#39;)
@@ -2651,40 +2598,41 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] car_3.0-8        carData_3.0-4    scales_1.1.1     tidybayes_2.0.3  cowplot_1.0.0    bayestestR_0.6.0
- [7] kableExtra_1.3.4 gridExtra_2.3    forcats_0.5.0    stringr_1.4.0    dplyr_1.0.0      purrr_0.3.4     
-[13] readr_1.3.1      tidyr_1.1.0      tibble_3.0.1     ggplot2_3.3.2    tidyverse_1.3.0  bayesplot_1.7.2 
-[19] brms_2.14.4      Rcpp_1.0.4.6     showtext_0.9-1   showtextdb_3.0   sysfonts_0.8.2   workflowr_1.6.2 
+ [1] car_3.0-8         carData_3.0-4     scales_1.1.1      tidybayes_2.0.3   cowplot_1.0.0     bayestestR_0.11.5
+ [7] kableExtra_1.3.4  gridExtra_2.3     forcats_0.5.0     stringr_1.4.0     dplyr_1.0.0       purrr_0.3.4      
+[13] readr_2.0.0       tidyr_1.1.0       tibble_3.0.1      ggplot2_3.3.2     tidyverse_1.3.0   bayesplot_1.7.2  
+[19] brms_2.14.4       Rcpp_1.0.4.6      showtext_0.9-2    showtextdb_3.0    sysfonts_0.8.3    workflowr_1.6.2  
 
 loaded via a namespace (and not attached):
   [1] readxl_1.3.1         backports_1.1.7      systemfonts_0.2.2    plyr_1.8.6           igraph_1.2.5        
   [6] svUnit_1.0.3         splines_4.0.3        crosstalk_1.1.0.1    TH.data_1.0-10       rstantools_2.1.1    
  [11] inline_0.3.15        digest_0.6.25        htmltools_0.5.0      rsconnect_0.8.16     fansi_0.4.1         
- [16] magrittr_2.0.1       openxlsx_4.1.5       modelr_0.1.8         RcppParallel_5.0.1   matrixStats_0.56.0  
- [21] svglite_1.2.3        xts_0.12-0           sandwich_2.5-1       prettyunits_1.1.1    colorspace_1.4-1    
- [26] blob_1.2.1           rvest_0.3.5          haven_2.3.1          xfun_0.22            callr_3.4.3         
- [31] crayon_1.3.4         jsonlite_1.7.0       lme4_1.1-23          survival_3.2-7       zoo_1.8-8           
- [36] glue_1.4.2           gtable_0.3.0         emmeans_1.4.7        webshot_0.5.2        V8_3.4.0            
- [41] pkgbuild_1.0.8       rstan_2.21.2         abind_1.4-5          mvtnorm_1.1-0        DBI_1.1.0           
- [46] miniUI_0.1.1.1       viridisLite_0.3.0    xtable_1.8-4         foreign_0.8-80       stats4_4.0.3        
- [51] StanHeaders_2.21.0-3 DT_0.13              htmlwidgets_1.5.1    httr_1.4.1           threejs_0.3.3       
- [56] RColorBrewer_1.1-2   arrayhelpers_1.1-0   ellipsis_0.3.1       farver_2.0.3         pkgconfig_2.0.3     
- [61] loo_2.3.1            dbplyr_1.4.4         labeling_0.3         tidyselect_1.1.0     rlang_0.4.6         
- [66] reshape2_1.4.4       later_1.0.0          munsell_0.5.0        cellranger_1.1.0     tools_4.0.3         
- [71] cli_2.0.2            generics_0.0.2       broom_0.5.6          ggridges_0.5.2       evaluate_0.14       
- [76] fastmap_1.0.1        yaml_2.2.1           processx_3.4.2       knitr_1.32           fs_1.4.1            
- [81] zip_2.1.1            nlme_3.1-149         whisker_0.4          mime_0.9             projpred_2.0.2      
- [86] xml2_1.3.2           compiler_4.0.3       shinythemes_1.1.2    rstudioapi_0.11      curl_4.3            
- [91] gamm4_0.2-6          reprex_0.3.0         statmod_1.4.34       stringi_1.5.3        highr_0.8           
- [96] ps_1.3.3             Brobdingnag_1.2-6    gdtools_0.2.2        lattice_0.20-41      Matrix_1.2-18       
-[101] nloptr_1.2.2.1       markdown_1.1         shinyjs_1.1          vctrs_0.3.0          pillar_1.4.4        
-[106] lifecycle_0.2.0      bridgesampling_1.0-0 estimability_1.3     data.table_1.12.8    insight_0.8.4       
-[111] httpuv_1.5.3.1       R6_2.4.1             promises_1.1.0       rio_0.5.16           codetools_0.2-16    
-[116] boot_1.3-25          colourpicker_1.0     MASS_7.3-53          gtools_3.8.2         assertthat_0.2.1    
-[121] rprojroot_1.3-2      withr_2.2.0          shinystan_2.5.0      multcomp_1.4-13      mgcv_1.8-33         
-[126] parallel_4.0.3       hms_0.5.3            grid_4.0.3           coda_0.19-3          minqa_1.2.4         
-[131] rmarkdown_2.5        git2r_0.27.1         shiny_1.4.0.2        lubridate_1.7.8      base64enc_0.1-3     
-[136] dygraphs_1.1.1.6    </code></pre>
+ [16] magrittr_2.0.1       openxlsx_4.1.5       tzdb_0.1.2           modelr_0.1.8         RcppParallel_5.0.1  
+ [21] matrixStats_0.56.0   vroom_1.5.3          svglite_1.2.3        xts_0.12-0           sandwich_2.5-1      
+ [26] prettyunits_1.1.1    colorspace_1.4-1     blob_1.2.1           rvest_0.3.5          haven_2.3.1         
+ [31] xfun_0.26            callr_3.4.3          crayon_1.3.4         jsonlite_1.7.0       lme4_1.1-23         
+ [36] survival_3.2-7       zoo_1.8-8            glue_1.4.2           gtable_0.3.0         emmeans_1.4.7       
+ [41] webshot_0.5.2        V8_3.4.0             pkgbuild_1.0.8       rstan_2.21.2         abind_1.4-5         
+ [46] mvtnorm_1.1-0        DBI_1.1.0            miniUI_0.1.1.1       viridisLite_0.3.0    xtable_1.8-4        
+ [51] bit_1.1-15.2         foreign_0.8-80       stats4_4.0.3         StanHeaders_2.21.0-3 DT_0.13             
+ [56] datawizard_0.2.1     htmlwidgets_1.5.1    httr_1.4.1           threejs_0.3.3        RColorBrewer_1.1-2  
+ [61] arrayhelpers_1.1-0   ellipsis_0.3.1       farver_2.0.3         pkgconfig_2.0.3      loo_2.3.1           
+ [66] dbplyr_1.4.4         labeling_0.3         tidyselect_1.1.0     rlang_0.4.6          reshape2_1.4.4      
+ [71] later_1.0.0          munsell_0.5.0        cellranger_1.1.0     tools_4.0.3          cli_2.0.2           
+ [76] generics_0.0.2       broom_0.5.6          ggridges_0.5.2       evaluate_0.14        fastmap_1.0.1       
+ [81] yaml_2.2.1           bit64_0.9-7          processx_3.4.2       knitr_1.32           fs_1.4.1            
+ [86] zip_2.1.1            nlme_3.1-149         whisker_0.4          mime_0.9             projpred_2.0.2      
+ [91] xml2_1.3.2           rstudioapi_0.11      compiler_4.0.3       shinythemes_1.1.2    curl_4.3            
+ [96] gamm4_0.2-6          reprex_0.3.0         statmod_1.4.34       stringi_1.5.3        highr_0.8           
+[101] ps_1.3.3             Brobdingnag_1.2-6    gdtools_0.2.2        lattice_0.20-41      Matrix_1.2-18       
+[106] nloptr_1.2.2.1       markdown_1.1         shinyjs_1.1          vctrs_0.3.0          pillar_1.4.4        
+[111] lifecycle_0.2.0      jquerylib_0.1.1      bridgesampling_1.0-0 estimability_1.3     data.table_1.12.8   
+[116] insight_0.14.5       httpuv_1.5.3.1       R6_2.4.1             promises_1.1.0       rio_0.5.16          
+[121] codetools_0.2-16     boot_1.3-25          colourpicker_1.0     MASS_7.3-53          gtools_3.8.2        
+[126] assertthat_0.2.1     rprojroot_1.3-2      withr_2.2.0          shinystan_2.5.0      multcomp_1.4-13     
+[131] mgcv_1.8-33          parallel_4.0.3       hms_0.5.3            grid_4.0.3           coda_0.19-3         
+[136] minqa_1.2.4          rmarkdown_2.11       git2r_0.27.1         shiny_1.4.0.2        lubridate_1.7.10    
+[141] base64enc_0.1-3      dygraphs_1.1.1.6    </code></pre>
 </div>
 </div>
 
@@ -2700,8 +2648,6 @@ footer is added to webpages before the MathJax javascript. -->
     "HTML-CSS": { availableFonts: ["TeX"] }
   });
 </script>
-
-
 
 
 </div>
@@ -2731,7 +2677,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>
@@ -2745,6 +2691,9 @@ $(document).ready(function () {
 
 <script>
 $(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
 
     // move toc-ignore selectors from section div to header
     $('div.section.toc-ignore')
