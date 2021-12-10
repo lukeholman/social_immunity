@@ -255,7 +255,7 @@ stats_data <- get_posterior_preds(focal_hive = NA)
 
 ### Make Figure 2
 
-```{r fig.height=3.4, fig.width=9, fig.showtext = TRUE, warning=FALSE}
+```{r fig.height=5.4, fig.width=9, fig.showtext = TRUE, warning=FALSE}
 cols <- RColorBrewer::brewer.pal(3, "Set2")
 panel_c_colour <- "#CC79A7"
 
