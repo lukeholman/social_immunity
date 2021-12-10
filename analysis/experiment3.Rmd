@@ -24,13 +24,7 @@ local({
 ## Load data and R packages
 
 ```{r results='hide', message=F, warning=F}
-# All but 1 of these packages can be easily installed from CRAN.
-# However it was harder to install the showtext package. On Mac, I did this:
-# installed 'homebrew' using Terminal: ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" 
-# installed 'libpng' using Terminal: brew install libpng
-# installed 'showtext' in R using: devtools::install_github("yixuan/showtext")  
 library(showtext)
-
 library(brms)
 library(bayesplot)
 library(tidyverse)
@@ -119,7 +113,7 @@ raw_histogram <- histo_data %>%
                  colour = "black") + 
   scale_fill_brewer(palette = "Set1", 
                     direction = 1, name = "Treatment") + 
-  xlab("% Time in close contact") + ylab("Density") + 
+  xlab("% Time in close contact") + ylab("Frequency") + 
   theme_bw() + 
   theme(legend.position = c(0.17, 0.82),
         legend.background = element_rect(fill = scales::alpha('white', 0.7)),
@@ -245,34 +239,6 @@ get_log_odds <- function(trt1, trt2){
   log((trt2 / (1 - trt2) / (trt1 / (1 - trt1))))
 }
 
-# LOR <- plotting_data %>%
-#   mutate(posterior_sample = rep(1:(n()/2), 2)) %>%
-#   spread(treatment, percent_time_in_contact) %>%
-#   mutate(LOR = get_log_odds(Ringers/100, LPS/100)) %>%
-#   select(LOR)
-# 
-# LOR_plot <- LOR %>%
-#   ggplot(aes(LOR, y =1)) + 
-#   geom_vline(xintercept = 0, linetype = 2) +
-#   stat_dotsh(quantiles = 100, fill = "grey40", colour = "grey40") + 
-#   stat_pointintervalh(
-#     colour = panel_c_colour, fill = panel_c_colour,
-#     .width = c(0.5, 0.95), 
-#     position = position_nudge(y = -0.1),
-#     point_colour = "grey26", pch = 21, stroke = 0.4) + 
-#   coord_cartesian(ylim=c(0.86, 2)) + 
-#   xlab("Effect of LPS on mean\n% time in close contact (LOR)") + 
-#   ylab("Posterior density") + 
-#   theme_bw() +
-#   theme(
-#     text = element_text(family = nice_font),
-#     axis.text.y = element_blank(),
-#     axis.ticks.y = element_blank(),
-#     panel.grid.major.y = element_blank(),
-#     panel.grid.minor.y = element_blank(),
-#     legend.position = "none"
-#   ) 
- 
 p <- cowplot::plot_grid(raw_histogram, 
                         dot_plot, labels = c("A", "B"),
                         nrow = 1, align = 'h', axis = 'l')
