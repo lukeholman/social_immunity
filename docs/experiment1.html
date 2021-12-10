@@ -13,13 +13,21 @@
 
 <title>Analysis of Experiment 1</title>
 
-<script src="site_libs/header-attrs-2.5/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/jquery-3.5.0/jquery-3.5.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/darkly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
@@ -27,8 +35,6 @@
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
 <script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
@@ -42,8 +48,6 @@ div.section {
 }
 </style>
 
-
-
 <style type="text/css">
   code{white-space: pre-wrap;}
   span.smallcaps{font-variant: small-caps;}
@@ -54,11 +58,6 @@ div.section {
     </style>
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
 <script type="text/javascript">
 if (window.hljs) {
   hljs.configure({languages: []});
@@ -71,32 +70,7 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
+
 
 
 
@@ -106,10 +80,6 @@ h6 {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%;
@@ -126,40 +96,13 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 51px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h2 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h3 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h4 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h5 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h6 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -187,7 +130,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -199,7 +142,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -210,10 +153,23 @@ $(document).ready(function () {
   var menuAnchor = $('a[href="' + href + '"]');
 
   // mark it active
-  menuAnchor.parent().addClass('active');
+  menuAnchor.tab('show');
 
   // if it's got a parent navbar menu mark it active as well
   menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -225,7 +181,6 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -354,7 +309,7 @@ div.tocify {
 
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
+<div class="row">
 <div class="col-xs-12 col-sm-4 col-md-3">
 <div id="TOC" class="tocify">
 </div>
@@ -409,11 +364,11 @@ div.tocify {
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<div class="fluid-row" id="header">
+<div id="header">
 
-<div class="btn-group pull-right">
-<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
-<ul class="dropdown-menu" style="min-width: 50px;">
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
 <li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
 <li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
 </ul>
@@ -446,7 +401,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-04-28
+<strong>Last updated:</strong> 2021-12-10
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -537,16 +492,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree335743dd9b382a6ab1fe83c196ccdfad8d9905f1targetblank335743da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/335743dd9b382a6ab1fe83c196ccdfad8d9905f1" target="_blank">335743d</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree3c83f3496b6df999e0a1c7987d0ccd3226d7adf6targetblank3c83f34a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/social_immunity/tree/3c83f3496b6df999e0a1c7987d0ccd3226d7adf6" target="_blank">3c83f34</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree335743dd9b382a6ab1fe83c196ccdfad8d9905f1targetblank335743da" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmansocialimmunitytree3c83f3496b6df999e0a1c7987d0ccd3226d7adf6targetblank3c83f34a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/social_immunity/tree/335743dd9b382a6ab1fe83c196ccdfad8d9905f1" target="_blank">335743d</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/social_immunity/tree/3c83f3496b6df999e0a1c7987d0ccd3226d7adf6" target="_blank">3c83f34</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -565,17 +520,10 @@ Ignored files:
     Ignored:    output/exp3_model.rds
 
 Unstaged changes:
-    Modified:   code/pdf_supp_material.Rmd
-    Modified:   code/pdf_supp_material.pdf
+    Deleted:    code/pdf_supp_material.pdf
     Modified:   figures/fig1.pdf
-    Modified:   figures/fig2.pdf
     Modified:   figures/fig3.pdf
-    Modified:   figures/tableS1.rds
     Modified:   figures/tableS2.rds
-    Modified:   figures/tableS3.rds
-    Modified:   figures/tableS4.rds
-    Modified:   figures/tableS5.rds
-    Modified:   figures/tableS6.rds
 
 </code></pre>
 <p>
@@ -614,6 +562,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/3c83f3496b6df999e0a1c7987d0ccd3226d7adf6/analysis/experiment1.Rmd" target="_blank">3c83f34</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2021-12-10
+</td>
+<td>
+wflow_publish(“analysis/experiment1.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/social_immunity/b50dabaf3e2a16a68ad6723d1f08fdd8dc0a5014/docs/experiment1.html" target="_blank">b50daba</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2021-04-28
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1755,7 +1737,7 @@ data_for_categorical_model &lt;- outcome_tally %&gt;%
   left_join(durations, by = &quot;hive&quot;)</code></pre>
 </div>
 <div id="inspect-the-raw-data" class="section level2 tabset tabset-fade">
-<h2 class="tabset tabset-fade">Inspect the raw data</h2>
+<h2>Inspect the raw data</h2>
 <p>Click the three tabs to see each table.</p>
 <div id="sample-sizes-by-treatment" class="section level3">
 <h3>Sample sizes by treatment</h3>
@@ -2105,123 +2087,12 @@ LPS
 </table>
 </div>
 </div>
-<div id="plot-showing-raw-means-and-95-ci-of-the-mean" class="section level2">
-<h2>Plot showing raw means and 95% CI of the mean</h2>
-<pre class="r"><code>all_hives &lt;- outcome_tally %&gt;%
-  group_by(treatment, outcome) %&gt;%
-  summarise(n = sum(n), .groups = &quot;drop&quot;) %&gt;%
-  ungroup() %&gt;% mutate(hive = &quot;All hives&quot;)
-
-pd &lt;- position_dodge(.3)
-outcome_tally %&gt;%
-  group_by(treatment, outcome) %&gt;%
-  summarise(n = sum(n), .groups = &quot;drop&quot;) %&gt;% mutate() %&gt;%
-  group_by(treatment) %&gt;%
-  mutate(total_n = sum(n),
-         percent = 100 * n / sum(n),
-         SE = sqrt(total_n * (percent/100) * (1-(percent/100)))) %&gt;% 
-  ungroup() %&gt;%
-  mutate(lowerCI = map_dbl(1:n(), ~ 100 * binom.test(n[.x], total_n[.x])$conf.int[1]),
-         upperCI = map_dbl(1:n(), ~ 100 * binom.test(n[.x], total_n[.x])$conf.int[2])) %&gt;%
-  filter(outcome != &quot;Stayed inside the hive&quot;) %&gt;%
-  ggplot(aes(treatment, percent, fill = outcome)) + 
-  geom_errorbar(aes(ymin=lowerCI, ymax=upperCI), position = pd, width = 0) + 
-  geom_point(stat = &quot;identity&quot;, position = pd, colour = &quot;grey15&quot;, pch = 21, size = 4) + 
-  scale_fill_brewer(palette = &quot;Pastel2&quot;, name = &quot;Outcome&quot;, direction = -1) + 
-  xlab(&quot;Treatment&quot;) + ylab(&quot;% bees (\u00B1 95% CIs)&quot;) + 
-  theme_bw(20) + 
-  theme(legend.position = &quot;top&quot;,
-        text = element_text(family = nice_font)) + 
-  coord_flip()</code></pre>
-<p><img src="figure/experiment1.Rmd/unnamed-chunk-6-1.png" width="864" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
-Past versions of unnamed-chunk-6-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-6-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/social_immunity/blob/3e419d1303d6b62e87398c34ab3349ad21938a4f/docs/figure/experiment1.Rmd/unnamed-chunk-6-1.png" target="_blank">3e419d1</a>
-</td>
-<td>
-lukeholman
-</td>
-<td>
-2021-04-27
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/social_immunity/blob/6ee79e9602b73c43f8348e706a8b9ae29528645f/docs/figure/experiment1.Rmd/unnamed-chunk-6-1.png" target="_blank">6ee79e9</a>
-</td>
-<td>
-lukeholman
-</td>
-<td>
-2020-08-21
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/social_immunity/blob/f97baee319003e2e68d4b126433d45ae68f1cf36/docs/figure/experiment1.Rmd/unnamed-chunk-6-1.png" target="_blank">f97baee</a>
-</td>
-<td>
-lukeholman
-</td>
-<td>
-2020-05-02
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/social_immunity/blob/8c3b471bcdb8a8ee8911bb2a1ea753bcf306279f/docs/figure/experiment1.Rmd/unnamed-chunk-6-1.png" target="_blank">8c3b471</a>
-</td>
-<td>
-lukeholman
-</td>
-<td>
-2020-04-21
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/social_immunity/blob/1ce9e19446a3c5559528bd2605aef694c373efa0/docs/figure/experiment1.Rmd/unnamed-chunk-6-1.png" target="_blank">1ce9e19</a>
-</td>
-<td>
-lukeholman
-</td>
-<td>
-2020-04-21
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
 <div id="preliminary-glmm" class="section level2">
 <h2>Preliminary GLMM</h2>
 <p>The multinomial model below is not commonly used, though we believe it is the right choice for this particular experiment (e.g. because it can model a three-item categorical response variable, and it can incorporate priors). However during peer review, we were asked whether the results were similar when using standard statistical methods. To address this question, we here present a frequentist Generalised Linear Mixed Model (GLMM; using <code>lme4::glmer</code>), which tests the null hypothesis that the proportion of bees exiting the hive (i.e. the proportion leaving voluntarily plus those that were forced out) is equal between treatment groups and hives.</p>
 <p>The model’s qualitative results are similar to those from the multinomial model: bees treated with LPS left the hive more often than intact controls (and there was a non-significant trend for more LPS bees to leave than Ringers bees), and there was variation between hives in the proportion of bees leaving.</p>
 <div id="parameter-estimates-from-the-glmm" class="section level3 tabset">
-<h3 class="tabset">Parameter estimates from the GLMM</h3>
+<h3>Parameter estimates from the GLMM</h3>
 <div id="with-intact-control-as-the-reference-level" class="section level4">
 <h4>With <code>Intact control</code> as the reference level</h4>
 <p>Note that the intact and Ringers controls are not different, but the intact control differs from the LPS treatment.</p>
@@ -2350,13 +2221,13 @@ exp1_model &lt;- readRDS(&quot;output/exp1_model.rds&quot;)</code></pre>
 <h3>Posterior predictive check</h3>
 <p>This plot shows ten predictions from the posterior (pale blue) as well as the original data (dark blue), for the three categorical outcomes (1: stayed inside, 2: left voluntarily, 3: forced out). The predicted number of bees in each outcome category is similar to the real data, illustrating that the model is able to recapitulate the original data fairly closely (a necessary requirement for making inferences from the model).</p>
 <pre class="r"><code>pp_check(exp1_model, type = &quot;hist&quot;, nsamples = 8)</code></pre>
-<p><img src="figure/experiment1.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/experiment1.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-1">
-Past versions of unnamed-chunk-11-1.png
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-1">
+Past versions of unnamed-chunk-10-1.png
 </button>
 </p>
-<div id="fig-unnamed-chunk-11-1" class="collapse">
+<div id="fig-unnamed-chunk-10-1" class="collapse">
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
 <thead>
@@ -2375,24 +2246,57 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/lukeholman/social_immunity/blob/3e419d1303d6b62e87398c34ab3349ad21938a4f/docs/figure/experiment1.Rmd/unnamed-chunk-11-1.png" target="_blank">3e419d1</a>
+<a href="https://github.com/lukeholman/social_immunity/blob/2227713f116ed1ac64681889e90c8cc6ca49d276/docs/figure/experiment1.Rmd/unnamed-chunk-10-1.png" target="_blank">2227713</a>
 </td>
 <td>
 lukeholman
 </td>
 <td>
-2021-04-27
+2020-05-02
 </td>
 </tr>
 <tr>
 <td>
-<a href="https://github.com/lukeholman/social_immunity/blob/9ebe5df75d4242bf5e15a1d2a98e9928c199cc51/docs/figure/experiment1.Rmd/unnamed-chunk-11-1.png" target="_blank">9ebe5df</a>
+<a href="https://github.com/lukeholman/social_immunity/blob/3d21d6aaf2f90aaf412a741d0c57e80271f16203/docs/figure/experiment1.Rmd/unnamed-chunk-10-1.png" target="_blank">3d21d6a</a>
 </td>
 <td>
 lukeholman
 </td>
 <td>
-2021-01-12
+2020-05-02
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/99649a7a9ef820b67ec6ba211f1f28b816c14e21/docs/figure/experiment1.Rmd/unnamed-chunk-10-1.png" target="_blank">99649a7</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-04-25
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/8c3b471bcdb8a8ee8911bb2a1ea753bcf306279f/docs/figure/experiment1.Rmd/unnamed-chunk-10-1.png" target="_blank">8c3b471</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-04-21
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/social_immunity/blob/1ce9e19446a3c5559528bd2605aef694c373efa0/docs/figure/experiment1.Rmd/unnamed-chunk-10-1.png" target="_blank">1ce9e19</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-04-21
 </td>
 </tr>
 </tbody>
@@ -2667,6 +2571,35 @@ stats_data &lt;- get_posterior_preds(focal_hive = NA)</code></pre>
 <h3>Make Figure 1</h3>
 <pre class="r"><code>cols &lt;- RColorBrewer::brewer.pal(3, &quot;Set2&quot;)
 
+# Make panel A, showing the raw data:
+all_hives &lt;- outcome_tally %&gt;%
+  group_by(treatment, outcome) %&gt;%
+  summarise(n = sum(n), .groups = &quot;drop&quot;) %&gt;%
+  ungroup() %&gt;% mutate(hive = &quot;All hives&quot;)
+
+pd &lt;- position_dodge(.3)
+raw_plot &lt;- outcome_tally %&gt;%
+  group_by(treatment, outcome) %&gt;%
+  summarise(n = sum(n), .groups = &quot;drop&quot;) %&gt;% mutate() %&gt;%
+  group_by(treatment) %&gt;%
+  mutate(total_n = sum(n),
+         percent = 100 * n / sum(n),
+         SE = sqrt(total_n * (percent/100) * (1-(percent/100)))) %&gt;% 
+  ungroup() %&gt;%
+  mutate(lowerCI = map_dbl(1:n(), ~ 100 * binom.test(n[.x], total_n[.x])$conf.int[1]),
+         upperCI = map_dbl(1:n(), ~ 100 * binom.test(n[.x], total_n[.x])$conf.int[2])) %&gt;%
+  filter(outcome != &quot;Stayed inside the hive&quot;) %&gt;%
+  mutate(treatment = paste(treatment, &quot;\n(n = &quot;, total_n, &quot;)&quot;, sep = &quot;&quot;),
+         treatmen = factor(treatment, unique(treatment))) %&gt;% 
+  ggplot(aes(treatment, percent, fill = outcome)) + 
+  geom_errorbar(aes(ymin=lowerCI, ymax=upperCI), position = pd, width = 0) + 
+  geom_point(stat = &quot;identity&quot;, position = pd, colour = &quot;grey15&quot;, pch = 21, size = 4) + 
+  scale_fill_manual(values = cols[2:3], name = &quot;&quot;) + 
+  xlab(&quot;Treatment&quot;) + ylab(&quot;% bees (\u00B1 95% CIs)&quot;) + 
+  theme_bw() + 
+  theme(text = element_text(family = nice_font)) + 
+  coord_flip()
+
 dot_plot &lt;- plotting_data %&gt;%
   left_join(sample_sizes, by = &quot;treatment&quot;) %&gt;%
   arrange(treatment) %&gt;%
@@ -2704,9 +2637,9 @@ LOR &lt;- stats_data %&gt;%
   select(posterior_sample, outcome, starts_with(&quot;LOR&quot;)) %&gt;%
   gather(LOR, comparison, starts_with(&quot;LOR&quot;)) %&gt;%
   mutate(LOR = str_remove_all(LOR, &quot;LOR_&quot;), 
-         LOR = str_replace_all(LOR, &quot;Ringers_LPS&quot;, &quot;LPS\n(Ringers)&quot;),
-         LOR = str_replace_all(LOR, &quot;intact_Ringers&quot;, &quot;Ringers\n(Intact control)&quot;),
-         LOR = str_replace_all(LOR, &quot;intact_LPS&quot;, &quot;LPS\n(Intact control)&quot;))
+         LOR = str_replace_all(LOR, &quot;Ringers_LPS&quot;, &quot;LPS\n(vs Ringers)&quot;),
+         LOR = str_replace_all(LOR, &quot;intact_Ringers&quot;, &quot;Ringers\n(vs Intact control)&quot;),
+         LOR = str_replace_all(LOR, &quot;intact_LPS&quot;, &quot;LPS\n(vs Intact control)&quot;))
 
 
 levs &lt;- LOR$LOR %&gt;% unique() %&gt;% sort()
@@ -2735,21 +2668,30 @@ LOR_plot &lt;- LOR %&gt;%
     legend.position = &quot;none&quot;
   ) 
 
+empty &lt;- ggplot() + theme_void()
 
-p &lt;- cowplot::plot_grid(
+top &lt;- cowplot::plot_grid(plotlist = list(empty, raw_plot, empty), nrow = 1, 
+                          labels = c(&quot;&quot;, &quot;A&quot;, &quot;&quot;), rel_widths = c(0.021, 0.8,0.179))
+
+bottom &lt;- cowplot::plot_grid(
   plotlist = list(dot_plot, LOR_plot), 
-  labels = c(&quot;A&quot;, &quot;B&quot;),
+  labels = c(&quot;B&quot;, &quot;C&quot;),
   nrow = 1, align = &#39;v&#39;, axis = &#39;l&#39;, 
   rel_heights = c(1.4, 1))
-ggsave(plot = p, filename = &quot;figures/fig1.pdf&quot;, height = 3.4, width = 9)
+
+p &lt;- cowplot::plot_grid(top, bottom, nrow = 2, align = &#39;hv&#39;, axis = &#39;l&#39;)
+
+
+
+ggsave(plot = p, filename = &quot;figures/fig1.pdf&quot;, height = 5.4, width = 9)
 p</code></pre>
-<p><img src="figure/experiment1.Rmd/unnamed-chunk-15-1.png" width="864" style="display: block; margin: auto;" /></p>
+<p><img src="figure/experiment1.Rmd/unnamed-chunk-14-1.png" width="864" style="display: block; margin: auto;" /></p>
 <p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-15-1">
-Past versions of unnamed-chunk-15-1.png
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-14-1">
+Past versions of unnamed-chunk-14-1.png
 </button>
 </p>
-<div id="fig-unnamed-chunk-15-1" class="collapse">
+<div id="fig-unnamed-chunk-14-1" class="collapse">
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
 <thead>
@@ -2768,18 +2710,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/lukeholman/social_immunity/blob/3e419d1303d6b62e87398c34ab3349ad21938a4f/docs/figure/experiment1.Rmd/unnamed-chunk-15-1.png" target="_blank">3e419d1</a>
-</td>
-<td>
-lukeholman
-</td>
-<td>
-2021-04-27
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/social_immunity/blob/9ebe5df75d4242bf5e15a1d2a98e9928c199cc51/docs/figure/experiment1.Rmd/unnamed-chunk-15-1.png" target="_blank">9ebe5df</a>
+<a href="https://github.com/lukeholman/social_immunity/blob/9ebe5df75d4242bf5e15a1d2a98e9928c199cc51/docs/figure/experiment1.Rmd/unnamed-chunk-14-1.png" target="_blank">9ebe5df</a>
 </td>
 <td>
 lukeholman
@@ -2790,7 +2721,7 @@ lukeholman
 </tr>
 <tr>
 <td>
-<a href="https://github.com/lukeholman/social_immunity/blob/939ecd06a19a25f2d28bc1d779cec2ff4b1a7001/docs/figure/experiment1.Rmd/unnamed-chunk-15-1.png" target="_blank">939ecd0</a>
+<a href="https://github.com/lukeholman/social_immunity/blob/a9799c8e69a86ad36afbfd8d19b84f1a9376c2d5/docs/figure/experiment1.Rmd/unnamed-chunk-14-1.png" target="_blank">a9799c8</a>
 </td>
 <td>
 lukeholman
@@ -2801,20 +2732,20 @@ lukeholman
 </tr>
 <tr>
 <td>
-<a href="https://github.com/lukeholman/social_immunity/blob/eeb5a09dd1b3d0d4e55d1a78dbf1cc25adff6188/docs/figure/experiment1.Rmd/unnamed-chunk-15-1.png" target="_blank">eeb5a09</a>
+<a href="https://github.com/lukeholman/social_immunity/blob/939ecd06a19a25f2d28bc1d779cec2ff4b1a7001/docs/figure/experiment1.Rmd/unnamed-chunk-14-1.png" target="_blank">939ecd0</a>
 </td>
 <td>
 lukeholman
 </td>
 <td>
-2020-11-30
+2021-01-11
 </td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<p><br></br> <strong><em>Figure 1</em></strong>: Results of Experiment 1 (n = 842 bees). Panel A shows the posterior estimate of the mean % bees staying inside the hive (left), leaving voluntarily (middle), or being forced out (right), for each of the three treatments. The quantile dot plot shows 100 approximately equally likely estimates of the true % bees, and the horizontal bars show the median and the 50% and 95% credible intervals of the posterior distribution. Panel B gives the posterior estimates of the effect size of each treatment, relative to one of the other treatments (the name of which appears in parentheses), expressed as a log odds ratio (LOR). Positive LOR indicates that the % bees showing this particular outcome is higher in the treatment than the control; for example, more bees left voluntarily (orange) or were forced out (blue) in the LPS treatment than in the intact control. The dashed lines mark <span class="math inline">\(LOR = 0\)</span>, indicating no effect, and <span class="math inline">\(LOR = \pm log(2)\)</span>, i.e. the point at which the odds are twice as high in one treatment as the other.</p>
+<p><br></br> <strong><em>Figure 1</em></strong>: Results of Experiment 1 (n = 842 bees). Panel A shows summary statistics of the raw data, i.e. the percentage of bees leaving or being forced out of the hive (<span class="math inline">\(\pm\)</span> 95% confidence intervals), while Panels B-C show estimates from the Bayesian MLM. Panel B shows the posterior estimate of % bees staying inside the hive (left), leaving voluntarily (middle), or being forced out (right), for each of the three treatments. The quantile dot plot shows 100 approximately equally likely estimates of the true % bees, and the horizontal bars show the median and the 50% and 95% credible intervals of the posterior distribution. Panel C gives the posterior estimates of the effect size of each treatment, relative to one of the other treatments (whose name appears in parentheses), expressed as a log odds ratio (LOR). Positive LOR indicates that the % bees showing this particular outcome is higher in the treatment than the control; for example, more bees left voluntarily (orange) or were forced out (blue) in the LPS treatment than in the intact control. The vertical lines mark <span class="math inline">\(LOR = 0\)</span>, indicating no effect, and <span class="math inline">\(LOR = \pm log(2)\)</span>, i.e. the point at which the odds are twice as high in one treatment as the other.</p>
 </div>
 </div>
 <div id="hypothesis-testing-and-effect-sizes" class="section level2">
@@ -2990,16 +2921,16 @@ LPS (Ringers)
 Difference in % bees staying inside
 </td>
 <td style="text-align:right;">
--6.50
+-6.51
 </td>
 <td style="text-align:right;">
-6.26
+6.31
 </td>
 <td style="text-align:right;">
--22.41
+-22.60
 </td>
 <td style="text-align:right;">
-1.41
+1.36
 </td>
 <td style="text-align:left;">
 </td>
@@ -3016,19 +2947,19 @@ Log odds ratio
 -0.65
 </td>
 <td style="text-align:right;border-bottom: solid;">
-0.42
+0.41
 </td>
 <td style="text-align:right;border-bottom: solid;">
--1.52
+-1.50
 </td>
 <td style="text-align:right;border-bottom: solid;">
-0.14
+0.13
 </td>
 <td style="text-align:left;border-bottom: solid;">
-0.0516
+0.0499
 </td>
 <td style="text-align:left;border-bottom: solid;">
-~
+*
 </td>
 </tr>
 <tr>
@@ -3042,13 +2973,13 @@ Difference in % bees staying inside
 -11.22
 </td>
 <td style="text-align:right;">
-8.64
+8.65
 </td>
 <td style="text-align:right;">
--31.40
+-31.20
 </td>
 <td style="text-align:right;">
--1.03
+-1.02
 </td>
 <td style="text-align:left;">
 </td>
@@ -3068,13 +2999,13 @@ Log odds ratio
 0.35
 </td>
 <td style="text-align:right;border-bottom: solid;">
--2.00
+-1.99
 </td>
 <td style="text-align:right;border-bottom: solid;">
 -0.60
 </td>
 <td style="text-align:left;border-bottom: solid;">
-0.0000
+1e-04
 </td>
 <td style="text-align:left;border-bottom: solid;">
 ***
@@ -3088,16 +3019,16 @@ Ringers (Intact control)
 Difference in % bees staying inside
 </td>
 <td style="text-align:right;">
--4.72
+-4.70
 </td>
 <td style="text-align:right;">
-5.83
+5.88
 </td>
 <td style="text-align:right;">
--20.54
+-20.79
 </td>
 <td style="text-align:right;">
-1.53
+1.56
 </td>
 <td style="text-align:left;">
 </td>
@@ -3117,13 +3048,13 @@ Log odds ratio
 0.48
 </td>
 <td style="text-align:right;border-bottom: solid;">
--1.59
+-1.60
 </td>
 <td style="text-align:right;border-bottom: solid;">
-0.30
+0.32
 </td>
 <td style="text-align:left;border-bottom: solid;">
-0.0902
+0.0888
 </td>
 <td style="text-align:left;border-bottom: solid;">
 ~
@@ -3142,16 +3073,16 @@ LPS (Ringers)
 Difference in % bees leaving voluntarily
 </td>
 <td style="text-align:right;">
-2.26
+2.28
 </td>
 <td style="text-align:right;">
-3.37
+3.38
 </td>
 <td style="text-align:right;">
 -2.86
 </td>
 <td style="text-align:right;">
-10.72
+10.48
 </td>
 <td style="text-align:left;">
 </td>
@@ -3171,13 +3102,13 @@ Log odds ratio
 0.88
 </td>
 <td style="text-align:right;border-bottom: solid;">
--0.63
+-0.61
 </td>
 <td style="text-align:right;border-bottom: solid;">
-2.79
+2.80
 </td>
 <td style="text-align:left;border-bottom: solid;">
-0.1392
+0.1401
 </td>
 <td style="text-align:left;border-bottom: solid;">
 </td>
@@ -3190,16 +3121,16 @@ LPS (Intact control)
 Difference in % bees leaving voluntarily
 </td>
 <td style="text-align:right;">
-3.53
+3.55
 </td>
 <td style="text-align:right;">
-3.45
+3.44
 </td>
 <td style="text-align:right;">
-0.08
+0.09
 </td>
 <td style="text-align:right;">
-12.40
+12.29
 </td>
 <td style="text-align:left;">
 </td>
@@ -3225,7 +3156,7 @@ Log odds ratio
 2.64
 </td>
 <td style="text-align:left;border-bottom: solid;">
-0.0029
+0.0030
 </td>
 <td style="text-align:left;border-bottom: solid;">
 **
@@ -3245,10 +3176,10 @@ Difference in % bees leaving voluntarily
 2.91
 </td>
 <td style="text-align:right;">
--1.97
+-1.94
 </td>
 <td style="text-align:right;">
-9.71
+9.76
 </td>
 <td style="text-align:left;">
 </td>
@@ -3271,10 +3202,10 @@ Log odds ratio
 -1.46
 </td>
 <td style="text-align:right;border-bottom: solid;">
-2.33
+2.35
 </td>
 <td style="text-align:left;border-bottom: solid;">
-0.2716
+0.2711
 </td>
 <td style="text-align:left;border-bottom: solid;">
 </td>
@@ -3292,16 +3223,16 @@ LPS (Ringers)
 Difference in % bees forced out
 </td>
 <td style="text-align:right;">
-4.24
+4.23
 </td>
 <td style="text-align:right;">
-5.60
+5.59
 </td>
 <td style="text-align:right;">
--1.24
+-1.18
 </td>
 <td style="text-align:right;">
-20.39
+20.53
 </td>
 <td style="text-align:left;">
 </td>
@@ -3327,7 +3258,7 @@ Log odds ratio
 1.29
 </td>
 <td style="text-align:left;border-bottom: solid;">
-0.0743
+0.0736
 </td>
 <td style="text-align:left;border-bottom: solid;">
 ~
@@ -3341,16 +3272,16 @@ LPS (Intact control)
 Difference in % bees forced out
 </td>
 <td style="text-align:right;">
-7.69
+7.67
 </td>
 <td style="text-align:right;">
-8.14
+8.11
 </td>
 <td style="text-align:right;">
-0.54
+0.53
 </td>
 <td style="text-align:right;">
-28.33
+28.03
 </td>
 <td style="text-align:left;">
 </td>
@@ -3370,10 +3301,10 @@ Log odds ratio
 0.37
 </td>
 <td style="text-align:right;border-bottom: solid;">
-0.41
+0.42
 </td>
 <td style="text-align:right;border-bottom: solid;">
-1.89
+1.88
 </td>
 <td style="text-align:left;border-bottom: solid;">
 4e-04
@@ -3396,10 +3327,10 @@ Difference in % bees forced out
 2.91
 </td>
 <td style="text-align:right;">
--1.97
+-1.94
 </td>
 <td style="text-align:right;">
-9.71
+9.76
 </td>
 <td style="text-align:left;">
 </td>
@@ -3422,10 +3353,10 @@ Log odds ratio
 -1.46
 </td>
 <td style="text-align:right;border-bottom: solid;">
-2.33
+2.35
 </td>
 <td style="text-align:left;border-bottom: solid;">
-0.2716
+0.2711
 </td>
 <td style="text-align:left;border-bottom: solid;">
 </td>
@@ -3455,40 +3386,42 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] car_3.0-8        carData_3.0-4    cowplot_1.0.0    tidybayes_2.0.3  bayestestR_0.6.0 kableExtra_1.3.4
- [7] gridExtra_2.3    forcats_0.5.0    stringr_1.4.0    dplyr_1.0.0      purrr_0.3.4      readr_1.3.1     
-[13] tidyr_1.1.0      tibble_3.0.1     ggplot2_3.3.2    tidyverse_1.3.0  bayesplot_1.7.2  lme4_1.1-23     
-[19] Matrix_1.2-18    brms_2.14.4      Rcpp_1.0.4.6     showtext_0.9-1   showtextdb_3.0   sysfonts_0.8.2  
-[25] workflowr_1.6.2 
+ [1] car_3.0-8         carData_3.0-4     cowplot_1.0.0     tidybayes_2.0.3   bayestestR_0.11.5 kableExtra_1.3.4 
+ [7] gridExtra_2.3     forcats_0.5.0     stringr_1.4.0     dplyr_1.0.0       purrr_0.3.4       readr_2.0.0      
+[13] tidyr_1.1.0       tibble_3.0.1      ggplot2_3.3.2     tidyverse_1.3.0   bayesplot_1.7.2   lme4_1.1-23      
+[19] Matrix_1.2-18     brms_2.14.4       Rcpp_1.0.4.6      showtext_0.9-2    showtextdb_3.0    sysfonts_0.8.3   
+[25] workflowr_1.6.2  
 
 loaded via a namespace (and not attached):
   [1] readxl_1.3.1         backports_1.1.7      systemfonts_0.2.2    plyr_1.8.6           igraph_1.2.5        
   [6] svUnit_1.0.3         splines_4.0.3        crosstalk_1.1.0.1    TH.data_1.0-10       rstantools_2.1.1    
  [11] inline_0.3.15        digest_0.6.25        htmltools_0.5.0      rsconnect_0.8.16     fansi_0.4.1         
- [16] magrittr_2.0.1       openxlsx_4.1.5       modelr_0.1.8         RcppParallel_5.0.1   matrixStats_0.56.0  
- [21] svglite_1.2.3        xts_0.12-0           sandwich_2.5-1       prettyunits_1.1.1    colorspace_1.4-1    
- [26] blob_1.2.1           rvest_0.3.5          haven_2.3.1          xfun_0.22            callr_3.4.3         
- [31] crayon_1.3.4         jsonlite_1.7.0       survival_3.2-7       zoo_1.8-8            glue_1.4.2          
- [36] gtable_0.3.0         emmeans_1.4.7        webshot_0.5.2        V8_3.4.0             pkgbuild_1.0.8      
- [41] rstan_2.21.2         abind_1.4-5          scales_1.1.1         mvtnorm_1.1-0        DBI_1.1.0           
- [46] miniUI_0.1.1.1       viridisLite_0.3.0    xtable_1.8-4         foreign_0.8-80       stats4_4.0.3        
- [51] StanHeaders_2.21.0-3 DT_0.13              htmlwidgets_1.5.1    httr_1.4.1           threejs_0.3.3       
- [56] RColorBrewer_1.1-2   arrayhelpers_1.1-0   ellipsis_0.3.1       farver_2.0.3         pkgconfig_2.0.3     
- [61] loo_2.3.1            dbplyr_1.4.4         labeling_0.3         tidyselect_1.1.0     rlang_0.4.6         
- [66] reshape2_1.4.4       later_1.0.0          munsell_0.5.0        cellranger_1.1.0     tools_4.0.3         
- [71] cli_2.0.2            generics_0.0.2       broom_0.5.6          ggridges_0.5.2       evaluate_0.14       
- [76] fastmap_1.0.1        yaml_2.2.1           processx_3.4.2       knitr_1.32           fs_1.4.1            
- [81] zip_2.1.1            nlme_3.1-149         whisker_0.4          mime_0.9             projpred_2.0.2      
- [86] xml2_1.3.2           compiler_4.0.3       shinythemes_1.1.2    rstudioapi_0.11      curl_4.3            
- [91] gamm4_0.2-6          reprex_0.3.0         statmod_1.4.34       stringi_1.5.3        highr_0.8           
- [96] ps_1.3.3             Brobdingnag_1.2-6    gdtools_0.2.2        lattice_0.20-41      nloptr_1.2.2.1      
-[101] markdown_1.1         shinyjs_1.1          vctrs_0.3.0          pillar_1.4.4         lifecycle_0.2.0     
-[106] bridgesampling_1.0-0 estimability_1.3     data.table_1.12.8    insight_0.8.4        httpuv_1.5.3.1      
-[111] R6_2.4.1             promises_1.1.0       rio_0.5.16           codetools_0.2-16     boot_1.3-25         
-[116] colourpicker_1.0     MASS_7.3-53          gtools_3.8.2         assertthat_0.2.1     rprojroot_1.3-2     
-[121] withr_2.2.0          shinystan_2.5.0      multcomp_1.4-13      mgcv_1.8-33          parallel_4.0.3      
-[126] hms_0.5.3            grid_4.0.3           coda_0.19-3          minqa_1.2.4          rmarkdown_2.5       
-[131] git2r_0.27.1         shiny_1.4.0.2        lubridate_1.7.8      base64enc_0.1-3      dygraphs_1.1.1.6    </code></pre>
+ [16] magrittr_2.0.1       openxlsx_4.1.5       tzdb_0.1.2           modelr_0.1.8         RcppParallel_5.0.1  
+ [21] matrixStats_0.56.0   vroom_1.5.3          svglite_1.2.3        xts_0.12-0           sandwich_2.5-1      
+ [26] prettyunits_1.1.1    colorspace_1.4-1     blob_1.2.1           rvest_0.3.5          haven_2.3.1         
+ [31] xfun_0.26            callr_3.4.3          crayon_1.3.4         jsonlite_1.7.0       survival_3.2-7      
+ [36] zoo_1.8-8            glue_1.4.2           gtable_0.3.0         emmeans_1.4.7        webshot_0.5.2       
+ [41] V8_3.4.0             pkgbuild_1.0.8       rstan_2.21.2         abind_1.4-5          scales_1.1.1        
+ [46] mvtnorm_1.1-0        DBI_1.1.0            miniUI_0.1.1.1       viridisLite_0.3.0    xtable_1.8-4        
+ [51] bit_1.1-15.2         foreign_0.8-80       stats4_4.0.3         StanHeaders_2.21.0-3 DT_0.13             
+ [56] datawizard_0.2.1     htmlwidgets_1.5.1    httr_1.4.1           threejs_0.3.3        RColorBrewer_1.1-2  
+ [61] arrayhelpers_1.1-0   ellipsis_0.3.1       farver_2.0.3         pkgconfig_2.0.3      loo_2.3.1           
+ [66] dbplyr_1.4.4         labeling_0.3         tidyselect_1.1.0     rlang_0.4.6          reshape2_1.4.4      
+ [71] later_1.0.0          munsell_0.5.0        cellranger_1.1.0     tools_4.0.3          cli_2.0.2           
+ [76] generics_0.0.2       broom_0.5.6          ggridges_0.5.2       evaluate_0.14        fastmap_1.0.1       
+ [81] yaml_2.2.1           bit64_0.9-7          processx_3.4.2       knitr_1.32           fs_1.4.1            
+ [86] zip_2.1.1            nlme_3.1-149         whisker_0.4          mime_0.9             projpred_2.0.2      
+ [91] xml2_1.3.2           rstudioapi_0.11      compiler_4.0.3       shinythemes_1.1.2    curl_4.3            
+ [96] gamm4_0.2-6          reprex_0.3.0         statmod_1.4.34       stringi_1.5.3        highr_0.8           
+[101] ps_1.3.3             Brobdingnag_1.2-6    gdtools_0.2.2        lattice_0.20-41      nloptr_1.2.2.1      
+[106] markdown_1.1         shinyjs_1.1          vctrs_0.3.0          pillar_1.4.4         lifecycle_0.2.0     
+[111] jquerylib_0.1.1      bridgesampling_1.0-0 estimability_1.3     data.table_1.12.8    insight_0.14.5      
+[116] httpuv_1.5.3.1       R6_2.4.1             promises_1.1.0       rio_0.5.16           codetools_0.2-16    
+[121] boot_1.3-25          colourpicker_1.0     MASS_7.3-53          gtools_3.8.2         assertthat_0.2.1    
+[126] rprojroot_1.3-2      withr_2.2.0          shinystan_2.5.0      multcomp_1.4-13      mgcv_1.8-33         
+[131] parallel_4.0.3       hms_0.5.3            grid_4.0.3           coda_0.19-3          minqa_1.2.4         
+[136] rmarkdown_2.11       git2r_0.27.1         shiny_1.4.0.2        lubridate_1.7.10     base64enc_0.1-3     
+[141] dygraphs_1.1.1.6    </code></pre>
 </div>
 </div>
 </div>
@@ -3505,8 +3438,6 @@ footer is added to webpages before the MathJax javascript. -->
     "HTML-CSS": { availableFonts: ["TeX"] }
   });
 </script>
-
-
 
 
 </div>
@@ -3536,7 +3467,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>
@@ -3550,6 +3481,9 @@ $(document).ready(function () {
 
 <script>
 $(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
 
     // move toc-ignore selectors from section div to header
     $('div.section.toc-ignore')
